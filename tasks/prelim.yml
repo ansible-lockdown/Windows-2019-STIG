@@ -1,0 +1,23 @@
+---
+- name: "PRELIM | Detect if Trusted Platform Module (TPM) is available"
+  win_shell: (Get-CimInstance -ClassName Win32_OperatingSystem).ProductType
+  register: win2019_tpm_enabled
+  changed_when: no
+  failed_when: no
+  tags:
+      - always
+
+# 1 = disabled 0 = enabled
+# this reg key may be useful detect is secure conenctions enabled, etc?
+- name: "PRELIM | Detect if Remote Desktop Services (RDP) is enabled"
+  win_reg_stat:
+      path: HKLM:\System\CurrentControlSet\Control\Terminal Server
+      name: fDenyTSConnections
+  register: win2019_rdp_enabled
+  changed_when: no
+  failed_when: no
+  tags:
+      - always
+# remove this debug or set a verb level
+- debug:
+      var: win2019_rdp_enabled.value

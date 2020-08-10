@@ -1,0 +1,393 @@
+---
+win2019stig_cat1_patch: yes
+win2019stig_cat2_patch: yes
+win2019stig_cat3_patch: yes
+
+win2019stig_min_ansible_version: "2.6"
+
+# We've defined complexity-high to mean that we cannot automatically remediate
+# the rule in question.  In the future this might mean that the remediation
+# may fail in some cases.
+win2019stig_complexity_high: no
+
+# Show "changed" for complex items not remediated per complexity-high setting
+# to make them stand out.  "changed" items on a second run of the role would
+# indicate items requiring manual review.
+win2019stig_audit_complex: yes
+
+# We've defined disruption-high to indicate items that are likely to cause
+# disruption in a normal workflow.  These items can be remediated automatically
+# but are disabled by default to avoid disruption.
+win2019stig_disruption_high: no
+
+# Show "changed" for disruptive items not remediated per disruption-high
+# setting to make them stand out.
+win2019stig_audit_disruptive: yes
+
+win2019stig_skip_for_travis: false
+
+win2019stig_workaround_for_disa_benchmark: true
+win2019stig_workaround_for_ssg_benchmark: true
+
+# tweak role to run in a non-privileged container
+win2019stig_system_is_container: no
+
+#set to false to skip tasks that either have not been developed or cannot be automated
+is_implemented: false
+
+#set to false to skip long running tasks
+long_running: false
+
+# These variables correspond with the STIG IDs defined in the STIG and allows you to enable/disable specific rules.
+# PLEASE NOTE: These work in coordination with the cat1, cat2, cat3 group variables. You must enable an entire group
+# in order for the variables below to take effect.
+# CAT 1 rules
+wn19_00_000010: true
+wn19_00_000030: true
+wn19_00_000100: true
+wn19_00_000110: true
+wn19_00_000130: true
+wn19_cc_000210: true
+wn19_cc_000220: true
+wn19_cc_000230: true
+wn19_dc_000010: true
+wn19_dc_000070: true
+wn19_dc_000080: true
+wn19_dc_000090: true
+wn19_dc_000100: true
+wn19_dc_000110: true
+wn19_dc_000150: true
+wn19_dc_000290: true
+wn19_dc_000300: true
+wn19_ms_000010: true
+wn19_ms_000140: true
+wn19_so_000230: true
+wn19_so_000240: true
+wn19_so_000250: true
+wn19_so_000300: true
+wn19_so_000310: true
+wn19_ur_000020: true
+wn19_ur_000100: true
+
+# CAT 2 rules
+wn19_00_000020: true
+wn19_00_000040: true
+wn19_00_000050: true
+wn19_00_000060: true
+wn19_00_000070: true
+wn19_00_000080: true
+wn19_00_000090: true
+wn19_00_000120: true
+wn19_00_000140: true
+wn19_00_000150: true
+wn19_00_000160: true
+wn19_00_000170: true
+wn19_00_000190: true
+wn19_00_000200: true
+wn19_00_000210: true
+wn19_00_000220: true
+wn19_00_000230: true
+wn19_00_000240: true
+wn19_00_000250: true
+wn19_00_000260: true
+wn19_00_000270: true
+wn19_00_000280: true
+wn19_00_000290: true
+wn19_00_000300: true
+wn19_00_000310: true
+wn19_00_000320: true
+wn19_00_000330: true
+wn19_00_000340: true
+wn19_00_000350: true
+wn19_00_000360: true
+wn19_00_000370: true
+wn19_00_000380: true
+wn19_00_000390: true
+wn19_00_000400: true
+wn19_00_000410: true
+wn19_00_000420: true
+wn19_00_000430: true
+wn19_00_000450: true
+wn19_ac_000020: true
+wn19_ac_000030: wn19_ac_000020
+wn19_ac_000010: wn19_ac_000030
+wn19_ac_000040: true
+wn19_ac_000050: true
+wn19_ac_000060: true
+wn19_ac_000070: true
+wn19_ac_000080: true
+wn19_ac_000090: true
+wn19_au_000010: true
+wn19_au_000020: true
+wn19_au_000030: true
+wn16_au_000040: true
+wn19_au_000050: true
+wn19_au_000060: true
+wn19_au_000070: true
+wn19_au_000080: true
+wn19_au_000090: true
+wn19_au_000100: true
+wn19_au_000110: true
+wn19_au_000120: true
+wn19_au_000130: true
+wn19_au_000140: true
+wn19_au_000150: true
+wn19_au_000160: true
+wn19_au_000170: true
+wn19_au_000180: true
+wn19_au_000190: true
+wn19_au_000200: true
+wn19_au_000210: true
+wn19_au_000220: true
+wn19_au_000230: true
+wn19_au_000240: true
+wn19_au_000250: true
+wn19_au_000260: true
+wn19_au_000270: true
+wn19_au_000280: true
+wn19_au_000290: true
+wn19_au_000300: true
+wn19_au_000310: true
+wn19_au_000320: true
+wn19_au_000330: true
+wn19_au_000340: true
+wn19_au_000350: true
+wn19_au_000360: true
+wn19_au_000370: true
+wn19_au_000380: true
+wn19_au_000390: true
+wn19_cc_000010: true
+wn19_cc_000020: true
+wn19_cc_000070: true
+wn19_cc_000080: true
+wn19_cc_000090: true
+wn19_cc_000100: true
+wn19_cc_000110: true
+wn19_cc_000130: true
+wn19_cc_000140: true
+wn19_cc_000150: true
+wn19_cc_000160: true
+wn19_cc_000170: true
+wn19_cc_000180: true
+wn19_cc_000190: true
+wn19_cc_000240: true
+wn19_cc_000250: true
+wn19_cc_000260: true
+wn19_cc_000270: true
+wn19_cc_000280: true
+wn19_cc_000290: true
+wn19_cc_000300: true
+wn19_cc_000310: true
+wn19_cc_000330: true
+wn19_cc_000340: true
+wn19_cc_000350: true
+wn19_cc_000360: true
+wn19_cc_000370: true
+wn19_cc_000380: true
+wn19_cc_000390: true
+wn19_cc_000400: true
+wn19_cc_000410: true
+wn19_cc_000420: true
+wn19_cc_000430: true
+wn19_cc_000440: true
+wn19_cc_000450: true
+wn19_cc_000460: true
+wn19_cc_000470: true
+wn19_cc_000480: true
+wn19_cc_000490: true
+wn19_cc_000500: true
+wn19_cc_000510: true
+wn19_cc_000520: true
+wn19_dc_000020: true
+wn19_dc_000030: true
+wn19_dc_000040: true
+wn19_dc_000050: true
+wn19_dc_000060: true
+wn19_dc_000120: true
+wn16_dc_000130: true
+wn19_dc_000140: true
+wn19_dc_000170: true
+wn19_dc_000180: true
+wn19_dc_000190: true
+wn19_dc_000200: true
+wn19_dc_000210: true
+wn19_dc_000220: true
+wn19_dc_000230: true
+wn19_dc_000240: true
+wn19_dc_000250: true
+wn19_dc_000260: true
+wn19_dc_000270: true
+wn19_dc_000280: true
+wn19_dc_000310: true
+wn19_dc_000320: true
+wn19_dc_000330: true
+wn19_dc_000340: true
+wn19_dc_000350: true
+wn19_dc_000360: true
+wn19_dc_000370: true
+wn19_dc_000380: true
+wn19_dc_000390: true
+wn19_dc_000400: true
+wn19_dc_000410: true
+wn19_dc_000420: true
+wn19_dc_000430: true
+wn19_ep_000010: true
+wn19_ep_000020: true
+wn19_ep_000030: true
+wn19_ep_000040: true
+wn19_ep_000050: true
+wn19_ep_000060: true
+wn19_ep_000070: true
+wn19_ep_000080: true
+wn19_ep_000090: true
+wn19_ep_000100: true
+wn19_ep_000110: true
+wn19_ep_000120: true
+wn19_ep_000130: true
+wn19_ep_000140: true
+wn19_ep_000150: true
+wn19_ep_000160: true
+wn19_ep_000170: true
+wn19_ep_000180: true
+wn19_ep_000190: true
+wn19_ep_000200: true
+wn19_ep_000210: true
+wn19_ep_000220: true
+wn19_ep_000230: true
+wn19_ep_000240: true
+wn19_ep_000250: true
+wn19_ep_000260: true
+wn19_ep_000270: true
+wn19_ep_000280: true
+wn19_ep_000290: true
+wn19_ms_000020: true
+wn19_ms_000030: true
+wn19_ms_000040: true
+wn19_ms_000050: true
+wn19_ms_000060: true
+wn19_ms_000070: true
+wn19_ms_000080: true
+wn19_ms_000090: true
+wn19_ms_000100: true
+wn19_ms_000110: true
+wn19_ms_000120: true
+wn19_ms_000130: true
+wn19_PK_000010: true
+wn19_pk_000020: true
+wn19_pk_000030: true
+wn19_so_000010: true
+wn19_so_000020: true
+wn19_so_000030: true
+wn19_so_000040: true
+wn19_so_000050: true
+wn19_so_000060: true
+wn19_so_000070: true
+wn19_so_000080: true
+wn19_so_000090: true
+wn19_so_000100: true
+wn19_so_000110: true
+wn19_so_000120: true
+wn19_so_000130: true
+wn19_so_000150: true
+wn19_so_000160: true
+wn19_so_000170: true
+wn19_so_000180: true
+wn19_so_000190: true
+wn19_so_000200: true
+wn19_so_000210: true
+wn19_so_000220: true
+wn19_so_000260: true
+wn19_so_000270: true
+wn19_so_000280: true
+wn19_so_000290: true
+wn19_so_000320: true
+wn19_so_000330: true
+wn19_so_000340: true
+wn19_so_000350: true
+wn19_so_000360: true
+wn19_so_000380: true
+wn19_so_000390: true
+wn19_so_000400: true
+wn19_so_000410: true
+wn19_so_000420: true
+wn19_so_000430: true
+wn19_so_000440: true
+wn19_so_000450: true
+wn19_uc_000010: true
+wn19_ur_000010: true
+wn19_ur_000030: true
+wn19_ur_000040: true
+wn19_ur_000050: true
+wn19_ur_000060: true
+wn19_ur_000080: true
+wn19_ur_000090: true
+wn19_ur_000110: true
+wn19_ur_000120: true
+wn19_ur_000130: true
+wn19_ur_000140: true
+wn19_ur_000150: true
+wn19_ur_000160: true
+wn19_ur_000170: true
+wn19_ur_000180: true
+wn19_ur_000190: true
+wn19_ur_000200: true
+wn19_ur_000210: true
+wn19_ur_000220: true
+
+# CAT 3 rules
+wn19_00_000180: true
+wn19_00_000440: true
+wn19_00_000460: true
+wn19_00_000470: true
+wn19_cc_000030: true
+wn19_cc_000040: true
+wn19_cc_000050: true
+wn19_cc_000060: true
+wn19_cc_000200: true
+wn19_cc_000320: true
+wn19_dc_000160: true
+wn19_so_000140: true
+wn19_so_000370: true
+
+
+# CAT 1 defaults
+# This SID is the same for standalone, member, domain controller for 'Administrators' group
+wn19_ur_000130_sedebugprivilege: "*S-1-5-32-544"
+
+# CAT 2 defaults
+wn19_00_000020_pass_age: 60
+
+wn19_ac_000010_lockoutduration: 15
+wn19_ac_000020_lockoutbadcount: 3
+wn19_ac_000030_resetlockoutcount: 15
+wn19_ac_000040_passwordhistorysize: 24
+wn19_ac_000050_maximumpasswordage: 60
+wn19_ac_000060_minimumpasswordage: 1
+wn19_ac_000070_minimumpasswordlength: 14
+
+wn19_so_000030_newadministratorname: renamedadmin
+wn19_so_000040_newguestname: renamedguest
+
+wn19_so_000130_legalnoticetext: |
+    You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.
+
+    By using this IS (which includes any device attached to this IS), you consent to the following conditions:
+
+    -The USG routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), law enforcement (LE), and counterintelligence (CI) investigations.
+
+    -At any time, the USG may inspect and seize data stored on this IS.
+
+    -Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG-authorized purpose.
+
+    -This IS includes security measures (e.g., authentication and access controls) to protect USG interests--not for your personal benefit or privacy.
+
+    -Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details.
+
+wn19_cc_000270_app_maxsize: 32768
+wn19_cc_000280_sec_maxsize: 196608
+wn19_cc_000290_sys_maxsize: 32768
+
+wn19_dc_000430_pass_age: 180
+
+# CAT 3 defaults
+wn19_so_000140_legalnoticecaption: "DoD Notice and Consent Banner"

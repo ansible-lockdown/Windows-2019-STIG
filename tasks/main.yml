@@ -1,0 +1,52 @@
+---
+
+- name: Gather distribution info
+  setup:
+      gather_subset: distribution,!all,!min
+  when:
+      - ansible_distribution is not defined
+  tags:
+      - always
+
+- name: Check OS version and family
+  assert:
+      that:
+          - ansible_os_family == 'Windows'
+          - ansible_distribution | regex_search('(Microsoft Windows Server 2019)')
+      success_msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} is the detected operating system."
+      fail_msg: "This role can only be run against Windows Server 2019 Editions. {{ ansible_distribution }} {{ ansible_distribution_major_version }} is not supported."
+  tags:
+      - always
+
+- name: Check ansible version
+  assert:
+      that: ansible_version.full is version_compare(win2019stig_min_ansible_version, '>=')
+      msg: You must use Ansible {{ win2019stig_min_ansible_version }} or greater
+  tags:
+      - always
+
+- name: Include the preliminary tasks
+  include_tasks: prelim.yml
+  tags:
+      - prelim_tasks
+
+- name: Execute the category 1 (highest severity) tasks
+  import_tasks: cat1.yml
+  when: win2019stig_cat1_patch | bool
+  tags:
+      - cat1
+      - high
+
+- name: Execute the category 2 (medium severity) tasks
+  import_tasks: cat2.yml
+  when: win2019stig_cat2_patch | bool
+  tags:
+      - cat2
+      - medium
+
+- name: Execute the category 3 (lowest severity) tasks
+  import_tasks: cat3.yml
+  when: win2019stig_cat3_patch | bool
+  tags:
+      - cat3
+      - medium
