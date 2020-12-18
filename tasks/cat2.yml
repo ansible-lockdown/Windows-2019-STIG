@@ -4628,7 +4628,7 @@
       value: "{{ wn19_so_000030_newadministratorname }}"
   when:
       - wn19_so_000030
-      - not win2019stig_skip_for_test
+      - not winstig_skip_for_test
   tags:
       - WN19-SO-000030
       - V-93281
