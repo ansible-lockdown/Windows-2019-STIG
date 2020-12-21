@@ -4626,7 +4626,9 @@
       section: System Access
       key: NewAdministratorName
       value: "{{ wn19_so_000030_newadministratorname }}"
-  when: wn19_so_000030
+  when:
+      - wn19_so_000030
+      - not winstig_skip_for_test
   tags:
       - WN19-SO-000030
       - V-93281
