@@ -1,0 +1,108 @@
+---
+- name: "HIGH | WN19-DC-000290 | Domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+  block:
+      - name: "HIGH | WN19-DC-000290 | AUDIT | Domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+        win_shell: echo true
+        register: wn19_dc_000290_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
+
+      - name: "HIGH | WN19-DC-000290 | PATCH | Domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_dc_000290
+      - is_implemented
+      - ansible_windows_domain_role == "Primary domain controller"
+  tags:
+      - WN19-DC-000290
+      - V-93483
+      - SRG-OS-000066-GPOS-00034
+      - SV-103569r1
+      - CCI-000185
+      - high
+
+# add some task/eternal variable for approved CAs, check for DoD and how pull programatically
+- name: "HIGH | WN19-DC-000300 | PKI certificates associated with user accounts must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+  block:
+      - name: "HIGH | WN19-DC-000300 | AUDIT | PKI certificates associated with user accounts must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+        win_shell: echo true
+        register: wn19_dc_000300_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
+
+      - name: "HIGH | WN19-DC-000300 | PATCH | PKI certificates associated with user accounts must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_dc_000300
+      - ansible_windows_domain_role == "Primary domain controller"
+      - is_implemented
+  tags:
+      - WN19-DC-000300
+      - V-93485
+      - SRG-OS-000066-GPOS-00034
+      - SV-103571r1
+      - CCI-000185
+      - high
+
+- name: "MEDIUM | WN19-AC-000090 | Reversible password encryption must be disabled."
+  win_security_policy:
+    section: System Access
+    key: ClearTextPassword
+    value: "0"
+  changed_when: no
+  when: wn19_ac_000090
+  tags:
+      - WN19-AC-000090
+      - V-93465
+      - SRG-OS-000073-GPOS-00041
+      - SV-103551r1
+      - CCI-000196
+      - patch
+      - medium
+
+- name: "HIGH | WN19-SO-000300 | Must be configured to prevent the storage of the LAN Manager hash of passwords."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+      state: present
+      value: NoLMHash
+      data: 1
+      datatype: dword
+  when: wn19_so_000300
+  tags:
+      - WN19-SO-000300
+      - V-93467
+      - SRG-OS-000073-GPOS-00041
+      - SV-103553r1
+      - CCI-000196
+      - patch
+      - high
+      # fails_openscap_borked_regkey_casesensitive
+
+- name: "HIGH | WN19-00-000130 | Local volumes must use a format that supports NTFS attributes."
+  block:
+      - name: "HIGH | WN19-00-000130 | AUDIT | Local volumes must use a format that supports NTFS attributes."
+        win_shell: Get-Volume
+        register: wn19_00_000130_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
+
+      - name: "HIGH | WN19-00-000130 | PATCH | Local volumes must use a format that supports NTFS attributes."
+        win_shell: echo true
+        changed_when: no
+        when: is_implemented
+        tags: patch
+  when: wn19_00_000130
+  tags:
+      - WN19-00-000130
+      - V-92991
+      - SRG-OS-000080-GPOS-00048
+      - SV-103079r1
+      - CCI-000213
+      - high
