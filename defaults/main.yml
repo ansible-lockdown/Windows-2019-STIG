@@ -52,6 +52,7 @@ wn19_ac_000090: true
 wn19_cc_000210: true
 wn19_cc_000220: true
 wn19_cc_000230: true
+wn19_cc_000470: true
 wn19_dc_000010: true
 wn19_dc_000070: true
 wn19_dc_000080: true
@@ -194,7 +195,7 @@ wn19_cc_000430: true
 wn19_cc_000440: true
 wn19_cc_000450: true
 wn19_cc_000460: true
-wn19_cc_000470: true
+# wn19_cc_000470: true
 wn19_cc_000480: true
 wn19_cc_000490: true
 wn19_cc_000500: true
