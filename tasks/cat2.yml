@@ -2321,22 +2321,22 @@
       - medium
       - patch
 
-- name: "MEDIUM | WN19-CC-000260 | Must be configured to prevent Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF)-generated routes."
-  win_regedit:
-      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization
-      state: present
-      value: DODownloadMode
-      data: 1 
-      datatype: dword
-  when: wn19_cc_000260
-  tags:
-      - WN19-CC-000260
-      - V-93259
-      - SRG-OS-000480-GPOS-00227
-      - SV-103347r1
-      - CCI-000366
-      - medium
-      - patch
+# - name: "MEDIUM | WN19-CC-000260 | Must be configured to prevent Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF)-generated routes."
+#   win_regedit:
+#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization
+#       state: present
+#       value: DODownloadMode
+#       data: 1 
+#       datatype: dword
+#   when: wn19_cc_000260
+#   tags:
+#       - WN19-CC-000260
+#       - V-93259
+#       - SRG-OS-000480-GPOS-00227
+#       - SV-103347r1
+#       - CCI-000366
+#       - medium
+#       - patch
 
 - name: "MEDIUM | WN19-CC-000270 | The Application event log size must be configured to 32768 KB or greater."
   block:
@@ -4604,22 +4604,22 @@
       - medium
       - patch
 
-- name: "MEDIUM | WN19-SO-000020 | Must prevent local accounts with blank passwords from being used from the network."
-  win_regedit:
-      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
-      state: present
-      value: LimitBlankPasswordUse
-      data: 1
-      datatype: string
-  when: wn19_so_000020
-  tags:
-      - WN19-SO-000020
-      - V-93279
-      - SV-103367r1
-      - SRG-OS-000480-GPOS-00227
-      - CCI-000366
-      - medium
-      - patch
+# - name: "MEDIUM | WN19-SO-000020 | Must prevent local accounts with blank passwords from being used from the network."
+#   win_regedit:
+#       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+#       state: present
+#       value: LimitBlankPasswordUse
+#       data: 1
+#       datatype: string
+#   when: wn19_so_000020
+#   tags:
+#       - WN19-SO-000020
+#       - V-93279
+#       - SV-103367r1
+#       - SRG-OS-000480-GPOS-00227
+#       - CCI-000366
+#       - medium
+#       - patch
 
 - name: "MEDIUM | WN19-SO-000030 | Built-in administrator account must be renamed."
   win_security_policy:
