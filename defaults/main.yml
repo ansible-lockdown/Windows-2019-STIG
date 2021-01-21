@@ -1,7 +1,7 @@
 ---
 win2019stig_cat1_patch: yes
-win2019stig_cat2_patch: yes
-win2019stig_cat3_patch: yes
+win2019stig_cat2_patch: false
+win2019stig_cat3_patch: false
 
 win2019stig_min_ansible_version: "2.6"
 
@@ -43,6 +43,7 @@ long_running: false
 # PLEASE NOTE: These work in coordination with the cat1, cat2, cat3 group variables. You must enable an entire group
 # in order for the variables below to take effect.
 # CAT 1 rules
+
 wn19_00_000010: true
 wn19_00_000030: true
 wn19_00_000100: true
@@ -52,7 +53,9 @@ wn19_ac_000090: true
 wn19_cc_000210: true
 wn19_cc_000220: true
 wn19_cc_000230: true
+wn19_cc_000430: true
 wn19_cc_000470: true
+wn19_cc_000500: true
 wn19_dc_000010: true
 wn19_dc_000070: true
 wn19_dc_000080: true
@@ -64,13 +67,47 @@ wn19_dc_000290: true
 wn19_dc_000300: true
 wn19_ms_000010: true
 wn19_ms_000140: true
+wn19_so_000020: true
+wn19_so_000210: true
+wn19_so_000220: true
 wn19_so_000230: true
-wn19_so_000240: true
 wn19_so_000250: true
 wn19_so_000300: true
 wn19_so_000310: true
 wn19_ur_000020: true
+wn19_ur_000060: true
 wn19_ur_000100: true
+
+# ------cat 1 old -----
+# wn19_00_000010: true
+# wn19_00_000030: true
+# wn19_00_000100: true
+# wn19_00_000110: true
+# wn19_00_000130: true
+# wn19_ac_000090: true
+# wn19_cc_000210: true
+# wn19_cc_000220: true
+# wn19_cc_000230: true
+# wn19_cc_000470: true
+# wn19_cc_000500: true
+# wn19_dc_000010: true
+# wn19_dc_000070: true
+# wn19_dc_000080: true
+# wn19_dc_000090: true
+# wn19_dc_000100: true
+# wn19_dc_000110: true
+# wn19_dc_000150: true
+# wn19_dc_000290: true
+# wn19_dc_000300: true
+# wn19_ms_000010: true
+# wn19_ms_000140: true
+# wn19_so_000230: true
+# wn19_so_000240: true
+# wn19_so_000250: true
+# wn19_so_000300: true
+# wn19_so_000310: true
+# wn19_ur_000020: true
+# wn19_ur_000100: true
 
 # CAT 2 rules
 wn19_00_000020: true
@@ -191,14 +228,14 @@ wn19_cc_000390: true
 wn19_cc_000400: true
 wn19_cc_000410: true
 wn19_cc_000420: true
-wn19_cc_000430: true
+# wn19_cc_000430: true
 wn19_cc_000440: true
 wn19_cc_000450: true
 wn19_cc_000460: true
 # wn19_cc_000470: true
 wn19_cc_000480: true
 wn19_cc_000490: true
-wn19_cc_000500: true
+# wn19_cc_000500: true
 wn19_cc_000510: true
 wn19_cc_000520: true
 wn19_dc_000020: true
@@ -279,7 +316,7 @@ wn19_PK_000010: true
 wn19_pk_000020: true
 wn19_pk_000030: true
 wn19_so_000010: true
-wn19_so_000020: true
+# wn19_so_000020: true
 wn19_so_000030: true
 wn19_so_000040: true
 wn19_so_000050: true
@@ -298,7 +335,7 @@ wn19_so_000180: true
 wn19_so_000190: true
 wn19_so_000200: true
 wn19_so_000210: true
-wn19_so_000220: true
+# wn19_so_000220: true
 wn19_so_000260: true
 wn19_so_000270: true
 wn19_so_000280: true
@@ -321,7 +358,7 @@ wn19_ur_000010: true
 wn19_ur_000030: true
 wn19_ur_000040: true
 wn19_ur_000050: true
-wn19_ur_000060: true
+# wn19_ur_000060: true
 wn19_ur_000080: true
 wn19_ur_000090: true
 wn19_ur_000110: true

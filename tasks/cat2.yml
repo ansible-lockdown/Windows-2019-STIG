@@ -2634,22 +2634,22 @@
       - patch
       - medium
 
-- name: "MEDIUM | WN19-CC-000430 | Must disable the Windows Installer Always install with elevated privileges option."
-  win_regedit:
-      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
-      state: present
-      value: AlwaysInstallElevated
-      data: 0
-      datatype: dword
-  when: wn19_cc_000430
-  tags:
-      - WN19-CC-000430
-      - V-93201
-      - SRG-OS-000362-GPOS-00149
-      - SV-103289r1
-      - CCI-001812
-      - medium
-      - patch
+# - name: "MEDIUM | WN19-CC-000430 | Must disable the Windows Installer Always install with elevated privileges option."
+#   win_regedit:
+#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
+#       state: present
+#       value: AlwaysInstallElevated
+#       data: 0
+#       datatype: dword
+#   when: wn19_cc_000430
+#   tags:
+#       - WN19-CC-000430
+#       - V-93201
+#       - SRG-OS-000362-GPOS-00149
+#       - SV-103289r1
+#       - CCI-001812
+#       - medium
+#       - patch
 
 - name: "MEDIUM | WN19-CC-000440 | Users must be notified if a web-based program attempts to install software."
   win_regedit:
@@ -2754,22 +2754,22 @@
       - medium
       - patch
 
-- name: "MEDIUM | WN19-CC-000500 | Windows Remote Management (WinRM) client must not use Digest authentication."
-  win_regedit:
-      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
-      state: present
-      value: AllowDigest
-      data: 0
-      datatype: dword
-  when: wn19_cc_000500
-  tags:
-      - WN19-CC-000500
-      - V-93507
-      - SRG-OS-000125-GPOS-00065
-      - SV-103593r1
-      - CCI-000877
-      - medium
-      - patch
+# - name: "MEDIUM | WN19-CC-000500 | Windows Remote Management (WinRM) client must not use Digest authentication."
+#   win_regedit:
+#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
+#       state: present
+#       value: AllowDigest
+#       data: 0
+#       datatype: dword
+#   when: wn19_cc_000500
+#   tags:
+#       - WN19-CC-000500
+#       - V-93507
+#       - SRG-OS-000125-GPOS-00065
+#       - SV-103593r1
+#       - CCI-000877
+#       - medium
+#       - patch
 
 - name: "MEDIUM | WN19-CC-000510 | The Windows Remote Management (WinRM) client must not allow unencrypted traffic."
   win_regedit:

@@ -31,7 +31,8 @@
       - prelim_tasks
 
 - name: Execute the category 1 (highest severity) tasks
-  import_tasks: cat1.yml
+  # import_tasks: cat1.yml
+  import_tasks: updated_cat1.yml
   when: win2019stig_cat1_patch | bool
   tags:
       - cat1
