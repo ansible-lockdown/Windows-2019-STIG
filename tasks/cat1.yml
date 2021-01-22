@@ -581,22 +581,22 @@
 #       - high
 #       # fails_openscap_borked_regkey_casesensitive
 
-- name: "HIGH | WN19-SO-000310 | LAN Manager authentication level must be configured to send NTLMv2 response only and to refuse LM and NTLM."
-  win_regedit:
-      path: HKLM:\System\CurrentControlSet\Control\Lsa
-      state: present
-      value: LmCompatibilityLevel
-      data: 5
-      datatype: dword
-  when: wn19_so_000310
-  tags:
-      - WN19-SO-000310
-      - V-93301
-      - SRG-OS-000480-GPOS-00227
-      - SV-103389r1
-      - CCI-000366
-      - patch
-      - high
+# - name: "HIGH | WN19-SO-000310 | LAN Manager authentication level must be configured to send NTLMv2 response only and to refuse LM and NTLM."
+#   win_regedit:
+#       path: HKLM:\System\CurrentControlSet\Control\Lsa
+#       state: present
+#       value: LmCompatibilityLevel
+#       data: 5
+#       datatype: dword
+#   when: wn19_so_000310
+#   tags:
+#       - WN19-SO-000310
+#       - V-93301
+#       - SRG-OS-000480-GPOS-00227
+#       - SV-103389r1
+#       - CCI-000366
+#       - patch
+#       - high
 
 # - name: "HIGH | WN19-UR-000020 | Act as part of the operating system user right must not be assigned to any groups or accounts."
 #   win_user_right:
