@@ -1,7 +1,7 @@
 ---
 win2019stig_cat1_patch: yes
 win2019stig_cat2_patch: false
-win2019stig_cat3_patch: false
+win2019stig_cat3_patch: true
 
 win2019stig_min_ansible_version: "2.6"
 

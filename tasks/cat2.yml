@@ -624,30 +624,30 @@
       - CCI-001233
       - medium
 
-- name: "MEDIUM | WN19-00-000300 | Must automatically remove or disable temporary user accounts after 72 hours."
-  block:
-      - name: "MEDIUM | WN19-00-000300 | AUDIT | Must automatically remove or disable temporary user accounts after 72 hours."
-        win_shell: echo true
-        register: wn19_00_000300_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+# - name: "MEDIUM | WN19-00-000300 | Must automatically remove or disable temporary user accounts after 72 hours."
+#   block:
+#       - name: "MEDIUM | WN19-00-000300 | AUDIT | Must automatically remove or disable temporary user accounts after 72 hours."
+#         win_shell: echo true
+#         register: wn19_00_000300_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
 
-      - name: "MEDIUM | WN19-00-000300 | PATCH | Must automatically remove or disable temporary user accounts after 72 hours."
-        win_shell: echo true
-        changed_when: no
-        tags: patch
-  when:
-      - wn19_00_000300
-      - is_implemented
-  tags:
-      - WN19-00-000300
-      - V-92975
-      - SRG-OS-000002-GPOS-00002
-      - SV-103063r1
-      - CCI-000016
-      - medium
-      #Speelman | requires input of the names of temporary user account
+#       - name: "MEDIUM | WN19-00-000300 | PATCH | Must automatically remove or disable temporary user accounts after 72 hours."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_00_000300
+#       - is_implemented
+#   tags:
+#       - WN19-00-000300
+#       - V-92975
+#       - SRG-OS-000002-GPOS-00002
+#       - SV-103063r1
+#       - CCI-000016
+#       - medium
+#       #Speelman | requires input of the names of temporary user account
 
 - name: "MEDIUM | WN19-00-000310 | Must automatically remove or disable temporary user accounts after 72 hours."
   block:
@@ -927,7 +927,7 @@
       - CCI-002238
       - medium
 
-- name: "MEDIUM | WN19-AC-000020 | Must have the number of allowed bad logon attempts configured to three or less."
+- name: "MEDIUM | WN19-AC-000020 | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less."
   win_security_policy:
       section: System Access
       key: LockoutBadCount
@@ -943,22 +943,22 @@
       - patch
 
 # below task is dependent on WN16-AC-000020, maybe custom fail when known error if WN16-AC-000020 not set? "The key 'ResetLockoutCount' in section 'System Access' is not a valid key, cannot set this value"
-- name: "MEDIUM | WN19-AC-000030 | Must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
+- name: "MEDIUM | WN19-AC-000030 | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
   block:
-      - name: "MEDIUM | WN19-AC-000030 | AUDIT | Must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
+      - name: "MEDIUM | WN19-AC-000030 | AUDIT | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
         assert:
             that: wn19_ac_000030_resetlockoutcount | int is version('15', '>=')
             fail_msg: "Must have the period of time before the bad logon counter is reset configured to 15 minutes or greater and variable wn19_ac_000030_resetlockoutcount is set to {{ wn19_ac_000030_resetlockoutcount }}"
         ignore_errors: yes
         tags: audit
 
-      - name: "MEDIUM | WN19-AC-000030 | PATCH | Must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
+      - name: "MEDIUM | WN19-AC-000030 | PATCH | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
         win_security_policy:
             section: System Access
             key: ResetLockoutCount
             value: "{{ wn19_ac_000030_resetlockoutcount }}"
         tags: patch
-  when: wn19_ac_000030 | bool
+  when: wn19_ac_000030
   tags:
       - WN19-AC-000030
       - V-93143
@@ -1321,72 +1321,72 @@
       - CCI-002234
       - medium
 
-- name: "MEDIUM | WN19-AU-000100 | Must be configured to audit Account Management - Security Group Management successes."
+# - name: "MEDIUM | WN19-AU-000100 | Must be configured to audit Account Management - Security Group Management successes."
+#   block:
+#       - name: "MEDIUM | WN19-AU-000100 | AUDIT | Must be configured to audit Account Management - Security Group Management successes."
+#         win_shell: AuditPol /get /subcategory:"Security Group Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+#         register: wn19_au_000100_audit
+#         check_mode: no
+#         changed_when: "'Success' not in wn19_au_000100_audit.stdout"
+#         tags: audit
+
+#       - name: "MEDIUM | WN19-AU-000100 | PATCH | Must be configured to audit Account Management - Security Group Management successes."
+#         win_shell: AuditPol /set /subcategory:"Security Group Management" /success:enable
+#         when: wn19_au_000100_audit is defined
+#         changed_when: "'Success' not in wn19_au_000100_audit.stdout"
+#         tags: patch
+#   when: wn19_au_000100
+#   tags:
+#       - WN19-AU-000100
+#       - V-92979
+#       - SRG-OS-000004-GPOS-00004
+#       - SV-103067r1
+#       - CCI-000018
+#       - CCI-000172
+#       - CCI-001403
+#       - CCI-001404
+#       - CCI-001405
+#       - CCI-002130
+#       - medium
+
+# - name: "MEDIUM | WN19-AU-000110 | Must be configured to audit Account Management - User Account Management successes."
+#   block:
+#       - name: "MEDIUM | WN19-AU-000110 | AUDIT | Must be configured to audit Account Management - User Account Management successes."
+#         win_shell: AuditPol /get /subcategory:"User Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+#         register: wn19_au_000110_audit
+#         check_mode: no
+#         changed_when: "'Success' not in wn19_au_000110_audit.stdout"
+#         tags: audit
+
+#       - name: "MEDIUM | WN19-AU-000110 | PATCH | Must be configured to audit Account Management - User Account Management successes."
+#         win_shell: AuditPol /set /subcategory:"User Account Management" /success:enable
+#         when: wn19_au_000110_audit is defined
+#         changed_when: "'Success' not in wn19_au_000110_audit.stdout"
+#         tags: patch
+#   when: wn19_au_000110
+#   tags:
+#       - WN19-AU-000110
+#       - V-92981
+#       - SRG-OS-000004-GPOS-00004
+#       - SV-103069r1
+#       - CCI-000018
+#       - CCI-000172
+#       - CCI-001403
+#       - CCI-001404
+#       - CCI-001405
+#       - CCI-002130
+#       - medium
+
+- name: "MEDIUM | WN19-AU-000120 | Windows Server 2019 must be configured to audit Account Management - User Account Management failures."
   block:
-      - name: "MEDIUM | WN19-AU-000100 | AUDIT | Must be configured to audit Account Management - Security Group Management successes."
-        win_shell: AuditPol /get /subcategory:"Security Group Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-        register: wn19_au_000100_audit
-        check_mode: no
-        changed_when: "'Success' not in wn19_au_000100_audit.stdout"
-        tags: audit
-
-      - name: "MEDIUM | WN19-AU-000100 | PATCH | Must be configured to audit Account Management - Security Group Management successes."
-        win_shell: AuditPol /set /subcategory:"Security Group Management" /success:enable
-        when: wn19_au_000100_audit is defined
-        changed_when: "'Success' not in wn19_au_000100_audit.stdout"
-        tags: patch
-  when: wn19_au_000100
-  tags:
-      - WN19-AU-000100
-      - V-92979
-      - SRG-OS-000004-GPOS-00004
-      - SV-103067r1
-      - CCI-000018
-      - CCI-000172
-      - CCI-001403
-      - CCI-001404
-      - CCI-001405
-      - CCI-002130
-      - medium
-
-- name: "MEDIUM | WN19-AU-000110 | Must be configured to audit Account Management - User Account Management successes."
-  block:
-      - name: "MEDIUM | WN19-AU-000110 | AUDIT | Must be configured to audit Account Management - User Account Management successes."
-        win_shell: AuditPol /get /subcategory:"User Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-        register: wn19_au_000110_audit
-        check_mode: no
-        changed_when: "'Success' not in wn19_au_000110_audit.stdout"
-        tags: audit
-
-      - name: "MEDIUM | WN19-AU-000110 | PATCH | Must be configured to audit Account Management - User Account Management successes."
-        win_shell: AuditPol /set /subcategory:"User Account Management" /success:enable
-        when: wn19_au_000110_audit is defined
-        changed_when: "'Success' not in wn19_au_000110_audit.stdout"
-        tags: patch
-  when: wn19_au_000110
-  tags:
-      - WN19-AU-000110
-      - V-92981
-      - SRG-OS-000004-GPOS-00004
-      - SV-103069r1
-      - CCI-000018
-      - CCI-000172
-      - CCI-001403
-      - CCI-001404
-      - CCI-001405
-      - CCI-002130
-      - medium
-
-- name: "MEDIUM | WN19-AU-000120 | Must be configured to audit Account Management - User Account Management failures."
-  block:
-      - name: "MEDIUM | WN19-AU-000120 | AUDIT | Must be configured to audit Account Management - User Account Management failures."
+      - name: "MEDIUM | WN19-AU-000120 | AUDIT | Windows Server 2019 must be configured to audit Account Management - User Account Management failures."
         win_shell: AuditPol /get /subcategory:"User Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000120_audit
         check_mode: no
         changed_when: "'Failure' not in wn19_au_000120_audit.stdout"
         tags: audit
 
-      - name: "MEDIUM | WN19-AU-000120 | PATCH | Must be configured to audit Account Management - User Account Management failures."
+      - name: "MEDIUM | WN19-AU-000120 | PATCH | Windows Server 2019 must be configured to audit Account Management - User Account Management failures."
         win_shell: AuditPol /set /subcategory:"User Account Management" /failure:enable
         when: wn19_au_000120_audit is defined
         changed_when: "'Failure' not in wn19_au_000120_audit.stdout"
@@ -1547,16 +1547,16 @@
       - CCI-000366
       - medium
 
-- name: "MEDIUM | WN19-AU-000190 | Must be configured to audit logon successes."
+- name: "MEDIUM | WN19-AU-000190 | Windows Server 2019 must be configured to audit logon successes."
   block:
-      - name: "MEDIUM | WN19-AU-000190 | AUDIT | Must be configured to audit logon successes."
+      - name: "MEDIUM | WN19-AU-000190 | AUDIT | Windows Server 2019 must be configured to audit logon successes."
         win_shell: AuditPol /get /subcategory:"Logon" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000190_audit
         check_mode: no
         changed_when: "'Success' not in wn19_au_000190_audit.stdout"
         tags: audit
 
-      - name: "MEDIUM | WN19-AU-000190 | PATCH | Must be configured to audit logon successes."
+      - name: "MEDIUM | WN19-AU-000190 | PATCH | Windows Server 2019 must be configured to audit logon successes."
         win_shell: AuditPol /set /subcategory:"Logon" /success:enable
         changed_when: "'Success' not in wn19_au_000190_audit.stdout"
         when: wn19_au_000190_audit is defined
@@ -1571,7 +1571,7 @@
       - CCI-000172
       - medium
 
-- name: "MEDIUM | WN19-AU-000200 | Must be configured to audit logon failures"
+- name: "MEDIUM | WN19-AU-000200 | Windows Server 2019 must be configured to audit logon failures"
   block:
       - name: "MEDIUM | WN19-AU-000200 | AUDIT | Must be configured to audit logon failures"
         win_shell: AuditPol /get /subcategory:"Logon" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
@@ -3167,16 +3167,16 @@
       - CCI-002234
       - medium
 
-- name: "MEDIUM | WN19-DC-000230 | Must be configured to audit Account Management - Computer Account Management successes."
+- name: "MEDIUM | WN19-DC-000230 | Windows Server 2019 must be configured to audit Account Management - Computer Account Management successes."
   block:
-      - name: "MEDIUM | WN19-DC-000230 | AUDIT | Must be configured to audit Account Management - Computer Account Management successes."
+      - name: "MEDIUM | WN19-DC-000230 | AUDIT | Windows Server 2019 must be configured to audit Account Management - Computer Account Management successes."
         win_shell: AuditPol /get /subcategory:"Computer Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_dc_000230_audit
         check_mode: no
         changed_when: "'Success' not in wn19_dc_000230_audit.stdout"
         tags: audit
           
-      - name: "MEDIUM | WN19-DC-000230 | PATCH | Must be configured to audit Account Management - Computer Account Management successes."
+      - name: "MEDIUM | WN19-DC-000230 | PATCH | Windows Server 2019 must be configured to audit Account Management - Computer Account Management successes."
         win_shell: AuditPol /set /subcategory:"Computer Account Management" /success:enable
         when: "'Success' not in wn19_dc_000230_audit.stdout"
         tags: patch
@@ -4785,7 +4785,7 @@
       - medium
       - patch
 
-- name: "MEDIUM | WN19-SO-000120 | Machine inactivity limit must be set to 15 minutes or less, locking the system with the screen saver."
+- name: "MEDIUM | WN19-SO-000120 | Windows Server 2019 machine inactivity limit must be set to 15 minutes or less, locking the system with the screen saver."
   win_regedit:
       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
       state: present
@@ -4804,7 +4804,7 @@
       - medium
       - patch
 
-- name: "MEDIUM | WN19-SO-000130 | Required legal notice must be configured to display before console logon."
+- name: "MEDIUM | WN19-SO-000130 | Windows Server 2019 required legal notice must be configured to display before console logon."
   win_regedit:
       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
       state: present

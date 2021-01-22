@@ -1,0 +1,81 @@
+---
+- name: "MEDIUM | WN19-00-000300 | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
+  block:
+      - name: "MEDIUM | WN19-00-000300 | AUDIT | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
+        win_shell: echo true
+        register: wn19_00_000300_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
+
+      - name: "MEDIUM | WN19-00-000300 | PATCH | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_00_000300
+      - is_implemented
+  tags:
+      - WN19-00-000300
+      - V-92975
+      - SRG-OS-000002-GPOS-00002
+      - SV-103063r1
+      - CCI-000016
+      - medium
+      #Speelman | requires input of the names of temporary user account
+
+- name: "MEDIUM | WN19-AU-000100 | Must be configured to audit Account Management - Security Group Management successes."
+  block:
+      - name: "MEDIUM | WN19-AU-000100 | AUDIT | Must be configured to audit Account Management - Security Group Management successes."
+        win_shell: AuditPol /get /subcategory:"Security Group Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        register: wn19_au_000100_audit
+        check_mode: no
+        changed_when: "'Success' not in wn19_au_000100_audit.stdout"
+        tags: audit
+
+      - name: "MEDIUM | WN19-AU-000100 | PATCH | Must be configured to audit Account Management - Security Group Management successes."
+        win_shell: AuditPol /set /subcategory:"Security Group Management" /success:enable
+        when: wn19_au_000100_audit is defined
+        changed_when: "'Success' not in wn19_au_000100_audit.stdout"
+        tags: patch
+  when: wn19_au_000100
+  tags:
+      - WN19-AU-000100
+      - V-92979
+      - SRG-OS-000004-GPOS-00004
+      - SV-103067r1
+      - CCI-000018
+      - CCI-000172
+      - CCI-001403
+      - CCI-001404
+      - CCI-001405
+      - CCI-002130
+      - medium
+
+- name: "MEDIUM | WN19-AU-000110 | Must be configured to audit Account Management - User Account Management successes."
+  block:
+      - name: "MEDIUM | WN19-AU-000110 | AUDIT | Must be configured to audit Account Management - User Account Management successes."
+        win_shell: AuditPol /get /subcategory:"User Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        register: wn19_au_000110_audit
+        check_mode: no
+        changed_when: "'Success' not in wn19_au_000110_audit.stdout"
+        tags: audit
+
+      - name: "MEDIUM | WN19-AU-000110 | PATCH | Must be configured to audit Account Management - User Account Management successes."
+        win_shell: AuditPol /set /subcategory:"User Account Management" /success:enable
+        when: wn19_au_000110_audit is defined
+        changed_when: "'Success' not in wn19_au_000110_audit.stdout"
+        tags: patch
+  when: wn19_au_000110
+  tags:
+      - WN19-AU-000110
+      - V-92981
+      - SRG-OS-000004-GPOS-00004
+      - SV-103069r1
+      - CCI-000018
+      - CCI-000172
+      - CCI-001403
+      - CCI-001404
+      - CCI-001405
+      - CCI-002130
+      - medium
