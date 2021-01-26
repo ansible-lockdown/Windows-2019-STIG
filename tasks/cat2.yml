@@ -45,34 +45,34 @@
       - audit
       - medium
 
-# - name: "MEDIUM | WN19-00-000040 | Members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
-#   block:
-#       - name: "MEDIUM | WN19-00-000040 | AUDIT STAND-ALONE AND MEMBER SERVERS | Members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
-#         win_shell: Get-LocalGroupMember -Name 'Backup Operators'
-#         register: wn19_00_000040_audit
-#         check_mode: no
-#         changed_when: no
+- name: "MEDIUM | WN19-00-000040 | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
+  block:
+      - name: "MEDIUM | WN19-00-000040 | AUDIT STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
+        win_shell: Get-LocalGroupMember -Name 'Backup Operators'
+        register: wn19_00_000040_audit
+        check_mode: no
+        changed_when: no
 
-#       - name: "MEDIUM | WN19-00-000040 | AUDIT STAND-ALONE AND MEMBER SERVERS | Members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
-#         debug:
-#             msg:
-#                 - The accounts listed are members of the Backup Operators group
-#                 - "{{ wn19_00_000040_audit.stdout.split('\n') }}"
-#         when:
-#             - not wn19_00_000040_audit is skipped
-#             - wn19_00_000040_audit.stdout != ""
-#         changed_when: no
-#   when:
-#       - wn19_00_000040
-#       - not ansible_windows_domain_role == "Primary domain controller"
-#   tags:
-#       - WN19-00-000040
-#       - V-93207
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103295r1
-#       - CCI-000366
-#       - audit
-#       - medium
+      - name: "MEDIUM | WN19-00-000040 | AUDIT STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
+        debug:
+            msg:
+                - The accounts listed are members of the Backup Operators group
+                - "{{ wn19_00_000040_audit.stdout.split('\n') }}"
+        when:
+            - not wn19_00_000040_audit is skipped
+            - wn19_00_000040_audit.stdout != ""
+        changed_when: no
+  when:
+      - wn19_00_000040
+      - not ansible_windows_domain_role == "Primary domain controller"
+  tags:
+      - WN19-00-000040
+      - V-93207
+      - SRG-OS-000480-GPOS-00227
+      - SV-103295r1
+      - CCI-000366
+      - audit
+      - medium
 
 - name: "MEDIUM | WN19-00-000050 | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
   block:
@@ -99,30 +99,30 @@
       - medium
       # how to make this list?
 
-# - name: "MEDIUM | WN19-00-000060 | Manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
-#   block:
-#       - name: "MEDIUM | WN19-00-000060 | AUDIT | Manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
-#         win_shell: echo true
-#         register: wn19_00_000060_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-00-000060 | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
+  block:
+      - name: "MEDIUM | WN19-00-000060 | AUDIT | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
+        win_shell: echo true
+        register: wn19_00_000060_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-00-000060 | PATCH | Manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_00_000060
-#       - is_implemented
-#   tags:
-#       - WN19-00-000060
-#       - V-93209
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103297r1
-#       - CCI-000366
-#       - medium
-#       # how to make this list?
+      - name: "MEDIUM | WN19-00-000060 | PATCH | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_00_000060
+      - is_implemented
+  tags:
+      - WN19-00-000060
+      - V-93209
+      - SRG-OS-000480-GPOS-00227
+      - SV-103297r1
+      - CCI-000366
+      - medium
+      # how to make this list?
 
 
 - name: "MEDIUM | WN19-00-000070 | Windows Server 2019 shared user accounts must not be permitted."
@@ -150,84 +150,83 @@
       - medium
       # org has to supply a list? shared acct must be in SSP?
 
-# - name: "MEDIUM | WN19-00-000080 | Must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
-#   block:
-#       - name: "MEDIUM | WN19-00-000080 | AUDIT | Must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
-#         win_shell: echo true
-#         register: wn19_00_000080_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-00-000080 | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
+  block:
+      - name: "MEDIUM | WN19-00-000080 | AUDIT | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
+        win_shell: echo true
+        register: wn19_00_000080_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-00-000080 | PATCH | Must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_00_000080
-#       - is_implemented
-#   tags:
-#       - WN19-00-000080
-#       - V-93379
-#       - SRG-OS-000370-GPOS-00155
-#       - SV-103465r1
-#       - CCI-001774
-#       - medium
-#       # Get-AppLockerPolicy -Effective
+      - name: "MEDIUM | WN19-00-000080 | PATCH | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_00_000080
+      - is_implemented
+  tags:
+      - WN19-00-000080
+      - V-93379
+      - SRG-OS-000370-GPOS-00155
+      - SV-103465r1
+      - CCI-001774
+      - medium
+      # Get-AppLockerPolicy -Effective
 
-# - name: "MEDIUM | WN19-00-000090 | Domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
-#   block:
-#       - name: "MEDIUM | WN19-00-000090 | AUDIT | Domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
-#         win_shell: echo true
-#         register: wn19_00_000090_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-00-000090 | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
+  block:
+      - name: "MEDIUM | WN19-00-000090 | AUDIT | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
+        win_shell: echo true
+        register: wn19_00_000090_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-00-000090 | PATCH | Domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#         # Current hardware and virtual environments may not support virtualization-based security features, including Credential Guard, due to specific supporting requirements including a TPM, UEFI with Secure Boot, and the capability to run the Hyper-V feature within a virtual machine.
-#   when:
-#       - wn19_00_000090
-#       - is_implemented
-#       - ansible_windows_domain_role == "Member server"
-#   tags:
-#       - WN19-00-000090
-#       - V-93213
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103301r1
-#       - CCI-000366
-#       - medium
-#       # wmic /namespace:\\root\cimv2\security\microsofttpm path win32_tpm get *
-#       # if not enabled see "No Instance(s) Available." ?
+      - name: "MEDIUM | WN19-00-000090 | PATCH | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+        # Current hardware and virtual environments may not support virtualization-based security features, including Credential Guard, due to specific supporting requirements including a TPM, UEFI with Secure Boot, and the capability to run the Hyper-V feature within a virtual machine.
+  when:
+      - wn19_00_000090
+      - is_implemented
+      - ansible_windows_domain_role == "Member server"
+  tags:
+      - WN19-00-000090
+      - V-93213
+      - SRG-OS-000480-GPOS-00227
+      - SV-103301r1
+      - CCI-000366
+      - medium
+      # wmic /namespace:\\root\cimv2\security\microsofttpm path win32_tpm get *
+      # if not enabled see "No Instance(s) Available." ?
 
-# - name: "MEDIUM | WN19-00-000120 | Servers must have a host-based intrusion detection or prevention system."
-#   block:
-#       - name: "MEDIUM | WN19-00-000120 | AUDIT | Servers must have a host-based intrusion detection or prevention system."
-#         win_shell: echo true
-#         register: wn19_00_000120_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-00-000120 | Windows Server 2019 must have a host-based intrusion detection or prevention system."
+  block:
+      - name: "MEDIUM | WN19-00-000120 | AUDIT | Windows Server 2019 must have a host-based intrusion detection or prevention system."
+        win_shell: echo true
+        register: wn19_00_000120_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-00-000120 | PATCH | Servers must have a host-based intrusion detection or prevention system."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_00_000120
-#       - is_implemented
-#   tags:
-#       - WN19-00-000120
-#       - V-93219
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103307r1
-#       - CCI-000366
-#       - medium
-#       # think this is mcafee but need install and figure out paths for AV vs HIDS and/or running services?
-
+      - name: "MEDIUM | WN19-00-000120 | PATCH | Windows Server 2019 must have a host-based intrusion detection or prevention system."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_00_000120
+      - is_implemented
+  tags:
+      - WN19-00-000120
+      - V-93219
+      - SRG-OS-000480-GPOS-00227
+      - SV-103307r1
+      - CCI-000366
+      - medium
+      # think this is mcafee but need install and figure out paths for AV vs HIDS and/or running services?
 
 - name: "MEDIUM | WN19-00-000140 | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements."
   block:
@@ -420,30 +419,30 @@
       - SV-103561r1
       - medium
 
-# - name: "MEDIUM | WN19-00-000220 | System files must be monitored for unauthorized changes."
-#   block:
-#       - name: "MEDIUM | WN19-00-000220 | AUDIT | System files must be monitored for unauthorized changes."
-#         win_shell: echo true
-#         register: wn19_00_000220_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-00-000220 | Windows Server 2019 system files must be monitored for unauthorized changes."
+  block:
+      - name: "MEDIUM | WN19-00-000220 | AUDIT | Windows Server 2019 system files must be monitored for unauthorized changes."
+        win_shell: echo true
+        register: wn19_00_000220_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-00-000220 | PATCH | System files must be monitored for unauthorized changes."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_00_000220
-#       - is_implemented
-#   tags:
-#       - WN19-00-000220
-#       - V-93203
-#       - SRG-OS-000363-GPOS-00150
-#       - SV-103291r1
-#       - CCI-001744
-#       - medium
-#       # Some third party software to monitor files
+      - name: "MEDIUM | WN19-00-000220 | PATCH | Windows Server 2019 system files must be monitored for unauthorized changes."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_00_000220
+      - is_implemented
+  tags:
+      - WN19-00-000220
+      - V-93203
+      - SRG-OS-000363-GPOS-00150
+      - SV-103291r1
+      - CCI-001744
+      - medium
+      # Some third party software to monitor files
 
 - name: "MEDIUM | WN19-00-000230 | Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it."
   block:
@@ -468,38 +467,38 @@
       - CCI-001090
       - medium
 
-# # https://stackoverflow.com/questions/31049454/how-to-retrieve-recursively-any-files-with-a-specific-extensions-in-powershell/31049571
-# - name: "MEDIUM | WN19-00-000240 | must have software certificate installation files removed."
-#   block:
-#       - name: "MEDIUM | WN19-00-000240 | AUDIT | must have software certificate installation files removed."
-#         win_find:
-#             paths: c:\
-#             patterns: ['*.p12', '*.pfx']
-#             hidden: true
-#             recurse: true
-#             follow: true
-#         register: wn19_00_000240_audit
-#         check_mode: no
-#         changed_when: no
-#         when: long_running
-#         tags: audit
+# https://stackoverflow.com/questions/31049454/how-to-retrieve-recursively-any-files-with-a-specific-extensions-in-powershell/31049571
+- name: "MEDIUM | WN19-00-000240 | Windows Server 2019 must have software certificate installation files removed."
+  block:
+      - name: "MEDIUM | WN19-00-000240 | AUDIT | Windows Server 2019 must have software certificate installation files removed."
+        win_find:
+            paths: c:\
+            patterns: ['*.p12', '*.pfx']
+            hidden: true
+            recurse: true
+            follow: true
+        register: wn19_00_000240_audit
+        check_mode: no
+        changed_when: no
+        when: long_running
+        tags: audit
 
-#       - name: "MEDIUM | WN19-00-000240 | PATCH | must have software certificate installation files removed."
-#         win_shell: echo true
-#         changed_when: no
-#         when: is_implemented
-#         tags: patch
-#   when: wn19_00_000240
-#   tags:
-#       - WN19-00-000240
-#       - V-93221
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103309r2
-#       - CCI-000366
-#       - medium
-#       - NotTested
-#       # do we need async; its very long running to search filesystems
-#       # get an array of drive letters to search?
+      - name: "MEDIUM | WN19-00-000240 | PATCH | Windows Server 2019 must have software certificate installation files removed."
+        win_shell: echo true
+        changed_when: no
+        when: is_implemented
+        tags: patch
+  when: wn19_00_000240
+  tags:
+      - WN19-00-000240
+      - V-93221
+      - SRG-OS-000480-GPOS-00227
+      - SV-103309r2
+      - CCI-000366
+      - medium
+      - NotTested
+      # do we need async; its very long running to search filesystems
+      # get an array of drive letters to search?
 
 - name: "MEDIUM | WN19-00-000250 | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
   block:
@@ -527,30 +526,30 @@
       - CCI-002476
       - medium
 
-# - name: "MEDIUM | WN19-00-000260 | Must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
-#   block:
-#       - name: "MEDIUM | WN19-00-000260 | AUDIT | Must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
-#         win_shell: echo true
-#         register: wn19_00_000260_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-00-000260 | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
+  block:
+      - name: "MEDIUM | WN19-00-000260 | AUDIT | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
+        win_shell: echo true
+        register: wn19_00_000260_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-00-000260 | PATCH | Must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_00_000260
-#       - is_implemented
-#   tags:
-#       - WN19-00-000260
-#       - V-93543
-#       - SRG-OS-000425-GPOS-00189
-#       - SV-103629r1
-#       - CCI-002420
-#       - CCI-002422
-#       - medium
+      - name: "MEDIUM | WN19-00-000260 | PATCH | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_00_000260
+      - is_implemented
+  tags:
+      - WN19-00-000260
+      - V-93543
+      - SRG-OS-000425-GPOS-00189
+      - SV-103629r1
+      - CCI-002420
+      - CCI-002422
+      - medium
 
 - name: "MEDIUM | WN19-00-000270 | Windows Server 2019 must have the roles and features required by the system documented."
   block:
@@ -575,30 +574,30 @@
       - CCI-000381
       - medium
 
-# - name: "MEDIUM | WN19-00-000280 | Must have a host-based firewall installed and enabled."
-#   block:
-#       - name: "MEDIUM | WN19-00-000280 | AUDIT | Must have a host-based firewall installed and enabled."
-#         win_shell: echo true
-#         register: wn19_00_000280_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-00-000280 | Windows Server 2019 must have a host-based firewall installed and enabled."
+  block:
+      - name: "MEDIUM | WN19-00-000280 | AUDIT | Windows Server 2019 must have a host-based firewall installed and enabled."
+        win_shell: echo true
+        register: wn19_00_000280_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-00-000280 | PATCH | Must have a host-based firewall installed and enabled."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_00_000280
-#       - is_implemented
-#   tags:
-#       - WN19-00-000280
-#       - V-93571
-#       - SRG-OS-000480-GPOS-00231
-#       - SV-103657r1
-#       - CCI-000366
-#       - CCI-002080
-#       - medium
+      - name: "MEDIUM | WN19-00-000280 | PATCH | Windows Server 2019 must have a host-based firewall installed and enabled."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_00_000280
+      - is_implemented
+  tags:
+      - WN19-00-000280
+      - V-93571
+      - SRG-OS-000480-GPOS-00231
+      - SV-103657r1
+      - CCI-000366
+      - CCI-002080
+      - medium
 
 - name: "MEDIUM | WN19-00-000290 | Windows Server 2019 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where Host Based Security System (HBSS) is used; 30 days, for any additional internal network scans not covered by HBSS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP)."
   block:
@@ -623,31 +622,6 @@
       - SV-103653r1
       - CCI-001233
       - medium
-
-# # - name: "MEDIUM | WN19-00-000300 | Must automatically remove or disable temporary user accounts after 72 hours."
-# #   block:
-# #       - name: "MEDIUM | WN19-00-000300 | AUDIT | Must automatically remove or disable temporary user accounts after 72 hours."
-# #         win_shell: echo true
-# #         register: wn19_00_000300_audit
-# #         check_mode: no
-# #         changed_when: no
-# #         tags: audit
-
-# #       - name: "MEDIUM | WN19-00-000300 | PATCH | Must automatically remove or disable temporary user accounts after 72 hours."
-# #         win_shell: echo true
-# #         changed_when: no
-# #         tags: patch
-# #   when:
-# #       - wn19_00_000300
-# #       - is_implemented
-# #   tags:
-# #       - WN19-00-000300
-# #       - V-92975
-# #       - SRG-OS-000002-GPOS-00002
-# #       - SV-103063r1
-# #       - CCI-000016
-# #       - medium
-# #       #Speelman | requires input of the names of temporary user account
 
 - name: "MEDIUM | WN19-00-000310 | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
   block:
@@ -829,78 +803,78 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-00-000420 | FTP servers must be configured to prevent anonymous logons."
-#   block:
-#       - name: "MEDIUM | WN19-00-000420 | AUDIT | FTP servers must be configured to prevent anonymous logons."
-#         win_shell: echo true
-#         register: wn16_00_000430_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-00-000420 | Windows Server 2019 FTP servers must be configured to prevent anonymous logons."
+  block:
+      - name: "MEDIUM | WN19-00-000420 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent anonymous logons."
+        win_shell: echo true
+        register: wn16_00_000430_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-00-000420 | PATCH | FTP servers must be configured to prevent anonymous logons."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_00_000420
-#       - is_implemented
-#   tags:
-#       - WN19-00-000420
-#       - V-93223
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103311r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-00-000420 | PATCH | Windows Server 2019 FTP servers must be configured to prevent anonymous logons."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_00_000420
+      - is_implemented
+  tags:
+      - WN19-00-000420
+      - V-93223
+      - SRG-OS-000480-GPOS-00227
+      - SV-103311r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-00-000430 | FTP servers must be configured to prevent access to the system drive."
-#   block:
-#       - name: "MEDIUM | WN19-00-000430 | AUDIT | FTP servers must be configured to prevent access to the system drive."
-#         win_shell: echo true
-#         register: wn16_00_000440_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-00-000430 | Windows Server 2019 FTP servers must be configured to prevent access to the system drive."
+  block:
+      - name: "MEDIUM | WN19-00-000430 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent access to the system drive."
+        win_shell: echo true
+        register: wn16_00_000440_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-00-000430 | PATCH | FTP servers must be configured to prevent access to the system drive."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_00_000430
-#       - is_implemented
-#   tags:
-#       - WN19-00-000430
-#       - V-93225
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103313r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-00-000430 | PATCH | Windows Server 2019 FTP servers must be configured to prevent access to the system drive."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_00_000430
+      - is_implemented
+  tags:
+      - WN19-00-000430
+      - V-93225
+      - SRG-OS-000480-GPOS-00227
+      - SV-103313r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-00-000450 | Orphaned security identifiers (SIDs) must be removed from user rights"
-#   block:
-#       - name: "MEDIUM | WN19-00-000450 | AUDIT | Orphaned security identifiers (SIDs) must be removed from user rights"
-#         win_shell: echo true
-#         register: wn19_00_000450_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-00-000450 | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights"
+  block:
+      - name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights"
+        win_shell: echo true
+        register: wn19_00_000450_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-00-000450 | PATCH | Orphaned security identifiers (SIDs) must be removed from user rights"
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_00_000450
-#       - is_implemented
-#   tags:
-#       - WN19-00-000450
-#       - V-93227
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103315r1
-#       - CCI-000366
-#       - medium
-#       # https://www.stigviewer.com/stig/windows_server_2016/2019-01-16/finding/V-78127
+      - name: "MEDIUM | WN19-00-000450 | PATCH | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights"
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_00_000450
+      - is_implemented
+  tags:
+      - WN19-00-000450
+      - V-93227
+      - SRG-OS-000480-GPOS-00227
+      - SV-103315r1
+      - CCI-000366
+      - medium
+      # https://www.stigviewer.com/stig/windows_server_2016/2019-01-16/finding/V-78127
 
 # below task is dependent on WN19-AC-000020 and WN19-AC-000030, maybe custom fail when known error if WN19-AC-000020 not set? "The key 'LockoutDuration' in section 'System Access' is not a valid key, cannot set this value"
 - name: "MEDIUM | WN19-AC-000010 | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater."
@@ -1082,22 +1056,6 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-AC-000090 | Reversible password encryption must be disabled."
-#   win_security_policy:
-#     section: System Access
-#     key: ClearTextPassword
-#     value: "0"
-#   changed_when: no
-#   when: wn19_ac_000090
-#   tags:
-#       - WN19-AC-000090
-#       - V-93465
-#       - SRG-OS-000073-GPOS-00041
-#       - SV-103551r1
-#       - CCI-000196
-#       - patch
-#       - medium
-
 - name: "MEDIUM | WN19-AU-000010 | Windows Server 2019 audit records must be backed up to a different system or media than the system being audited."
   block:
       - name: "MEDIUM | WN19-AU-000010 | AUDIT | Windows Server 2019 audit records must be backed up to a different system or media than the system being audited."
@@ -1122,30 +1080,30 @@
       - CCI-001851
       - medium
 
-# - name: "MEDIUM | WN19-AU-000020 | Must, at a minimum, off-load audit records of interconnected systems in real time and off-load standalone systems weekly."
-#   block:
-#       - name: "MEDIUM | WN19-AU-000020 | AUDIT | Must, at a minimum, off-load audit records of interconnected systems in real time and off-load standalone systems weekly."
-#         win_shell: echo true
-#         register: wn16_au_000020_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-AU-000020 | Windows Server 2019 must, at a minimum, off-load audit records of interconnected systems in real time and off-load standalone systems weekly."
+  block:
+      - name: "MEDIUM | WN19-AU-000020 | AUDIT | Windows Server 2019 must, at a minimum, off-load audit records of interconnected systems in real time and off-load standalone systems weekly."
+        win_shell: echo true
+        register: wn16_au_000020_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-AU-000020 | PATCH | Must, at a minimum, off-load audit records of interconnected systems in real time and off-load standalone systems weekly."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_au_000020
-#       - is_implemented
-#   tags:
-#       - WN19-AU-000020
-#       - V-93185
-#       - SRG-OS-000479-GPOS-00224
-#       - SV-103273r1
-#       - CCI-001851
-#       - medium
-#       # hard one, either need to standardize on say log shipping like splunk or other is set?
+      - name: "MEDIUM | WN19-AU-000020 | PATCH | Must, at a minimum, off-load audit records of interconnected systems in real time and off-load standalone systems weekly."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_au_000020
+      - is_implemented
+  tags:
+      - WN19-AU-000020
+      - V-93185
+      - SRG-OS-000479-GPOS-00224
+      - SV-103273r1
+      - CCI-001851
+      - medium
+      # hard one, either need to standardize on say log shipping like splunk or other is set?
 
 - name: "MEDIUM | WN19-AU-000030 | Windows Server 2019 permissions for the Application event log must prevent access by non-privileged accounts."
   block:
@@ -1250,52 +1208,52 @@
       - CCI-001495
       - medium
 
-# - name: "MEDIUM | WN19-AU-000070 | Must be configured to audit Account Logon - Credential Validation successes."
-#   block:
-#       - name: "MEDIUM | WN19-AU-000070 | AUDIT | Must be configured to audit Account Logon - Credential Validation successes."
-#         win_shell: AuditPol /get /subcategory:"Credential Validation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-#         register: wn19_au_000070_audit
-#         check_mode: no
-#         changed_when: "'Success' not in wn19_au_000070_audit.stdout"
-#         tags: audit
+- name: "MEDIUM | WN19-AU-000070 | Windows Server 2019 must be configured to audit Account Logon - Credential Validation successes."
+  block:
+      - name: "MEDIUM | WN19-AU-000070 | AUDIT | Windows Server 2019 must be configured to audit Account Logon - Credential Validation successes."
+        win_shell: AuditPol /get /subcategory:"Credential Validation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        register: wn19_au_000070_audit
+        check_mode: no
+        changed_when: "'Success' not in wn19_au_000070_audit.stdout"
+        tags: audit
 
-#       - name: "MEDIUM | WN19-AU-000070 | PATCH | Must be configured to audit Account Logon - Credential Validation successes."
-#         win_shell: AuditPol /set /subcategory:"Credential Validation" /success:enable
-#         when: wn19_au_000070_audit is defined
-#         changed_when: "'Success' not in wn19_au_000070_audit.stdout"
-#         tags: patch
-#   when: wn19_au_000070
-#   tags:
-#       - WN19-AU-000070
-#       - V-93153
-#       - SRG-OS-000470-GPOS-00214
-#       - SV-103241r1
-#       - CCI-000172
-#       - medium
+      - name: "MEDIUM | WN19-AU-000070 | PATCH | Windows Server 2019 must be configured to audit Account Logon - Credential Validation successes."
+        win_shell: AuditPol /set /subcategory:"Credential Validation" /success:enable
+        when: wn19_au_000070_audit is defined
+        changed_when: "'Success' not in wn19_au_000070_audit.stdout"
+        tags: patch
+  when: wn19_au_000070
+  tags:
+      - WN19-AU-000070
+      - V-93153
+      - SRG-OS-000470-GPOS-00214
+      - SV-103241r1
+      - CCI-000172
+      - medium
 
-# - name: "MEDIUM | WN19-AU-000080 | Must be configured to audit Account Logon - Credential Validation failures."
-#   block:
-#       - name: "MEDIUM | WN19-AU-000080 | AUDIT | Must be configured to audit Account Logon - Credential Validation failures."
-#         win_shell: AuditPol /get /subcategory:"Credential Validation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-#         register: wn19_au_000080_audit
-#         check_mode: no
-#         changed_when: "'Success' not in wn19_au_000080_audit.stdout"
-#         ignore_errors: yes
-#         tags: audit
+- name: "MEDIUM | WN19-AU-000080 | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
+  block:
+      - name: "MEDIUM | WN19-AU-000080 | AUDIT | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
+        win_shell: AuditPol /get /subcategory:"Credential Validation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        register: wn19_au_000080_audit
+        check_mode: no
+        changed_when: "'Success' not in wn19_au_000080_audit.stdout"
+        ignore_errors: yes
+        tags: audit
           
-#       - name: "MEDIUM | WN19-AU-000080 | PATCH | Must be configured to audit Account Logon - Credential Validation failures."
-#         win_shell: AuditPol /set /subcategory:"Credential Validation" /failure:enable
-#         when: wn19_au_000080_audit is defined
-#         changed_when: "'Failure' not in wn19_au_000080_audit.stdout"
-#         tags: patch
-#   when: wn19_au_000080
-#   tags:
-#       - WN19-AU-000080
-#       - V-93155
-#       - SRG-OS-000470-GPOS-00214
-#       - SV-103243r1
-#       - CCI-000172
-#       - medium
+      - name: "MEDIUM | WN19-AU-000080 | PATCH | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
+        win_shell: AuditPol /set /subcategory:"Credential Validation" /failure:enable
+        when: wn19_au_000080_audit is defined
+        changed_when: "'Failure' not in wn19_au_000080_audit.stdout"
+        tags: patch
+  when: wn19_au_000080
+  tags:
+      - WN19-AU-000080
+      - V-93155
+      - SRG-OS-000470-GPOS-00214
+      - SV-103243r1
+      - CCI-000172
+      - medium
 
 - name: "MEDIUM | WN19-AU-000090 | Windows Server 2019 must be configured to audit Account Management - Other Account Management Events successes."
   block:
@@ -1320,62 +1278,6 @@
       - CCI-000172
       - CCI-002234
       - medium
-
-# # - name: "MEDIUM | WN19-AU-000100 | Must be configured to audit Account Management - Security Group Management successes."
-# #   block:
-# #       - name: "MEDIUM | WN19-AU-000100 | AUDIT | Must be configured to audit Account Management - Security Group Management successes."
-# #         win_shell: AuditPol /get /subcategory:"Security Group Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-# #         register: wn19_au_000100_audit
-# #         check_mode: no
-# #         changed_when: "'Success' not in wn19_au_000100_audit.stdout"
-# #         tags: audit
-
-# #       - name: "MEDIUM | WN19-AU-000100 | PATCH | Must be configured to audit Account Management - Security Group Management successes."
-# #         win_shell: AuditPol /set /subcategory:"Security Group Management" /success:enable
-# #         when: wn19_au_000100_audit is defined
-# #         changed_when: "'Success' not in wn19_au_000100_audit.stdout"
-# #         tags: patch
-# #   when: wn19_au_000100
-# #   tags:
-# #       - WN19-AU-000100
-# #       - V-92979
-# #       - SRG-OS-000004-GPOS-00004
-# #       - SV-103067r1
-# #       - CCI-000018
-# #       - CCI-000172
-# #       - CCI-001403
-# #       - CCI-001404
-# #       - CCI-001405
-# #       - CCI-002130
-# #       - medium
-
-# # - name: "MEDIUM | WN19-AU-000110 | Must be configured to audit Account Management - User Account Management successes."
-# #   block:
-# #       - name: "MEDIUM | WN19-AU-000110 | AUDIT | Must be configured to audit Account Management - User Account Management successes."
-# #         win_shell: AuditPol /get /subcategory:"User Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-# #         register: wn19_au_000110_audit
-# #         check_mode: no
-# #         changed_when: "'Success' not in wn19_au_000110_audit.stdout"
-# #         tags: audit
-
-# #       - name: "MEDIUM | WN19-AU-000110 | PATCH | Must be configured to audit Account Management - User Account Management successes."
-# #         win_shell: AuditPol /set /subcategory:"User Account Management" /success:enable
-# #         when: wn19_au_000110_audit is defined
-# #         changed_when: "'Success' not in wn19_au_000110_audit.stdout"
-# #         tags: patch
-# #   when: wn19_au_000110
-# #   tags:
-# #       - WN19-AU-000110
-# #       - V-92981
-# #       - SRG-OS-000004-GPOS-00004
-# #       - SV-103069r1
-# #       - CCI-000018
-# #       - CCI-000172
-# #       - CCI-001403
-# #       - CCI-001404
-# #       - CCI-001405
-# #       - CCI-002130
-# #       - medium
 
 - name: "MEDIUM | WN19-AU-000120 | Windows Server 2019 must be configured to audit Account Management - User Account Management failures."
   block:
@@ -1405,28 +1307,28 @@
       - CCI-002130
       - medium
 
-# - name: "MEDIUM | WN19-AU-000130 | Must be configured to audit Detailed Tracking - Plug and Play Events successes."
-#   block:
-#       - name: "MEDIUM | WN19-AU-000130 | AUDIT | Must be configured to audit Detailed Tracking - Plug and Play Events successes."
-#         win_shell: AuditPol /get /subcategory:"Plug and Play Events" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-#         register: wn19_au_000130_audit
-#         check_mode: no
-#         changed_when: "'Success' not in wn19_au_000130_audit.stdout"
-#         tags: audit
+- name: "MEDIUM | WN19-AU-000130 | Windows Server 2019 must be configured to audit Detailed Tracking - Plug and Play Events successes."
+  block:
+      - name: "MEDIUM | WN19-AU-000130 | AUDIT | Windows Server 2019 must be configured to audit Detailed Tracking - Plug and Play Events successes."
+        win_shell: AuditPol /get /subcategory:"Plug and Play Events" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        register: wn19_au_000130_audit
+        check_mode: no
+        changed_when: "'Success' not in wn19_au_000130_audit.stdout"
+        tags: audit
 
-#       - name: "MEDIUM | WN19-AU-000130 | PATCH | Must be configured to audit Detailed Tracking - Plug and Play Events successes."
-#         win_shell: AuditPol /set /subcategory:"Plug and Play Events" /success:enable
-#         when: wn19_au_000130_audit is defined
-#         changed_when: "'Success' not in wn19_au_000130_audit.stdout"
-#         tags: patch
-#   when: wn19_au_000130
-#   tags:
-#       - WN19-AU-000130
-#       - V-93157
-#       - SRG-OS-000474-GPOS-00219
-#       - SV-103245r1
-#       - CCI-000172
-#       - patch
+      - name: "MEDIUM | WN19-AU-000130 | PATCH | Windows Server 2019 must be configured to audit Detailed Tracking - Plug and Play Events successes."
+        win_shell: AuditPol /set /subcategory:"Plug and Play Events" /success:enable
+        when: wn19_au_000130_audit is defined
+        changed_when: "'Success' not in wn19_au_000130_audit.stdout"
+        tags: patch
+  when: wn19_au_000130
+  tags:
+      - WN19-AU-000130
+      - V-93157
+      - SRG-OS-000474-GPOS-00219
+      - SV-103245r1
+      - CCI-000172
+      - patch
 
 - name: "MEDIUM | WN19-AU-000140 | Windows Server 2019 must be configured to audit Detailed Tracking - Process Creation successes."
   block:
@@ -1500,52 +1402,52 @@
       - CCI-001404
       - medium
 
-# - name: "MEDIUM | WN19-AU-000170 | Must be configured to audit Logon/Logoff - Group Membership successes."
-#   block:
-#       - name: "MEDIUM | WN19-AU-000170 | AUDIT | Must be configured to audit Logon/Logoff - Group Membership successes."
-#         win_shell: AuditPol /get /subcategory:"Group Membership" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-#         register: wn19_au_000170_audit
-#         check_mode: no
-#         changed_when: "'Success' not in wn19_au_000170_audit.stdout"
-#         tags: audit
+- name: "MEDIUM | WN19-AU-000170 | Windows Server 2019 must be configured to audit Logon/Logoff - Group Membership successes."
+  block:
+      - name: "MEDIUM | WN19-AU-000170 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff - Group Membership successes."
+        win_shell: AuditPol /get /subcategory:"Group Membership" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        register: wn19_au_000170_audit
+        check_mode: no
+        changed_when: "'Success' not in wn19_au_000170_audit.stdout"
+        tags: audit
 
-#       - name: "MEDIUM | WN19-AU-000170 | PATCH | Must be configured to audit Logon/Logoff - Group Membership successes."
-#         win_shell: AuditPol /set /subcategory:"Group Membership" /success:enable
-#         changed_when: "'Success' not in wn19_au_000170_audit.stdout"
-#         when: wn19_au_000170_audit is defined
-#         tags: patch
-#   when: wn19_au_000170
-#   tags:
-#       - WN19-AU-000170
-#       - V-93159
-#       - SRG-OS-000470-GPOS-00214
-#       - SV-103247r1
-#       - CCI-000172
-#       - medium
+      - name: "MEDIUM | WN19-AU-000170 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff - Group Membership successes."
+        win_shell: AuditPol /set /subcategory:"Group Membership" /success:enable
+        changed_when: "'Success' not in wn19_au_000170_audit.stdout"
+        when: wn19_au_000170_audit is defined
+        tags: patch
+  when: wn19_au_000170
+  tags:
+      - WN19-AU-000170
+      - V-93159
+      - SRG-OS-000470-GPOS-00214
+      - SV-103247r1
+      - CCI-000172
+      - medium
 
-# - name: "MEDIUM | WN19-AU-000180 | Must be configured to audit logoff successes."
-#   block:
-#       - name: "MEDIUM | WN19-AU-000180 | AUDIT | Must be configured to audit logoff successes."
-#         win_shell: AuditPol /get /subcategory:"Logoff" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-#         register: wn19_au_000180_audit
-#         check_mode: no
-#         changed_when: "'Success' not in wn19_au_000180_audit.stdout"
-#         tags: audit
+- name: "MEDIUM | WN19-AU-000180 | Windows Server 2019 must be configured to audit logoff successes."
+  block:
+      - name: "MEDIUM | WN19-AU-000180 | AUDIT | Windows Server 2019 must be configured to audit logoff successes."
+        win_shell: AuditPol /get /subcategory:"Logoff" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        register: wn19_au_000180_audit
+        check_mode: no
+        changed_when: "'Success' not in wn19_au_000180_audit.stdout"
+        tags: audit
 
-#       - name: "MEDIUM | WN19-AU-000180 | PATCH | Must be configured to audit logoff successes."
-#         win_shell: AuditPol /set /subcategory:"Logoff" /success:enable
-#         changed_when: "'Success' not in wn19_au_000180_audit.stdout"
-#         when: wn19_au_000180_audit is defined
-#         tags: patch
-#   when: wn19_au_000180
-#   tags:
-#       - WN19-AU-000180
-#       - V-93171
-#       - SRG-OS-000472-GPOS-00217
-#       - SV-103259r1
-#       - CCI-000172
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-AU-000180 | PATCH | Windows Server 2019 must be configured to audit logoff successes."
+        win_shell: AuditPol /set /subcategory:"Logoff" /success:enable
+        changed_when: "'Success' not in wn19_au_000180_audit.stdout"
+        when: wn19_au_000180_audit is defined
+        tags: patch
+  when: wn19_au_000180
+  tags:
+      - WN19-AU-000180
+      - V-93171
+      - SRG-OS-000472-GPOS-00217
+      - SV-103259r1
+      - CCI-000172
+      - CCI-000366
+      - medium
 
 - name: "MEDIUM | WN19-AU-000190 | Windows Server 2019 must be configured to audit logon successes."
   block:
@@ -1595,102 +1497,102 @@
       - CCI-000172
       - medium
 
-# - name: "MEDIUM | WN19-AU-000210 | Must be configured to audit Logon/Logoff - Special Logon successes."
-#   block:
-#       - name: "MEDIUM | WN19-AU-000210 | AUDIT | Must be configured to audit Logon/Logoff - Special Logon successes."
-#         win_shell: AuditPol /get /subcategory:"Special Logon" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-#         register: wn19_au_000210_audit
-#         check_mode: no
-#         changed_when: "'Success' not in wn19_au_000210_audit.stdout"
-#         tags: audit
+- name: "MEDIUM | WN19-AU-000210 | Windows Server 2019 must be configured to audit Logon/Logoff - Special Logon successes."
+  block:
+      - name: "MEDIUM | WN19-AU-000210 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff - Special Logon successes."
+        win_shell: AuditPol /get /subcategory:"Special Logon" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        register: wn19_au_000210_audit
+        check_mode: no
+        changed_when: "'Success' not in wn19_au_000210_audit.stdout"
+        tags: audit
 
-#       - name: "MEDIUM | WN19-AU-000210 | PATCH | Must be configured to audit Logon/Logoff - Special Logon successes."
-#         win_shell: AuditPol /set /subcategory:"Special Logon" /success:enable
-#         changed_when: "'Success' not in wn19_au_000210_audit.stdout"
-#         when: wn19_au_000210_audit is defined
-#         tags: patch
-#   when: wn19_au_000210
-#   tags:
-#       - WN19-AU-000210
-#       - V-93161
-#       - SRG-OS-000470-GPOS-00214
-#       - SV-103249r1
-#       - CCI-000172
-#       - medium
+      - name: "MEDIUM | WN19-AU-000210 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff - Special Logon successes."
+        win_shell: AuditPol /set /subcategory:"Special Logon" /success:enable
+        changed_when: "'Success' not in wn19_au_000210_audit.stdout"
+        when: wn19_au_000210_audit is defined
+        tags: patch
+  when: wn19_au_000210
+  tags:
+      - WN19-AU-000210
+      - V-93161
+      - SRG-OS-000470-GPOS-00214
+      - SV-103249r1
+      - CCI-000172
+      - medium
 
-# - name: "MEDIUM | WN19-AU-000220 | Must be configured to audit Object Access - Other Object Access Events successes."
-#   win_audit_policy_system:
-#       subcategory: Other Object Access Events
-#       audit_type: success, failure
-#   when: wn19_au_000220
-#   tags:
-#       - WN19-AU-000220
-#       - V-93163
-#       - SRG-OS-000470-GPOS-00214
-#       - SV-103251r1
-#       - CCI-000172
-#       - patch
-#       - medium
+- name: "MEDIUM | WN19-AU-000220 | Windows Server 2019 must be configured to audit Object Access - Other Object Access Events successes."
+  win_audit_policy_system:
+      subcategory: Other Object Access Events
+      audit_type: success, failure
+  when: wn19_au_000220
+  tags:
+      - WN19-AU-000220
+      - V-93163
+      - SRG-OS-000470-GPOS-00214
+      - SV-103251r1
+      - CCI-000172
+      - patch
+      - medium
 
-# - name: "MEDIUM | WN19-AU-000230 | Must be configured to audit Object Access - Other Object Access Events failures."
-#   win_audit_policy_system:
-#       subcategory: Other Object Access Events
-#       audit_type: success, failure
-#   when: wn19_au_000230
-#   tags:
-#       - WN19-AU-000230
-#       - V-93165
-#       - SRG-OS-000470-GPOS-00214
-#       - SV-103253r1
-#       - CCI-000172
-#       - patch
-#       - medium
+- name: "MEDIUM | WN19-AU-000230 | Windows Server 2019 must be configured to audit Object Access - Other Object Access Events failures."
+  win_audit_policy_system:
+      subcategory: Other Object Access Events
+      audit_type: success, failure
+  when: wn19_au_000230
+  tags:
+      - WN19-AU-000230
+      - V-93165
+      - SRG-OS-000470-GPOS-00214
+      - SV-103253r1
+      - CCI-000172
+      - patch
+      - medium
 
-# - name: "MEDIUM | WN19-AU-000240 | Must be configured to audit Object Access - Removable Storage successes."
-#   block:
-#       - name: "MEDIUM | WN19-AU-000240 | AUDIT | Must be configured to audit Object Access - Removable Storage successes."
-#         win_shell: AuditPol /get /subcategory:"Removable Storage" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-#         register: wn19_au_000240_audit
-#         check_mode: no
-#         changed_when: "'Success' not in wn19_au_000240_audit.stdout"
-#         tags: audit
+- name: "MEDIUM | WN19-AU-000240 | Windows Server 2019 must be configured to audit Object Access - Removable Storage successes."
+  block:
+      - name: "MEDIUM | WN19-AU-000240 | AUDIT | Windows Server 2019 must be configured to audit Object Access - Removable Storage successes."
+        win_shell: AuditPol /get /subcategory:"Removable Storage" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        register: wn19_au_000240_audit
+        check_mode: no
+        changed_when: "'Success' not in wn19_au_000240_audit.stdout"
+        tags: audit
 
-#       - name: "MEDIUM | WN19-AU-000240 | PATCH | Must be configured to audit Object Access - Removable Storage successes."
-#         win_shell: AuditPol /set /subcategory:"Removable Storage" /success:enable
-#         changed_when: "'Success' not in wn19_au_000240_audit.stdout"
-#         when: wn19_au_000240_audit is defined
-#         tags: patch
-#   when: wn19_au_000240
-#   tags:
-#       - WN19-AU-000240
-#       - V-93167
-#       - SRG-OS-000474-GPOS-00219
-#       - SV-103255r1
-#       - CCI-000172
-#       - medium
+      - name: "MEDIUM | WN19-AU-000240 | PATCH | Windows Server 2019 must be configured to audit Object Access - Removable Storage successes."
+        win_shell: AuditPol /set /subcategory:"Removable Storage" /success:enable
+        changed_when: "'Success' not in wn19_au_000240_audit.stdout"
+        when: wn19_au_000240_audit is defined
+        tags: patch
+  when: wn19_au_000240
+  tags:
+      - WN19-AU-000240
+      - V-93167
+      - SRG-OS-000474-GPOS-00219
+      - SV-103255r1
+      - CCI-000172
+      - medium
 
-# - name: "MEDIUM | WN19-AU-000250 | Must be configured to audit Object Access - Removable Storage failures."
-#   block:
-#       - name: "MEDIUM | WN19-AU-000250 | AUDIT | Must be configured to audit Object Access - Removable Storage failures."
-#         win_shell: AuditPol /get /subcategory:"Removable Storage" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-#         register: wn19_au_000250_audit
-#         check_mode: no
-#         changed_when: "'Failure' not in wn19_au_000250_audit.stdout"
-#         tags: audit
+- name: "MEDIUM | WN19-AU-000250 | Windows Server 2019 must be configured to audit Object Access - Removable Storage failures."
+  block:
+      - name: "MEDIUM | WN19-AU-000250 | AUDIT | Windows Server 2019 must be configured to audit Object Access - Removable Storage failures."
+        win_shell: AuditPol /get /subcategory:"Removable Storage" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        register: wn19_au_000250_audit
+        check_mode: no
+        changed_when: "'Failure' not in wn19_au_000250_audit.stdout"
+        tags: audit
 
-#       - name: "MEDIUM | WN19-AU-000250 | PATCH | Must be configured to audit Object Access - Removable Storage failures."
-#         win_shell: AuditPol /set /subcategory:"Removable Storage" /failure:enable
-#         changed_when: "'Failure' not in wn19_au_000250_audit.stdout"
-#         when: wn19_au_000250_audit is defined
-#         tags: patch
-#   when: wn19_au_000250
-#   tags:
-#       - WN19-AU-000250
-#       - V-93169
-#       - SRG-OS-000474-GPOS-00219
-#       - SV-103257r1
-#       - CCI-000172
-#       - patch
+      - name: "MEDIUM | WN19-AU-000250 | PATCH | Windows Server 2019 must be configured to audit Object Access - Removable Storage failures."
+        win_shell: AuditPol /set /subcategory:"Removable Storage" /failure:enable
+        changed_when: "'Failure' not in wn19_au_000250_audit.stdout"
+        when: wn19_au_000250_audit is defined
+        tags: patch
+  when: wn19_au_000250
+  tags:
+      - WN19-AU-000250
+      - V-93169
+      - SRG-OS-000474-GPOS-00219
+      - SV-103257r1
+      - CCI-000172
+      - patch
 
 - name: "MEDIUM | WN19-AU-000260 | Windows Server 2019 must be configured to audit Policy Change - Audit Policy Change successes."
   block:
@@ -2068,46 +1970,46 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-CC-000070 | Insecure logons to an SMB server must be disabled."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation
-#       state: present
-#       value: AllowInsecureGuestAuth
-#       data: 0
-#       datatype: dword
-#   when: wn19_cc_000070
-#   tags:
-#       - WN19-CC-000070
-#       - V-93239
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103327r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000070 | Windows Server 2019 insecure logons to an SMB server must be disabled."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation
+      state: present
+      value: AllowInsecureGuestAuth
+      data: 0
+      datatype: dword
+  when: wn19_cc_000070
+  tags:
+      - WN19-CC-000070
+      - V-93239
+      - SRG-OS-000480-GPOS-00227
+      - SV-103327r1
+      - CCI-000366
+      - medium
+      - patch
 
-# # verify if this applies to DC or only MS?
-# - name: "MEDIUM | WN19-CC-000080 | Hardened Universal Naming Convention (UNC) paths must be defined to require mutual authentication and integrity for at least the SYSVOL and NETLOGON shares."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths
-#       state: present
-#       value: "{{ item }}"
-#       data: RequireMutualAuthentication=1, RequireIntegrity=1
-#       datatype: string
-#   loop:
-#       - \\*\SYSVOL
-#       - \\*\NETLOGON
-#   when:
-#       - wn19_cc_000080
-#       - ansible_windows_domain_member
-#   tags:
-#       - WN19-CC-000080
-#       - V-93241
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103329r1
-#       - CCI-000366
-#       - patch
-#       - medium
-#       - NotTested
+# verify if this applies to DC or only MS?
+- name: "MEDIUM | WN19-CC-000080 | Windows Server 2019 hardened Universal Naming Convention (UNC) paths must be defined to require mutual authentication and integrity for at least the SYSVOL and NETLOGON shares."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths
+      state: present
+      value: "{{ item }}"
+      data: RequireMutualAuthentication=1, RequireIntegrity=1
+      datatype: string
+  loop:
+      - \\*\SYSVOL
+      - \\*\NETLOGON
+  when:
+      - wn19_cc_000080
+      - ansible_windows_domain_member
+  tags:
+      - WN19-CC-000080
+      - V-93241
+      - SRG-OS-000480-GPOS-00227
+      - SV-103329r1
+      - CCI-000366
+      - patch
+      - medium
+      - NotTested
 
 - name: "MEDIUM | WN19-CC-000090 | Windows Server 2019 command line data must be included in process creation events."
   win_regedit:
@@ -2126,81 +2028,81 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-CC-000100 | Command line data must be included in process creation events."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation
-#       state: present
-#       value: AllowProtectedCreds
-#       data: 1
-#       datatype: dword
-#   when: wn19_cc_000100
-#   tags:
-#       - WN19-CC-000100
-#       - V-93243
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103331r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000100 | Windows Server 2019 must be configured to enable Remote host allows delegation of non-exportable credentials."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation
+      state: present
+      value: AllowProtectedCreds
+      data: 1
+      datatype: dword
+  when: wn19_cc_000100
+  tags:
+      - WN19-CC-000100
+      - V-93243
+      - SRG-OS-000480-GPOS-00227
+      - SV-103331r1
+      - CCI-000366
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-CC-000110 | Virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection."
-#   block:
-#       - name: "MEDIUM | WN19-CC-000110 | AUDIT | Virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection."
-#         win_shell: echo true
-#         register: wn19_cc_000110_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-CC-000110 | Windows Server 2019 virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection."
+  block:
+      - name: "MEDIUM | WN19-CC-000110 | AUDIT | Windows Server 2019 virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection."
+        win_shell: echo true
+        register: wn19_cc_000110_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-CC-000110 | PATCH | Virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_cc_000110
-#       - ansible_windows_domain_member
-#       - is_implemented
-#   tags:
-#       - WN19-CC-000110
-#       - V-93245
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103333r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-CC-000110 | PATCH | Windows Server 2019 virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_cc_000110
+      - ansible_windows_domain_member
+      - is_implemented
+  tags:
+      - WN19-CC-000110
+      - V-93245
+      - SRG-OS-000480-GPOS-00227
+      - SV-103333r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-CC-000130 | Early Launch Antimalware, Boot-Start Driver Initialization Policy must prevent boot drivers identified as bad."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Policies\EarlyLaunch
-#       state: present
-#       value: DriverLoadPolicy
-#       data: 1
-#       datatype: dword
-#   when: wn19_cc_000130
-#   tags:
-#       - WN19-CC-000130
-#       - V-93249
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103337r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000130 | Windows Server 2019 early Launch Antimalware, Boot-Start Driver Initialization Policy must prevent boot drivers identified as bad."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Policies\EarlyLaunch
+      state: present
+      value: DriverLoadPolicy
+      data: 1
+      datatype: dword
+  when: wn19_cc_000130
+  tags:
+      - WN19-CC-000130
+      - V-93249
+      - SRG-OS-000480-GPOS-00227
+      - SV-103337r1
+      - CCI-000366
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-CC-000140 | Group Policy objects must be reprocessed even if they have not changed."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Group Policy\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}
-#       state: present
-#       value: NoGPOListChanges
-#       data: 0
-#       datatype: dword
-#   when: wn19_cc_000140
-#   tags:
-#       - WN19-CC-000140
-#       - V-93251
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103339r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000140 | Windows Server 2019 group policy objects must be reprocessed even if they have not changed."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Group Policy\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}
+      state: present
+      value: NoGPOListChanges
+      data: 0
+      datatype: dword
+  when: wn19_cc_000140
+  tags:
+      - WN19-CC-000140
+      - V-93251
+      - SRG-OS-000480-GPOS-00227
+      - SV-103339r1
+      - CCI-000366
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-CC-000150 | Windows Server 2019 downloading print driver packages over HTTP must be turned off."
   win_regedit:
@@ -2253,39 +2155,39 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-CC-000180 | Users must be prompted to authenticate when the system wakes from sleep (on battery)."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51
-#       state: present
-#       value: DCSettingIndex
-#       data: 1
-#       datatype: dword
-#   when: wn19_cc_000180
-#   tags:
-#       - WN19-CC-000180
-#       - V-93253
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103341r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000180 | Windows Server 2019 users must be prompted to authenticate when the system wakes from sleep (on battery)."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51
+      state: present
+      value: DCSettingIndex
+      data: 1
+      datatype: dword
+  when: wn19_cc_000180
+  tags:
+      - WN19-CC-000180
+      - V-93253
+      - SRG-OS-000480-GPOS-00227
+      - SV-103341r1
+      - CCI-000366
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-CC-000190 | Users must be prompted to authenticate when the system wakes from sleep (plugged in)."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51
-#       state: present
-#       value: ACSettingIndex
-#       data: 1
-#       datatype: dword
-#   when: wn19_cc_000190
-#   tags:
-#       - WN19-CC-000190
-#       - V-93255
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103343r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000190 | Windows Server 2019 users must be prompted to authenticate when the system wakes from sleep (plugged in)."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51
+      state: present
+      value: ACSettingIndex
+      data: 1
+      datatype: dword
+  when: wn19_cc_000190
+  tags:
+      - WN19-CC-000190
+      - V-93255
+      - SRG-OS-000480-GPOS-00227
+      - SV-103343r1
+      - CCI-000366
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-CC-000240 | Windows Server 2019 administrator accounts must not be enumerated during elevation."
   win_regedit:
@@ -2304,39 +2206,22 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-CC-000250 | Windows Telemetry must be configured to Security or Basic."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection
-#       state: present
-#       value: AllowTelemetry
-#       data: 0
-#       datatype: dword
-#   when: wn19_cc_000250
-#   tags:
-#       - WN19-CC-000250
-#       - V-93257
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103345r1
-#       - CCI-000366
-#       - medium
-#       - patch
-
-# # - name: "MEDIUM | WN19-CC-000260 | Must be configured to prevent Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF)-generated routes."
-# #   win_regedit:
-# #       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization
-# #       state: present
-# #       value: DODownloadMode
-# #       data: 1 
-# #       datatype: dword
-# #   when: wn19_cc_000260
-# #   tags:
-# #       - WN19-CC-000260
-# #       - V-93259
-# #       - SRG-OS-000480-GPOS-00227
-# #       - SV-103347r1
-# #       - CCI-000366
-# #       - medium
-# #       - patch
+- name: "MEDIUM | WN19-CC-000250 | Windows Server 2019 Telemetry must be configured to Security or Basic."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection
+      state: present
+      value: AllowTelemetry
+      data: 0
+      datatype: dword
+  when: wn19_cc_000250
+  tags:
+      - WN19-CC-000250
+      - V-93257
+      - SRG-OS-000480-GPOS-00227
+      - SV-103345r1
+      - CCI-000366
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-CC-000270 | Windows Server 2019 Application event log size must be configured to 32768 KB or greater."
   block:
@@ -2445,56 +2330,56 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-CC-000310 | Explorer Data Execution Prevention must be enabled."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer
-#       state: present
-#       value: NoDataExecutionPrevention
-#       data: 0
-#       datatype: dword
-#   when: wn19_cc_000310
-#   tags:
-#       - WN19-CC-000310
-#       - V-93563
-#       - SRG-OS-000433-GPOS-00192
-#       - SV-103649r1
-#       - CCI-002824
-#       - patch
-#       - medium
+- name: "MEDIUM | WN19-CC-000310 | Windows Server 2019 Explorer Data Execution Prevention must be enabled."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer
+      state: present
+      value: NoDataExecutionPrevention
+      data: 0
+      datatype: dword
+  when: wn19_cc_000310
+  tags:
+      - WN19-CC-000310
+      - V-93563
+      - SRG-OS-000433-GPOS-00192
+      - SV-103649r1
+      - CCI-002824
+      - patch
+      - medium
 
-# - name: "MEDIUM | WN19-CC-000330 | File Explorer shell protocol must run in protected mode."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
-#       state: present
-#       value: PreXPSP2ShellProtocolBehavior
-#       data: 0
-#       datatype: dword
-#   when: wn19_cc_000330
-#   tags:
-#       - WN19-CC-000330
-#       - V-93263
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103351r1
-#       - CCI-000366
-#       - patch
-#       - medium
+- name: "MEDIUM | WN19-CC-000330 | Windows Server 2019 File Explorer shell protocol must run in protected mode."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+      state: present
+      value: PreXPSP2ShellProtocolBehavior
+      data: 0
+      datatype: dword
+  when: wn19_cc_000330
+  tags:
+      - WN19-CC-000330
+      - V-93263
+      - SRG-OS-000480-GPOS-00227
+      - SV-103351r1
+      - CCI-000366
+      - patch
+      - medium
 
-# - name: "MEDIUM | WN19-CC-000340 | Passwords must not be saved in the Remote Desktop Client."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
-#       state: present
-#       value: DisablePasswordSaving
-#       data: 1
-#       datatype: dword
-#   when: wn19_cc_000340
-#   tags:
-#       - WN19-CC-000340
-#       - V-93425
-#       - SRG-OS-000373-GPOS-00157
-#       - SV-103511r1
-#       - CCI-002038
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000340 | Windows Server 2019 must not save passwords in the Remote Desktop Client."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+      state: present
+      value: DisablePasswordSaving
+      data: 1
+      datatype: dword
+  when: wn19_cc_000340
+  tags:
+      - WN19-CC-000340
+      - V-93425
+      - SRG-OS-000373-GPOS-00157
+      - SV-103511r1
+      - CCI-002038
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-CC-000350 | Windows Server 2019 Remote Desktop Services must prevent drive redirection."
   win_regedit:
@@ -2513,22 +2398,22 @@
       - patch
       - medium
 
-# - name: "MEDIUM | WN19-CC-000360 | Remote Desktop Services must always prompt a client for passwords upon connection."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
-#       state: present
-#       value: fPromptForPassword
-#       data: 1
-#       datatype: dword
-#   when: wn19_cc_000360
-#   tags:
-#       - WN19-CC-000360
-#       - V-93427
-#       - SRG-OS-000373-GPOS-00157
-#       - SV-103513r1
-#       - CCI-002038
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000360 | Windows Server 2019 remote Desktop Services must always prompt a client for passwords upon connection."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+      state: present
+      value: fPromptForPassword
+      data: 1
+      datatype: dword
+  when: wn19_cc_000360
+  tags:
+      - WN19-CC-000360
+      - V-93427
+      - SRG-OS-000373-GPOS-00157
+      - SV-103513r1
+      - CCI-002038
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-CC-000370 | Windows Server 2019 Remote Desktop Services must require secure Remote Procedure Call (RPC) communications."
   win_regedit:
@@ -2566,22 +2451,22 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-CC-000390 | Must prevent attachments from being downloaded from RSS feeds."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds
-#       state: present
-#       value: DisableEnclosureDownload
-#       data: 1
-#       datatype: dword
-#   when: wn19_cc_000390
-#   tags:
-#       - WN19-CC-000390
-#       - V-93265
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103353r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000390 | Windows Server 2019 must prevent attachments from being downloaded from RSS feeds."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds
+      state: present
+      value: DisableEnclosureDownload
+      data: 1
+      datatype: dword
+  when: wn19_cc_000390
+  tags:
+      - WN19-CC-000390
+      - V-93265
+      - SRG-OS-000480-GPOS-00227
+      - SV-103353r1
+      - CCI-000366
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-CC-000400 | Windows Server 2019 must disable Basic authentication for RSS feeds over HTTP."
   win_regedit:
@@ -2634,56 +2519,56 @@
       - patch
       - medium
 
-# # - name: "MEDIUM | WN19-CC-000430 | Must disable the Windows Installer Always install with elevated privileges option."
-# #   win_regedit:
-# #       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
-# #       state: present
-# #       value: AlwaysInstallElevated
-# #       data: 0
-# #       datatype: dword
-# #   when: wn19_cc_000430
-# #   tags:
-# #       - WN19-CC-000430
-# #       - V-93201
-# #       - SRG-OS-000362-GPOS-00149
-# #       - SV-103289r1
-# #       - CCI-001812
-# #       - medium
-# #       - patch
+- name: "MEDIUM | WN19-CC-000440 | Windows Server 2019  users must be notified if a web-based program attempts to install software."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
+      state: present
+      value: SafeForScripting
+      data: 0
+      datatype: dword
+  when: wn19_cc_000440
+  tags:
+      - WN19-CC-000440
+      - V-93267
+      - SRG-OS-000480-GPOS-00227
+      - SV-103355r1
+      - CCI-000366
+      - patch
+      - medium
 
-# - name: "MEDIUM | WN19-CC-000440 | Users must be notified if a web-based program attempts to install software."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
-#       state: present
-#       value: SafeForScripting
-#       data: 0
-#       datatype: dword
-#   when: wn19_cc_000440
-#   tags:
-#       - WN19-CC-000440
-#       - V-93267
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103355r1
-#       - CCI-000366
-#       - patch
-#       - medium
+- name: "MEDIUM | WN19-CC-000450 | Windows Server 2019 must disable automatically signing in the last interactive user after a system-initiated restart."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+      state: present
+      value: DisableAutomaticRestartSignOn
+      data: 1
+      datatype: dword
+  when: wn19_cc_000450
+  tags:
+      - WN19-CC-000450
+      - V-93269
+      - SRG-OS-000480-GPOS-00229
+      - SV-103357r1
+      - CCI-000366
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-CC-000450 | Automatically signing in the last interactive user after a system-initiated restart must be disabled."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
-#       state: present
-#       value: DisableAutomaticRestartSignOn
-#       data: 1
-#       datatype: dword
-#   when: wn19_cc_000450
-#   tags:
-#       - WN19-CC-000450
-#       - V-93269
-#       - SRG-OS-000480-GPOS-00229
-#       - SV-103357r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000451 | The Windows Explorer Preview pane must be disabled for Windows Server 2019."
+  win_regedit:
+      path: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+      state: present
+      value: NoPreviewPane
+      data: 1
+      datatype: dword
+  when: wn19_cc_000451
+  tags:
+      - WN19-CC-000451
+      - V-102625
+      - SRG-OS-000480-GPOS-00227
+      - SV-111575
+      - CCI-000366
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-CC-000460 | Windows Server 2019 PowerShell script block logging must be enabled."
   win_regedit:
@@ -2702,40 +2587,23 @@
       - patch
       - medium
 
-# # - name: "MEDIUM | WN19-CC-000470 | Windows Remote Management (WinRM) client must not use Basic authentication."
-# #   win_regedit:
-# #       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
-# #       state: present
-# #       value: AllowBasic
-# #       data: 0
-# #       datatype: dword
-# #   when: wn19_cc_000470
-# #   tags:
-# #       - WN19-CC-000470
-# #       - V-93503
-# #       - SRG-OS-000125-GPOS-00065
-# #       - SV-103589r1
-# #       - CCI-000877
-# #       - medium
-# #       - patch
-
-# - name: "MEDIUM | WN19-CC-000480 | The Windows Remote Management (WinRM) client must not allow unencrypted traffic."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
-#       state: present
-#       value: AllowUnencryptedTraffic
-#       data: 0
-#       datatype: dword
-#   when: wn19_cc_000480
-#   tags:
-#       - WN19-CC-000480
-#       - V-93499
-#       - SRG-OS-000393-GPOS-00173
-#       - SV-103585r1
-#       - CCI-002890
-#       - CCI-003123
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000480 | Windows Server 2019 Windows Remote Management (WinRM) client must not allow unencrypted traffic."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
+      state: present
+      value: AllowUnencryptedTraffic
+      data: 0
+      datatype: dword
+  when: wn19_cc_000480
+  tags:
+      - WN19-CC-000480
+      - V-93499
+      - SRG-OS-000393-GPOS-00173
+      - SV-103585r1
+      - CCI-002890
+      - CCI-003123
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-CC-000490 | Windows Server 2019 Windows Remote Management (WinRM) client must not use Digest authentication."
   win_regedit:
@@ -2754,57 +2622,40 @@
       - medium
       - patch
 
-# # - name: "MEDIUM | WN19-CC-000500 | Windows Remote Management (WinRM) client must not use Digest authentication."
-# #   win_regedit:
-# #       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
-# #       state: present
-# #       value: AllowDigest
-# #       data: 0
-# #       datatype: dword
-# #   when: wn19_cc_000500
-# #   tags:
-# #       - WN19-CC-000500
-# #       - V-93507
-# #       - SRG-OS-000125-GPOS-00065
-# #       - SV-103593r1
-# #       - CCI-000877
-# #       - medium
-# #       - patch
+- name: "MEDIUM | WN19-CC-000510 | Windows Server 2019 Windows Remote Management (WinRM) service must not allow unencrypted traffic."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service
+      state: present
+      value: AllowUnencryptedTraffic
+      data: 0
+      datatype: dword
+  when: wn19_cc_000510
+  tags:
+      - WN19-CC-000510
+      - V-93501
+      - SRG-OS-000393-GPOS-00173
+      - SV-103587r1
+      - CCI-002890
+      - CCI-003123
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-CC-000510 | The Windows Remote Management (WinRM) client must not allow unencrypted traffic."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
-#       state: present
-#       value: AllowUnencryptedTraffic
-#       data: 0
-#       datatype: dword
-#   when: wn19_cc_000510
-#   tags:
-#       - WN19-CC-000510
-#       - V-93501
-#       - SRG-OS-000393-GPOS-00173
-#       - SV-103587r1
-#       - CCI-002890
-#       - CCI-003123
-#       - medium
-#       - patch
-
-# - name: "MEDIUM | WN19-CC-000520 | The Windows Remote Management (WinRM) service must not store RunAs credentials."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service
-#       state: present
-#       value: DisableRunAs
-#       data: 1
-#       datatype: dword
-#   when: wn19_cc_000520
-#   tags:
-#       - WN19-CC-000520
-#       - V-93429
-#       - SRG-OS-000373-GPOS-00157
-#       - SV-103515r1
-#       - CCI-002038
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-CC-000520 | Windows Server 2019 Windows Remote Management (WinRM) service must not store RunAs credentials."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service
+      state: present
+      value: DisableRunAs
+      data: 1
+      datatype: dword
+  when: wn19_cc_000520
+  tags:
+      - WN19-CC-000520
+      - V-93429
+      - SRG-OS-000373-GPOS-00157
+      - SV-103515r1
+      - CCI-002038
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-DC-000020 | Windows Server 2019 Kerberos user logon restrictions must be enforced."
   block:
@@ -2986,30 +2837,30 @@
       - CCI-000381
       - medium
 
-# - name: "MEDIUM | WN19-DC-000140 | Must use separate, NSA-approved (Type 1) cryptography to protect the directory data in transit for directory service implementations at a classified confidentiality level when replication data traverses a network cleared to a lower level than the data."
-#   block:
-#       - name: "MEDIUM | WN19-DC-000140 | AUDIT | Must use separate, NSA-approved (Type 1) cryptography to protect the directory data in transit for directory service implementations at a classified confidentiality level when replication data traverses a network cleared to a lower level than the data."
-#         win_shell: echo true
-#         register: wn19_dc_000140_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-DC-000140 | Windows Server 2019 must use separate, NSA-approved (Type 1) cryptography to protect the directory data in transit for directory service implementations at a classified confidentiality level when replication data traverses a network cleared to a lower level than the data."
+  block:
+      - name: "MEDIUM | WN19-DC-000140 | AUDIT | Windows Server 2019 must use separate, NSA-approved (Type 1) cryptography to protect the directory data in transit for directory service implementations at a classified confidentiality level when replication data traverses a network cleared to a lower level than the data."
+        win_shell: echo true
+        register: wn19_dc_000140_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-DC-000140 | PATCH | Must use separate, NSA-approved (Type 1) cryptography to protect the directory data in transit for directory service implementations at a classified confidentiality level when replication data traverses a network cleared to a lower level than the data."
-#         win_shell: echo true
-#         changed_when: no
-#         tags: patch
-#   when:
-#       - wn19_dc_000140
-#       - ansible_windows_domain_role == "Primary domain controller"
-#       - is_implemented
-#   tags:
-#       - WN19-DC-000140
-#       - V-93513
-#       - SRG-OS-000396-GPOS-00176
-#       - SV-103599r1
-#       - CCI-002450
-#       - medium
+      - name: "MEDIUM | WN19-DC-000140 | PATCH | Windows Server 2019 must use separate, NSA-approved (Type 1) cryptography to protect the directory data in transit for directory service implementations at a classified confidentiality level when replication data traverses a network cleared to a lower level than the data."
+        win_shell: echo true
+        changed_when: no
+        tags: patch
+  when:
+      - wn19_dc_000140
+      - ansible_windows_domain_role == "Primary domain controller"
+      - is_implemented
+  tags:
+      - WN19-DC-000140
+      - V-93513
+      - SRG-OS-000396-GPOS-00176
+      - SV-103599r1
+      - CCI-002450
+      - medium
 
 - name: "MEDIUM | WN19-DC-000170 | Windows Server 2019 Active Directory Group Policy objects must be configured with proper audit settings."
   block:
@@ -3354,46 +3205,46 @@
       - CCI-001948
       - medium
 
-# - name: "MEDIUM | WN19-DC-000320 | Domain controllers must require LDAP access signing."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\NTDS\Parameters
-#       state: present
-#       value: LDAPServerIntegrity
-#       data: 2
-#       datatype: dword
-#   when:
-#       - wn19_dc_000320
-#       - ansible_windows_domain_role == "Primary domain controller"
-#   tags:
-#       - WN19-DC-000320
-#       - V-93545
-#       - SRG-OS-000423-GPOS-00187
-#       - SV-103631r1
-#       - CCI-002418
-#       - CCI-002421
-#       - medium
-#       - patch
-#       - NeedToTestDomainController
+- name: "MEDIUM | WN19-DC-000320 | Windows Server 2019 domain controllers must require LDAP access signing."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\NTDS\Parameters
+      state: present
+      value: LDAPServerIntegrity
+      data: 2
+      datatype: dword
+  when:
+      - wn19_dc_000320
+      - ansible_windows_domain_role == "Primary domain controller"
+  tags:
+      - WN19-DC-000320
+      - V-93545
+      - SRG-OS-000423-GPOS-00187
+      - SV-103631r1
+      - CCI-002418
+      - CCI-002421
+      - medium
+      - patch
+      - NeedToTestDomainController
 
-# - name: "MEDIUM | WN19-DC-000330 | Domain controllers must be configured to allow reset of machine account passwords."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
-#       state: present
-#       value: RefusePasswordChange
-#       data: 0
-#       datatype: dword
-#   when:
-#       - wn19_dc_000330
-#       - ansible_windows_domain_role == "Primary domain controller"
-#   tags:
-#       - WN19-DC-000330
-#       - V-93273
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103361r1
-#       - CCI-000366
-#       - medium
-#       - patch
-#       - NeedToTestDomainController
+- name: "MEDIUM | WN19-DC-000330 | Windows Server 2019 domain controllers must be configured to allow reset of machine account passwords."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+      state: present
+      value: RefusePasswordChange
+      data: 0
+      datatype: dword
+  when:
+      - wn19_dc_000330
+      - ansible_windows_domain_role == "Primary domain controller"
+  tags:
+      - WN19-DC-000330
+      - V-93273
+      - SRG-OS-000480-GPOS-00227
+      - SV-103361r1
+      - CCI-000366
+      - medium
+      - patch
+      - NeedToTestDomainController
 
 - name: "MEDIUM | WN19-DC-000340 | Windows Server 2019 Access this computer from the network user right must only be assigned to the Administrators, Authenticated Users, and Enterprise Domain Controllers groups on domain controllers."
   win_user_right:
@@ -3560,688 +3411,688 @@
       - patch
       - NeedToTestDomainController
 
-# - name: "MEDIUM | WN19-DC-000430 | The password for the krbtgt account on a domain must be reset at least every 180 days."
-#   block:
-#       - name: "MEDIUM | WN19-DC-000430 | AUDIT | The password for the krbtgt account on a domain must be reset at least every 180 days."
-#         win_shell: "Get-ADUser krbtgt -Property PasswordLastSet | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ wn19_dc_000430_pass_age }}))} | Select-Object -ExpandProperty PasswordLastSet"
-#         register: wn19_dc_000430_audit
-#         check_mode: no
-#         changed_when: wn19_dc_000430_audit.stdout != ""
-#         tags: audit
+- name: "MEDIUM | WN19-DC-000430 | The password for the krbtgt account on a domain must be reset at least every 180 days."
+  block:
+      - name: "MEDIUM | WN19-DC-000430 | AUDIT | The password for the krbtgt account on a domain must be reset at least every 180 days."
+        win_shell: "Get-ADUser krbtgt -Property PasswordLastSet | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ wn19_dc_000430_pass_age }}))} | Select-Object -ExpandProperty PasswordLastSet"
+        register: wn19_dc_000430_audit
+        check_mode: no
+        changed_when: wn19_dc_000430_audit.stdout != ""
+        tags: audit
 
-#       ## this seems highly prone to breakage? its a DC acct, has replicate. if you screw it up, it could stop kerberos tickets and break auth things
-#       ## https://www.kjctech.net/do-you-need-to-update-krbtgt-account-password/
-#       - name: "MEDIUM | WN19-DC-000430 | PATCH | The password for the krbtgt account on a domain must be reset at least every 180 days."
-#         win_shell: echo true
-#         changed_when: no
-#         when: is_implemented
-#         tags: patch
-#   when:
-#       - wn19_dc_000430
-#       - ansible_windows_domain_role == "Primary domain controller"
-#       - win2019stig_complexity_high
-#   tags:
-#       - WN19-DC-000430
-#       - V-93211
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103299r3
-#       - CCI-000366
-#       - NeedToTestDomainController
-#       - medium
+      ## this seems highly prone to breakage? its a DC acct, has replicate. if you screw it up, it could stop kerberos tickets and break auth things
+      ## https://www.kjctech.net/do-you-need-to-update-krbtgt-account-password/
+      - name: "MEDIUM | WN19-DC-000430 | PATCH | The password for the krbtgt account on a domain must be reset at least every 180 days."
+        win_shell: echo true
+        changed_when: no
+        when: is_implemented
+        tags: patch
+  when:
+      - wn19_dc_000430
+      - ansible_windows_domain_role == "Primary domain controller"
+      - win2019stig_complexity_high
+  tags:
+      - WN19-DC-000430
+      - V-93211
+      - SRG-OS-000480-GPOS-00227
+      - SV-103299r3
+      - CCI-000366
+      - NeedToTestDomainController
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000010 | Exploit Protection system-level mitigation, Data Execution Prevention (DEP), must be on."
-#   command: "echo true"
-#   when:
-#     - wn19_ep_000010
-#     - is_implemented
-#   tags:
-#       - WN19-EP-000010
-#       - V-93313
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103401r1
-#       - CCI-000366
-#       - medium
+- name: "MEDIUM | WN19-EP-000010 | Windows Server 2019 Exploit Protection system-level mitigation, Data Execution Prevention (DEP), must be on."
+  command: "echo true"
+  when:
+    - wn19_ep_000010
+    - is_implemented
+  tags:
+      - WN19-EP-000010
+      - V-93313
+      - SRG-OS-000480-GPOS-00227
+      - SV-103401r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000020 | Exploit Protection system-level mitigation, Randomize memory allocations (Bottom-Up ASLR), must be on."
-#   command: "echo true"
-#   when:
-#       - wn19_ep_000020
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000020
-#       - V-93565
-#       - SRG-OS-000433-GPOS-00193
-#       - SV-103651r1
-#       - CCI-002824
-#       - medium
+- name: "MEDIUM | WN19-EP-000020 | Windows Server 2019 Exploit Protection system-level mitigation, Randomize memory allocations (Bottom-Up ASLR), must be on."
+  command: "echo true"
+  when:
+      - wn19_ep_000020
+      - is_implemented
+  tags:
+      - WN19-EP-000020
+      - V-93565
+      - SRG-OS-000433-GPOS-00193
+      - SV-103651r1
+      - CCI-002824
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000030 | Exploit Protection system-level mitigation, Control flow guard (CFG), must be on."
-#   command: "echo true"
-#   when:
-#       - wn19_ep_000030
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000030
-#       - V-93315
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103403r1
-#       - CCI-000366
-#       - medium
+- name: "MEDIUM | WN19-EP-000030 | Windows Server 2019 Exploit Protection system-level mitigation, Control flow guard (CFG), must be on."
+  command: "echo true"
+  when:
+      - wn19_ep_000030
+      - is_implemented
+  tags:
+      - WN19-EP-000030
+      - V-93315
+      - SRG-OS-000480-GPOS-00227
+      - SV-103403r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000040 | Exploit Protection system-level mitigation, Validate exception chains (SEHOP), must be on."
-#   command: "echo true"
-#   when:
-#       - wn19_ep_000040
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000040
-#       - V-93317
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103405r1
-#       - CCI-000366
-#       - medium
+- name: "MEDIUM | WN19-EP-000040 | Windows Server 2019 Exploit Protection system-level mitigation, Validate exception chains (SEHOP), must be on."
+  command: "echo true"
+  when:
+      - wn19_ep_000040
+      - is_implemented
+  tags:
+      - WN19-EP-000040
+      - V-93317
+      - SRG-OS-000480-GPOS-00227
+      - SV-103405r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000050 | Exploit Protection system-level mitigation, Validate heap integrity, must be on."
-#   command: "echo true"
-#   when:
-#       - wn19_ep_000050
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000050
-#       - V-93319
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103407r1
-#       - CCI-000366
-#       - medium
+- name: "MEDIUM | WN19-EP-000050 | Windows Server 2019 Exploit Protection system-level mitigation, Validate heap integrity, must be on."
+  command: "echo true"
+  when:
+      - wn19_ep_000050
+      - is_implemented
+  tags:
+      - WN19-EP-000050
+      - V-93319
+      - SRG-OS-000480-GPOS-00227
+      - SV-103407r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000060 | Exploit Protection mitigations must be configured for Acrobat.exe."
-#   command: "echo true"
-#   when:
-#       - wn19_ep_000060
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000060
-#       - V-93321
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103409r1
-#       - CCI-000366
-#       - medium
+- name: "MEDIUM | WN19-EP-000060 | Windows Server 2019 Exploit Protection mitigations must be configured for Acrobat.exe."
+  command: "echo true"
+  when:
+      - wn19_ep_000060
+      - is_implemented
+  tags:
+      - WN19-EP-000060
+      - V-93321
+      - SRG-OS-000480-GPOS-00227
+      - SV-103409r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000070 | Exploit Protection mitigations must be configured for AcroRd32.exe."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000070 | AUDIT | Exploit Protection mitigations must be configured for AcroRd32.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000070_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000070 | Windows Server 2019 Exploit Protection mitigations must be configured for AcroRd32.exe."
+  block:
+      - name: "MEDIUM | WN19-EP-000070 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for AcroRd32.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000070_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000070 | PATCH | Exploit Protection mitigations must be configured for AcroRd32.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000070_patch
-#         changed_when: wn19_ep_000070_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000070
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000070
-#       - V-93323
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103411r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000070 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for AcroRd32.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000070_patch
+        changed_when: wn19_ep_000070_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000070
+      - is_implemented
+  tags:
+      - WN19-EP-000070
+      - V-93323
+      - SRG-OS-000480-GPOS-00227
+      - SV-103411r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000080 | Exploit Protection mitigations must be configured for chrome.exe."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000080 | AUDIT | Exploit Protection mitigations must be configured for chrome.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000080_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000080 | Windows Server 2019 Exploit Protection mitigations must be configured for chrome.exe."
+  block:
+      - name: "MEDIUM | WN19-EP-000080 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for chrome.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000080_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000080 | PATCH | Exploit Protection mitigations must be configured for chrome.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000080_patch
-#         changed_when: wn19_ep_000080_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000080
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000080
-#       - V-93325
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103413r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000080 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for chrome.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000080_patch
+        changed_when: wn19_ep_000080_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000080
+      - is_implemented
+  tags:
+      - WN19-EP-000080
+      - V-93325
+      - SRG-OS-000480-GPOS-00227
+      - SV-103413r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000090 | Exploit Protection mitigations must be configured for EXCEL.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000090 | AUDIT | Exploit Protection mitigations must be configured for EXCEL.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000090_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000090 | Windows Server 2019  Exploit Protection mitigations must be configured for EXCEL.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000090 | AUDIT | Windows Server 2019  Exploit Protection mitigations must be configured for EXCEL.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000090_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000090 | PATCH | Exploit Protection mitigations must be configured for EXCEL.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000090_patch
-#         changed_when: wn19_ep_000090_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000090
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000090
-#       - V-93327
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103415r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000090 | PATCH | Windows Server 2019  Exploit Protection mitigations must be configured for EXCEL.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000090_patch
+        changed_when: wn19_ep_000090_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000090
+      - is_implemented
+  tags:
+      - WN19-EP-000090
+      - V-93327
+      - SRG-OS-000480-GPOS-00227
+      - SV-103415r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000100 | Exploit Protection mitigations must be configured for firefox.exe."
-#   block:
-#     - name: "MEDIUM | WN19-EP-000100 | AUDIT | Exploit Protection mitigations must be configured for firefox.exe."
-#       win_shell: "echo true"
-#       register: wn19_ep_000100_audit
-#       check_mode: no
-#       changed_when: no
-#       tags: audit
+- name: "MEDIUM | WN19-EP-000100 | Windows Server 2019 Exploit Protection mitigations must be configured for firefox.exe."
+  block:
+    - name: "MEDIUM | WN19-EP-000100 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for firefox.exe."
+      win_shell: "echo true"
+      register: wn19_ep_000100_audit
+      check_mode: no
+      changed_when: no
+      tags: audit
 
-#     - name: "MEDIUM | WN19-EP-000100 | PATCH | Exploit Protection mitigations must be configured for firefox.exe."
-#       win_shell: "echo true"
-#       register: wn19_ep_000100_patch
-#       changed_when: wn19_ep_000100_patch.stdout == "SET"
-#       tags: patch
-#   when:
-#       - wn19_ep_000100
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000100
-#       - V-93329
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103417r1
-#       - CCI-000366
-#       - medium
+    - name: "MEDIUM | WN19-EP-000100 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for firefox.exe."
+      win_shell: "echo true"
+      register: wn19_ep_000100_patch
+      changed_when: wn19_ep_000100_patch.stdout == "SET"
+      tags: patch
+  when:
+      - wn19_ep_000100
+      - is_implemented
+  tags:
+      - WN19-EP-000100
+      - V-93329
+      - SRG-OS-000480-GPOS-00227
+      - SV-103417r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000110 | Exploit Protection mitigations must be configured for FLTLDR.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000110 | AUDIT | Exploit Protection mitigations must be configured for FLTLDR.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000110_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000110 | Exploit Protection mitigations must be configured for FLTLDR.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000110 | AUDIT | Exploit Protection mitigations must be configured for FLTLDR.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000110_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000110 | PATCH | Exploit Protection mitigations must be configured for FLTLDR.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000110_patch
-#         changed_when: wn19_ep_000110_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000110
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000110
-#       - V-93331
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103419r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000110 | PATCH | Exploit Protection mitigations must be configured for FLTLDR.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000110_patch
+        changed_when: wn19_ep_000110_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000110
+      - is_implemented
+  tags:
+      - WN19-EP-000110
+      - V-93331
+      - SRG-OS-000480-GPOS-00227
+      - SV-103419r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000120 | Exploit Protection mitigations must be configured for GROOVE.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000120 | AUDIT | Exploit Protection mitigations must be configured for GROOVE.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000120_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000120 | Windows Server 2019 Exploit Protection mitigations must be configured for GROOVE.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000120 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for GROOVE.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000120_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000120 | PATCH | Exploit Protection mitigations must be configured for GROOVE.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000120_patch
-#         changed_when: wn19_ep_000120_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000120
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000120
-#       - V-93333
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103421r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000120 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for GROOVE.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000120_patch
+        changed_when: wn19_ep_000120_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000120
+      - is_implemented
+  tags:
+      - WN19-EP-000120
+      - V-93333
+      - SRG-OS-000480-GPOS-00227
+      - SV-103421r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000130 | Exploit Protection mitigations must be configured for iexplore.exe."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000130 | AUDIT | Exploit Protection mitigations must be configured for iexplore.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000130_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000130 | Windows Server 2019 Exploit Protection mitigations must be configured for iexplore.exe."
+  block:
+      - name: "MEDIUM | WN19-EP-000130 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for iexplore.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000130_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000130 | PATCH | Exploit Protection mitigations must be configured for iexplore.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000130_patch
-#         changed_when: wn19_ep_000130_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000130
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000130
-#       - V-93335
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103423r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000130 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for iexplore.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000130_patch
+        changed_when: wn19_ep_000130_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000130
+      - is_implemented
+  tags:
+      - WN19-EP-000130
+      - V-93335
+      - SRG-OS-000480-GPOS-00227
+      - SV-103423r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000140 | Exploit Protection mitigations must be configured for INFOPATH.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000140 | AUDIT | Exploit Protection mitigations must be configured for INFOPATH.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000140_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000140 | Windows Server 2019 Exploit Protection mitigations must be configured for INFOPATH.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000140 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for INFOPATH.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000140_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000140 | PATCH | Exploit Protection mitigations must be configured for INFOPATH.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000140_patch
-#         changed_when: wn19_ep_000140_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000140
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000140
-#       - V-93337
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103425r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000140 | PATCH | Windows Server 2019 sExploit Protection mitigations must be configured for INFOPATH.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000140_patch
+        changed_when: wn19_ep_000140_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000140
+      - is_implemented
+  tags:
+      - WN19-EP-000140
+      - V-93337
+      - SRG-OS-000480-GPOS-00227
+      - SV-103425r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000150 | Exploit Protection mitigations must be configured for java.exe, javaw.exe, and javaws.exe."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000150 | AUDIT | Exploit Protection mitigations must be configured for java.exe, javaw.exe, and javaws.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000150_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000150 | Windows Server 2019 Exploit Protection mitigations must be configured for java.exe, javaw.exe, and javaws.exe."
+  block:
+      - name: "MEDIUM | WN19-EP-000150 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for java.exe, javaw.exe, and javaws.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000150_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000150 | PATCH | Exploit Protection mitigations must be configured for java.exe, javaw.exe, and javaws.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000150_patch
-#         changed_when: wn19_ep_000150_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000150
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000150
-#       - V-93339
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103427r1
-#       - CCI-000366
-#       - patch
+      - name: "MEDIUM | WN19-EP-000150 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for java.exe, javaw.exe, and javaws.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000150_patch
+        changed_when: wn19_ep_000150_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000150
+      - is_implemented
+  tags:
+      - WN19-EP-000150
+      - V-93339
+      - SRG-OS-000480-GPOS-00227
+      - SV-103427r1
+      - CCI-000366
+      - patch
 
-# - name: "MEDIUM | WN19-EP-000160 | Exploit Protection mitigations must be configured for lync.exe."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000160 | AUDIT | Exploit Protection mitigations must be configured for lync.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000160_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000160 | Windows Server 2019 Exploit Protection mitigations must be configured for lync.exe."
+  block:
+      - name: "MEDIUM | WN19-EP-000160 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for lync.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000160_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000160 | PATCH | Exploit Protection mitigations must be configured for lync.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000160_patch
-#         changed_when: wn19_ep_000160_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000160
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000160
-#       - V-93341
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103429r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000160 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for lync.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000160_patch
+        changed_when: wn19_ep_000160_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000160
+      - is_implemented
+  tags:
+      - WN19-EP-000160
+      - V-93341
+      - SRG-OS-000480-GPOS-00227
+      - SV-103429r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000170 | Exploit Protection mitigations must be configured for MSACCESS.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000170 | AUDIT | Exploit Protection mitigations must be configured for MSACCESS.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000170_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000170 | Windows Server 2019 Exploit Protection mitigations must be configured for MSACCESS.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000170 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for MSACCESS.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000170_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000170 | PATCH | Exploit Protection mitigations must be configured for MSACCESS.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000170_patch
-#         changed_when: wn19_ep_000170_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000170
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000170
-#       - V-93343
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103431r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000170 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for MSACCESS.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000170_patch
+        changed_when: wn19_ep_000170_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000170
+      - is_implemented
+  tags:
+      - WN19-EP-000170
+      - V-93343
+      - SRG-OS-000480-GPOS-00227
+      - SV-103431r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000180 | Exploit Protection mitigations must be configured for MSPUB.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000180 | AUDIT | Exploit Protection mitigations must be configured for MSPUB.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000180_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000180 | Windows Server 2019 Exploit Protection mitigations must be configured for MSPUB.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000180 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for MSPUB.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000180_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000180 | PATCH | Exploit Protection mitigations must be configured for MSPUB.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000180_patch
-#         changed_when: wn19_ep_000180_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000180
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000180
-#       - V-93345
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103433r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000180 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for MSPUB.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000180_patch
+        changed_when: wn19_ep_000180_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000180
+      - is_implemented
+  tags:
+      - WN19-EP-000180
+      - V-93345
+      - SRG-OS-000480-GPOS-00227
+      - SV-103433r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000190 | Exploit Protection mitigations must be configured for OIS.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000190 | AUDIT | Exploit Protection mitigations must be configured for OIS.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000190_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000190 | Windows Server 2019 Exploit Protection mitigations must be configured for OIS.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000190 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for OIS.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000190_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000190 | PATCH | Exploit Protection mitigations must be configured for OIS.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000190_patch
-#         changed_when: wn19_ep_000190_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000190
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000190
-#       - V-93347
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103435r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000190 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for OIS.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000190_patch
+        changed_when: wn19_ep_000190_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000190
+      - is_implemented
+  tags:
+      - WN19-EP-000190
+      - V-93347
+      - SRG-OS-000480-GPOS-00227
+      - SV-103435r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000200 | Exploit Protection mitigations must be configured for OneDrive.exe."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000200 | AUDIT | Exploit Protection mitigations must be configured for OneDrive.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000200_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000200 | Windows Server 2019 Exploit Protection mitigations must be configured for OneDrive.exe."
+  block:
+      - name: "MEDIUM | WN19-EP-000200 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for OneDrive.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000200_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000200 | PATCH | Exploit Protection mitigations must be configured for OneDrive.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000200_patch
-#         changed_when: wn19_ep_000200_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000200
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000200
-#       - V-93349
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103437r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000200 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for OneDrive.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000200_patch
+        changed_when: wn19_ep_000200_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000200
+      - is_implemented
+  tags:
+      - WN19-EP-000200
+      - V-93349
+      - SRG-OS-000480-GPOS-00227
+      - SV-103437r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000210 | Exploit Protection mitigations must be configured for OUTLOOK.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000210 | AUDIT | Exploit Protection mitigations must be configured for OUTLOOK.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000210_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000210 | Windows Server 2019 Exploit Protection mitigations must be configured for OUTLOOK.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000210 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for OUTLOOK.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000210_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000210 | PATCH | Exploit Protection mitigations must be configured for OUTLOOK.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000210_patch
-#         changed_when: wn19_ep_000210_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000210
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000210
-#       - V-93351
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103439r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000210 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for OUTLOOK.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000210_patch
+        changed_when: wn19_ep_000210_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000210
+      - is_implemented
+  tags:
+      - WN19-EP-000210
+      - V-93351
+      - SRG-OS-000480-GPOS-00227
+      - SV-103439r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000220 | Exploit Protection mitigations must be configured for plugin-container.exe."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000220 | AUDIT | Exploit Protection mitigations must be configured for plugin-container.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000220_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000220 | Windows Server 2019 Exploit Protection mitigations must be configured for plugin-container.exe."
+  block:
+      - name: "MEDIUM | WN19-EP-000220 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for plugin-container.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000220_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000220 | PATCH | Exploit Protection mitigations must be configured for plugin-container.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000220_patch
-#         changed_when: wn19_ep_000220_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000220
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000220
-#       - V-93353
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103441r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000220 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for plugin-container.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000220_patch
+        changed_when: wn19_ep_000220_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000220
+      - is_implemented
+  tags:
+      - WN19-EP-000220
+      - V-93353
+      - SRG-OS-000480-GPOS-00227
+      - SV-103441r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000230 | Exploit Protection mitigations must be configured for POWERPNT.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000230 | AUDIT | Exploit Protection mitigations must be configured for POWERPNT.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000230_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000230 | Windows Server 2019 Exploit Protection mitigations must be configured for POWERPNT.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000230 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for POWERPNT.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000230_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000230 | PATCH | Exploit Protection mitigations must be configured for POWERPNT.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000230_patch
-#         changed_when: wn19_ep_000230_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000230
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000230
-#       - V-93355
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103443r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000230 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for POWERPNT.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000230_patch
+        changed_when: wn19_ep_000230_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000230
+      - is_implemented
+  tags:
+      - WN19-EP-000230
+      - V-93355
+      - SRG-OS-000480-GPOS-00227
+      - SV-103443r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000240 | Exploit Protection mitigations must be configured for PPTVIEW.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000240 | AUDIT | Exploit Protection mitigations must be configured for PPTVIEW.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000240_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000240 | Windows Server 2019 Exploit Protection mitigations must be configured for PPTVIEW.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000240 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for PPTVIEW.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000240_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000240 | PATCH | Exploit Protection mitigations must be configured for PPTVIEW.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000240_patch
-#         changed_when: wn19_ep_000240_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000240
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000240
-#       - V-93357
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103445r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000240 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for PPTVIEW.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000240_patch
+        changed_when: wn19_ep_000240_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000240
+      - is_implemented
+  tags:
+      - WN19-EP-000240
+      - V-93357
+      - SRG-OS-000480-GPOS-00227
+      - SV-103445r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000250 | Exploit Protection mitigations must be configured for VISIO.EXE."
-#   block:
-#     - name: "MEDIUM | WN19-EP-000250 | AUDIT | Exploit Protection mitigations must be configured for VISIO.EXE."
-#       win_shell: "echo true"
-#       register: wn19_ep_000250_audit
-#       check_mode: no
-#       changed_when: no
-#       tags: audit
+- name: "MEDIUM | WN19-EP-000250 | Windows Server 2019 Exploit Protection mitigations must be configured for VISIO.EXE."
+  block:
+    - name: "MEDIUM | WN19-EP-000250 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for VISIO.EXE."
+      win_shell: "echo true"
+      register: wn19_ep_000250_audit
+      check_mode: no
+      changed_when: no
+      tags: audit
 
-#     - name: "MEDIUM | WN19-EP-000250 | PATCH | Exploit Protection mitigations must be configured for VISIO.EXE."
-#       win_shell: "echo true"
-#       register: wn19_ep_000250_patch
-#       changed_when: wn19_ep_000250_patch.stdout == "SET"
-#       tags: patch
-#   when:
-#       - wn19_ep_000250
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000250
-#       - V-93357
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103445r1
-#       - CCI-000366
-#       - medium
+    - name: "MEDIUM | WN19-EP-000250 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for VISIO.EXE."
+      win_shell: "echo true"
+      register: wn19_ep_000250_patch
+      changed_when: wn19_ep_000250_patch.stdout == "SET"
+      tags: patch
+  when:
+      - wn19_ep_000250
+      - is_implemented
+  tags:
+      - WN19-EP-000250
+      - V-93357
+      - SRG-OS-000480-GPOS-00227
+      - SV-103445r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000260 | Exploit Protection mitigations must be configured for VPREVIEW.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000260 | AUDIT | Exploit Protection mitigations must be configured for VPREVIEW.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000260_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000260 | Windows Server 2019 Exploit Protection mitigations must be configured for VPREVIEW.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000260 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for VPREVIEW.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000260_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000260 | PATCH | Exploit Protection mitigations must be configured for VPREVIEW.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000260_patch
-#         changed_when: wn19_ep_000260_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000260
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000260
-#       - V-93361
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103449r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000260 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for VPREVIEW.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000260_patch
+        changed_when: wn19_ep_000260_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000260
+      - is_implemented
+  tags:
+      - WN19-EP-000260
+      - V-93361
+      - SRG-OS-000480-GPOS-00227
+      - SV-103449r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000270 | Exploit Protection mitigations must be configured for WINWORD.EXE."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000270 | AUDIT | Exploit Protection mitigations must be configured for WINWORD.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000270_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000270 | Windows Server 2019 Exploit Protection mitigations must be configured for WINWORD.EXE."
+  block:
+      - name: "MEDIUM | WN19-EP-000270 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for WINWORD.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000270_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000270 | PATCH | Exploit Protection mitigations must be configured for WINWORD.EXE."
-#         win_shell: "echo true"
-#         register: wn19_ep_000270_patch
-#         changed_when: wn19_ep_000270_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000270
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000270
-#       - V-93363
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103451r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000270 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for WINWORD.EXE."
+        win_shell: "echo true"
+        register: wn19_ep_000270_patch
+        changed_when: wn19_ep_000270_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000270
+      - is_implemented
+  tags:
+      - WN19-EP-000270
+      - V-93363
+      - SRG-OS-000480-GPOS-00227
+      - SV-103451r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000280 | Exploit Protection mitigations must be configured for wmplayer.exe."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000280 | AUDIT | Exploit Protection mitigations must be configured for wmplayer.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000280_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000280 | Windows Server 2019 Exploit Protection mitigations must be configured for wmplayer.exe."
+  block:
+      - name: "MEDIUM | WN19-EP-000280 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for wmplayer.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000280_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000280 | PATCH | Exploit Protection mitigations must be configured for wmplayer.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000280_patch
-#         changed_when: wn19_ep_000280_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000280
-#       - is_implemented
-#   tags:
-#       - WN19-EP-000280
-#       - V-93365
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103453r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000280 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for wmplayer.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000280_patch
+        changed_when: wn19_ep_000280_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000280
+      - is_implemented
+  tags:
+      - WN19-EP-000280
+      - V-93365
+      - SRG-OS-000480-GPOS-00227
+      - SV-103453r1
+      - CCI-000366
+      - medium
 
-# - name: "MEDIUM | WN19-EP-000290 | Exploit Protection mitigations must be configured for wordpad.exe."
-#   block:
-#       - name: "MEDIUM | WN19-EP-000290 | AUDIT | Exploit Protection mitigations must be configured for wordpad.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000290_audit
-#         check_mode: no
-#         changed_when: no
-#         tags: audit
+- name: "MEDIUM | WN19-EP-000290 | Windows Server 2019 Exploit Protection mitigations must be configured for wordpad.exe."
+  block:
+      - name: "MEDIUM | WN19-EP-000290 | AUDIT | Windows Server 2019 Exploit Protection mitigations must be configured for wordpad.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000290_audit
+        check_mode: no
+        changed_when: no
+        tags: audit
 
-#       - name: "MEDIUM | WN19-EP-000290 | PATCH | Exploit Protection mitigations must be configured for wordpad.exe."
-#         win_shell: "echo true"
-#         register: wn19_ep_000290_patch
-#         changed_when: wn19_ep_000290_patch.stdout == "SET"
-#         tags: patch
-#   when:
-#       - wn19_ep_000290
-#       - is_implemented
-#       - not ansible_windows_domain_role == "Primary domain controller"
-#   tags:
-#       - WN19-EP-000290
-#       - V-93367
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103455r1
-#       - CCI-000366
-#       - medium
+      - name: "MEDIUM | WN19-EP-000290 | PATCH | Windows Server 2019 Exploit Protection mitigations must be configured for wordpad.exe."
+        win_shell: "echo true"
+        register: wn19_ep_000290_patch
+        changed_when: wn19_ep_000290_patch.stdout == "SET"
+        tags: patch
+  when:
+      - wn19_ep_000290
+      - is_implemented
+      - not ansible_windows_domain_role == "Primary domain controller"
+  tags:
+      - WN19-EP-000290
+      - V-93367
+      - SRG-OS-000480-GPOS-00227
+      - SV-103455r1
+      - CCI-000366
+      - medium
 
 - name: "MEDIUM | WN19-MS-000020 | Windows Server 2019 local administrator accounts must have their privileged token filtered to prevent elevated privileges from being used over the network on domain systems."
   win_regedit:
@@ -4283,43 +4134,43 @@
       - patch
       - NeedToTestMemberServer
 
-# - name: "MEDIUM | WN19-MS-000040 | Unauthenticated Remote Procedure Call (RPC) clients must be restricted from connecting to the RPC server."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Rpc
-#       state: present
-#       value: RestrictRemoteClients
-#       data: 1
-#       datatype: dword
-#   when:
-#       - wn19_ms_000040
-#       - not ansible_windows_domain_role == "Primary domain controller"
-#   tags:
-#       - WN19-MS-000040
-#       - V-93453
-#       - SRG-OS-000379-GPOS-00164
-#       - SV-103539r1
-#       - CCI-001967
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-MS-000040 | Windows Server 2019 must restrict unauthenticated Remote Procedure Call (RPC) clients from connecting to the RPC server on domain-joined member servers and standalone systems."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Rpc
+      state: present
+      value: RestrictRemoteClients
+      data: 1
+      datatype: dword
+  when:
+      - wn19_ms_000040
+      - not ansible_windows_domain_role == "Primary domain controller"
+  tags:
+      - WN19-MS-000040
+      - V-93453
+      - SRG-OS-000379-GPOS-00164
+      - SV-103539r1
+      - CCI-001967
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-MS-000050 | Caching of logon credentials must be limited."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
-#       state: present
-#       value: CachedLogonsCount
-#       data: 4
-#       datatype: dword
-#   when:
-#       - wn19_ms_000050
-#       - ansible_windows_domain_role == "Member server"
-#   tags:
-#       - WN19-MS-000050
-#       - V-93275
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103363r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-MS-000050 | Windows Server 2019 must limit the caching of logon credentials to four or less on domain-joined member servers."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+      state: present
+      value: CachedLogonsCount
+      data: 4
+      datatype: dword
+  when:
+      - wn19_ms_000050
+      - ansible_windows_domain_role == "Member server"
+  tags:
+      - WN19-MS-000050
+      - V-93275
+      - SRG-OS-000480-GPOS-00227
+      - SV-103363r1
+      - CCI-000366
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-MS-000060 | Windows Server 2019 must restrict remote calls to the Security Account Manager (SAM) to Administrators on domain-joined member servers and standalone systems."
   win_regedit:
@@ -4606,54 +4457,37 @@
       - medium
       - patch
 
-# # - name: "MEDIUM | WN19-SO-000020 | Must prevent local accounts with blank passwords from being used from the network."
-# #   win_regedit:
-# #       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
-# #       state: present
-# #       value: LimitBlankPasswordUse
-# #       data: 1
-# #       datatype: string
-# #   when: wn19_so_000020
-# #   tags:
-# #       - WN19-SO-000020
-# #       - V-93279
-# #       - SV-103367r1
-# #       - SRG-OS-000480-GPOS-00227
-# #       - CCI-000366
-# #       - medium
-# #       - patch
+- name: "MEDIUM | WN19-SO-000030 | Windows Server 2019 built-in administrator account must be renamed."
+  win_security_policy:
+      section: System Access
+      key: NewAdministratorName
+      value: "{{ wn19_so_000030_newadministratorname }}"
+  when:
+      - wn19_so_000030
+      - not winstig_skip_for_test
+  tags:
+      - WN19-SO-000030
+      - V-93281
+      - SRG-OS-000480-GPOS-00227
+      - SV-103369r1
+      - CCI-000366
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-SO-000030 | Built-in administrator account must be renamed."
-#   win_security_policy:
-#       section: System Access
-#       key: NewAdministratorName
-#       value: "{{ wn19_so_000030_newadministratorname }}"
-#   when:
-#       - wn19_so_000030
-#       - not winstig_skip_for_test
-#   tags:
-#       - WN19-SO-000030
-#       - V-93281
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103369r1
-#       - CCI-000366
-#       - medium
-#       - patch
-
-# - name: "MEDIUM | WN19-SO-000040 | Built-in guest account must be renamed."
-#   win_security_policy:
-#       section: System Access
-#       key: NewGuestName
-#       value: "{{ wn19_so_000040_newguestname }}"
-#   when: wn19_so_000040
-#   tags:
-#       - WN19-SO-000040
-#       - V-93283
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103371r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000040 | Windows Server 2019 built-in guest account must be renamed."
+  win_security_policy:
+      section: System Access
+      key: NewGuestName
+      value: "{{ wn19_so_000040_newguestname }}"
+  when: wn19_so_000040
+  tags:
+      - WN19-SO-000040
+      - V-93283
+      - SRG-OS-000480-GPOS-00227
+      - SV-103371r1
+      - CCI-000366
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-SO-000050 | Windows Server 2019 must force audit policy subcategory settings to override audit policy category settings."
   win_regedit:
@@ -4672,120 +4506,99 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-SO-000060 | Setting Domain member: Digitally encrypt or sign secure channel data (always) must be configured to Enabled."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
-#       state: present
-#       value: RequireSignOrSeal
-#       data: 1
-#       datatype: dword
-#   when:
-#       - wn19_so_000060
-#       - ansible_windows_domain_role == "Member server"
-#   tags:
-#       - WN19-SO-000060
-#       - V-93547
-#       - SRG-OS-000423-GPOS-00187
-#       - SV-103633r1
-#       - CCI-002418
-#       - CCI-002421
-#       - medium
-#       - patch
-#       - NeedToTestMemberServer
+- name: "MEDIUM | WN19-SO-000060 | Windows Server 2019 setting Domain member: Digitally encrypt or sign secure channel data (always) must be configured to Enabled."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+      state: present
+      value: RequireSignOrSeal
+      data: 1
+      datatype: dword
+  when:
+      - wn19_so_000060
+      - ansible_windows_domain_role == "Member server"
+  tags:
+      - WN19-SO-000060
+      - V-93547
+      - SRG-OS-000423-GPOS-00187
+      - SV-103633r1
+      - CCI-002418
+      - CCI-002421
+      - medium
+      - patch
+      - NeedToTestMemberServer
 
-# - name: "MEDIUM | WN19-SO-000070 | The setting Domain member: Digitally encrypt secure channel data (when possible) must be configured to enabled."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
-#       state: present
-#       value: SealSecureChannel
-#       data: 1
-#       datatype: dword
-#   when:
-#       - wn19_so_000070
-#       - ansible_windows_domain_role == "Member server"
-#   tags:
-#       - WN19-SO-000070
-#       - V-93549
-#       - SRG-OS-000423-GPOS-00187
-#       - SV-103635r1
-#       - CCI-002421
-#       - CCI-002418
-#       - medium
-#       - patch
-#       - NeedToTestMemberServer
+- name: "MEDIUM | WN19-SO-000080 | Windows Server 2019 setting Domain member: Digitally sign secure channel data (when possible) must be configured to Enabled."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+      state: present
+      value: SignSecureChannel
+      data: 1
+      datatype: dword
+  when:
+      - wn19_so_000080
+      - ansible_windows_domain_role == "Member server"
+  tags:
+      - WN19-SO-000080
+      - V-93551
+      - SRG-OS-000423-GPOS-00187
+      - SV-103637r1
+      - CCI-002418
+      - CCI-002421
+      - medium
+      - patch
+      - NeedToTestMemberServer
 
-# - name: "MEDIUM | WN19-SO-000080 | The setting Domain member: Digitally sign secure channel data (when possible) must be configured to Enabled."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
-#       state: present
-#       value: SignSecureChannel
-#       data: 1
-#       datatype: dword
-#   when:
-#       - wn19_so_000080
-#       - ansible_windows_domain_role == "Member server"
-#   tags:
-#       - WN19-SO-000080
-#       - V-93551
-#       - SRG-OS-000423-GPOS-00187
-#       - SV-103637r1
-#       - CCI-002418
-#       - CCI-002421
-#       - medium
-#       - patch
-#       - NeedToTestMemberServer
+- name: "MEDIUM | WN19-SO-000090 | Windows Server 2019 computer account password must not be prevented from being reset."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+      state: present
+      value: DisablePasswordChange
+      data: 0
+      datatype: dword
+  when: wn19_so_000090
+  tags:
+      - WN19-SO-000090
+      - V-93455
+      - SRG-OS-000379-GPOS-00164
+      - SV-103541r1
+      - CCI-001967
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-SO-000090 | Computer account password must not be prevented from being reset."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
-#       state: present
-#       value: DisablePasswordChange
-#       data: 0
-#       datatype: dword
-#   when: wn19_so_000090
-#   tags:
-#       - WN19-SO-000090
-#       - V-93455
-#       - SRG-OS-000379-GPOS-00164
-#       - SV-103541r1
-#       - CCI-001967
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000100 | Windows Server 2019 maximum age for machine account passwords must be configured to 30 days or less."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+      state: present
+      value: MaximumPasswordAge
+      data: 30
+      datatype: dword
+  when: wn19_so_000100
+  tags:
+      - WN19-SO-000100
+      - V-93285
+      - SRG-OS-000480-GPOS-00227
+      - SV-103373r1
+      - CCI-000366
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-SO-000100 | Maximum age for machine account passwords must be configured to 30 days or less."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
-#       state: present
-#       value: MaximumPasswordAge
-#       data: 30
-#       datatype: dword
-#   when: wn19_so_000100
-#   tags:
-#       - WN19-SO-000100
-#       - V-93285
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103373r1
-#       - CCI-000366
-#       - medium
-#       - patch
-
-# - name: "MEDIUM | WN19-SO-000110 | Must be configured to require a strong session key."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
-#       state: present
-#       value: RequireStrongKey
-#       data: 1
-#       datatype: dword
-#   when: wn19_so_000110
-#   tags:
-#       - WN19-SO-000110
-#       - V-93553
-#       - SRG-OS-000423-GPOS-00187
-#       - SV-103639r1
-#       - CCI-002418
-#       - CCI-002421
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000110 | Windows Server 2019 must be configured to require a strong session key."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+      state: present
+      value: RequireStrongKey
+      data: 1
+      datatype: dword
+  when: wn19_so_000110
+  tags:
+      - WN19-SO-000110
+      - V-93553
+      - SRG-OS-000423-GPOS-00187
+      - SV-103639r1
+      - CCI-002418
+      - CCI-002421
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-SO-000120 | Windows Server 2019 machine inactivity limit must be set to 15 minutes or less, locking the system with the screen saver."
   win_regedit:
@@ -4830,58 +4643,58 @@
       - patch
       - borked_regkey_casesensitive
 
-# - name: "MEDIUM | WN19-SO-000150 | Smart Card removal option must be configured to Force Logoff or Lock Workstation."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
-#       state: present
-#       value: scremoveoption
-#       data: 1
-#       datatype: string
-#   when: wn19_so_000150
-#   tags:
-#       - WN19-SO-000150
-#       - V-93287
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103375r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000150 | Windows Server 2019 Smart Card removal option must be configured to Force Logoff or Lock Workstation."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+      state: present
+      value: scremoveoption
+      data: 1
+      datatype: string
+  when: wn19_so_000150
+  tags:
+      - WN19-SO-000150
+      - V-93287
+      - SRG-OS-000480-GPOS-00227
+      - SV-103375r1
+      - CCI-000366
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-SO-000160 | Setting Microsoft network client: Digitally sign communications (always) must be configured to Enabled."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters
-#       state: present
-#       value: RequireSecuritySignature
-#       data: 1
-#       datatype: dword
-#   when: wn19_so_000160
-#   tags:
-#       - WN19-SO-000160
-#       - V-93555
-#       - SRG-OS-000423-GPOS-00187
-#       - SV-103641r1
-#       - CCI-002418
-#       - CCI-002421
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000160 | Windows Server 2019 etting Microsoft network client: Digitally sign communications (always) must be configured to Enabled."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters
+      state: present
+      value: RequireSecuritySignature
+      data: 1
+      datatype: dword
+  when: wn19_so_000160
+  tags:
+      - WN19-SO-000160
+      - V-93555
+      - SRG-OS-000423-GPOS-00187
+      - SV-103641r1
+      - CCI-002418
+      - CCI-002421
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-SO-000170 | Setting Microsoft network client: Digitally sign communications (if server agrees) must be configured to Enabled."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters
-#       state: present
-#       value: EnableSecuritySignature
-#       data: 1
-#       datatype: dword
-#   when: wn19_so_000170
-#   tags:
-#       - WN19-SO-000170
-#       - V-93557
-#       - SRG-OS-000423-GPOS-00187
-#       - SV-103643r1
-#       - CCI-002421
-#       - CCI-002418
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000170 | Windows Server 2019 setting Microsoft network client: Digitally sign communications (if server agrees) must be configured to Enabled."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters
+      state: present
+      value: EnableSecuritySignature
+      data: 1
+      datatype: dword
+  when: wn19_so_000170
+  tags:
+      - WN19-SO-000170
+      - V-93557
+      - SRG-OS-000423-GPOS-00187
+      - SV-103643r1
+      - CCI-002421
+      - CCI-002418
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-SO-000180 | Windows Server 2019 unencrypted passwords must not be sent to third-party Server Message Block (SMB) servers."
   win_regedit:
@@ -4900,95 +4713,112 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-SO-000190 | Setting Microsoft network server: Digitally sign communications (always) must be configured to Enabled."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters
-#       state: present
-#       value: RequireSecuritySignature
-#       data: 1
-#       datatype: dword
-#   when: wn19_so_000190
-#   tags:
-#       - WN19-SO-000190
-#       - V-93559
-#       - SRG-OS-000423-GPOS-00187
-#       - SV-103645r1
-#       - CCI-002418
-#       - CCI-002421
-#       - medium
-#       - patch
-#       - borked_regkey_casesensitive
+- name: "MEDIUM | WN19-SO-000190 | Windows Server 2019 setting Microsoft network server: Digitally sign communications (always) must be configured to Enabled."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters
+      state: present
+      value: RequireSecuritySignature
+      data: 1
+      datatype: dword
+  when: wn19_so_000190
+  tags:
+      - WN19-SO-000190
+      - V-93559
+      - SRG-OS-000423-GPOS-00187
+      - SV-103645r1
+      - CCI-002418
+      - CCI-002421
+      - medium
+      - patch
+      - borked_regkey_casesensitive
 
-# - name: "MEDIUM | WN19-SO-000200 | The setting Microsoft network server: Digitally sign communications (if client agrees) must be configured to Enabled."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters
-#       state: present
-#       value: EnableSecuritySignature
-#       data: 1
-#       datatype: dword
-#   when: wn19_so_000200
-#   tags:
-#       - WN19-SO-000200
-#       - V-93561
-#       - SRG-OS-000423-GPOS-00187
-#       - SV-103647r1
-#       - CCI-002418
-#       - CCI-002421
-#       - medium
-#       - patch
-#       - borked_regkey_casesensitive
+- name: "MEDIUM | WN19-SO-000200 | Windows Server 2019 setting Microsoft network server: Digitally sign communications (if client agrees) must be configured to Enabled."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters
+      state: present
+      value: EnableSecuritySignature
+      data: 1
+      datatype: dword
+  when: wn19_so_000200
+  tags:
+      - WN19-SO-000200
+      - V-93561
+      - SRG-OS-000423-GPOS-00187
+      - SV-103647r1
+      - CCI-002418
+      - CCI-002421
+      - medium
+      - patch
+      - borked_regkey_casesensitive
 
+- name: "MEDIUM | WN19-SO-000240 | Windows Server 2019 must be configured to prevent anonymous users from having the same permissions as the Everyone group."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+      state: present
+      value: EveryoneIncludesAnonymous
+      data: 0
+      datatype: dword
+  when: wn19_so_000240
+  tags:
+      - WN19-SO-000240
+      - V-93293
+      - SRG-OS-000480-GPOS-00227
+      - SV-103381r1
+      - CCI-000366
+      - patch
+      - high
+      - borked_regkey_casesensitive
 
-# - name: "MEDIUM | WN19-SO-000260 | Services using Local System that use Negotiate when reverting to NTLM authentication must use the computer identity instead of authenticating anonymously."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
-#       state: present
-#       value: UseMachineId
-#       data: 1
-#       datatype: dword
-#   when: wn19_so_000260
-#   tags:
-#       - WN19-SO-000260
-#       - V-93295
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103383r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000260 | Windows Server 2019 services using Local System that use Negotiate when reverting to NTLM authentication must use the computer identity instead of authenticating anonymously."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+      state: present
+      value: UseMachineId
+      data: 1
+      datatype: dword
+  when: wn19_so_000260
+  tags:
+      - WN19-SO-000260
+      - V-93295
+      - SRG-OS-000480-GPOS-00227
+      - SV-103383r1
+      - CCI-000366
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-SO-000270 | NTLM must be prevented from falling back to a Null session."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
-#       state: present
-#       value: allownullsessionfallback
-#       data: 0
-#       datatype: dword
-#   when: wn19_so_000270
-#   tags:
-#       - WN19-SO-000270
-#       - V-93297
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103385r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000270 | Windows Server 2019 must prevent NTLM from falling back to a Null session."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
+      state: present
+      value: allownullsessionfallback
+      data: 0
+      datatype: dword
+  when: wn19_so_000270
+  tags:
+      - WN19-SO-000270
+      - V-93297
+      - SRG-OS-000480-GPOS-00227
+      - SV-103385r1
+      - CCI-000366
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-SO-000280 | Must prevent PKU2U authentication using online identities."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\pku2u
-#       state: present
-#       value: AllowOnlineID
-#       data: 0
-#       datatype: dword
-#   when: wn19_so_000280
-#   tags:
-#       - WN19-SO-000280
-#       - V-93299
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103387r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000280 | Windows Server 2019 Must prevent PKU2U authentication using online identities."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\pku2u
+      state: present
+      value: AllowOnlineID
+      data: 0
+      datatype: dword
+  when: wn19_so_000280
+  tags:
+      - WN19-SO-000280
+      - V-93299
+      - SRG-OS-000480-GPOS-00227
+      - SV-103387r1
+      - CCI-000366
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-SO-000290 | Windows Server 2019 Kerberos encryption types must be configured to prevent the use of DES and RC4 encryption suites."
   win_regedit:
@@ -5007,59 +4837,59 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-SO-000320 | Must be configured to at least negotiate signing for LDAP client signing."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Services\LDAP
-#       state: present
-#       value: LDAPClientIntegrity
-#       data: 1
-#       datatype: dword
-#   when: wn19_so_000320
-#   tags:
-#       - WN19-SO-000320
-#       - V-93303
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103391r1
-#       - CCI-000366
-#       - medium
-#       - patch
-#       - borked_regkey_casesensitive
+- name: "MEDIUM | WN19-SO-000320 | Windows Server 2019 must be configured to at least negotiate signing for LDAP client signing."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\LDAP
+      state: present
+      value: LDAPClientIntegrity
+      data: 1
+      datatype: dword
+  when: wn19_so_000320
+  tags:
+      - WN19-SO-000320
+      - V-93303
+      - SRG-OS-000480-GPOS-00227
+      - SV-103391r1
+      - CCI-000366
+      - medium
+      - patch
+      - borked_regkey_casesensitive
 
-# - name: "MEDIUM | WN19-SO-000330 | Session security for NTLM SSP-based clients must be configured to require NTLMv2 session security and 128-bit encryption."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
-#       state: present
-#       value: NTLMMinClientSec
-#       data: 537395200
-#       datatype: dword
-#   when: wn19_so_000330
-#   tags:
-#       - WN19-SO-000330
-#       - V-93305
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103393r1
-#       - CCI-000366
-#       - medium
-#       - patch
-#       - borked_regkey_casesensitive
+- name: "MEDIUM | WN19-SO-000330 | Windows Server 2019 session security for NTLM SSP-based clients must be configured to require NTLMv2 session security and 128-bit encryption."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
+      state: present
+      value: NTLMMinClientSec
+      data: 537395200
+      datatype: dword
+  when: wn19_so_000330
+  tags:
+      - WN19-SO-000330
+      - V-93305
+      - SRG-OS-000480-GPOS-00227
+      - SV-103393r1
+      - CCI-000366
+      - medium
+      - patch
+      - borked_regkey_casesensitive
 
-# - name: "MEDIUM | WN19-SO-000340 | Session security for NTLM SSP-based servers must be configured to require NTLMv2 session security and 128-bit encryption."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
-#       state: present
-#       value: NTLMMinServerSec
-#       data: 537395200
-#       datatype: dword
-#   when: wn19_so_000340
-#   tags:
-#       - WN19-SO-000340
-#       - V-93307
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103395r1
-#       - CCI-000366
-#       - medium
-#       - patch
-#       - borked_regkey_casesensitive
+- name: "MEDIUM | WN19-SO-000340 | Windows Server 2019 session security for NTLM SSP-based servers must be configured to require NTLMv2 session security and 128-bit encryption."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
+      state: present
+      value: NTLMMinServerSec
+      data: 537395200
+      datatype: dword
+  when: wn19_so_000340
+  tags:
+      - WN19-SO-000340
+      - V-93307
+      - SRG-OS-000480-GPOS-00227
+      - SV-103395r1
+      - CCI-000366
+      - medium
+      - patch
+      - borked_regkey_casesensitive
 
 - name: "MEDIUM | WN19-SO-000350 | Windows Server 2019 users must be required to enter a password to access private keys stored on the computer."
   win_regedit:
@@ -5078,40 +4908,40 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-SO-000360 | Must be configured to use FIPS-compliant algorithms for encryption, hashing, and signing."
-#   win_regedit:
-#       path: HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager
-#       state: present
-#       value: ProtectionMode
-#       data: 1
-#       datatype: dword
-#   when: wn19_so_000360
-#   tags:
-#       - WN19-SO-000360
-#       - V-93309
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103397r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000360 | Windows Server 2019 must be configured to use FIPS-compliant algorithms for encryption, hashing, and signing."
+  win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager
+      state: present
+      value: ProtectionMode
+      data: 1
+      datatype: dword
+  when: wn19_so_000360
+  tags:
+      - WN19-SO-000360
+      - V-93309
+      - SRG-OS-000480-GPOS-00227
+      - SV-103397r1
+      - CCI-000366
+      - medium
+      - patch
 
-# - name: "MEDIUM | WN19-SO-000380 | User Account Control approval mode for the built-in Administrator must be enabled."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
-#       state: present
-#       value: FilterAdministratorToken
-#       data: 1
-#       datatype: dword
-#   when: wn19_so_000380
-#   tags:
-#       - WN19-SO-000380
-#       - V-93431
-#       - SRG-OS-000373-GPOS-00157
-#       - SV-103517r1
-#       - CCI-002038
-#       - medium
-#       - patch
-#       # - exclusions for server core? think its NA there
+- name: "MEDIUM | WN19-SO-000380 | Windows Server 2019 User Account Control approval mode for the built-in Administrator must be enabled."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+      state: present
+      value: FilterAdministratorToken
+      data: 1
+      datatype: dword
+  when: wn19_so_000380
+  tags:
+      - WN19-SO-000380
+      - V-93431
+      - SRG-OS-000373-GPOS-00157
+      - SV-103517r1
+      - CCI-002038
+      - medium
+      - patch
+      # - exclusions for server core? think its NA there
 
 - name: "MEDIUM | WN19-SO-000390 | Windows Server 2019 UIAccess applications must not be allowed to prompt for elevation without using the secure desktop."
   win_regedit:
@@ -5147,22 +4977,22 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-SO-000410 | User Account Control must automatically deny standard user requests for elevation."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
-#       state: present
-#       value: ConsentPromptBehaviorUser
-#       data: 0
-#       datatype: dword
-#   when: wn19_so_000410
-#   tags:
-#       - WN19-SO-000410
-#       - V-93433
-#       - SRG-OS-000373-GPOS-00157
-#       - SV-103519r1
-#       - CCI-002038
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000410 | Windows Server 2019 User Account Control must automatically deny standard user requests for elevation."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+      state: present
+      value: ConsentPromptBehaviorUser
+      data: 0
+      datatype: dword
+  when: wn19_so_000410
+  tags:
+      - WN19-SO-000410
+      - V-93433
+      - SRG-OS-000373-GPOS-00157
+      - SV-103519r1
+      - CCI-002038
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-SO-000420 | Windows Server 2019 User Account Control must be configured to detect application installations and prompt for elevation."
   win_regedit:
@@ -5198,22 +5028,22 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-SO-000440 | User Account Control must run all administrators in Admin Approval Mode, enabling UAC."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
-#       state: present
-#       value: EnableLUA
-#       data: 1
-#       datatype: dword
-#   when: wn19_so_000440
-#   tags:
-#       - WN19-SO-000440
-#       - V-93435
-#       - SRG-OS-000373-GPOS-00157
-#       - SV-103521r1
-#       - CCI-002038
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-SO-000440 | Windows Server 2019 User Account Control must run all administrators in Admin Approval Mode, enabling UAC."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+      state: present
+      value: EnableLUA
+      data: 1
+      datatype: dword
+  when: wn19_so_000440
+  tags:
+      - WN19-SO-000440
+      - V-93435
+      - SRG-OS-000373-GPOS-00157
+      - SV-103521r1
+      - CCI-002038
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-SO-000450 | Windows Server 2019 User Account Control (UAC) must virtualize file and registry write failures to per-user locations."
   win_regedit:
@@ -5232,22 +5062,22 @@
       - medium
       - patch
 
-# - name: "MEDIUM | WN19-UC-000010 | Must preserve zone information when saving attachments."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Attachments
-#       state: present
-#       value: SaveZoneInformation
-#       data: 2
-#       datatype: dword
-#   when: wn19_uc_000010
-#   tags:
-#       - WN19-UC-000010
-#       - V-93311
-#       - SRG-OS-000480-GPOS-00227
-#       - SV-103399r1
-#       - CCI-000366
-#       - medium
-#       - patch
+- name: "MEDIUM | WN19-UC-000010 | Windows Server 2019 must preserve zone information when saving attachments."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Attachments
+      state: present
+      value: SaveZoneInformation
+      data: 2
+      datatype: dword
+  when: wn19_uc_000010
+  tags:
+      - WN19-UC-000010
+      - V-93311
+      - SRG-OS-000480-GPOS-00227
+      - SV-103399r1
+      - CCI-000366
+      - medium
+      - patch
 
 - name: "MEDIUM | WN19-UR-000010 | Windows Server 2019 Access Credential Manager as a trusted caller user right must not be assigned to any groups or accounts."
   win_security_policy:
@@ -5330,26 +5160,6 @@
       - CCI-002235
       - medium
       - patch
-
-# control WN19-UR-000060 became WIN19-UR-000070
-# - name: "MEDIUM | WN19-UR-000060 | Create global objects user right must only be assigned to Administrators, Service, Local Service, and Network Service."
-#   win_user_right:
-#       name: SeCreateGlobalPrivilege
-#       users:
-#           - Administrators
-#           - Service
-#           - "Local Service"
-#           - Network Service
-#       action: set
-#   when: wn19_ur_000060
-#   tags:
-#       - WN19-UR-000060
-#       - V-93059
-#       - SRG-OS-000324-GPOS-00125
-#       - SV-103147r1
-#       - CCI-002235
-#       - medium
-#       - patch
 
 - name: "MEDIUM | WN19-UR-000080 | Windows Server 2019 Create permanent shared objects user right must not be assigned to any groups or accounts."
   win_security_policy:
