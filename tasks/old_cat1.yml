@@ -1,0 +1,650 @@
+---
+# - name: "HIGH | WN19-00-000010 | Users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
+#   block:
+#       - name: "HIGH | WN19-00-000010 | AUDIT | Users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
+#         win_shell: echo true
+#         register: wn19_00_000010_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "HIGH | WN19-00-000010 | PATCH | Users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_00_000010
+#       - is_implemented
+#   tags:
+#       - WN19-00-000010
+#       - SV-87869r1
+#       - SRG-OS-000480-GPOS-00227
+#       - CCI-000366
+#       - V-93369
+#       - high
+
+# - name: "HIGH | WN19-00-000030 | Administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
+#   block:
+#       - name: "HIGH | WN19-00-000030 | AUDIT | Administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
+#         win_shell: echo true
+#         register: wn19_00_000030_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "HIGH | WN19-00-000030 | PATCH | Administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_00_000030
+#       - is_implemented
+#   tags:
+#       - WN19-00-000030
+#       - V-93205
+#       - SRG-OS-000480-GPOS-00227
+#       - SV-103293r1
+#       - CCI-000366
+#       - high
+
+# - name: "HIGH | WN19-00-000100 | Systems must be maintained at a supported servicing level."
+#   block:
+#       - name: "HIGH | WN19-00-000100 | AUDIT | Systems must be maintained at a supported servicing level - OS Major Version."
+#         win_reg_stat:
+#             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion\
+#             name: CurrentMajorVersionNumber
+#         register: wn19_00_000100_audit_currentmajorversionnumber
+#         failed_when: wn19_00_000100_audit_currentmajorversionnumber.value is not version('10', '>=')
+#         changed_when: no
+
+#       - name: "HIGH | WN19-00-000100 | AUDIT | Systems must be maintained at a supported servicing level - OS Build (currentNumber)."
+#         win_reg_stat:
+#             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
+#             name: CurrentBuildNumber
+#         register: wn19_00_000100_audit_currentbuildnumber
+#         failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
+#         changed_when: no
+
+#       - name: "HIGH | WN19-00-000100 | AUDIT | Systems must be maintained at a supported servicing level - OS Release"
+#         win_reg_stat:
+#             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
+#             name: ReleaseId
+#         register: wn19_00_000100_audit_releaseid
+#         failed_when: wn19_00_000100_audit_releaseid.value is not version('1809', '>=')
+#         changed_when: no
+
+#       - name: "HIGH | WN19-00-000100 | AUDIT | Systems must be maintained at a supported servicing level - OS Build"
+#         win_reg_stat:
+#             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
+#             name: CurrentBuild
+#         register: wn19_00_000100_audit_currentbuild
+#         failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
+#         changed_when: no
+#   when: wn19_00_000100
+#   tags:
+#       - WN19-00-000100
+#       - V-93215
+#       - SRG-OS-000480-GPOS-00227
+#       - SV-103303r1
+#       - CCI-000366
+#       - audit
+#       - high
+
+# - name: "HIGH | WN19-00-000110 | System must use an anti-virus program."
+#   block:
+#       # we have to figure out a common list of AV apps? and even if its installed would have to verify its running and set for auto-start, etc?
+
+#       # mcaffee is the approved virus? McAfee VirusScan Enterprise has been replaced by McAfee Endpoint Security. Start your migration now. https://www.mcafee.com/enterprise/en-us/products/virusscan-enterprise.html
+#       # so guess we need to scan for the old and the new in case customers not migrated?
+#       - name: "HIGH | WN19-00-000110 | AUDIT | System must use an anti-virus program."
+#         win_shell: echo true
+#         register: wn19_00_000110_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "HIGH | WN19-00-000110 | PATCH | System must use an anti-virus program."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_00_000110
+#       - is_implemented
+#   tags:
+#       - WN19-00-000110
+#       - V-93217
+#       - SRG-OS-000480-GPOS-00227
+#       - SV-103305r1
+#       - CCI-000366
+#       - high
+
+# - name: "HIGH | WN19-00-000130 | Local volumes must use a format that supports NTFS attributes."
+#   block:
+#       - name: "HIGH | WN19-00-000130 | AUDIT | Local volumes must use a format that supports NTFS attributes."
+#         win_shell: Get-Volume
+#         register: wn19_00_000130_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "HIGH | WN19-00-000130 | PATCH | Local volumes must use a format that supports NTFS attributes."
+#         win_shell: echo true
+#         changed_when: no
+#         when: is_implemented
+#         tags: patch
+#   when: wn19_00_000130
+#   tags:
+#       - WN19-00-000130
+#       - V-92991
+#       - SRG-OS-000080-GPOS-00048
+#       - SV-103079r1
+#       - CCI-000213
+#       - high
+
+# - name: "HIGH | WN19-CC-000210 | AutoPlay must be turned off for non-volume devices."
+#   win_regedit:
+#       path: HKLM:\Software\Policies\Microsoft\Windows\Explorer
+#       state: present
+#       value: NoAutoplayfornonVolume
+#       data: 1
+#       datatype: dword
+#   when: wn19_cc_000210
+#   tags:
+#       - WN19-CC-000210
+#       - V-93373
+#       - SRG-OS-000368-GPOS-00154
+#       - SV-103459r1
+#       - CCI-001764
+#       - patch
+#       - high
+
+# - name: "HIGH | WN19-CC-000220 | Default AutoRun behavior must be configured to prevent AutoRun commands."
+#   win_regedit:
+#       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+#       state: present
+#       value: NoAutorun
+#       data: 1
+#       datatype: dword
+#   when: wn19_cc_000220
+#   tags:
+#       - WN19-CC-000220
+#       - V-93375
+#       - SRG-OS-000368-GPOS-00154
+#       - SV-103461r1
+#       - CCI-001764
+#       - patch
+#       - high
+
+# - name: "HIGH | WN19-CC-000230 | AutoPlay must be disabled for all drives."
+#   win_regedit:
+#       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+#       state: present
+#       name: NoDriveTypeAutoRun
+#       data: 255
+#       datatype: dword
+#   when: wn19_cc_000230
+#   tags:
+#       - WN19-CC-000230
+#       - V-93377
+#       - SRG-OS-000368-GPOS-00154
+#       - SV-103463r1
+#       - CCI-001764
+#       - patch
+#       - high
+
+# - name: "HIGH | WN19-DC-000010 | Must only allow administrators responsible for the domain controller to have Administrator rights on the system."
+#   block:
+#       - name: "HIGH | WN19-DC-000010 | AUDIT | Must only allow administrators responsible for the domain controller to have Administrator rights on the system."
+#         win_shell: echo true
+#         register: wn19_dc_000010_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "HIGH | WN19-DC-000010 | PATCH | Must only allow administrators responsible for the domain controller to have Administrator rights on the system."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_dc_000010
+#       - ansible_windows_domain_role == "Primary domain controller"
+#       - is_implemented
+#   tags:
+#       - WN19-DC-000010
+#       - V-93027
+#       - SRG-OS-000324-GPOS-00125
+#       - SV-103115r1
+#       - CCI-002235
+#       - notimplemented
+#       - notest
+#       - high
+
+# - name: "MEDIUM | WN19-DC-000070 | Permissions on the Active Directory data files must only allow System and Administrators access."
+#   block:
+#       - name: "MEDIUM | WN19-DC-000070 | AUDIT | Permissions on the Active Directory data files must only allow System and Administrators access."
+#         win_shell: echo true
+#         register: wn19_dc_000070_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "MEDIUM | WN19-DC-000070 | PATCH | Permissions on the Active Directory data files must only allow System and Administrators access."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_dc_000070
+#       - ansible_windows_domain_role == "Primary domain controller"
+#       - is_implemented
+#   tags:
+#       - WN19-DC-000070
+#       - V-93029
+#       - SRG-OS-000324-GPOS-00125
+#       - SV-103117r1
+#       - CCI-002235
+#       - high
+
+# - name: "MEDIUM | WN19-DC-000080 | Active Directory SYSVOL directory must have the proper access control permissions."
+#   block:
+#       - name: "MEDIUM | WN19-DC-000080 | AUDIT | Active Directory SYSVOL directory must have the proper access control permissions."
+#         win_shell: echo true
+#         register: wn19_dc_000080_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "MEDIUM | WN19-DC-000080 | PATCH | Active Directory SYSVOL directory must have the proper access control permissions."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_dc_000080
+#       - ansible_windows_domain_role == "Primary domain controller"
+#       - is_implemented
+#   tags:
+#       - WN19-DC-000080
+#       - V-93029
+#       - SRG-OS-000324-GPOS-00125
+#       - SV-103117r1
+#       - CCI-002235
+#       - high
+
+# - name: "MEDIUM | WN19-DC-000090 | Active Directory Group Policy objects must have proper access control permissions."
+#   block:
+#       - name: "MEDIUM | WN19-DC-000090 | AUDIT | Active Directory Group Policy objects must have proper access control permissions."
+#         win_shell: echo true
+#         register: wn19_dc_000090_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "MEDIUM | WN19-DC-000090 | PATCH | Active Directory Group Policy objects must have proper access control permissions."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_dc_000090
+#       - ansible_windows_domain_role == "Primary domain controller"
+#       - is_implemented
+#   tags:
+#       - WN19-DC-000090
+#       - V-93033
+#       - SRG-OS-000324-GPOS-00125
+#       - SV-103121r1
+#       - CCI-002235
+#       - high
+
+# - name: "HIGH | WN19-DC-000100 | The Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
+#   block:
+#       - name: "HIGH | WN19-DC-000100 | AUDIT | The Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
+#         win_shell: echo true
+#         register: wn19_dc_000100_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "HIGH | WN19-DC-000100 | PATCH | The Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_dc_000100
+#       - ansible_windows_domain_role == "Primary domain controller"
+#       - is_implemented
+#   tags:
+#       - WN19-DC-000100
+#       - V-93035
+#       - SRG-OS-000324-GPOS-00125
+#       - SV-103123r1
+#       - CCI-002235
+#       - high
+
+# - name: "HIGH | WN19-DC-000110 | Organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
+#   block:
+#       - name: "HIGH | WN19-DC-000110 | AUDIT | Organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
+#         win_shell: echo true
+#         register: wn19_dc_000110_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "HIGH | WN19-DC-000110 | PATCH | Organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_dc_000110
+#       - ansible_windows_domain_role == "Primary domain controller"
+#       - is_implemented
+#   tags:
+#       - WN19-DC-000110
+#       - SV-88029r1_rule
+#       - SRG-OS-000324-GPOS-00125
+#       - CCI-002235
+#       - high
+
+# - name: "HIGH | WN19-DC-000150 | Directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access."
+#   block:
+#       - name: "HIGH | WN19-DC-000150 | AUDIT | Directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access."
+#         win_shell: echo true
+#         register: wn19_dc_000150_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "HIGH | WN19-DC-000150 | PATCH | Directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_dc_000150
+#       - ansible_windows_domain_role == "Primary domain controller"
+#       - is_implemented
+#   tags:
+#       - WN19-DC-000150
+#       - V-93271
+#       - SRG-OS-000480-GPOS-00227
+#       - SV-103359r1
+#       - CCI-000366
+#       - high
+
+# - name: "HIGH | WN19-DC-000290 | Domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+#   block:
+#       - name: "HIGH | WN19-DC-000290 | AUDIT | Domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+#         win_shell: echo true
+#         register: wn19_dc_000290_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "HIGH | WN19-DC-000290 | PATCH | Domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_dc_000290
+#       - is_implemented
+#       - ansible_windows_domain_role == "Primary domain controller"
+#   tags:
+#       - WN19-DC-000290
+#       - V-93483
+#       - SRG-OS-000066-GPOS-00034
+#       - SV-103569r1
+#       - CCI-000185
+#       - high
+
+# # add some task/eternal variable for approved CAs, check for DoD and how pull programatically
+# - name: "HIGH | WN19-DC-000300 | PKI certificates associated with user accounts must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+#   block:
+#       - name: "HIGH | WN19-DC-000300 | AUDIT | PKI certificates associated with user accounts must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+#         win_shell: echo true
+#         register: wn19_dc_000300_audit
+#         check_mode: no
+#         changed_when: no
+#         tags: audit
+
+#       - name: "HIGH | WN19-DC-000300 | PATCH | PKI certificates associated with user accounts must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+#         win_shell: echo true
+#         changed_when: no
+#         tags: patch
+#   when:
+#       - wn19_dc_000300
+#       - ansible_windows_domain_role == "Primary domain controller"
+#       - is_implemented
+#   tags:
+#       - WN19-DC-000300
+#       - V-93485
+#       - SRG-OS-000066-GPOS-00034
+#       - SV-103571r1
+#       - CCI-000185
+#       - high
+
+# ## populate a dictionary/list from customer
+# - name: "HIGH | WN19-MS-000010 | Only administrators responsible for the member server or standalone system must have Administrator rights on the system."
+#   block:
+#       - name: "HIGH | WN19-MS-000010 | AUDIT | Only administrators responsible for the member server or standalone system must have Administrator rights on the system."
+#         win_shell: Get-LocalGroupMember -Name 'Administrators'
+#         register: wn19_ms_000010_audit
+#         changed_when: no
+#       - name: "HIGH | WN19-MS-000010 | AUDIT | Only administrators responsible for the member server or standalone system must have Administrator rights on the system."
+#         debug:
+#             msg:
+#                 - The following users or groups have Administrator rights on this system
+#                 - "{{ wn19_ms_000010_audit.stdout.split('\n') }}"
+#         changed_when: no
+#   when:
+#       - wn19_ms_000010
+#       - not ansible_windows_domain_role == "Primary domain controller"
+#   tags:
+#       - WN19-MS-000010
+#       - V-93043
+#       - SRG-OS-000324-GPOS-00125
+#       - SV-103131r1
+#       - CCI-002235
+#       - audit
+#       - high
+
+# - name: "HIGH | WN19-MS-000140 | Must be running Credential Guard on domain-joined member servers."
+#   block:
+#       - name: "HIGH | WN19-MS-000140 | PATCH | Must be running Credential Guard on domain-joined member servers."
+#         win_regedit:
+#             path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard
+#             state: present
+#             value: "{{ item }}"
+#             data: 1
+#             datatype: dword
+#         loop:
+#             - EnableVirtualizationBasedSecurity
+#             - RequirePlatformSecurityFeatures
+#             - HypervisorEnforcedCodeIntegrity
+#             - HVCIMATRequired
+#             - LsaCfgFlags
+#   when:
+#       - wn19_ms_000140
+#       - ansible_windows_domain_role == "Member server"
+#   tags:
+#       - WN19-MS-000140
+#       - V-93277
+#       - SRG-OS-000480-GPOS-00227
+#       - SV-103365r1
+#       - CCI-000366
+#       - NeedToTestMemberServer
+#       - patch
+#       - high
+
+# # odd one
+# # https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lsad/2a769a08-e023-459f-aebe-4fb3f595c0b7
+# - name: "HIGH | WN19-SO-000210 | Must not allow anonymous SID/Name translation."
+#   win_security_policy:
+#       section: System Access
+#       key: LSAAnonymousNameLookup
+#       value: 0
+#   when: wn19_so_000210
+#   tags:
+#       - WN19-SO-000210
+#       - V-93289
+#       - SRG-OS-000480-GPOS-00227
+#       - SV-103377r1
+#       - CCI-000366
+#       - patch
+#       - high
+
+# - name: "HIGH | WN19-SO-000220 | Must not allow anonymous enumeration of Security Account Manager (SAM) accounts."
+#   win_regedit:
+#       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+#       state: present
+#       value: RestrictAnonymousSAM
+#       data: 1
+#       datatype: dword
+#   when:
+#       - wn19_so_000220
+#       - ansible_windows_domain_role != "Primary domain controller"
+#   tags:
+#       - WN19-SO-000220
+#       - V-93291
+#       - SRG-OS-000480-GPOS-00227
+#       - SV-103379r1
+#       - CCI-000366
+#       - patch
+#       - high
+#       # fails_openscap_borked_regkey_casesensitive
+#       # emailed_disa.letterkenny.re.mbx.stig-customer-support-mailbox@mail.mil
+
+# - name: "HIGH | WN19-SO-000230 | Must not allow anonymous enumeration of shares."
+#   win_regedit:
+#       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+#       state: present
+#       value: RestrictAnonymous
+#       data: 1
+#       datatype: dword
+#   when: wn19_so_000230
+#   tags:
+#       - WN19-SO-000230
+#       - V-93537
+#       - SRG-OS-000138-GPOS-00069
+#       - SV-103623r1
+#       - CCI-001090
+#       - patch
+#       - high
+#       # fails_openscap_borked_regkey_casesensitive
+
+# - name: "MEDIUM | WN19-SO-000240 | Must be configured to prevent anonymous users from having the same permissions as the Everyone group."
+#   win_regedit:
+#       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+#       state: present
+#       value: EveryoneIncludesAnonymous
+#       data: 0
+#       datatype: dword
+#   when: wn19_so_000240
+#   tags:
+#       - WN19-SO-000240
+#       - V-93293
+#       - SRG-OS-000480-GPOS-00227
+#       - SV-103381r1
+#       - CCI-000366
+#       - patch
+#       - high
+#       - borked_regkey_casesensitive
+
+# - name: "HIGH | WN19-SO-000250 | Must restrict anonymous access to Named Pipes and Shares."
+#   win_regedit:
+#       path: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
+#       state: present
+#       value: restrictnullsessaccess
+#       data: 1
+#       datatype: dword
+#   when: wn19_so_000250
+#   tags:
+#       - WN19-SO-000250
+#       - V-93539
+#       - SRG-OS-000138-GPOS-00069
+#       - SV-103625r1
+#       - CCI-001090
+#       - patch
+#       - high
+
+# - name: "HIGH | WN19-SO-000300 | Must be configured to prevent the storage of the LAN Manager hash of passwords."
+#   win_regedit:
+#       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+#       state: present
+#       value: NoLMHash
+#       data: 1
+#       datatype: dword
+#   when: wn19_so_000300
+#   tags:
+#       - WN19-SO-000300
+#       - V-93467
+#       - SRG-OS-000073-GPOS-00041
+#       - SV-103553r1
+#       - CCI-000196
+#       - patch
+#       - high
+#       # fails_openscap_borked_regkey_casesensitive
+
+# - name: "HIGH | WN19-SO-000310 | LAN Manager authentication level must be configured to send NTLMv2 response only and to refuse LM and NTLM."
+#   win_regedit:
+#       path: HKLM:\System\CurrentControlSet\Control\Lsa
+#       state: present
+#       value: LmCompatibilityLevel
+#       data: 5
+#       datatype: dword
+#   when: wn19_so_000310
+#   tags:
+#       - WN19-SO-000310
+#       - V-93301
+#       - SRG-OS-000480-GPOS-00227
+#       - SV-103389r1
+#       - CCI-000366
+#       - patch
+#       - high
+
+# - name: "HIGH | WN19-UR-000020 | Act as part of the operating system user right must not be assigned to any groups or accounts."
+#   win_user_right:
+#     name: SeTcbPrivilege
+#     users: 
+#     action: set
+#   when: wn19_ur_000020
+#   tags:
+#       - WN19-UR-000020
+#       - V-93051
+#       - SRG-OS-000324-GPOS-00125
+#       - SV-103139r1
+#       - CCI-002235
+#       - patch
+#       - high
+
+# - name: "HIGH | WN19-UR-000060 | Create a token object user right must not be assigned to any groups or accounts."
+#   win_security_policy:
+#       section: Privilege Rights
+#       key: SeCreateTokenPrivilege
+#       value: ""
+#   when: wn19_ur_000060
+#   tags:
+#       - WN19-UR-000060
+#       - V-93057
+#       - SRG-OS-000324-GPOS-00125
+#       - SV-103145r1
+#       - CCI-002235
+#       - patch
+#       - high
+
+# # fails openscap - the v1r10 xml checks for "Administrators" string but secedit uses the SIDs thus
+# # "SeDebugPrivilege = *S-1-5-32-544"  is Administrators (openscap fails)
+# # emailed_disa.letterkenny.re.mbx.stig-customer-support-mailbox@mail.mil
+# # SCC tool works
+# - name: "HIGH | WN19-UR-000100 | Debug programs: user right must only be assigned to the Administrators group."
+#   win_user_right:
+#       name: SeDebugPrivilege
+#       users: Administrators
+#       action: set
+#   when: wn19_ur_000100
+#   tags:
+#       - WN19-UR-000100
+#       - V-93065
+#       - SRG-OS-000324-GPOS-00125
+#       - SV-103153r1
+#       - CCI-002235
+#       - patch
+#       - high
+
+

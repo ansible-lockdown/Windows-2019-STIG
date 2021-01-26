@@ -3,7 +3,7 @@ Windows Server 2019 DISA STIG
 
 Configure a Windows Server 2019 system to be DISA STIG compliant. All findings will be audited by default. Non-disruptive CAT I, CAT II, and CAT III findings will be corrected by default. ~Disruptive finding remediation can be enabled by setting `rhel7stig_disruption_high` to `yes`.~ _To be implemented_
 
-This role is based on Windows Server 2019 DISA STIG: [Version 1, Rel 9 released on July 26, 2019](Need URL HEre).
+This role is based on Windows Server 2019 DISA STIG: [Version 2, Rel 1 released on November 13, 2020](Need URL HEre).
 
 Requirements
 ------------
