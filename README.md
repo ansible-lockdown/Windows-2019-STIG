@@ -42,7 +42,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - role: win-2k16-stig
+         - role: win-2k19-stig
            when:
                 - ansible_os_family == 'Windows'
                 - ansible_distribution | regex_search('(Server 2019)')
