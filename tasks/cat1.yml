@@ -353,7 +353,7 @@
 - name: "HIGH | WN19-UR-000020 | Windows Server 2019 Act as part of the operating system user right must not be assigned to any groups or accounts."
   win_user_right:
     name: SeTcbPrivilege
-    users: 
+    users: ""
     action: set
   when: wn19_ur_000020
   tags:
