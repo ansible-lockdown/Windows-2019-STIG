@@ -4,7 +4,7 @@ Windows Server 2019 DISA STIG
 ![Build Status](https://img.shields.io/github/workflow/status/ansible-lockdown/Windows-2019-STIG/DevelToMain?label=Main%20Build%20Status&style=plastic)
 ![Release](https://img.shields.io/github/v/release/ansible-lockdown/Windows-2019-STIG?style=plastic)
 
-Configure a Windows Server 2019 system to be DISA STIG compliant. All findings will be audited by default. Non-disruptive CAT I, CAT II, and CAT III findings will be corrected by default. ~Disruptive finding remediation can be enabled by setting `win2019stig_disruption_high` to `yes`.~ _To be implemented_
+Configure a Windows Server 2019 system to be DISA STIG compliant. All findings will be audited by default. Non-disruptive CAT I, CAT II, and CAT III findings will be corrected by default.
 
 This role is based on Windows Server 2019 DISA STIG: [Version 2, Rel 1 released on November 13, 2020](https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2019_V2R1_STIG.zip).
 
@@ -35,7 +35,7 @@ Requirements
   - [Tower User Guide](https://docs.ansible.com/ansible-tower/latest/html/userguide/index.html)
   - [Ansible Community Info](https://docs.ansible.com/ansible/latest/community/index.html)
 - Functioning Ansible and/or Tower Installed, configured, and running. This includes all of the base Ansible/Tower configurations, needed packages installed, and infrastructure setup. 
-- Please read through the tasks in this role to gain an understanding of what each control is doing. Some of the tasks are disruptive and can have unintended consiquences in a live production system. Also familiarize yourself with the variables in the defaults/main.yml file or the [Main Variables Wiki Page](https://github.com/ansible-lockdown/Windows-2019-STIG/wiki/Main-Variables).
+- Please read through the tasks in this role to gain an understanding of what each control is doing. Some of the tasks are disruptive and can have unintended consiquences in a live production system. Also familiarize yourself with the variables in the defaults/main.yml file or the [Main Variables Wiki Page](https://github.com/ansible-lockdown/Windows-201-STIG/wiki/Main-Variables).
 
 **Technical Dependencies:**
 - Running Ansible/Tower setup (this role is tested against Ansible version 2.9.1 and newer)
