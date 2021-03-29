@@ -23,8 +23,8 @@ Documentation
 [Customizing Roles](https://www.lockdownenterprise.com/docs/customizing-lockdown-enterprise)<br>
 [Per-Host Configuration](https://www.lockdownenterprise.com/docs/per-host-lockdown-enterprise-configuration)<br>
 [Getting the Most Out of the Role](https://www.lockdownenterprise.com/docs/get-the-most-out-of-lockdown-enterprise)<br>
-[Wiki](https://github.com/ansible-lockdown/POSTGRES-12-CIS/wiki)<br>
-[Repo GitHub Page](https://ansible-lockdown.github.io/POSTGRES-12-CIS/)<br>
+[Wiki](https://github.com/ansible-lockdown/Windows-2019-STIG/wiki)<br>
+[Repo GitHub Page](https://ansible-lockdown.github.io/Windows-2019-STIG/)<br>
 
 Requirements
 ------------
@@ -35,7 +35,7 @@ Requirements
   - [Tower User Guide](https://docs.ansible.com/ansible-tower/latest/html/userguide/index.html)
   - [Ansible Community Info](https://docs.ansible.com/ansible/latest/community/index.html)
 - Functioning Ansible and/or Tower Installed, configured, and running. This includes all of the base Ansible/Tower configurations, needed packages installed, and infrastructure setup. 
-- Please read through the tasks in this role to gain an understanding of what each control is doing. Some of the tasks are disruptive and can have unintended consiquences in a live production system. Also familiarize yourself with the variables in the defaults/main.yml file or the [Main Variables Wiki Page](https://github.com/ansible-lockdown/Windows-201-STIG/wiki/Main-Variables).
+- Please read through the tasks in this role to gain an understanding of what each control is doing. Some of the tasks are disruptive and can have unintended consiquences in a live production system. Also familiarize yourself with the variables in the defaults/main.yml file or the [Main Variables Wiki Page](https://github.com/ansible-lockdown/Windows-2019-STIG/wiki/Main-Variables).
 
 **Technical Dependencies:**
 - Running Ansible/Tower setup (this role is tested against Ansible version 2.9.1 and newer)
