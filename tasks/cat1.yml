@@ -340,7 +340,7 @@
         changed_when: no
   when:
       - wn19_ms_000010
-      - not ansible_windows_domain_role == "Primary domain controller"
+      - "'controller' not in ansible_windows_domain_role"
   tags:
       - WN19-MS-000010
       - V-93043
@@ -353,7 +353,7 @@
 - name: "HIGH | WN19-UR-000020 | Windows Server 2019 Act as part of the operating system user right must not be assigned to any groups or accounts."
   win_user_right:
     name: SeTcbPrivilege
-    users: 
+    users: []
     action: set
   when: wn19_ur_000020
   tags:
