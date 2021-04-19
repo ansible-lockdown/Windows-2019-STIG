@@ -24,7 +24,6 @@
         win_shell: "Get-Localuser -Name * | Select * | Where SID -like S-1-5-21-*-500 | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ wn19_00_000020_pass_age }}))} | Select Name,PasswordLastSet"
         register: wn19_00_000020_audit_dm_sa
         changed_when: wn19_00_000020_audit_dm_sa.stdout != ""
-        when: "'controller' not in ansible_windows_domain_role"
 
       - name: "MEDIUM | WN19-00-000020 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every {{ wn19_00_000020_pass_age }} days."
         debug:
