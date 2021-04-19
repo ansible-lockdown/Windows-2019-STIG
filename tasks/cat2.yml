@@ -14,7 +14,7 @@
         debug:
             msg:
                 - "The following account appears to be the default admin account and the password does not meet the control specific age of {{ wn19_00_000020_pass_age }}"
-                - "{{ WN19_00_000020_audit_dc.stdout.split('\n') }}"
+                - "{{ wn9_00_000020_audit_dc.stdout.split('\n') }}"
         when:
             - not wn19_00_000020_audit_dc is skipped
             - wn19_00_000020_audit_dc.stdout != ""
