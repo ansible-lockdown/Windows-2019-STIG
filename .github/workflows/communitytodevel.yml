@@ -33,6 +33,6 @@ jobs:
           # Job ID
           job_id: 5fdd15849b7a34765da4c2ef
           # Variables
-          variables: '{ "gitrepo": "https://github.com/ansible-lockdown/Windows-2019-STIG.git", "image": "ami-0ae930fa924b34ed3", "githubBranch": "${{ github.head_ref }}" }'
+          variables: '{ "gitrepo": "https://github.com/ansible-lockdown/Windows-2019-STIG.git", "image": "ami-00791cfc13337a406", "githubBranch": "${{ github.head_ref }}" }'
           # Refactr API base URL
           api_url: # optional
