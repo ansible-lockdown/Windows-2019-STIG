@@ -736,7 +736,7 @@
       - patch
       - medium
 
-- name: "MEDIUM | WN19-00-000380 | Windows Server 2019 must not the Server Message Block (SMB) v1 protocol installed."
+- name: "MEDIUM | WN19-00-000380 | Windows Server 2019 must not have the Server Message Block (SMB) v1 protocol installed."
   win_feature:
       name: FS-SMB1
       state: absent
@@ -746,8 +746,9 @@
   tags:
       - WN19-00-000380
       - V-93391
+      - SV-103477
       - SRG-OS-000095-GPOS-00049
-      - SV-103477r1
+      - SV-205682r819711_rule
       - CCI-000381
       - patch
       - medium
