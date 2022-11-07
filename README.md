@@ -6,7 +6,7 @@ Windows Server 2019 DISA STIG
 
 Configure a Windows Server 2019 system to be DISA STIG compliant. All findings will be audited by default. Non-disruptive CAT I, CAT II, and CAT III findings will be corrected by default.
 
-This role is based on Windows Server 2019 DISA STIG: [Version 2, Rel 1 released on November 13, 2020](https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2019_V2R1_STIG.zip).
+This role is based on Windows Server 2019 DISA STIG: [Version 2, Rel 4 released on May 31, 2022](https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2019_V2R4_STIG.zip).
 
 Caution(s)
 -------
@@ -15,7 +15,7 @@ This role **will make changes to the system** that could break things. This is n
 This role was developed against a clean install of the Operating System. If you are implimenting to an existing system please review this role for any site specific changes that are needed.
 
 To use release version please point to main branch
-Based on [Windows Server 2019 DISA STIG](https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2019_V2R1_STIG.zip).
+Based on [Windows Server 2019 DISA STIG](https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2019_V2R4_STIG.zip).
 
 Documentation
 -------------
