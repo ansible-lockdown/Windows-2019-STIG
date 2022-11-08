@@ -537,13 +537,14 @@
       - is_implemented
   tags:
       - WN19-00-000250
-      - V-93515
+      - V-205727
       - SRG-OS-000185-GPOS-00079
-      - SV-103601r1
+      - SV-205727r569188_rule
       - CCI-001199
       - CCI-002475
       - CCI-002476
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000260 | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
   block:
@@ -563,12 +564,13 @@
       - is_implemented
   tags:
       - WN19-00-000260
-      - V-93543
+      - V-205829
       - SRG-OS-000425-GPOS-00189
-      - SV-103629r1
+      - SV-205829r790513_rule
       - CCI-002420
       - CCI-002422
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000270 | Windows Server 2019 must have the roles and features required by the system documented."
   block:
@@ -587,11 +589,12 @@
   when: wn19_00_000270
   tags:
       - WN19-00-000270
-      - V-93381
+      - V-205677
       - SRG-OS-000095-GPOS-00049
-      - SV-103467r1
+      - SV-205677r569188_rule
       - CCI-000381
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000280 | Windows Server 2019 must have a host-based firewall installed and enabled."
   block:
@@ -611,12 +614,13 @@
       - is_implemented
   tags:
       - WN19-00-000280
-      - V-93571
-      - SRG-OS-000480-GPOS-00231
-      - SV-103657r1
+      - V-214936
+      - SRG-OS-000480-GPOS-00227
+      - SV-214936r569188_rule
       - CCI-000366
       - CCI-002080
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000290 | Windows Server 2019 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where Host Based Security System (HBSS) is used; 30 days, for any additional internal network scans not covered by HBSS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP)."
   block:
@@ -636,11 +640,12 @@
       - is_implemented
   tags:
       - WN19-00-000290
-      - V-93567
+      - V-205728
       - SRG-OS-000191-GPOS-00080
-      - SV-103653r1
+      - SV-205728r793217_rule
       - CCI-001233
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000310 | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
   block:
@@ -660,11 +665,12 @@
       - is_implemented
   tags:
       - WN19-00-000310
-      - V-92975
-      - SRG-OS-000002-GPOS-00002
-      - SV-103063r1
-      - CCI-000016
+      - V-205710
+      - SRG-OS-000123-GPOS-00064
+      - SV-205710r569188_rule
+      - CCI-001682
       - medium
+      - cat2
       # how? prompt customer provided name list? scan against local account names for unknown ones?
       #Speelman | requires input of the names of emergency user account
       #Speelman | Could add variable instead of  hardcoding 72 hours
@@ -677,12 +683,13 @@
   when: wn19_00_000320
   tags:
       - WN19-00-000320
-      - V-93383
+      - V-205678
       - SRG-OS-000095-GPOS-00049
-      - SV-103469r1
+      - SV-205678r569188_rule
       - CCI-000381
       - patch
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000330 | Windows Server 2019 must not have the Microsoft FTP service installed unless required by the organization."
   win_feature:
@@ -692,12 +699,13 @@
   when: wn19_00_000330
   tags:
       - WN19-00-000330
-      - V-93421
+      - V-205697
       - SRG-OS-000096-GPOS-00050
-      - SV-103507r1
+      - SV-205697r569188_rule
       - CCI-000382
       - patch
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000340 | Windows Server 2019 must not have the Peer Name Resolution Protocol installed."
   win_feature:
@@ -707,12 +715,13 @@
   when: wn19_00_000340
   tags:
       - WN19-00-000340
-      - V-93385
+      - V-205679
       - SRG-OS-000095-GPOS-00049
-      - SV-103471r1
+      - SV-205679r569188_rule
       - CCI-000381
       - patch
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000350 | Windows Server 2019 must not have Simple TCP/IP Services installed."
   win_feature:
@@ -721,12 +730,13 @@
   when: wn19_00_000350
   tags:
       - WN19-00-000350
-      - V-93387
+      - V-205680
       - SRG-OS-000095-GPOS-00049
-      - SV-103473r1
+      - SV-205680r569188_rule
       - CCI-000381
       - patch
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000360 | Windows Server 2019 must not have the Telnet Client installed."
   win_feature:
@@ -735,12 +745,13 @@
   when: wn19_00_000360
   tags:
       - WN19-00-000360
-      - V-93423
+      - V-205698
       - SRG-OS-000096-GPOS-00050
-      - SV-103509r1
+      - SV-205698r569188_rule
       - CCI-000382
       - patch
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000370 | Windows Server 2019 must not have the TFTP Client installed."
   win_feature:
@@ -749,12 +760,13 @@
   when: wn19_00_000370
   tags:
       - WN19-00-000370
-      - V-93389
+      - V-205681
       - SRG-OS-000095-GPOS-00049
-      - SV-103475r1
+      - SV-205681r569188_rule
       - CCI-000381
       - patch
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000380 | Windows Server 2019 must not have the Server Message Block (SMB) v1 protocol installed."
   win_feature:
@@ -765,8 +777,8 @@
   when: wn19_00_000380
   tags:
       - WN19-00-000380
-      - V-93391
-      - SV-103477
+      - V-205682
+      - cat2
       - SRG-OS-000095-GPOS-00049
       - SV-205682r819711_rule
       - CCI-000381
@@ -784,12 +796,13 @@
   when: wn19_00_000390
   tags:
       - WN19-00-000390
-      - V-93393
+      - V-205683
       - SRG-OS-000095-GPOS-00049
-      - SV-103479r1
+      - SV-205683r569188_rule
       - CCI-000381
       - medium
       - patch
+      - cat2
 
 - name: "MEDIUM | WN19-00-000400 | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server."
   win_regedit:
@@ -802,12 +815,13 @@
   when: wn19_00_000400
   tags:
       - WN19-00-000400
-      - V-93395
+      - V-205684
       - SRG-OS-000095-GPOS-00049
-      - SV-103481r1
+      - SV-205684r569188_rule
       - CCI-000381
       - patch
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000410 | Windows Server 2019 must not have Windows PowerShell 2.0 installed."
   win_feature:
@@ -816,12 +830,13 @@
   when: wn19_00_000410
   tags:
       - WN19-00-000410
-      - V-93397
+      - V-205685
       - SRG-OS-000095-GPOS-00049
-      - SV-103483r1
+      - SV-205685r569188_rule
       - CCI-000381
       - medium
       - patch
+      - cat2
 
 - name: "MEDIUM | WN19-00-000420 | Windows Server 2019 FTP servers must be configured to prevent anonymous logons."
   block:
@@ -841,11 +856,12 @@
       - is_implemented
   tags:
       - WN19-00-000420
-      - V-93223
+      - V-205853
       - SRG-OS-000480-GPOS-00227
-      - SV-103311r1
+      - SV-205853r569188_rule
       - CCI-000366
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000430 | Windows Server 2019 FTP servers must be configured to prevent access to the system drive."
   block:
@@ -865,11 +881,12 @@
       - is_implemented
   tags:
       - WN19-00-000430
-      - V-93225
+      - V-205854
       - SRG-OS-000480-GPOS-00227
-      - SV-103313r1
+      - SV-205854r569188_rule
       - CCI-000366
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000450 | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights"
   block:
@@ -889,11 +906,12 @@
       - is_implemented
   tags:
       - WN19-00-000450
-      - V-93227
+      - V-205800
       - SRG-OS-000480-GPOS-00227
-      - SV-103315r1
+      - SV-205855r569188_rule
       - CCI-000366
       - medium
+      - cat2
       # https://www.stigviewer.com/stig/windows_server_2016/2019-01-16/finding/V-78127
 
 # below task is dependent on WN19-AC-000020 and WN19-AC-000030, maybe custom fail when known error if WN19-AC-000020 not set? "The key 'LockoutDuration' in section 'System Access' is not a valid key, cannot set this value"
@@ -915,11 +933,12 @@
   when: wn19_ac_000010 | bool
   tags:
       - WN19-AC-000010
-      - V-93145
+      - V-205795
       - SRG-OS-000329-GPOS-00128
-      - SV-103233r1
+      - SV-205795r569188_rule
       - CCI-002238
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AC-000020 | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less."
   win_security_policy:
@@ -929,12 +948,13 @@
   when: wn19_ac_000020
   tags:
       - WN19-AC-000020
-      - V-93141
+      - V-205629
       - SRG-OS-000021-GPOS-00005
-      - SV-103229r1
+      - SV-205629r569188_rule
       - CCI-000044
       - medium
       - patch
+      - cat 2
 
 # below task is dependent on WN16-AC-000020, maybe custom fail when known error if WN16-AC-000020 not set? "The key 'ResetLockoutCount' in section 'System Access' is not a valid key, cannot set this value"
 - name: "MEDIUM | WN19-AC-000030 | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
@@ -955,12 +975,13 @@
   when: wn19_ac_000030
   tags:
       - WN19-AC-000030
-      - V-93143
+      - V-205630
       - SRG-OS-000021-GPOS-00005
-      - SV-103231r1
+      - SV-205630r569188_rule
       - CCI-000044
       - CCI-002238
       - medium
+      - cat 2
 
 - name: "MEDIUM | WN19-AC-000040 | Windows Server 2019 password history must be configured to 24 passwords remembered."
   block:
@@ -980,11 +1001,12 @@
   when: wn19_ac_000040
   tags:
       - WN19-AC-000040
-      - V-93479
+      - V-205660
       - SRG-OS-000077-GPOS-00045
-      - SV-103565r1
+      - SV-205660r569188_rule
       - CCI-000200
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AC-000050 | Windows Server 2019 maximum password age must be configured to 60 days or less."
   block:
@@ -1004,11 +1026,12 @@
   when: wn19_ac_000050
   tags:
       - WN19-AC-000050
-      - V-93477
+      - V-205659
       - SRG-OS-000076-GPOS-00044
-      - SV-103563r1
+      - SV-205659r569188_rule
       - CCI-000199
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AC-000060 | Windows Server 2019 minimum password age must be configured to at least one day."
   block:
@@ -1028,11 +1051,12 @@
   when: wn19_ac_000060
   tags:
       - WN19-AC-000060
-      - V-93471
+      - V-205656
       - SRG-OS-000075-GPOS-00043
-      - SV-103557r1
+      - SV-205656r569188_rule
       - CCI-000198
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AC-000070 | Windows Server 2019 minimum password length must be configured to 14 characters."
   block:
@@ -1052,11 +1076,12 @@
   when: wn19_ac_000070
   tags:
       - WN19-AC-000070
-      - V-93463
+      - V-205662
       - SRG-OS-000078-GPOS-00046
-      - SV-103549r1
+      - SV-205662r569188_rule
       - CCI-000205
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AC-000080 | Windows Server 2019 must have the built-in Windows password complexity policy enabled."
   win_security_policy:
@@ -1066,15 +1091,16 @@
   when: wn19_ac_000080
   tags:
       - WN19-AC-000080
-      - V-93459
+      - V-205652
       - SRG-OS-000069-GPOS-00037
-      - SV-103545r1
+      - SV-205652r569188_rule
       - CCI-000192
       - CCI-000193
       - CCI-000194
       - CCI-001619
       - medium
       - patch
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000010 | Windows Server 2019 audit records must be backed up to a different system or media than the system being audited."
   block:
@@ -1094,11 +1120,12 @@
       - is_implemented
   tags:
       - WN19-AU-000010
-      - V-93183
+      - V-205799
       - SRG-OS-000342-GPOS-00133
-      - SV-103271r1
+      - SV-205799r569188_rule
       - CCI-001851
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000020 | Windows Server 2019 must, at a minimum, off-load audit records of interconnected systems in real time and off-load standalone systems weekly."
   block:
@@ -1118,11 +1145,12 @@
       - is_implemented
   tags:
       - WN19-AU-000020
-      - V-93185
+      - V-205843
       - SRG-OS-000479-GPOS-00224
-      - SV-103273r1
+      - SV-205843r569188_rule
       - CCI-001851
       - medium
+      - cat2
       # hard one, either need to standardize on say log shipping like splunk or other is set?
 
 - name: "MEDIUM | WN19-AU-000030 | Windows Server 2019 permissions for the Application event log must prevent access by non-privileged accounts."
@@ -1143,13 +1171,14 @@
       - is_implemented
   tags:
       - WN19-AU-000030
-      - V-93189
+      - V-205640
       - SRG-OS-000057-GPOS-00027
-      - SV-103277r1
+      - SV-205640r569188_rule
       - CCI-000162
       - CCI-000163
       - CCI-000164
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000040 | Windows Server 2019 permissions for the Security event log must prevent access by non-privileged accounts."
   block:
@@ -1169,13 +1198,14 @@
       - is_implemented
   tags:
       - WN19-AU-000040
-      - V-93191
+      - V-205641
       - SRG-OS-000057-GPOS-00027
-      - SV-103279r1
+      - SV-205641r569188_rule
       - CCI-000162
       - CCI-000163
       - CCI-000164
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000050 | Windows Server 2019 permissions for the System event log must prevent access by non-privileged accounts."
   block:
@@ -1195,13 +1225,14 @@
       - is_implemented
   tags:
       - WN19-AU-000050
-      - V-93193
+      - V-205642
       - SRG-OS-000057-GPOS-00027
-      - SV-103281r1
+      - SV-205642r569188_rule
       - CCI-000162
       - CCI-000163
       - CCI-000164
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000060 | Windows Server 2019 Event Viewer must be protected from unauthorized modification and deletion."
   block:
@@ -1221,12 +1252,13 @@
       - is_implemented
   tags:
       - WN19-AU-000060
-      - V-93195
+      - V-205731
       - SRG-OS-000257-GPOS-00098
-      - SV-103283r1
+      - SV-205731r569188_rule
       - CCI-001494
       - CCI-001495
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000070 | Windows Server 2019 must be configured to audit Account Logon - Credential Validation successes."
   block:
@@ -1245,11 +1277,12 @@
   when: wn19_au_000070
   tags:
       - WN19-AU-000070
-      - V-93153
+      - V-205832
       - SRG-OS-000470-GPOS-00214
-      - SV-103241r1
+      - SV-205832r569188_rule
       - CCI-000172
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000080 | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
   block:
@@ -1269,11 +1302,12 @@
   when: wn19_au_000080
   tags:
       - WN19-AU-000080
-      - V-93155
+      - V-205833
       - SRG-OS-000470-GPOS-00214
-      - SV-103243r1
+      - SV-205833r569188_rule
       - CCI-000172
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000090 | Windows Server 2019 must be configured to audit Account Management - Other Account Management Events successes."
   block:
@@ -1292,12 +1326,13 @@
   when: wn19_au_000090
   tags:
       - WN19-AU-000090
-      - V-93089
+      - V-205769
       - SRG-OS-000327-GPOS-00127
-      - SV-103177r1
+      - SV-205769r569188_rule
       - CCI-000172
       - CCI-002234
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000120 | Windows Server 2019 must be configured to audit Account Management - User Account Management failures."
   block:
@@ -1316,9 +1351,9 @@
   when: wn19_au_000120
   tags:
       - WN19-AU-000120
-      - V-92983
-      - SRG-OS-000004
-      - SV-103071r1
+      - V-205627
+      - SRG-OS-000004-GPOS-00004
+      - SV-205627r569188_rule
       - CCI-000018
       - CCI-000172
       - CCI-001403
@@ -1326,6 +1361,7 @@
       - CCI-001405
       - CCI-002130
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000130 | Windows Server 2019 must be configured to audit Detailed Tracking - Plug and Play Events successes."
   block:
@@ -1344,11 +1380,12 @@
   when: wn19_au_000130
   tags:
       - WN19-AU-000130
-      - V-93157
+      - V-205839
       - SRG-OS-000474-GPOS-00219
-      - SV-103245r1
+      - SV-205839r569188_rule
       - CCI-000172
       - patch
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000140 | Windows Server 2019 must be configured to audit Detailed Tracking - Process Creation successes."
   block:
@@ -1367,12 +1404,13 @@
   when: wn19_au_000140
   tags:
       - WN19-AU-000140
-      - V-93091
+      - V-205770
       - SRG-OS-000327-GPOS-00127
-      - SV-103179r1
+      - SV-205770r569188_rule
       - CCI-000172
       - CCI-002234
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000150 | Windows Server 2019 must be configured to audit Logon/Logoff - Account Lockout successes."
   block:
@@ -1391,12 +1429,13 @@
   when: wn19_au_000150
   tags:
       - WN19-AU-000150
-      - V-92987
+      - V-205729
       - SRG-OS-000240-GPOS-00090
-      - SV-103075r1
+      - SV-205729r569188_rule
       - CCI-000172
       - CCI-001404
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000160 | Windows Server 2019 must be configured to audit Logon/Logoff - Account Lockout failures."
   block:
@@ -1415,12 +1454,13 @@
   when: wn19_au_000160
   tags:
       - WN19-AU-000160
-      - V-92989
+      - V-205730
       - SRG-OS-000240-GPOS-00090
-      - SV-103077r1
+      - SV-205730r569188_rule
       - CCI-000172
       - CCI-001404
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000170 | Windows Server 2019 must be configured to audit Logon/Logoff - Group Membership successes."
   block:
@@ -1439,11 +1479,12 @@
   when: wn19_au_000170
   tags:
       - WN19-AU-000170
-      - V-93159
+      - V-205834
       - SRG-OS-000470-GPOS-00214
-      - SV-103247r1
+      - SV-205834r569188_rule
       - CCI-000172
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000180 | Windows Server 2019 must be configured to audit logoff successes."
   block:
@@ -1462,12 +1503,13 @@
   when: wn19_au_000180
   tags:
       - WN19-AU-000180
-      - V-93171
+      - V-205838
       - SRG-OS-000472-GPOS-00217
-      - SV-103259r1
+      - SV-205838r569188_rule
       - CCI-000172
       - CCI-000366
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000190 | Windows Server 2019 must be configured to audit logon successes."
   block:
@@ -1486,12 +1528,13 @@
   when: wn19_au_000190
   tags:
       - WN19-AU-000190
-      - V-92967
+      - V-205634
       - SRG-OS-000032-GPOS-00013
-      - SV-103055r1
+      - SV-205634r569188_rule
       - CCI-000067
       - CCI-000172
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000200 | Windows Server 2019 must be configured to audit logon failures"
   block:
@@ -1510,12 +1553,13 @@
   when: wn19_au_000200
   tags:
       - WN19-AU-000200
-      - V-92969
+      - V-205635	
       - SRG-OS-000032-GPOS-00013
-      - SV-103057r1
+      - SV-205635r569188_rule
       - CCI-000067
       - CCI-000172
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000210 | Windows Server 2019 must be configured to audit Logon/Logoff - Special Logon successes."
   block:
@@ -1534,11 +1578,12 @@
   when: wn19_au_000210
   tags:
       - WN19-AU-000210
-      - V-93161
+      - V-205835
       - SRG-OS-000470-GPOS-00214
-      - SV-103249r1
+      - SV-205835r569188_rule
       - CCI-000172
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000220 | Windows Server 2019 must be configured to audit Object Access - Other Object Access Events successes."
   win_audit_policy_system:
@@ -1547,12 +1592,13 @@
   when: wn19_au_000220
   tags:
       - WN19-AU-000220
-      - V-93163
+      - V-205836
       - SRG-OS-000470-GPOS-00214
-      - SV-103251r1
+      - SV-205836r569188_rule
       - CCI-000172
       - patch
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000230 | Windows Server 2019 must be configured to audit Object Access - Other Object Access Events failures."
   win_audit_policy_system:
@@ -1561,12 +1607,13 @@
   when: wn19_au_000230
   tags:
       - WN19-AU-000230
-      - V-93165
+      - V-205837
       - SRG-OS-000470-GPOS-00214
-      - SV-103253r1
+      - SV-205837r569188_rule
       - CCI-000172
       - patch
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000240 | Windows Server 2019 must be configured to audit Object Access - Removable Storage successes."
   block:
@@ -1585,11 +1632,12 @@
   when: wn19_au_000240
   tags:
       - WN19-AU-000240
-      - V-93167
+      - V-205840
       - SRG-OS-000474-GPOS-00219
-      - SV-103255r1
+      - SV-205840r569188_rule
       - CCI-000172
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000250 | Windows Server 2019 must be configured to audit Object Access - Removable Storage failures."
   block:
@@ -1608,11 +1656,12 @@
   when: wn19_au_000250
   tags:
       - WN19-AU-000250
-      - V-93169
+      - V-205841
       - SRG-OS-000474-GPOS-00219
-      - SV-103257r1
+      - SV-205841r569188_rule
       - CCI-000172
       - patch
+      - cat2
 
 - name: "MEDIUM | WN19-AU-000260 | Windows Server 2019 must be configured to audit Policy Change - Audit Policy Change successes."
   block:
