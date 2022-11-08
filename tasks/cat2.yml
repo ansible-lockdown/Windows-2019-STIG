@@ -37,12 +37,14 @@
   when: wn19_00_000020
   tags:
       - WN19-00-000020
-      - SV-103457r1
-      - CCI-000366
+      - V-205657	
+      - CCI-000199
+      - SV-205657r793212_rule
       - SRG-OS-000480-GPOS-00227
       - NeedToTestDomainController
       - audit
       - medium
+      - cat2 
 
 - name: "MEDIUM | WN19-00-000040 | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
   block:
@@ -66,12 +68,13 @@
       - "'controller' not in ansible_windows_domain_role"
   tags:
       - WN19-00-000040
-      - V-93207
+      - V-205846
       - SRG-OS-000480-GPOS-00227
-      - SV-103295r1
+      - SV-205846r569188_rule
       - CCI-000366
       - audit
       - medium
+      - cat2 
 
 - name: "MEDIUM | WN19-00-000050 | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
   block:
@@ -91,11 +94,12 @@
       - is_implemented
   tags:
       - WN19-00-000050
-      - V-93461
+      - V-205661
       - SRG-OS-000078-GPOS-00046
-      - SV-103547r1
+      - SV-205661r569188_rule
       - CCI-000205
       - medium
+      - cat2 
       # how to make this list?
 
 - name: "MEDIUM | WN19-00-000060 | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
@@ -116,11 +120,12 @@
       - is_implemented
   tags:
       - WN19-00-000060
-      - V-93209
+      - V-205847
       - SRG-OS-000480-GPOS-00227
-      - SV-103297r1
+      - SV-205847r569188_rule
       - CCI-000366
       - medium
+      - cat2 
       # how to make this list?
 
 
@@ -142,11 +147,12 @@
       - is_implemented
   tags:
       - WN19-00-000070
-      - V-93437
+      - V-205699
       - SRG-OS-000104-GPOS-00051
-      - SV-103523r1
+      - SV-205699r569188_rule
       - CCI-000764
       - medium
+      - cat2 
       # org has to supply a list? shared acct must be in SSP?
 
 - name: "MEDIUM | WN19-00-000080 | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
@@ -167,11 +173,12 @@
       - is_implemented
   tags:
       - WN19-00-000080
-      - V-93379
+      - V-205807
       - SRG-OS-000370-GPOS-00155
-      - SV-103465r1
+      - SV-205807r569188_rule
       - CCI-001774
       - medium
+      - cat2 
       # Get-AppLockerPolicy -Effective
 
 - name: "MEDIUM | WN19-00-000090 | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
@@ -194,11 +201,12 @@
       - ansible_windows_domain_role == "Member server"
   tags:
       - WN19-00-000090
-      - V-93213
+      - V-205848
       - SRG-OS-000480-GPOS-00227
-      - SV-103301r1
+      - SV-205848r569188_rule
       - CCI-000366
       - medium
+      - cat2
       # wmic /namespace:\\root\cimv2\security\microsofttpm path win32_tpm get *
       # if not enabled see "No Instance(s) Available." ?
 
@@ -220,11 +228,12 @@
       - is_implemented
   tags:
       - WN19-00-000120
-      - V-93219
+      - V-205851
       - SRG-OS-000480-GPOS-00227
-      - SV-103307r1
+      - SV-205851r793214_rule
       - CCI-000366
       - medium
+      - cat2
       # think this is mcafee but need install and figure out paths for AV vs HIDS and/or running services?
 
 - name: "MEDIUM | WN19-00-000140 | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements."
@@ -246,11 +255,12 @@
       - is_implemented
   tags:
       - WN19-00-000140
-      - V-93019
+      - V-205734
       - SRG-OS-000312-GPOS-00122
-      - SV-103107r1
+      - SV-205734r569188_rule
       - CCI-002165
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000150 | Windows Server 2019 permissions for program file directories must conform to minimum requirements."
   block:
@@ -270,11 +280,12 @@
       - is_implemented
   tags:
       - WN19-00-000150
-      - V-93021
+      - V-205735
       - SRG-OS-000312-GPOS-00122
-      - SV-103109r1
+      - SV-205735r569188_rule
       - CCI-002165
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000160 | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements."
   block:
@@ -294,11 +305,12 @@
       - is_implemented
   tags:
       - WN19-00-000160
-      - V-93023
+      - V-205736
       - SRG-OS-000312-GPOS-00122
-      - SV-103111r1
+      - SV-205736r569188_rule
       - CCI-002165
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000170 | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained."
   block:
@@ -318,11 +330,12 @@
       - is_implemented
   tags:
       - WN19-00-000170
-      - V-93025
+      - V-205737
       - SRG-OS-000324-GPOS-00125
-      - SV-103113r1
+      - SV-205737r793220_rule
       - CCI-002235
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000190 | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled."
   block:
@@ -342,11 +355,12 @@
       - is_implemented
   tags:
       - WN19-00-000190
-      - V-93457
+      - V-205707
       - SRG-OS-000118-GPOS-00060
-      - SV-103543r1
+      - SV-205707r569188_rule
       - CCI-000795
       - medium
+      - cat2
 
 - name: "MEDIUM | WN19-00-000200 | Windows Server 2019 accounts must require passwords."
   block:
@@ -386,12 +400,13 @@
   when: wn19_00_000200
   tags:
       - WN19-00-000200
-      - V-93439
+      - V-205700
       - SRG-OS-000104-GPOS-00051
-      - SV-103525r2
+      - SV-205700r569188_rule
       - CCI-000764
       - medium
       - audit
+      - cat2
 
 - name: "MEDIUM | WN19-00-000210 | Windows Server 2019 passwords must be configured to expire."
   block:
@@ -413,10 +428,12 @@
   when: wn19_00_000210
   tags:
       - WN19-00-000210
-      - V-93475
+      - V-205658
       - SRG-OS-000076-GPOS-00044
-      - SV-103561r1
+      - SV-205658r569188_rule
       - medium
+      - cat2
+      - CCI-000199
 
 - name: "MEDIUM | WN19-00-000220 | Windows Server 2019 system files must be monitored for unauthorized changes."
   block:
@@ -436,11 +453,12 @@
       - is_implemented
   tags:
       - WN19-00-000220
-      - V-93203
+      - V-205803
       - SRG-OS-000363-GPOS-00150
-      - SV-103291r1
+      - SV-205803r793216_rule
       - CCI-001744
       - medium
+      - cat2
       # Some third party software to monitor files
 
 - name: "MEDIUM | WN19-00-000230 | Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it."
@@ -460,11 +478,12 @@
   when: wn19_00_000230
   tags:
       - WN19-00-000230
-      - V-93531
+      - V-205721
       - SRG-OS-000138-GPOS-00069
-      - SV-103617r1
+      - SV-205721r569188_rule
       - CCI-001090
       - medium
+      - cat2
 
 # https://stackoverflow.com/questions/31049454/how-to-retrieve-recursively-any-files-with-a-specific-extensions-in-powershell/31049571
 - name: "MEDIUM | WN19-00-000240 | Windows Server 2019 must have software certificate installation files removed."
@@ -490,12 +509,13 @@
   when: wn19_00_000240
   tags:
       - WN19-00-000240
-      - V-93221
+      - V-205852
       - SRG-OS-000480-GPOS-00227
-      - SV-103309r2
+      - SV-205852r569188_rule
       - CCI-000366
       - medium
       - NotTested
+      - cat2
       # do we need async; its very long running to search filesystems
       # get an array of drive letters to search?
 
