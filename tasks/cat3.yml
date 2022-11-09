@@ -1,4 +1,4 @@
-# ---
+---
 # - name: "LOW | WN19-SO-000140 | Windows Server 2019 title for the legal banner must be configured with the appropriate text."
 #   win_regedit:
 #       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
