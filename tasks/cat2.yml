@@ -3615,20 +3615,7 @@
       - NeedToTestDomainController
       - medium
       - cat2
-
-- name: "MEDIUM | WN19-EP-000010 | Windows Server 2019 Exploit Protection system-level mitigation, Data Execution Prevention (DEP), must be on."
-  command: "echo true"
-  when:
-    - wn19_ep_000010
-    - is_implemented
-  tags:
-      - WN19-EP-000010
-      - V-93313
-      - SRG-OS-000480-GPOS-00227
-      - SV-103401r1
-      - CCI-000366
-      - medium
-      
+           
 - name: "MEDIUM | WN19-MS-000020 | Windows Server 2019 local administrator accounts must have their privileged token filtered to prevent elevated privileges from being used over the network on domain systems."
   win_regedit:
       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
