@@ -2679,7 +2679,7 @@
   tags:
       - WN19-CC-000451
       - V-236001
-      - SRG-OS-000480-GPOS-00227
+      - SRG-OS-000095-GPOS-00049
       - SV-236001r641821_rule
       - CCI-000366
       - medium
@@ -3615,7 +3615,7 @@
       - NeedToTestDomainController
       - medium
       - cat2
-           
+
 - name: "MEDIUM | WN19-MS-000020 | Windows Server 2019 local administrator accounts must have their privileged token filtered to prevent elevated privileges from being used over the network on domain systems."
   win_regedit:
       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
@@ -3931,7 +3931,7 @@
 - name: "MEDIUM | WN19-PK-000020 | Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems."
   block:
       - name: "MEDIUM | WN19-PK-000020 | AUDIT | Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems."
-        win_shell: echo true
+        win_shell: Get-ChildItem -Path Cert:Localmachine\disallowed | Where {$_.Issuer -Like "*DoD Interoperability*" -and $_.Subject -Like "*DoD*"} | FL Subject, Issuer, Thumbprint, NotAfter
         register: wn19_pk_000020_audit
         check_mode: no
         changed_when: no
