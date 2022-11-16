@@ -24,7 +24,6 @@ win2019stig_disruption_high: no
 # setting to make them stand out.
 win2019stig_audit_disruptive: yes
 
-win2019stig_skip_for_travis: false
 winstig_skip_for_test: false
 
 win2019stig_workaround_for_disa_benchmark: true
