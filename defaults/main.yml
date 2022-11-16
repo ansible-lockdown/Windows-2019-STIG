@@ -26,9 +26,6 @@ win2019stig_audit_disruptive: yes
 
 winstig_skip_for_test: false
 
-win2019stig_workaround_for_disa_benchmark: true
-win2019stig_workaround_for_ssg_benchmark: true
-
 # tweak role to run in a non-privileged container
 win2019stig_system_is_container: no
 
