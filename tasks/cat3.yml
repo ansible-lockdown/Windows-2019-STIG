@@ -18,9 +18,6 @@
 #       - CCI-001386
 #       - CCI-001387
 #       - CCI-001388
-#       - patch
-#       - low
-#       - borked_regkey_casesensitive
 
 - name: "LOW | WN19-00-000180 | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
   block:
@@ -31,21 +28,18 @@
         changed_when: no
         tags: audit
 
-      - name: "LOW | WN19-00-000180 | PATCH | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
+      - name: "LOW | WN19-00-000180 | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_00_000180
-      - is_implemented
   tags:
       - WN19-00-000180
       - V-205664
       - SRG-OS-000080-GPOS-00048
       - SV-205664r569188_rule
       - CCI-000213
-      - low
-      - cat1
+      - CAT3
 
 - name: "LOW | WN19-CC-000200 | Windows Server 2019 Application Compatibility Program Inventory must be prevented from collecting data and sending the information to Microsoft."
   win_regedit:
@@ -61,9 +55,7 @@
       - SRG-OS-000095-GPOS-00049
       - SV-205691r569188_rule
       - CCI-000381
-      - patch
-      - low
-      - cat1
+      - CAT3
 
 - name: "LOW | WN19-DC-000160 | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
   block:
@@ -74,21 +66,18 @@
         changed_when: no
         tags: audit
 
-      - name: "LOW | WN19-DC-000160 | PATCH | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
+      - name: "LOW | WN19-DC-000160 | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_dc_000160
-      - is_implemented
   tags:
       - WN19-DC-000160
       - V-205726
       - SRG-OS-000163-GPOS-00072
       - SV-205726r569188_rule
       - CCI-001133
-      - low
-      - cat1
+      - CAT3
 
 - name: "LOW | WN19-00-000440 | The Windows Server 2019 time service must synchronize with an appropriate DoD time source."
   block:
@@ -99,21 +88,19 @@
         changed_when: no
         tags: audit
 
-      - name: "LOW | WN19-00-000440 | PATCH | The Windows Server 2019 time service must synchronize with an appropriate DoD time source."
+      - name: "LOW | WN19-00-000440 | The Windows Server 2019 time service must synchronize with an appropriate DoD time source."
         win_shell: echo true
         changed_when: no
-        tags: patch
+
   when:
       - wn19_00_000440
-      - is_implemented
   tags:
       - WN19-00-000440
       - V-205800
       - SRG-OS-000355-GPOS-00143
       - SV-205800r569188_rule
       - CCI-001891
-      - low
-      - cat1
+      - CAT3
 
 - name: "LOW | WN19-CC-000060 | Windows Server 2019 Must be configured to ignore NetBIOS name release requests except from WINS servers."
   win_regedit:
@@ -129,9 +116,7 @@
       - SRG-OS-000420-GPOS-00186
       - SV-205819r569188_rule
       - CCI-002385
-      - patch
-      - low
-      - cat1
+      - CAT3
 
 - name: "LOW | WN19-00-000460 | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
   block:
@@ -142,21 +127,18 @@
         changed_when: no
         tags: audit
 
-      - name: "LOW | WN19-00-000460 | PATCH | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
+      - name: "LOW | WN19-00-000460 | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_00_000460
-      - is_implemented
   tags:
       - WN19-00-000460
       - V-205856
       - SRG-OS-000480-GPOS-00227
       - SV-205856r569188_rule
       - CCI-000366
-      - low
-      - cat1
+      - CAT3
 
 - name: "LOW | WN19-00-000470 | Windows Server 2019 must have Secure Boot enabled."
   block:
@@ -167,21 +149,18 @@
         changed_when: no
         tags: audit
 
-      - name: "LOW | WN19-00-000470 | PATCH | Windows Server 2019 must have Secure Boot enabled."
+      - name: "LOW | WN19-00-000470 | Windows Server 2019 must have Secure Boot enabled."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_00_000470
-      - is_implemented
   tags:
       - WN19-00-000470
       - V-205857
       - SRG-OS-000480-GPOS-00227
       - SV-205857r569188_rule
       - CCI-000366
-      - low
-      - cat1
+      - CAT3
 
 - name: "LOW | WN19-CC-000030 | Windows Server 2019 internet Protocol version 6 (IPv6) source routing must be configured to the highest protection level to prevent IP source routing."
   win_regedit:
@@ -197,9 +176,7 @@
       - SRG-OS-000480-GPOS-00227
       - SV-205858r569188_rule
       - CCI-000366
-      - patch
-      - low
-      - cat1
+      - CAT3
 
 - name: "LOW | WN19-CC-000040 | Windows Server 2019 source routing must be configured to the highest protection level to prevent Internet Protocol (IP) source routing."
   win_regedit:
@@ -215,9 +192,7 @@
       - SRG-OS-000480-GPOS-00227
       - SV-205859r569188_rule
       - CCI-000366
-      - patch
-      - low
-      - cat1
+      - CAT3
 
 - name: "LOW | WN19-CC-000050 | Windows Server 2019 must be configured to prevent Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF)-generated routes."
   win_regedit:
@@ -233,9 +208,7 @@
       - SRG-OS-000480-GPOS-00227
       - SV-205860r569188_rule
       - CCI-000366
-      - patch
-      - low
-      - cat1
+      - CAT3
 
 - name: "LOW | WN19-CC-000260 | Windows Server 2019 Windows Update must not obtain updates from other PCs on the Internet."
   win_regedit:
@@ -251,9 +224,7 @@
       - SRG-OS-000480-GPOS-00227
       - SV-205870r569188_rule
       - CCI-000366
-      - lowe
-      - cat1
-      - patch
+      - CAT3
 
 - name: "LOW | WN19-CC-000320 | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled."
   block:
@@ -264,16 +235,13 @@
         changed_when: no
         tags: audit
 
-      - name: "LOW | WN19-CC-000320 | PATCH | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled."
+      - name: "LOW | WN19-CC-000320 | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_cc_000320
-      - is_implemented
   tags:
       - WN19-CC-000320
-      - low
 
 - name: "LOW | WN19-SO-000370 | Windows Server 2019 default permissions of global system objects must be strengthened."
   win_regedit:
@@ -289,6 +257,4 @@
       - SRG-OS-000480-GPOS-00227
       - SV-205871r569188_rule
       - CCI-000366
-      - patch
-      - low
-      - cat1
+      - CAT3

@@ -8,22 +8,19 @@
         changed_when: no
         tags: audit
 
-      - name: "HIGH | WN19-DC-000290 | PATCH | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+      - name: "HIGH | WN19-DC-000290 | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_dc_000290
-      - is_implemented
       - ansible_windows_domain_role == "Primary domain controller"
   tags:
       - WN19-DC-000290
       - V-205646
-      - CAT I
+      - CAT1
       - SRG-OS-000066-GPOS-00034
       - SV-205646r569188_rule
       - CCI-000185
-      - high
 
 # add some task/eternal variable for approved CAs, check for DoD and how pull programatically
 - name: "HIGH | WN19-DC-000300 | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
@@ -35,22 +32,19 @@
         changed_when: no
         tags: audit
 
-      - name: "HIGH | WN19-DC-000300 | PATCH | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
+      - name: "HIGH | WN19-DC-000300 | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_dc_000300
       - ansible_windows_domain_role == "Primary domain controller"
-      - is_implemented
   tags:
       - WN19-DC-000300
       - V-205647
       - SRG-OS-000066-GPOS-00034
       - SV-205647r569188_rule
       - CCI-000185
-      - high
-      - cat1
+      - CAT1
 
 - name: "MEDIUM | WN19-AC-000090 | Windows Server 2019 reversible password encryption must be disabled."
   win_security_policy:
@@ -65,9 +59,7 @@
       - SRG-OS-000073-GPOS-00041
       - SV-205653r569188_rule
       - CCI-000196
-      - patch
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-SO-000300 | Windows Server 2019 must be configured to prevent the storage of the LAN Manager hash of passwords."
   win_regedit:
@@ -83,10 +75,7 @@
       - SRG-OS-000073-GPOS-00041
       - SV-205654r569188_rule
       - CCI-000196
-      - patch
-      - high
-      - cat1
-      # fails_openscap_borked_regkey_casesensitive
+      - CAT1
 
 - name: "HIGH | WN19-00-000130 | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
   block:
@@ -97,11 +86,9 @@
         changed_when: no
         tags: audit
 
-      - name: "HIGH | WN19-00-000130 | PATCH | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
+      - name: "HIGH | WN19-00-000130 | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
         win_shell: echo true
         changed_when: no
-        when: is_implemented
-        tags: patch
   when: wn19_00_000130
   tags:
       - WN19-00-000130
@@ -109,8 +96,7 @@
       - SRG-OS-000080-GPOS-00048
       - SV-205663r569188_rule
       - CCI-000213
-      - high
-      - cat1
+      - CAT1
 
 - name: "MEDIUM | WN19-CC-000470 | Windows Server 2019 Windows Remote Management (WinRM) client must not use Basic authentication."
   win_regedit:
@@ -126,9 +112,7 @@
       - SRG-OS-000125-GPOS-00065
       - SV-205711r569188_rule
       - CCI-000877
-      - high
-      - patch
-      - cat1
+      - CAT1
 
 - name: "MEDIUM | WN19-CC-000500 | Windows Server 2019 Windows Remote Management (WinRM) service must not use Basic authentication."
   win_regedit:
@@ -144,9 +128,7 @@
       - SRG-OS-000125-GPOS-00065
       - SV-205713r569188_rule
       - CCI-000877
-      - high
-      - patch
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-SO-000230 | Windows Server 2019 must not allow anonymous enumeration of shares."
   win_regedit:
@@ -162,10 +144,7 @@
       - SRG-OS-000138-GPOS-00069
       - SV-205724r569188_rule
       - CCI-001090
-      - patch
-      - high
-      - cat1
-      # fails_openscap_borked_regkey_casesensitive
+      - CAT1
 
 - name: "HIGH | WN19-SO-000250 | Windows Server 2019 must restrict anonymous access to Named Pipes and Shares."
   win_regedit:
@@ -181,9 +160,7 @@
       - SRG-OS-000138-GPOS-00069
       - SV-205725r569188_rule
       - CCI-001090
-      - patch
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-DC-000010 | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
   block:
@@ -193,7 +170,7 @@
         failed_when: false
         register: wn19_dc_000010_admin_usrs
 
-      - name: "HIGH | WN19-DC-000010 | PATCH | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
+      - name: "HIGH | WN19-DC-000010 | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
         debug:
             msg:
                 - "Alert! Below are the users in the administrators group. Please review and confirm all users should be in this group"
@@ -208,8 +185,7 @@
       - SV-205738r569188_rule
       - CCI-002235
       - notest
-      - high
-      - cat1
+      - CAT1
 
 - name: "MEDIUM | WN19-DC-000070 | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
   block:
@@ -220,22 +196,19 @@
         changed_when: no
         tags: audit
 
-      - name: "MEDIUM | WN19-DC-000070 | PATCH | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
+      - name: "MEDIUM | WN19-DC-000070 | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_dc_000070
       - ansible_windows_domain_role == "Primary domain controller"
-      - is_implemented
   tags:
       - WN19-DC-000070
       - V-205739
       - SRG-OS-000324-GPOS-00125
       - SV-205739r569188_rule
       - CCI-002235
-      - high
-      - cat1
+      - CAT1
 
 - name: "MEDIUM | WN19-DC-000080 | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions."
   block:
@@ -246,22 +219,19 @@
         changed_when: no
         tags: audit
 
-      - name: "MEDIUM | WN19-DC-000080 | PATCH | Active Directory SYSVOL directory must have the proper access control permissions."
+      - name: "MEDIUM | WN19-DC-000080 | Active Directory SYSVOL directory must have the proper access control permissions."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_dc_000080
       - ansible_windows_domain_role == "Primary domain controller"
-      - is_implemented
   tags:
       - WN19-DC-000080
       - V-205740
       - SRG-OS-000324-GPOS-00125
       - SV-205740r569188_rule
       - CCI-002235
-      - high
-      - cat1
+      - CAT1
 
 - name: "MEDIUM | WN19-DC-000090 | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions."
   block:
@@ -272,22 +242,19 @@
         changed_when: no
         tags: audit
 
-      - name: "MEDIUM | WN19-DC-000090 | PATCH | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions."
+      - name: "MEDIUM | WN19-DC-000090 | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_dc_000090
       - ansible_windows_domain_role == "Primary domain controller"
-      - is_implemented
   tags:
       - WN19-DC-000090
       - V-205741
       - SRG-OS-000324-GPOS-00125
       - SV-205741r569188_rule
       - CCI-002235
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-DC-000100 | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
   block:
@@ -298,22 +265,19 @@
         changed_when: no
         tags: audit
 
-      - name: "HIGH | WN19-DC-000100 | PATCH | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
+      - name: "HIGH | WN19-DC-000100 | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_dc_000100
       - ansible_windows_domain_role == "Primary domain controller"
-      - is_implemented
   tags:
       - WN19-DC-000100
       - V-205742
       - SRG-OS-000324-GPOS-00125
       - SV-205742r569188_rule
       - CCI-002235
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-DC-000110 | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
   block:
@@ -324,22 +288,19 @@
         changed_when: no
         tags: audit
 
-      - name: "HIGH | WN19-DC-000110 | PATCH | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
+      - name: "HIGH | WN19-DC-000110 | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_dc_000110
       - ansible_windows_domain_role == "Primary domain controller"
-      - is_implemented
   tags:
       - WN19-DC-000110
       - V-205743
       - SV-205743r569188_rule
       - SRG-OS-000324-GPOS-00125
       - CCI-002235
-      - high
-      - cat1
+      - CAT1
 
 ## populate a dictionary/list from customer
 - name: "HIGH | WN19-MS-000010 | Windows Server 2019 must only allow administrators responsible for the member server or standalone system must have Administrator rights on the system."
@@ -364,8 +325,7 @@
       - SV-205746r569188_rule
       - CCI-002235
       - audit
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-UR-000020 | Windows Server 2019 Act as part of the operating system user right must not be assigned to any groups or accounts."
   win_user_right:
@@ -379,9 +339,7 @@
       - SRG-OS-000324-GPOS-00125
       - SV-205750r569188_rule
       - CCI-002235
-      - patch
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-UR-000060 | Windows Server 2019 Create a token object user right must not be assigned to any groups or accounts."
   win_security_policy:
@@ -395,9 +353,7 @@
       - SRG-OS-000324-GPOS-00125
       - SV-205753r569188_rule
       - CCI-002235
-      - patch
-      - high
-      - cat1
+      - CAT1
 
 # fails openscap - the v1r10 xml checks for "Administrators" string but secedit uses the SIDs thus
 # "SeDebugPrivilege = *S-1-5-32-544"  is Administrators (openscap fails)
@@ -415,9 +371,7 @@
       - SRG-OS-000324-GPOS-00125
       - SV-205757r569188_rule
       - CCI-002235
-      - patch
-      - high
-      - cat1
+      - CAT1
 
 - name: "MEDIUM | WN19-CC-000430 | Windows Server 2019 must disable the Windows Installer Always install with elevated privileges option."
   win_regedit:
@@ -433,9 +387,7 @@
       - SRG-OS-000362-GPOS-00149
       - SV-205802r569188_rule
       - CCI-001812
-      - high
-      - patch
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-CC-000210 | Windows Server 2019 AutoPlay must be turned off for non-volume devices."
   win_regedit:
@@ -451,9 +403,7 @@
       - SRG-OS-000368-GPOS-00154
       - SV-205804r569188_rule
       - CCI-001764
-      - patch
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-CC-000220 | Windows Server 2019 default AutoRun behavior must be configured to prevent AutoRun commands."
   win_regedit:
@@ -469,9 +419,7 @@
       - SRG-OS-000368-GPOS-00154
       - SV-205805r569188_rule
       - CCI-001764
-      - patch
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-CC-000230 | Windows Server 2019 AutoPlay must be disabled for all drives."
   win_regedit:
@@ -487,9 +435,7 @@
       - SRG-OS-000368-GPOS-00154
       - SV-205806r569188_rule
       - CCI-001764
-      - patch
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-00-000010 | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
   block:
@@ -500,21 +446,18 @@
         changed_when: no
         tags: audit
 
-      - name: "HIGH | WN19-00-000010 | PATCH | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
+      - name: "HIGH | WN19-00-000010 | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_00_000010
-      - is_implemented
   tags:
       - WN19-00-000010
       - V-205844
       - SRG-OS-000480-GPOS-00227
       - CCI-000366
       - SV-205844r569188_rule
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-00-000030 | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
   block:
@@ -525,21 +468,18 @@
         changed_when: no
         tags: audit
 
-      - name: "HIGH | WN19-00-000030 | PATCH | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
+      - name: "HIGH | WN19-00-000030 | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_00_000030
-      - is_implemented
   tags:
       - WN19-00-000030
       - V-205845
       - SRG-OS-000480-GPOS-00227
       - SV-205845r569188_rule
       - CCI-000366
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-00-000100 | Windows Server 2019 must be maintained at a supported servicing level."
   block:
@@ -582,8 +522,7 @@
       - SV-205849r569188_rule
       - CCI-000366
       - audit
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-00-000110 | Windows Server 2019 must use an anti-virus program."
   block:
@@ -598,21 +537,18 @@
         changed_when: no
         tags: audit
 
-      - name: "HIGH | WN19-00-000110 | PATCH | Windows Server 2019 must use an anti-virus program."
+      - name: "HIGH | WN19-00-000110 | Windows Server 2019 must use an anti-virus program."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_00_000110
-      - is_implemented
   tags:
       - WN19-00-000110
       - V-205850
       - SRG-OS-000480-GPOS-00227
       - SV-205850r569245_rule
       - CCI-000366
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-DC-000150 | Windows Server 2019 directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access."
   block:
@@ -623,26 +559,23 @@
         changed_when: no
         tags: audit
 
-      - name: "HIGH | WN19-DC-000150 | PATCH | Windows Server 2019 directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access."
+      - name: "HIGH | WN19-DC-000150 | Windows Server 2019 directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access."
         win_shell: echo true
         changed_when: no
-        tags: patch
   when:
       - wn19_dc_000150
       - ansible_windows_domain_role == "Primary domain controller"
-      - is_implemented
   tags:
       - WN19-DC-000150
       - V-205875
       - SRG-OS-000480-GPOS-00227
       - SV-205875r569188_rule
       - CCI-000366
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-MS-000140 | Windows Server 2019 must be running Credential Guard on domain-joined member servers."
   block:
-      - name: "HIGH | WN19-MS-000140 | PATCH | Windows Server 2019 must be running Credential Guard on domain-joined member servers."
+      - name: "HIGH | WN19-MS-000140 | Windows Server 2019 must be running Credential Guard on domain-joined member servers."
         win_regedit:
             path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard
             state: present
@@ -665,9 +598,7 @@
       - SV-205907r793209_rule
       - CCI-000366
       - NeedToTestMemberServer
-      - patch
-      - high
-      - cat1
+      - CAT1
 
 - name: "MEDIUM | WN19-SO-000020 | Windows Server 2019 must prevent local accounts with blank passwords from being used from the network."
   win_regedit:
@@ -683,9 +614,7 @@
       - SV-205908r569188_rule
       - SRG-OS-000480-GPOS-00227
       - CCI-000366
-      - high
-      - patch
-      - cat1
+      - CAT1
 
 # odd one
 # https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lsad/2a769a08-e023-459f-aebe-4fb3f595c0b7
@@ -701,9 +630,7 @@
       - SRG-OS-000480-GPOS-00227
       - SV-205913r569188_rule
       - CCI-000366
-      - patch
-      - high
-      - cat1
+      - CAT1
 
 - name: "HIGH | WN19-SO-000220 | Windows Server 2019 must not allow anonymous enumeration of Security Account Manager (SAM) accounts."
   win_regedit:
@@ -721,11 +648,7 @@
       - SRG-OS-000480-GPOS-00227
       - SV-205914r569188_rule
       - CCI-000366
-      - patch
-      - high
-      - cat1
-      # fails_openscap_borked_regkey_casesensitive
-      # emailed_disa.letterkenny.re.mbx.stig-customer-support-mailbox@mail.mil
+      - CAT1
 
 - name: "HIGH | WN19-SO-000310 | Windows Server 2019 LAN Manager authentication level must be configured to send NTLMv2 response only and to refuse LM and NTLM."
   win_regedit:
@@ -741,6 +664,4 @@
       - SRG-OS-000480-GPOS-00227
       - SV-205919r569188_rule
       - CCI-000366
-      - patch
-      - high
-      - cat1
+      - CAT1

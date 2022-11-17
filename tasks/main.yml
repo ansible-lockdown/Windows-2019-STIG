@@ -35,20 +35,17 @@
   import_tasks: cat1.yml
   when: win2019stig_cat1_patch | bool
   tags:
-      - cat1
-      - high
+      - CAT1
 
 - name: Execute the category 2 (medium severity) tasks
   import_tasks: cat2.yml
   when: win2019stig_cat2_patch | bool
   tags:
-      - cat2
-      - medium
+      - CAT2
 
 - name: Execute the category 3 (lowest severity) tasks
   # import_tasks: cat3.yml
   import_tasks: cat3.yml
   when: win2019stig_cat3_patch | bool
   tags:
-      - cat3
-      - medium
+      - CAT3
