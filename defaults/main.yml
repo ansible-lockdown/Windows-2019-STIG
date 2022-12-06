@@ -24,8 +24,6 @@ win2019stig_disruption_high: no
 # setting to make them stand out.
 win2019stig_audit_disruptive: yes
 
-winstig_skip_for_test: false
-
 # tweak role to run in a non-privileged container
 win2019stig_system_is_container: no
 
@@ -425,3 +423,7 @@ wn19_dc_000430_pass_age: 180
 # Windows Server 2019 title for legal banner dialog box must be configured with the appropriate text.
 # wn19_so_000140_legalnoticecaption is the DoD Notice and Consent Banner text.
 wn19_so_000140_legalnoticecaption: "DoD Notice and Consent Banner"
+
+# Used for STIG warning summary
+stig_id: ""
+warn_count: 0

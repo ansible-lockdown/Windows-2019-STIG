@@ -49,3 +49,10 @@
   when: win2019stig_cat3_patch | bool
   tags:
       - CAT3
+      
+- name: If Warnings found Output count and STIG IDs affected
+  debug:
+      msg: "You have {{ warn_count }} Warning(s) that require investigating that are related to the following benchmark ID(s) {{ stig_id }}"
+  when: warn_count != 0
+  tags:
+      - always
