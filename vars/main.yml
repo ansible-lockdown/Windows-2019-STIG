@@ -1,0 +1,6 @@
+---
+# vars file for WIN19-STIG
+
+# Used for STIG warning summary
+stig_id: ""
+warn_count: 0

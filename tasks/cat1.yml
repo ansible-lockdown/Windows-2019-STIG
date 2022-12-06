@@ -1,12 +1,11 @@
 ---
 - name: "HIGH | WN19-DC-000290 | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
   block:
-    - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+    - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | Message out"
       debug:
         msg: Warning!! This is a manual task. Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA).
-      tags: audit
-
-    - name: "HIGH | WN19-DC-000290 | PATCH | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+    
+    - name: "HIGH | WN19-DC-000290 | PATCH | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | Set warning count"
       set_fact:
         stig_id: "{{ stig_id }} + [ 'wn19_dc_000290' ]"
         warn_count: "{{ warn_count | int + 1 }}"
@@ -17,7 +16,7 @@
   tags:
       - WN19-DC-000290
       - V-205646
-      - CAT I
+      - CAT1
       - SRG-OS-000066-GPOS-00034
       - SV-205646r569188_rule
       - CCI-000185
@@ -26,16 +25,14 @@
 # add some task/external variable for approved CAs, check for DoD and how to pull programatically
 - name: "HIGH | WN19-DC-000300 | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
   block:
-    - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
+    - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | Message out"
       debug:
         msg: Warning!! This is a manual task. Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA).
-      tags: audit
 
-    - name: "HIGH | WN19-DC-000300 | PATCH | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
+    - name: "HIGH | WN19-DC-000300 | PATCH | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | Set warning count"
       set_fact:
         stig_id: "{{ stig_id }} + [ 'wn19_dc_000300' ]"
         warn_count: "{{ warn_count | int + 1 }}"
-        tags: patch
   when:
       - wn19_dc_000300
       - ansible_windows_domain_role == "Primary domain controller"
@@ -47,7 +44,7 @@
       - SV-205647r569188_rule
       - CCI-000185
       - high
-      - cat1
+      - CAT1
 
 - name: "MEDIUM | WN19-AC-000090 | Windows Server 2019 reversible password encryption must be disabled."
   win_security_policy:
