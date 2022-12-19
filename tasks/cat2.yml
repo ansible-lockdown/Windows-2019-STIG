@@ -74,42 +74,38 @@
       - audit
       - CAT2 
 
-- name: "MEDIUM | WN19-00-000050 | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
+- name: "MEDIUM | WN19-00-000050  | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
   block:
-      - name: "MEDIUM | WN19-00-000050 | AUDIT | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
-        win_shell: echo true
-        register: wn19_00_000050_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+      - name: "MEDIUM | WN19-00-000050  | AUDIT | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
 
-      - name: "MEDIUM | WN19-00-000050 | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
-        win_shell: echo true
-        changed_when: no
-  when:
-      - wn19_00_000050
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000050
+  vars:
+    warn_control_id: 'wn19_00_000050'
   tags:
-      - WN19-00-000050
-      - V-205661
-      - SRG-OS-000078-GPOS-00046
-      - SV-205661r569188_rule
-      - CCI-000205      
-      - CAT2 
+    - WN19-00-000050
+    - V-205661
+    - SRG-OS-000078-GPOS-00046
+    - SV-205661r569188_rule
+    - CCI-000205      
+    - CAT2 
 
-- name: "MEDIUM | WN19-00-000060 | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
+- name: "MEDIUM | WN19-00-000060  | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
   block:
-      - name: "MEDIUM | WN19-00-000060 | AUDIT | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
-        win_shell: echo true
-        register: wn19_00_000060_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+      - name: "MEDIUM | WN19-00-000060  | AUDIT | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
 
-      - name: "MEDIUM | WN19-00-000060 | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
-        win_shell: echo true
-        changed_when: no
-  when:
-      - wn19_00_000060
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000060
+  vars:
+    warn_control_id: 'wn19_00_000060'
   tags:
       - WN19-00-000060
       - V-205847
@@ -119,21 +115,18 @@
       - CAT2 
       # how to make this list?
 
-
-- name: "MEDIUM | WN19-00-000070 | Windows Server 2019 shared user accounts must not be permitted."
+- name: "MEDIUM | WN19-00-000070  | Windows Server 2019 shared user accounts must not be permitted."
   block:
-      - name: "MEDIUM | WN19-00-000070 | AUDIT | Windows Server 2019 shared user accounts must not be permitted."
-        win_shell: echo true
-        register: wn19_00_000070_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+      - name: "MEDIUM | WN19-00-000070  | AUDIT | Windows Server 2019 shared user accounts must not be permitted. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 shared user accounts must not be permitted."
 
-      - name: "MEDIUM | WN19-00-000070 | Windows Server 2019 shared user accounts must not be permitted."
-        win_shell: echo true
-        changed_when: no
-  when:
-      - wn19_00_000070
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000070
+  vars:
+    warn_control_id: 'wn19_00_000070'
   tags:
       - WN19-00-000070
       - V-205699
@@ -142,20 +135,18 @@
       - CCI-000764
       - CAT2 
 
-- name: "MEDIUM | WN19-00-000080 | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
+- name: "MEDIUM | WN19-00-000080  | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
   block:
-      - name: "MEDIUM | WN19-00-000080 | AUDIT | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
-        win_shell: echo true
-        register: wn19_00_000080_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+      - name: "MEDIUM | WN19-00-000080  | AUDIT | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
 
-      - name: "MEDIUM | WN19-00-000080 | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
-        win_shell: echo true
-        changed_when: no
-  when:
-      - wn19_00_000080
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000080
+  vars:
+    warn_control_id: 'wn19_00_000080'
   tags:
       - WN19-00-000080
       - V-205807
@@ -165,22 +156,20 @@
       - CAT2 
       # Get-AppLockerPolicy -Effective
 
-- name: "MEDIUM | WN19-00-000090 | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
-  block:
-      - name: "MEDIUM | WN19-00-000090 | AUDIT | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
-        win_shell: echo true
-        register: wn19_00_000090_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
 
-      - name: "MEDIUM | WN19-00-000090 | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
-        win_shell: echo true
-        changed_when: no
-        # Current hardware and virtual environments may not support virtualization-based security features, including Credential Guard, due to specific supporting requirements including a TPM, UEFI with Secure Boot, and the capability to run the Hyper-V feature within a virtual machine.
-  when:
-      - wn19_00_000090
-      - ansible_windows_domain_role == "Member server"
+# Current hardware and virtual environments may not support virtualization-based security features, including Credential Guard, due to specific supporting requirements including a TPM, UEFI with Secure Boot, and the capability to run the Hyper-V feature within a virtual machine.
+- name: "MEDIUM | WN19-00-000090  | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
+  block:
+      - name: "MEDIUM | WN19-00-000090  | AUDIT | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000090
+  vars:
+    warn_control_id: 'wn19_00_000090'
   tags:
       - WN19-00-000090
       - V-205848
@@ -190,6 +179,7 @@
       - CAT2
       # wmic /namespace:\\root\cimv2\security\microsofttpm path win32_tpm get *
       # if not enabled see "No Instance(s) Available." ?
+
 
 - name: "MEDIUM | WN19-00-000120 | Windows Server 2019 must have a host-based intrusion detection or prevention system."
   block:

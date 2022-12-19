@@ -50,9 +50,13 @@
   tags:
       - CAT3
       
-- name: If Warnings found Output count and STIG IDs affected
+- name: If Warnings found Output count and control IDs affected
   debug:
-      msg: "You have {{ warn_count }} Warning(s) that require investigating that are related to the following benchmark ID(s) {{ stig_id }}"
+      msg:
+          - "You have {{ warn_count }} Warning(s) that require investigation(s). Their ID's are listed below:"
+          - "{{ warn_control_list }}"
   when: warn_count != 0
-  tags:
-      - always
+
+# - debug: var=warn_count
+# - debug: var=control_number
+
