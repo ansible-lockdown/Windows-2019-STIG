@@ -2,7 +2,7 @@
 
   - name: "HIGH | WN19-DC-000290 | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
     block:
-        - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | Message out"
+        - name: "HIGH | WN19-DC-000290 | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | Message out"
           debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
 
@@ -26,7 +26,7 @@
 # add some task/external variable for approved CAs, check for DoD and how to pull programatically
   - name: "HIGH | WN19-DC-000300 | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
     block:
-        - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | Message out"
+        - name: "HIGH | WN19-DC-000300 | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | Message out"
           debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
 
@@ -87,7 +87,7 @@
         changed_when: no
         tags: audit
 
-      - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | Message out"
+      - name: "HIGH | WN19-00-000130 | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | Message out"
         debug:
           msg: "Warning!! This is a manual task. Windows Server 2019 local volumes must use a format that supports NTFS attributes."
 
@@ -198,7 +198,7 @@
 
   - name: "HIGH | WN19-DC-000070 | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
     block:
-        - name: "HIGH | WN19-DC-000070 | AUDIT | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access. | Message out"
+        - name: "HIGH | WN19-DC-000070 | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access. | Message out"
           debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
 
@@ -220,7 +220,7 @@
 
   - name: "HIGH | WN19-DC-000080 | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions."
     block:
-        - name: "HIGH | WN19-DC-000080 | AUDIT | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions. | Message out"
+        - name: "HIGH | WN19-DC-000080 | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions. | Message out"
           debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions."
 
@@ -241,7 +241,7 @@
 
   - name: "HIGH | WN19-DC-000090 | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions."
     block:
-        - name: "HIGH | WN19-DC-000090 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions. | Message out"
+        - name: "HIGH | WN19-DC-000090 | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions. | Message out"
           debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions."
 
@@ -262,7 +262,7 @@
 
   - name: "HIGH | WN19-DC-000100 | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
     block:
-        - name: "HIGH | WN19-DC-000100 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions. | Message out"
+        - name: "HIGH | WN19-DC-000100 | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions. | Message out"
           debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
 
@@ -283,7 +283,7 @@
 
   - name: "HIGH | WN19-DC-000110 | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
     block:
-        - name: "HIGH | WN19-DC-000110 | AUDIT | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions. | Message out"
+        - name: "HIGH | WN19-DC-000110 | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions. | Message out"
           debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
 
@@ -309,7 +309,7 @@
           win_shell: Get-LocalGroupMember -Name 'Administrators'
           register: wn19_ms_000010_audit
           changed_when: no
-        - name: "HIGH | WN19-MS-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the member server or standalone system must have Administrator rights on the system."
+        - name: "HIGH | WN19-MS-000010 | Windows Server 2019 must only allow administrators responsible for the member server or standalone system must have Administrator rights on the system."
           debug:
               msg:
                   - The following users or groups have Administrator rights on this system
@@ -439,7 +439,7 @@
 
   - name: "HIGH | WN19-00-000010 | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
     block:
-        - name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | Message out"
+        - name: "HIGH | WN19-00-000010 | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | Message out"
           debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
 
@@ -459,7 +459,7 @@
 
   - name: "HIGH | WN19-00-000030 | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
     block:
-        - name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | Message out"
+        - name: "HIGH | WN19-00-000030 | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | Message out"
           debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
 
@@ -525,7 +525,7 @@
 # so guess we need to scan for the old and the new in case customers not migrated?
   - name: "HIGH | WN19-00-000110  | Windows Server 2019 must use an anti-virus program."
     block:
-        - name: "HIGH | WN19-00-000110  | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out"
+        - name: "HIGH | WN19-00-000110  | Windows Server 2019 must use an anti-virus program. | Message out"
           debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
 
@@ -545,7 +545,7 @@
 
   - name: "HIGH | WN19-DC-000150  | Windows Server 2019 must use an anti-virus program."
     block:
-        - name: "HIGH | WN19-DC-000150  | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out"
+        - name: "HIGH | WN19-DC-000150  | Windows Server 2019 must use an anti-virus program. | Message out"
           debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
 

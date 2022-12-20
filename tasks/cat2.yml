@@ -76,7 +76,7 @@
 
 - name: "MEDIUM | WN19-00-000050  | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
   block:
-      - name: "MEDIUM | WN19-00-000050  | AUDIT | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length. | Message out"
+      - name: "MEDIUM | WN19-00-000050  | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length. | Message out"
         debug:
           msg: "Warning!! This is a manual task. Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
 
@@ -96,7 +96,7 @@
 
 - name: "MEDIUM | WN19-00-000060  | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
   block:
-      - name: "MEDIUM | WN19-00-000060  | AUDIT | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization. | Message out"
+      - name: "MEDIUM | WN19-00-000060  | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization. | Message out"
         debug:
           msg: "Warning!! This is a manual task. Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
 
@@ -117,7 +117,7 @@
 
 - name: "MEDIUM | WN19-00-000070  | Windows Server 2019 shared user accounts must not be permitted."
   block:
-      - name: "MEDIUM | WN19-00-000070  | AUDIT | Windows Server 2019 shared user accounts must not be permitted. | Message out"
+      - name: "MEDIUM | WN19-00-000070  | Windows Server 2019 shared user accounts must not be permitted. | Message out"
         debug:
           msg: "Warning!! This is a manual task. Windows Server 2019 shared user accounts must not be permitted."
 
@@ -137,7 +137,7 @@
 
 - name: "MEDIUM | WN19-00-000080  | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
   block:
-      - name: "MEDIUM | WN19-00-000080  | AUDIT | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs. | Message out"
+      - name: "MEDIUM | WN19-00-000080  | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs. | Message out"
         debug:
           msg: "Warning!! This is a manual task. Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
 
@@ -160,7 +160,7 @@
 # Current hardware and virtual environments may not support virtualization-based security features, including Credential Guard, due to specific supporting requirements including a TPM, UEFI with Secure Boot, and the capability to run the Hyper-V feature within a virtual machine.
 - name: "MEDIUM | WN19-00-000090  | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
   block:
-      - name: "MEDIUM | WN19-00-000090  | AUDIT | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use. | Message out"
+      - name: "MEDIUM | WN19-00-000090  | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use. | Message out"
         debug:
           msg: "Warning!! This is a manual task. Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
 
@@ -180,21 +180,18 @@
       # wmic /namespace:\\root\cimv2\security\microsofttpm path win32_tpm get *
       # if not enabled see "No Instance(s) Available." ?
 
-
-- name: "MEDIUM | WN19-00-000120 | Windows Server 2019 must have a host-based intrusion detection or prevention system."
+- name: "MEDIUM | WN19-00-000120  | Windows Server 2019 must have a host-based intrusion detection or prevention system."
   block:
-      - name: "MEDIUM | WN19-00-000120 | AUDIT | Windows Server 2019 must have a host-based intrusion detection or prevention system."
-        win_shell: echo true
-        register: wn19_00_000120_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+      - name: "MEDIUM | WN19-00-000120  | Windows Server 2019 must have a host-based intrusion detection or prevention system. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 must have a host-based intrusion detection or prevention system."
 
-      - name: "MEDIUM | WN19-00-000120 | Windows Server 2019 must have a host-based intrusion detection or prevention system."
-        win_shell: echo true
-        changed_when: no
-  when:
-      - wn19_00_000120
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000120
+  vars:
+    warn_control_id: 'wn19_00_000120'
   tags:
       - WN19-00-000120
       - V-205851
@@ -204,21 +201,18 @@
       - CAT2
       # think this is mcafee but need install and figure out paths for AV vs HIDS and/or running services?
 
-- name: "MEDIUM | WN19-00-000140 | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements."
+- name: "MEDIUM | WN19-00-000140  | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements."
   block:
-      - name: "MEDIUM | WN19-00-000140 | AUDIT | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements."
-        win_shell: echo true
-        #https://vaulted.io/library/disa-stigs-srgs/windows_server_2019_stig/V-93293
-        register: wn19_00_000140_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+      - name: "MEDIUM | WN19-00-000140  | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements."
 
-      - name: "MEDIUM | WN19-00-000140 | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements."
-        win_shell: echo true
-        changed_when: no
-  when:
-      - wn19_00_000140
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000140
+  vars:
+    warn_control_id: 'wn19_00_000140'
   tags:
       - WN19-00-000140
       - V-205734
@@ -229,18 +223,16 @@
 
 - name: "MEDIUM | WN19-00-000150 | Windows Server 2019 permissions for program file directories must conform to minimum requirements."
   block:
-      - name: "MEDIUM | WN19-00-000150 | AUDIT | Windows Server 2019 permissions for program file directories must conform to minimum requirements."
-        win_shell: echo true
-        register: wn19_00_000150_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+      - name: "MEDIUM | WN19-00-000150 | Windows Server 2019 permissions for program file directories must conform to minimum requirements. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 permissions for program file directories must conform to minimum requirements."
 
-      - name: "MEDIUM | WN19-00-000150 | Windows Server 2019 permissions for program file directories must conform to minimum requirements."
-        win_shell: echo true
-        changed_when: no
-  when:
-      - wn19_00_000150
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000150
+  vars:
+    warn_control_id: 'wn19_00_000150'
   tags:
       - WN19-00-000150
       - V-205735
@@ -251,18 +243,16 @@
 
 - name: "MEDIUM | WN19-00-000160 | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements."
   block:
-      - name: "MEDIUM | WN19-00-000160 | AUDIT | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements."
-        win_shell: echo true
-        register: wn19_00_000160_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+      - name: "MEDIUM | WN19-00-000160 | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements."
 
-      - name: "MEDIUM | WN19-00-000160 | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements."
-        win_shell: echo true
-        changed_when: no
-  when:
-      - wn19_00_000160
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000160
+  vars:
+    warn_control_id: 'wn19_00_000160'
   tags:
       - WN19-00-000160
       - V-205736
@@ -273,18 +263,16 @@
 
 - name: "MEDIUM | WN19-00-000170 | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained."
   block:
-      - name: "MEDIUM | WN19-00-000170 | AUDIT | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained."
-        win_shell: echo true
-        register: wn19_00_000170_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+      - name: "MEDIUM | WN19-00-000170 | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained."
 
-      - name: "MEDIUM | WN19-00-000170 | Default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained."
-        win_shell: echo true
-        changed_when: no
-  when:
-      - wn19_00_000170
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000170
+  vars:
+    warn_control_id: 'wn19_00_000170'
   tags:
       - WN19-00-000170
       - V-205737
@@ -295,18 +283,16 @@
 
 - name: "MEDIUM | WN19-00-000190 | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled."
   block:
-      - name: "MEDIUM | WN19-00-000190 | AUDIT | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled."
-        win_shell: echo true
-        register: wn19_00_000190_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+      - name: "MEDIUM | WN19-00-000190 | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 outdated or unused accounts must be removed from the system or disabled."
 
-      - name: "MEDIUM | WN19-00-000190 | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled."
-        win_shell: echo true
-        changed_when: no
-  when:
-      - wn19_00_000190
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000190
+  vars:
+    warn_control_id: 'wn19_00_000190'
   tags:
       - WN19-00-000190
       - V-205707
@@ -314,6 +300,7 @@
       - SV-205707r569188_rule
       - CCI-000795
       - CAT2
+
 
 - name: "MEDIUM | WN19-00-000200 | Windows Server 2019 accounts must require passwords."
   block:
@@ -372,10 +359,15 @@
         changed_when: no
         tags: audit
 
-      - name: "MEDIUM | WN19-00-000210 | Windows Server 2019 passwords must be configured to expire."
-        win_shell: echo true
-        changed_when: no
+      - name: "MEDIUM  | WN19-00-000210  | Windows Server 2019 passwords must be configured to expire.| Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 passwords must be configured to expire."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
   when: wn19_00_000210
+  vars:
+    warn_control_id: 'wn19_00_000210'
   tags:
       - WN19-00-000210
       - V-205658
@@ -386,18 +378,16 @@
 
 - name: "MEDIUM | WN19-00-000220 | Windows Server 2019 system files must be monitored for unauthorized changes."
   block:
-      - name: "MEDIUM | WN19-00-000220 | AUDIT | Windows Server 2019 system files must be monitored for unauthorized changes."
-        win_shell: echo true
-        register: wn19_00_000220_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
+      - name: "MEDIUM | WN19-00-000220 | AUDIT | Windows Server 2019 system files must be monitored for unauthorized changes. | Message out"
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 system files must be monitored for unauthorized changes."
 
-      - name: "MEDIUM | WN19-00-000220 | Windows Server 2019 system files must be monitored for unauthorized changes."
-        win_shell: echo true
-        changed_when: no
-  when:
-      - wn19_00_000220
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000220
+  vars:
+    warn_control_id: 'wn19_00_000220'
   tags:
       - WN19-00-000220
       - V-205803
@@ -417,9 +407,15 @@
         tags: audit
 
       - name: "MEDIUM | WN19-00-000230 | Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it."
-        win_shell: echo true
-        changed_when: no
-  when: wn19_00_000230
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000230
+  vars:
+    warn_control_id: 'wn19_00_000230'
   tags:
       - WN19-00-000230
       - V-205721
@@ -445,9 +441,15 @@
         tags: audit
 
       - name: "MEDIUM | WN19-00-000240 | Windows Server 2019 must have software certificate installation files removed."
-        win_shell: echo true
-        changed_when: no
-  when: wn19_00_000240
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 must have software certificate installation files removed."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when: 
+    - wn19_00_000240
+  vars:
+    warn_control_id: 'wn19_00_000240'
   tags:
       - WN19-00-000240
       - V-205852
@@ -460,18 +462,16 @@
 
 - name: "MEDIUM | WN19-00-000250 | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
   block:
-      - name: "MEDIUM | WN19-00-000250 | AUDIT | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
-        win_shell: echo true
-        register: wn19_00_000250_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
-
       - name: "MEDIUM | WN19-00-000250 | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
-        win_shell: echo true
-        changed_when: no
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
   when:
       - wn19_00_000250
+  vars:
+    warn_control_id: 'wn19_00_000250'
   tags:
       - WN19-00-000250
       - V-205727
@@ -484,18 +484,16 @@
 
 - name: "MEDIUM | WN19-00-000260 | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
   block:
-      - name: "MEDIUM | WN19-00-000260 | AUDIT | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
-        win_shell: echo true
-        register: wn19_00_000260_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
-
       - name: "MEDIUM | WN19-00-000260 | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
-        win_shell: echo true
-        changed_when: no
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
   when:
-      - wn19_00_000260
+    - wn19_00_000260
+  vars:
+    warn_control_id: 'wn19_00_000260'
   tags:
       - WN19-00-000260
       - V-205829
@@ -515,9 +513,15 @@
         tags: audit
         
       - name: "MEDIUM | WN19-00-000270 | Windows Server 2019 must have the roles and features required by the system documented."
-        win_shell: echo true
-        changed_when: no
-  when: wn19_00_000270
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 must have the roles and features required by the system documented."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  when:
+    - wn19_00_000270
+  vars:
+    warn_control_id: 'wn19_00_000270'
   tags:
       - WN19-00-000270
       - V-205677
