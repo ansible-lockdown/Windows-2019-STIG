@@ -21,16 +21,14 @@
 
 - name: "LOW | WN19-00-000180 | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
   block:
-      - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
-        win_shell: echo true
-        register: wn19_00_000180_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
-
       - name: "LOW | WN19-00-000180 | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
-        win_shell: echo true
-        changed_when: no
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  vars:
+    warn_control_id: 'wn19_00_000180'
   when:
       - wn19_00_000180
   tags:
@@ -59,16 +57,14 @@
 
 - name: "LOW | WN19-DC-000160 | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
   block:
-      - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
-        win_shell: echo true
-        register: wn19_dc_000160_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
-
       - name: "LOW | WN19-DC-000160 | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
-        win_shell: echo true
-        changed_when: no
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  vars:
+    warn_control_id: 'WN19-DC-000160'
   when:
       - wn19_dc_000160
   tags:
@@ -81,16 +77,14 @@
 
 - name: "LOW | WN19-00-000440 | The Windows Server 2019 time service must synchronize with an appropriate DoD time source."
   block:
-      - name: "LOW | WN19-00-000440 | AUDIT | The Windows Server 2019 time service must synchronize with an appropriate DoD time source."
-        win_shell: echo true
-        register: wn16_00_000450_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
-
       - name: "LOW | WN19-00-000440 | The Windows Server 2019 time service must synchronize with an appropriate DoD time source."
-        win_shell: echo true
-        changed_when: no
+        debug:
+          msg: "Warning!! This is a manual task. The Windows Server 2019 time service must synchronize with an appropriate DoD time source. "
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  vars:
+    warn_control_id: 'wn19_00_000440'
 
   when:
       - wn19_00_000440
@@ -120,16 +114,14 @@
 
 - name: "LOW | WN19-00-000460 | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
   block:
-      - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
-        win_shell: echo true
-        register: wn19_00_000460_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
-
       - name: "LOW | WN19-00-000460 | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
-        win_shell: echo true
-        changed_when: no
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  vars:
+    warn_control_id: 'wn19_00_000460'
   when:
       - wn19_00_000460
   tags:
@@ -142,16 +134,14 @@
 
 - name: "LOW | WN19-00-000470 | Windows Server 2019 must have Secure Boot enabled."
   block:
-      - name: "LOW | WN19-00-000470 | AUDIT | Windows Server 2019 must have Secure Boot enabled."
-        win_shell: echo true
-        register: wn19_00_000470_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
-
       - name: "LOW | WN19-00-000470 | Windows Server 2019 must have Secure Boot enabled."
-        win_shell: echo true
-        changed_when: no
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 must have Secure Boot enabled. "
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  vars:
+    warn_control_id: 'wn19_00_000470'
   when:
       - wn19_00_000470
   tags:
@@ -228,20 +218,23 @@
 
 - name: "LOW | WN19-CC-000320 | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled."
   block:
-      - name: "LOW | WN19-CC-000320 | AUDIT | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled."
-        win_shell: echo true
-        register: wn19_cc_000320_audit
-        check_mode: no
-        changed_when: no
-        tags: audit
-
       - name: "LOW | WN19-CC-000320 | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled."
-        win_shell: echo true
-        changed_when: no
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled. "
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  vars:
+    warn_control_id: 'wn19_cc_000320'
   when:
       - wn19_cc_000320
   tags:
       - WN19-CC-000320
+      - SV-205871r569188_rule
+      - V-205871
+      - CCI-000366
+      - SRG-OS-000480-GPOS-00227
+      - CAT3
 
 - name: "LOW | WN19-SO-000370 | Windows Server 2019 default permissions of global system objects must be strengthened."
   win_regedit:
