@@ -303,13 +303,13 @@
       - CAT1
 
 # populate a dictionary/list from customer
-  - name: "HIGH | WN19-MS-000010 | Windows Server 2019 must only allow administrators responsible for the member server or standalone system must have Administrator rights on the system."
+  - name: "HIGH | WN19-MS-000010 | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
     block:
-        - name: "HIGH | WN19-MS-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the member server or standalone system must have Administrator rights on the system."
+        - name: "HIGH | WN19-MS-000010 | AUDIT | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
           win_shell: Get-LocalGroupMember -Name 'Administrators'
           register: wn19_ms_000010_audit
           changed_when: no
-        - name: "HIGH | WN19-MS-000010 | Windows Server 2019 must only allow administrators responsible for the member server or standalone system must have Administrator rights on the system."
+        - name: "HIGH | WN19-MS-000010 | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
           debug:
               msg:
                   - The following users or groups have Administrator rights on this system
@@ -322,7 +322,7 @@
         - WN19-MS-000010
         - V-205746
         - SRG-OS-000324-GPOS-00125
-        - SV-205746r569188_rule
+        - SV-205746r860030_rule
         - CCI-002235
         - audit
         - CAT1
@@ -587,7 +587,7 @@
         - WN19-MS-000140
         - V-205907
         - SRG-OS-000480-GPOS-00227
-        - SV-205907r793209_rule
+        - SV-205907r857344_rule
         - CCI-000366
         - NeedToTestMemberServer
         - CAT1
@@ -654,6 +654,6 @@
         - WN19-SO-000310
         - V-205919
         - SRG-OS-000480-GPOS-00227
-        - SV-205919r569188_rule
+        - SV-205919r857347_rule
         - CCI-000366
         - CAT1

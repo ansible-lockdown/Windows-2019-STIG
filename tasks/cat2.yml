@@ -39,8 +39,8 @@
       - WN19-00-000020
       - V-205657	
       - CCI-000199
-      - SV-205657r793212_rule
-      - SRG-OS-000480-GPOS-00227
+      - SV-205657r857286_rule
+      - SRG-OS-000076-GPOS-00044
       - NeedToTestDomainController
       - audit
       - CAT2 
@@ -110,7 +110,7 @@
       - WN19-00-000060
       - V-205847
       - SRG-OS-000480-GPOS-00227
-      - SV-205847r569188_rule
+      - SV-205847r857288_rule
       - CCI-000366
       - CAT2 
       # how to make this list?
@@ -174,7 +174,7 @@
       - WN19-00-000090
       - V-205848
       - SRG-OS-000480-GPOS-00227
-      - SV-205848r569188_rule
+      - SV-205848r857290_rule
       - CCI-000366
       - CAT2
       # wmic /namespace:\\root\cimv2\security\microsofttpm path win32_tpm get *
@@ -297,7 +297,7 @@
       - WN19-00-000190
       - V-205707
       - SRG-OS-000118-GPOS-00060
-      - SV-205707r569188_rule
+      - SV-205707r857292_rule
       - CCI-000795
       - CAT2
 
@@ -342,7 +342,7 @@
       - WN19-00-000200
       - V-205700
       - SRG-OS-000104-GPOS-00051
-      - SV-205700r569188_rule
+      - SV-205700r857294_rule
       - CCI-000764
       - audit
       - CAT2
@@ -372,13 +372,13 @@
       - WN19-00-000210
       - V-205658
       - SRG-OS-000076-GPOS-00044
-      - SV-205658r569188_rule
+      - SV-205658r857297_rule
       - CAT2
       - CCI-000199
 
 - name: "MEDIUM | WN19-00-000220 | Windows Server 2019 system files must be monitored for unauthorized changes."
   block:
-      - name: "MEDIUM | WN19-00-000220 | AUDIT | Windows Server 2019 system files must be monitored for unauthorized changes. | Message out"
+      - name: "MEDIUM | WN19-00-000220 | Windows Server 2019 system files must be monitored for unauthorized changes. | Message out"
         debug:
           msg: "Warning!! This is a manual task. Windows Server 2019 system files must be monitored for unauthorized changes."
 
@@ -392,7 +392,7 @@
       - WN19-00-000220
       - V-205803
       - SRG-OS-000363-GPOS-00150
-      - SV-205803r793216_rule
+      - SV-205803r860026_rule
       - CCI-001744
       - CAT2
       # Some third party software to monitor files
@@ -571,11 +571,31 @@
       - CCI-001233
       - CAT2
 
-- name: "MEDIUM | WN19-00-000310 | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
+- name: "MEDIUM | WN19-00-000300 | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
   block:
-      - name: "MEDIUM | WN19-00-000310 | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
+      - name: "MEDIUM | WN19-00-000300 | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
         debug:
           msg: "Warning!! This is a manual task. Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  vars:
+    warn_control_id: 'wn19_00_000300'
+  when:
+    - wn19_00_000300
+  tags:
+      - WN19-00-000300
+      - V-205624
+      - SRG-OS-000002-GPOS-00002
+      - SV-205624r857301_rule
+      - CCI-000016
+      - CAT2
+
+- name: "MEDIUM | WN19-00-000310 | Windows Server 2019 must automatically remove or disable emergency accounts after the crisis is resolved or within 72 hours."
+  block:
+      - name: "MEDIUM | WN19-00-000310 | Windows Server 2019 must automatically remove or disable emergency accounts after the crisis is resolved or within 72 hours."
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 must automatically remove or disable emergency accounts after the crisis is resolved or within 72 hours."
 
       - name: import reuseable task
         ansible.builtin.import_tasks: warning_facts.yml
@@ -587,7 +607,7 @@
       - WN19-00-000310
       - V-205710
       - SRG-OS-000123-GPOS-00064
-      - SV-205710r569188_rule
+      - SV-205710r857303_rule
       - CCI-001682
       - CAT2
       # how? prompt customer provided name list? scan against local account names for unknown ones?
@@ -990,11 +1010,11 @@
       - CCI-001851
       - CAT2
 
-- name: "MEDIUM | WN19-AU-000020 | Windows Server 2019 must, at a minimum, off-load audit records of interconnected systems in real time and off-load standalone systems weekly."
+- name: "MEDIUM | WN19-AU-000020 | Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real time and offload standalone or nondomain-joined systems weekly."
   block:
-      - name: "MEDIUM | WN19-AU-000020 | Windows Server 2019 must, at a minimum, off-load audit records of interconnected systems in real time and off-load standalone systems weekly."
+      - name: "MEDIUM | WN19-AU-000020 | Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real time and offload standalone or nondomain-joined systems weekly."
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 must, at a minimum, off-load audit records of interconnected systems in real time and off-load standalone systems weekly."
+          msg: "Warning!! This is a manual task. Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real time and offload standalone or nondomain-joined systems weekly."
 
       - name: import reuseable task
         ansible.builtin.import_tasks: warning_facts.yml
@@ -1006,7 +1026,7 @@
       - WN19-AU-000020
       - V-205843
       - SRG-OS-000479-GPOS-00224
-      - SV-205843r569188_rule
+      - SV-205843r860027_rule
       - CCI-001851
       - CAT2
       # hard one, either need to standardize on say log shipping like splunk or other is set?
@@ -1862,7 +1882,7 @@
       - WN19-CC-000080
       - V-205862
       - SRG-OS-000480-GPOS-00227
-      - SV-205862r569188_rule
+      - 205862r857311_rule
       - CCI-000366
       - CAT2
 
@@ -1915,7 +1935,7 @@
       - WN19-CC-000110
       - V-205864
       - SRG-OS-000480-GPOS-00227
-      - SV-205864r819713_rule
+      - SV-205864r857313_rule
       - CCI-000366
       - CAT2
 
@@ -3197,7 +3217,7 @@
       - WN19-DC-000430
       - V-205877
       - SRG-OS-000480-GPOS-00227
-      - SV-205877r569188_rule
+      - SV-205877r857315_rule
       - CCI-000366
       - NeedToTestDomainController
       - CAT2
@@ -3216,7 +3236,7 @@
       - WN19-MS-000020
       - V-205715
       - SRG-OS-000134-GPOS-00068
-      - SV-205715r569188_rule
+      - SV-205715r857320_rule
       - CCI-001084
       - CAT2
       - NeedToTestMemberServer
@@ -3235,12 +3255,12 @@
       - WN19-MS-000030
       - V-205696
       - SRG-OS-000095-GPOS-00049
-      - SV-205696r569188_rule
+      - SV-205696r857322_rule
       - CCI-000381
       - CAT2
       - NeedToTestMemberServer
 
-- name: "MEDIUM | WN19-MS-000040 | Windows Server 2019 must restrict unauthenticated Remote Procedure Call (RPC) clients from connecting to the RPC server on domain-joined member servers and standalone systems."
+- name: "MEDIUM | WN19-MS-000040 | Windows Server 2019 must restrict unauthenticated Remote Procedure Call (RPC) clients from connecting to the RPC server on domain-joined member servers and standalone or nondomain-joined systems."
   win_regedit:
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Rpc
       state: present
@@ -3254,7 +3274,7 @@
       - WN19-MS-000040
       - V-205814
       - SRG-OS-000379-GPOS-00164
-      - SV-205814r569188_rule
+      - SV-205814r860031_rule
       - CCI-001967
       - CAT2
 
@@ -3272,11 +3292,12 @@
       - WN19-MS-000050
       - V-205906
       - SRG-OS-000480-GPOS-00227
-      - SV-205906r569188_rule
+      - SV-205906r857326_rule
       - CCI-000366
       - CAT2
 
-- name: "MEDIUM | WN19-MS-000060 | Windows Server 2019 must restrict remote calls to the Security Account Manager (SAM) to Administrators on domain-joined member servers and standalone systems."
+- name: "MEDIUM | WN19-MS-000060 | Windows Server 2019 must restrict remote calls to the Security Account Manager (SAM) to Administrators on domain-joined member servers and standalone or nondomain-joined systems.
+"
   win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
       state: present
@@ -3290,7 +3311,7 @@
       - WN19-MS-000060
       - V-205747
       - SRG-OS-000324-GPOS-00125
-      - SV-205747r569188_rule
+      - SV-205747r860032_rule
       - CCI-002235
       - CAT2
 
@@ -3308,7 +3329,7 @@
       - WN19-MS-000070
       - V-205671
       - SRG-OS-000080-GPOS-00048
-      - SV-205671r569188_rule
+      - SV-205671r857331_rule
       - CCI-000213
       - CAT2
 
@@ -3340,7 +3361,7 @@
       - WN19-MS-000080
       - V-205672
       - SRG-OS-000080-GPOS-00048
-      - SV-205672r569188_rule
+      - SV-205672r857333_rule
       - CCI-000213
       - CAT2
       - NeedToTestMemberServer
@@ -3369,7 +3390,7 @@
       - WN19-MS-000090
       - V-205673
       - SRG-OS-000080-GPOS-00048
-      - SV-205673r569188_rule
+      - SV-205673r857335_rule
       - CCI-000213
       - CAT2
       - NeedToTestMemberServer
@@ -3405,7 +3426,7 @@
             action: set
         when: ansible_windows_domain_role == "Member server"
 
-      - name: "MEDIUM | WN19-MS-000110 | STAND-ALONE | Windows Server 2019 sDeny log on locally user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and from unauthenticated access on all systems."
+      - name: "MEDIUM | WN19-MS-000110 | STAND-ALONE | Windows Server 2019 Deny log on locally user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and from unauthenticated access on all systems."
         win_user_right:
             name: SeDenyInteractiveLogonRight
             users:
@@ -3417,7 +3438,7 @@
       - WN19-MS-000110
       - V-205675
       - SRG-OS-000080-GPOS-00048
-      - SV-205675r569188_rule
+      - SV-205675r857337_rule
       - CCI-000213
       - CAT2
       - NeedToTestMemberServer
@@ -3447,12 +3468,12 @@
       - WN19-MS-000120
       - V-205733
       - SRG-OS-000297-GPOS-00115
-      - SV-205733r569188_rule
+      - SV-205733r860033_rule
       - CCI-002314
       - CAT2
       - NeedToTestMemberServer
 
-- name: "MEDIUM | WN19-MS-000130 | Windows Server 2019 Enable computer and user accounts to be trusted for delegation user right must not be assigned to any groups or accounts on domain-joined member servers and standalone systems."
+- name: "MEDIUM | WN19-MS-000130 | Windows Server 2019 Enable computer and user accounts to be trusted for delegation user right must not be assigned to any groups or accounts on domain-joined member servers and standalone or nondomain-joined systems."
   win_security_policy:
       section: Privilege Rights
       key: SeEnableDelegationPrivilege
@@ -3463,7 +3484,7 @@
       - WN19-MS-000130
       - V-205748
       - SRG-OS-000324-GPOS-00125
-      - SV-205748r569188_rule
+      - SV-205748r860034_rule
       - CCI-002235
       - CAT2
 
@@ -3496,15 +3517,20 @@
         tags: audit
 
       - name: "MEDIUM | WN19-PK-000020 | Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems."
-        win_shell: echo true
-        changed_when: no
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  vars:
+    warn_control_id: 'wn19_pk_000020'
   when:
       - wn19_pk_000020
   tags:
       - WN19-PK-000020
       - V-205649
       - SRG-OS-000066-GPOS-00034
-      - SV-205649r819707_rule
+      - SV-205649r857346_rule
       - CCI-000185
       - CCI-002470
       - CAT2
@@ -3519,8 +3545,13 @@
         tags: audit
 
       - name: "MEDIUM | WN19-PK-000030 | Windows Server 2019 must have the US DoD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems."
-        win_shell: echo true
-        changed_when: no
+        debug:
+          msg: "Warning!! This is a manual task. Windows Server 2019 must have the US DoD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems."
+
+      - name: import reuseable task
+        ansible.builtin.import_tasks: warning_facts.yml
+  vars:
+    warn_control_id: 'wn19_pk_000030'
   when: wn19_pk_000030
   tags:
       - WN19-PK-000030
