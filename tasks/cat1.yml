@@ -441,12 +441,11 @@
         debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
 
-      - name: "HIGH | WN19-00-000010 | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | import reuseable task.""
+      - name: "HIGH | WN19-00-000010 | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000010'
-  when:
-      - wn19_00_000010
+  when: wn19_00_000010
   tags:
       - WN19-00-000010
       - V-205844
@@ -463,10 +462,9 @@
 
       - name: "HIGH | WN19-00-000030 | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | import reuseable task."        
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-      warn_control_id: 'wn19_00_000030'
-  when:
-      - wn19_00_000030
+        vars:
+            warn_control_id: 'wn19_00_000030'
+  when: wn19_00_000030
   tags:
       - WN19-00-000030
       - V-205845
@@ -481,33 +479,33 @@
         win_reg_stat:
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion\
             name: CurrentMajorVersionNumber
-        register: wn19_00_000100_audit_currentmajorversionnumber
         failed_when: wn19_00_000100_audit_currentmajorversionnumber.value is not version('10', '>=')
         changed_when: false
+        register: wn19_00_000100_audit_currentmajorversionnumber
 
       - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Build (currentNumber)."
         win_reg_stat:
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
             name: CurrentBuildNumber
-        register: wn19_00_000100_audit_currentbuildnumber
         failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
         changed_when: false
+        register: wn19_00_000100_audit_currentbuildnumber
 
       - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Release"
         win_reg_stat:
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
             name: ReleaseId
-        register: wn19_00_000100_audit_releaseid
         failed_when: wn19_00_000100_audit_releaseid.value is not version('1809', '>=')
         changed_when: false
+        register: wn19_00_000100_audit_releaseid
 
       - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Build"
         win_reg_stat:
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
             name: CurrentBuild
-        register: wn19_00_000100_audit_currentbuild
         failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
         changed_when: false
+        register: wn19_00_000100_audit_currentbuild
   when: wn19_00_000100
   tags:
       - WN19-00-000100
@@ -529,10 +527,9 @@
 
       - name: "HIGH | WN19-00-000110  | Windows Server 2019 must use an anti-virus program. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-      warn_control_id: 'wn19_00_000110'
-  when:
-      - wn19_00_000110
+        vars:
+            warn_control_id: 'wn19_00_000110'
+  when: wn19_00_000110
   tags:
       - WN19-00-000110
       - V-205850

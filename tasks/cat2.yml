@@ -5,10 +5,10 @@
       - name: "MEDIUM | WN19-00-000020 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every {{ wn19_00_000020_pass_age }} days."
         win_shell: "Get-ADUser -Filter * -Property PasswordLastSet | Where SID -like S-1-5-21-*-500 | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ wn19_00_000020_pass_age }}))} | Select Name,PasswordLastSet"
         # win_shell: "Get-ADUser krbtgt -Property PasswordLastSet | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ WN19_dc_000430_pass_age }}))} | Select-Object -ExpandProperty PasswordLastSet"
-        register: wn19_00_000020_audit_dc
-        check_mode: no
+        check_mode: false
         changed_when: wn19_00_000020_audit_dc.stdout != ""
         when: "'controller' in ansible_windows_domain_role"
+        register: wn19_00_000020_audit_dc
 
       - name: "MEDIUM | WN19-00-000020 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every {{ wn19_00_000020_pass_age }} days."
         debug:
@@ -18,12 +18,12 @@
         when:
             - not wn19_00_000020_audit_dc is skipped
             - wn19_00_000020_audit_dc.stdout != ""
-        changed_when: yes
+        changed_when: true
 
       - name: "MEDIUM | WN19-00-000020 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every {{ wn19_00_000020_pass_age }} days."
         win_shell: "Get-Localuser -Name * | Select * | Where SID -like S-1-5-21-*-500 | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ wn19_00_000020_pass_age }}))} | Select Name,PasswordLastSet"
-        register: wn19_00_000020_audit_dm_sa
         changed_when: wn19_00_000020_audit_dm_sa.stdout != ""
+        register: wn19_00_000020_audit_dm_sa
 
       - name: "MEDIUM | WN19-00-000020 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every {{ wn19_00_000020_pass_age }} days."
         debug:
@@ -33,25 +33,25 @@
         when:
             - wn19_00_000020_audit_dm_sa is defined
             - wn19_00_000020_audit_dm_sa.stdout != ""
-        changed_when: yes
+        changed_when: true
   when: wn19_00_000020
   tags:
       - WN19-00-000020
-      - V-205657	
+      - V-205657
       - CCI-000199
       - SV-205657r857286_rule
       - SRG-OS-000076-GPOS-00044
       - NeedToTestDomainController
       - audit
-      - CAT2 
+      - CAT2
 
 - name: "MEDIUM | WN19-00-000040 | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
   block:
       - name: "MEDIUM | WN19-00-000040 | AUDIT STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
         win_shell: Get-LocalGroupMember -Name 'Backup Operators'
+        check_mode: false
+        changed_when: false
         register: wn19_00_000040_audit
-        check_mode: no
-        changed_when: no
 
       - name: "MEDIUM | WN19-00-000040 | AUDIT STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
         debug:
@@ -61,7 +61,7 @@
         when:
             - not wn19_00_000040_audit is skipped
             - wn19_00_000040_audit.stdout != ""
-        changed_when: no
+        changed_when: false
   when:
       - wn19_00_000040
       - "'controller' not in ansible_windows_domain_role"
@@ -72,88 +72,85 @@
       - SV-205846r569188_rule
       - CCI-000366
       - audit
-      - CAT2 
+      - CAT2
 
 - name: "MEDIUM | WN19-00-000050  | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
   block:
       - name: "MEDIUM | WN19-00-000050  | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
+            msg: "Warning!! This is a manual task. Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
 
       - name: import reuseable task
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000050'
-  when: 
-    - wn19_00_000050
+        vars:
+            warn_control_id: 'wn19_00_000050'
+  when: wn19_00_000050
   tags:
-    - WN19-00-000050
-    - V-205661
-    - SRG-OS-000078-GPOS-00046
-    - SV-205661r569188_rule
-    - CCI-000205      
-    - CAT2 
+      - WN19-00-000050
+      - V-205661
+      - SRG-OS-000078-GPOS-00046
+      - SV-205661r569188_rule
+      - CCI-000205
+      - CAT2
 
 - name: "MEDIUM | WN19-00-000060  | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
   block:
       - name: "MEDIUM | WN19-00-000060  | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
+            msg: "Warning!! This is a manual task. Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000060  | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000060'
-  when: 
-    - wn19_00_000060
+        vars:
+            warn_control_id: 'wn19_00_000060'
+  when: wn19_00_000060
   tags:
       - WN19-00-000060
       - V-205847
       - SRG-OS-000480-GPOS-00227
       - SV-205847r857288_rule
       - CCI-000366
-      - CAT2 
+      - CAT2
       # how to make this list?
 
 - name: "MEDIUM | WN19-00-000070  | Windows Server 2019 shared user accounts must not be permitted."
   block:
       - name: "MEDIUM | WN19-00-000070  | Windows Server 2019 shared user accounts must not be permitted. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 shared user accounts must not be permitted."
+            msg: "Warning!! This is a manual task. Windows Server 2019 shared user accounts must not be permitted."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000070  | Windows Server 2019 shared user accounts must not be permitted. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000070'
-  when: 
-    - wn19_00_000070
+        vars:
+            warn_control_id: 'wn19_00_000070'
+  when: wn19_00_000070
   tags:
       - WN19-00-000070
       - V-205699
       - SRG-OS-000104-GPOS-00051
       - SV-205699r569188_rule
       - CCI-000764
-      - CAT2 
+      - CAT2
 
 - name: "MEDIUM | WN19-00-000080  | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
   block:
       - name: "MEDIUM | WN19-00-000080  | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
+            msg: "Warning!! This is a manual task. Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000080  | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000080'
-  when: 
-    - wn19_00_000080
+        vars:
+            warn_control_id: 'wn19_00_000080'
+  when:
+      - wn19_00_000080
   tags:
       - WN19-00-000080
       - V-205807
       - SRG-OS-000370-GPOS-00155
       - SV-205807r569188_rule
       - CCI-001774
-      - CAT2 
+      - CAT2
       # Get-AppLockerPolicy -Effective
 
 
@@ -162,14 +159,13 @@
   block:
       - name: "MEDIUM | WN19-00-000090  | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
+            msg: "Warning!! This is a manual task. Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000090  | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000090'
-  when: 
-    - wn19_00_000090
+        vars:
+            warn_control_id: 'wn19_00_000090'
+  when: wn19_00_000090
   tags:
       - WN19-00-000090
       - V-205848
@@ -184,14 +180,13 @@
   block:
       - name: "MEDIUM | WN19-00-000120  | Windows Server 2019 must have a host-based intrusion detection or prevention system. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 must have a host-based intrusion detection or prevention system."
+            msg: "Warning!! This is a manual task. Windows Server 2019 must have a host-based intrusion detection or prevention system."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000120  | Windows Server 2019 must have a host-based intrusion detection or prevention system. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000120'
-  when: 
-    - wn19_00_000120
+        vars:
+            warn_control_id: 'wn19_00_000120'
+  when: wn19_00_000120
   tags:
       - WN19-00-000120
       - V-205851
@@ -205,14 +200,13 @@
   block:
       - name: "MEDIUM | WN19-00-000140  | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements."
+            msg: "Warning!! This is a manual task. Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000140  | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000140'
-  when: 
-    - wn19_00_000140
+        vars:
+            warn_control_id: 'wn19_00_000140'
+  when: wn19_00_000140
   tags:
       - WN19-00-000140
       - V-205734
@@ -225,14 +219,13 @@
   block:
       - name: "MEDIUM | WN19-00-000150 | Windows Server 2019 permissions for program file directories must conform to minimum requirements. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 permissions for program file directories must conform to minimum requirements."
+            msg: "Warning!! This is a manual task. Windows Server 2019 permissions for program file directories must conform to minimum requirements."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000150 | Windows Server 2019 permissions for program file directories must conform to minimum requirements. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000150'
-  when: 
-    - wn19_00_000150
+        vars:
+            warn_control_id: 'wn19_00_000150'
+  when: wn19_00_000150
   tags:
       - WN19-00-000150
       - V-205735
@@ -245,14 +238,13 @@
   block:
       - name: "MEDIUM | WN19-00-000160 | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements."
+            msg: "Warning!! This is a manual task. Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000160 | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000160'
-  when: 
-    - wn19_00_000160
+        vars:
+            warn_control_id: 'wn19_00_000160'
+  when: wn19_00_000160
   tags:
       - WN19-00-000160
       - V-205736
@@ -265,14 +257,13 @@
   block:
       - name: "MEDIUM | WN19-00-000170 | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained."
+            msg: "Warning!! This is a manual task. Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000170 | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000170'
-  when: 
-    - wn19_00_000170
+        vars:
+            warn_control_id: 'wn19_00_000170'
+  when: wn19_00_000170
   tags:
       - WN19-00-000170
       - V-205737
@@ -285,14 +276,13 @@
   block:
       - name: "MEDIUM | WN19-00-000190 | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 outdated or unused accounts must be removed from the system or disabled."
+            msg: "Warning!! This is a manual task. Windows Server 2019 outdated or unused accounts must be removed from the system or disabled."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000190 | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000190'
-  when: 
-    - wn19_00_000190
+        vars:
+            warn_control_id: 'wn19_00_000190'
+  when: wn19_00_000190
   tags:
       - WN19-00-000190
       - V-205707
@@ -306,11 +296,11 @@
   block:
       - name: "MEDIUM | WN19-00-000200 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 accounts must require passwords."
         win_shell: Get-Aduser -Filter "(Passwordnotrequired -eq 'True') -and (Enabled -eq 'True')" | Select Name,Passwordnotrequired,Enabled
-        register: wn19_00_000200_audit_dc
-        check_mode: no
+        check_mode: false
         changed_when: wn19_00_000200_audit_dc.stdout != ""
         when: ansible_windows_domain_role == "Primary domain controller"
-        
+        register: wn19_00_000200_audit_dc
+
       - name: "MEDIUM | WN19-00-000200 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 accounts must require passwords."
         debug:
             msg:
@@ -319,14 +309,14 @@
         when:
             - not wn19_00_000200_audit_dc is skipped
             - wn19_00_000200_audit_dc.stdout != ""
-        changed_when: yes
+        changed_when: true
 
       - name: "MEDIUM | WN19-00-000200 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 accounts must require passwords."
         win_shell: Get-LocalUser | Where-Object {($_.PasswordRequired -ne 'True' -and $_.Enabled -eq 'True')} | Select Name,PasswordRequired,Enabled
-        register: wn19_00_000200_audit_dm_sa
-        check_mode: no
+        check_mode: false
         changed_when: wn19_00_000200_audit_dm_sa.stdout != ""
         when: not ansible_windows_domain_role == "Primary domain controller"
+        register: wn19_00_000200_audit_dm_sa
 
       - name: "MEDIUM | WN19-00-000200 | AUDIT -DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 accounts must require passwords."
         debug:
@@ -336,7 +326,7 @@
         when:
             - not wn19_00_000200_audit_dm_sa is skipped
             - wn19_00_000200_audit_dm_sa.stdout != ""
-        changed_when: yes
+        changed_when: true
   when: wn19_00_000200
   tags:
       - WN19-00-000200
@@ -354,19 +344,19 @@
           Get-CimInstance -Class Win32_Useraccount -Filter "PasswordExpires=False and LocalAccount=True" |
           Where-Object -FilterScript {$_.PasswordExpires -EQ $False -AND $_.Disabled -EQ $False} |
           Format-Table -Property Name,PasswordExpires,Disabled,LocalAccount
-        register: wn19_00_000210_audit
-        check_mode: no
-        changed_when: no
+        check_mode: false
+        changed_when: false
         tags: audit
+        register: wn19_00_000210_audit        
 
       - name: "MEDIUM  | WN19-00-000210  | Windows Server 2019 passwords must be configured to expire.| Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 passwords must be configured to expire."
+            msg: "Warning!! This is a manual task. Windows Server 2019 passwords must be configured to expire."
 
-      - name: import reuseable task
+      - name: "MEDIUM  | WN19-00-000210  | Windows Server 2019 passwords must be configured to expire.| import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000210'
+        vars:
+            warn_control_id: 'wn19_00_000210'
   when: wn19_00_000210
   tags:
       - WN19-00-000210
@@ -380,14 +370,13 @@
   block:
       - name: "MEDIUM | WN19-00-000220 | Windows Server 2019 system files must be monitored for unauthorized changes. | Message out"
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 system files must be monitored for unauthorized changes."
+            msg: "Warning!! This is a manual task. Windows Server 2019 system files must be monitored for unauthorized changes."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000220 | Windows Server 2019 system files must be monitored for unauthorized changes. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000220'
-  when: 
-    - wn19_00_000220
+        vars:
+            warn_control_id: 'wn19_00_000220'
+  when: wn19_00_000220
   tags:
       - WN19-00-000220
       - V-205803
@@ -401,21 +390,20 @@
   block:
       - name: "MEDIUM | WN19-00-000230 | AUDIT | Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it."
         win_shell: Get-SmbShare | Where-Object -FilterScript {$_.Special -EQ $False}
-        register: wn19_00_000230_audit
-        check_mode: no
-        changed_when: no
+        check_mode: false
+        changed_when: false
         tags: audit
+        register: wn19_00_000230_audit
 
       - name: "MEDIUM | WN19-00-000230 | Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it."
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it."
+            msg: "Warning!! This is a manual task. Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000230 | Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000230'
-  when: 
-    - wn19_00_000230
+        vars:
+            warn_control_id: 'wn19_00_000230'
+  when: wn19_00_000230
   tags:
       - WN19-00-000230
       - V-205721
@@ -434,22 +422,21 @@
             hidden: true
             recurse: true
             follow: true
-        register: wn19_00_000240_audit
-        check_mode: no
-        changed_when: no
+        check_mode: false
+        changed_when: false
         when: long_running
         tags: audit
+        register: wn19_00_000240_audit
 
       - name: "MEDIUM | WN19-00-000240 | Windows Server 2019 must have software certificate installation files removed."
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 must have software certificate installation files removed."
+            msg: "Warning!! This is a manual task. Windows Server 2019 must have software certificate installation files removed."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000240 | Windows Server 2019 must have software certificate installation files removed. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000240'
-  when: 
-    - wn19_00_000240
+        vars:
+            warn_control_id: 'wn19_00_000240'
+  when: wn19_00_000240
   tags:
       - WN19-00-000240
       - V-205852
@@ -464,14 +451,13 @@
   block:
       - name: "MEDIUM | WN19-00-000250 | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
+            msg: "Warning!! This is a manual task. Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
 
-      - name: import reuseable task
+      - name: "MEDIUM | WN19-00-000250 | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000250'
-  when:
-      - wn19_00_000250
+        vars:
+            warn_control_id: 'wn19_00_000250'
+  when: wn19_00_000250
   tags:
       - WN19-00-000250
       - V-205727
@@ -508,8 +494,8 @@
       - name: "MEDIUM | WN19-00-000270 | AUDIT | Windows Server 2019 bust have the roles and features required by the system documented."
         win_shell: Get-WindowsFeature | Where-Object -FilterScript {$_.Installed -EQ $True}
         register: wn19_00_000270_audit
-        check_mode: no
-        changed_when: no
+        check_mode: false
+        changed_when: false
         tags: audit
         
       - name: "MEDIUM | WN19-00-000270 | Windows Server 2019 must have the roles and features required by the system documented."
@@ -825,7 +811,7 @@
         assert:
             that: wn19_ac_000010_lockoutduration | int is version('15', '<=')
             fail_msg: "Must have the period of time before the bad logon counter is reset configured to 15 minutes or greater and variable wn19_ac_000010_lockoutduration is set to {{ wn19_ac_000010_lockoutduration }}"
-        ignore_errors: yes
+        ignore_errors: true
         tags: audit
 
       - name: "MEDIUM | WN19-AC-000010 | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater."
@@ -863,7 +849,7 @@
         assert:
             that: wn19_ac_000030_resetlockoutcount | int is version('15', '>=')
             fail_msg: "Must have the period of time before the bad logon counter is reset configured to 15 minutes or greater and variable wn19_ac_000030_resetlockoutcount is set to {{ wn19_ac_000030_resetlockoutcount }}"
-        ignore_errors: yes
+        ignore_errors: true
         tags: audit
 
       - name: "MEDIUM | WN19-AC-000030 | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
@@ -887,7 +873,7 @@
         assert:
             that: wn19_ac_000040_passwordhistorysize | int is version('24', '>=')
             fail_msg: "Password history must be configured to 24 passwords remembered and variable wn19_ac_000040_passwordhistorysize is set to {{ wn19_ac_000040_passwordhistorysize }}"
-        ignore_errors: yes
+        ignore_errors: true
         tags: audit
 
       - name: "MEDIUM | WN19-AC-000040 | Windows Server 2019 password history must be configured to 24 passwords remembered."
@@ -910,7 +896,7 @@
         assert:
             that: wn19_ac_000050_maximumpasswordage | int is version('60', '<=')
             fail_msg: "Maximum password age must be configured to 60 days or less and variable wn19_ac_000050_maximumpasswordage is set to {{ wn19_ac_000050_maximumpasswordage }}"
-        ignore_errors: yes
+        ignore_errors: true
         tags: audit
 
       - name: "MEDIUM | WN19-AC-000050 | Windows Server 2019 maximum password age must be configured to 60 days or less."
@@ -933,7 +919,7 @@
         assert:
             that: wn19_ac_000060_minimumpasswordage is version('1', '>=')
             fail_msg: "Minimum password age must be configured to at least one day and variable wn19_ac_000060_minimumpasswordage is set to {{ wn19_ac_000060_minimumpasswordage }}"
-        ignore_errors: yes
+        ignore_errors: true
         tags: audit
 
       - name: "MEDIUM | WN19-AC-000060 | Windows Server 2019 minimum password age must be configured to at least one day."
@@ -956,7 +942,7 @@
         assert:
             that: wn19_ac_000070_minimumpasswordlength is version('14', '>=')
             fail_msg: "Minimum password length must be configured to 14 characters and variable wn19_ac_000070_minimumpasswordlength is set to {{ wn19_ac_000070_minimumpasswordlength }} characters"
-        ignore_errors: yes
+        ignore_errors: true
         tags: audit
 
       - name: "MEDIUM | WN19-AC-000070 | Windows Server 2019 minimum password length must be configured to 14 characters."
@@ -1123,7 +1109,7 @@
       - name: "MEDIUM | WN19-AU-000070 | AUDIT | Windows Server 2019 must be configured to audit Account Logon - Credential Validation successes."
         win_shell: AuditPol /get /subcategory:"Credential Validation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000070_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000070_audit.stdout"
         tags: audit
 
@@ -1145,9 +1131,9 @@
       - name: "MEDIUM | WN19-AU-000080 | AUDIT | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
         win_shell: AuditPol /get /subcategory:"Credential Validation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000080_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000080_audit.stdout"
-        ignore_errors: yes
+        ignore_errors: true
         tags: audit
           
       - name: "MEDIUM | WN19-AU-000080 | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
@@ -1168,7 +1154,7 @@
       - name: "MEDIUM | WN19-AU-000090 | AUDIT | Windows Server 2019 must be configured to audit Account Management - Other Account Management Events successes."
         win_shell: AuditPol /get /subcategory:"Other Account Management Events" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000090_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000090_audit.stdout"
         tags: audit
 
@@ -1191,7 +1177,7 @@
       - name: "MEDIUM | WN19-AU-000120 | AUDIT | Windows Server 2019 must be configured to audit Account Management - User Account Management failures."
         win_shell: AuditPol /get /subcategory:"User Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000120_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_au_000120_audit.stdout"
         tags: audit
 
@@ -1218,7 +1204,7 @@
       - name: "MEDIUM | WN19-AU-000130 | AUDIT | Windows Server 2019 must be configured to audit Detailed Tracking - Plug and Play Events successes."
         win_shell: AuditPol /get /subcategory:"Plug and Play Events" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000130_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000130_audit.stdout"
         tags: audit
 
@@ -1240,7 +1226,7 @@
       - name: "MEDIUM | WN19-AU-000140 | AUDIT | Windows Server 2019 must be configured to audit Detailed Tracking - Process Creation successes."
         win_shell: AuditPol /get /subcategory:"Process Creation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000140_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000140_audit.stdout"
         tags: audit
 
@@ -1263,7 +1249,7 @@
       - name: "MEDIUM | WN19-AU-000150 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff - Account Lockout successes."
         win_shell: AuditPol /get /subcategory:"Account Lockout" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000150_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000150_audit.stdout"
         tags: audit
 
@@ -1286,7 +1272,7 @@
       - name: "MEDIUM | WN19-AU-000160 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff - Account Lockout failures."
         win_shell: AuditPol /get /subcategory:"Account Lockout" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000160_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_au_000160_audit.stdout"
         tags: audit
 
@@ -1309,7 +1295,7 @@
       - name: "MEDIUM | WN19-AU-000170 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff - Group Membership successes."
         win_shell: AuditPol /get /subcategory:"Group Membership" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000170_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000170_audit.stdout"
         tags: audit
 
@@ -1331,7 +1317,7 @@
       - name: "MEDIUM | WN19-AU-000180 | AUDIT | Windows Server 2019 must be configured to audit logoff successes."
         win_shell: AuditPol /get /subcategory:"Logoff" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000180_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000180_audit.stdout"
         tags: audit
 
@@ -1354,7 +1340,7 @@
       - name: "MEDIUM | WN19-AU-000190 | AUDIT | Windows Server 2019 must be configured to audit logon successes."
         win_shell: AuditPol /get /subcategory:"Logon" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000190_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000190_audit.stdout"
         tags: audit
 
@@ -1377,7 +1363,7 @@
       - name: "MEDIUM | WN19-AU-000200 | AUDIT | Windows Server 2019 must be configured to audit logon failures"
         win_shell: AuditPol /get /subcategory:"Logon" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000200_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_au_000200_audit.stdout"
         tags: audit
 
@@ -1400,7 +1386,7 @@
       - name: "MEDIUM | WN19-AU-000210 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff - Special Logon successes."
         win_shell: AuditPol /get /subcategory:"Special Logon" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000210_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000210_audit.stdout"
         tags: audit
 
@@ -1449,7 +1435,7 @@
       - name: "MEDIUM | WN19-AU-000240 | AUDIT | Windows Server 2019 must be configured to audit Object Access - Removable Storage successes."
         win_shell: AuditPol /get /subcategory:"Removable Storage" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000240_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000240_audit.stdout"
         tags: audit
 
@@ -1471,7 +1457,7 @@
       - name: "MEDIUM | WN19-AU-000250 | AUDIT | Windows Server 2019 must be configured to audit Object Access - Removable Storage failures."
         win_shell: AuditPol /get /subcategory:"Removable Storage" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000250_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_au_000250_audit.stdout"
         tags: audit
 
@@ -1493,7 +1479,7 @@
       - name: "MEDIUM | WN19-AU-000260 | AUDIT | Windows Server 2019 must be configured to audit Policy Change - Audit Policy Change successes."
         win_shell: AuditPol /get /subcategory:"Audit Policy Change" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000260_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000260_audit.stdout"
         tags: audit
 
@@ -1516,7 +1502,7 @@
       - name: "MEDIUM | WN19-AU-000270 | AUDIT | Windows Server 2019 must be configured to audit Policy Change - Audit Policy Change failures."
         win_shell: AuditPol /get /subcategory:"Audit Policy Change" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000270_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_au_000270_audit.stdout"
         tags: audit
 
@@ -1539,7 +1525,7 @@
       - name: "MEDIUM | WN19-AU-000280 | AUDIT | Windows Server 2019 must be configured to audit Policy Change - Authentication Policy Change successes."
         win_shell: AuditPol /get /subcategory:"Authentication Policy Change" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000280_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000280_audit.stdout"
         tags: audit
 
@@ -1562,7 +1548,7 @@
       - name: "MEDIUM | WN19-AU-000290 | AUDIT | Windows Server 2019 must be configured to audit Policy Change - Authorization Policy Change successes."
         win_shell: AuditPol /get /subcategory:"Authorization Policy Change" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000290_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000290_audit.stdout"
         tags: audit
 
@@ -1585,7 +1571,7 @@
       - name: "MEDIUM | WN19-AU-000300 | AUDIT | Windows Server 2019 must be configured to audit Privilege Use - Sensitive Privilege Use successes."
         win_shell: AuditPol /get /subcategory:"Sensitive Privilege Use" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000300_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000300_audit.stdout"
         tags: audit
 
@@ -1608,7 +1594,7 @@
       - name: "MEDIUM | WN19-AU-000310 | AUDIT | Windows Server 2019 must be configured to audit Privilege Use - Sensitive Privilege Use failures."
         win_shell: AuditPol /get /subcategory:"Sensitive Privilege Use" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000310_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_au_000310_audit.stdout"
         tags: audit
 
@@ -1631,7 +1617,7 @@
       - name: "MEDIUM | WN19-AU-000320 | AUDIT | Windows Server 2019 must be configured to audit System - IPsec Driver successes."
         win_shell: AuditPol /get /subcategory:"IPsec Driver" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000320_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000320_audit.stdout"
         tags: audit
 
@@ -1654,7 +1640,7 @@
       - name: "MEDIUM | WN19-AU-000330 | AUDIT | Windows Server 2019 must be configured to audit System - IPsec Driver failures."
         win_shell: AuditPol /get /subcategory:"IPsec Driver" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000330_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000330_audit.stdout"
         tags: audit
 
@@ -1677,7 +1663,7 @@
       - name: "MEDIUM | WN19-AU-000340 | AUDIT | Windows Server 2019 must be configured to audit System - Other System Events successes."
         win_shell: AuditPol /get /subcategory:"Other System Events" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000340_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000340_audit.stdout"
         tags: audit
 
@@ -1700,13 +1686,13 @@
       - name: "MEDIUM | WN19-AU-000350 | AUDIT | Windows Server 2019 must be configured to audit System - Other System Events failures."
         win_shell: AuditPol /get /subcategory:"Other System Events" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000350_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_au_000350_audit.stdout"
         tags: audit
 
       - name: "MEDIUM | WN19-AU-000350 | Windows Server 2019 must be configured to audit System - Other System Events failures."
         win_shell: AuditPol /set /subcategory:"Other System Events" /failure:enable
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_au_000350_audit.stdout"
         when: wn19_au_000350_audit is defined
   when: wn19_au_000350
@@ -1724,13 +1710,13 @@
       - name: "MEDIUM | WN19-AU-000360 | AUDIT | Windows Server 2019 must be configured to audit System - Security State Change successes."
         win_shell: AuditPol /get /subcategory:"Security State Change" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000360_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000360_audit.stdout"
         tags: audit
 
       - name: "MEDIUM | WN19-AU-000360 | Windows Server 2019 must be configured to audit System - Security State Change successes."
         win_shell: AuditPol /set /subcategory:"Security State Change" /success:enable
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000360_audit.stdout"
         when: wn19_au_000360_audit is defined
   when: wn19_au_000360
@@ -1748,13 +1734,13 @@
       - name: "MEDIUM | WN19-AU-000370 | AUDIT | Must be configured to audit System - Security System Extension successes."
         win_shell: AuditPol /get /subcategory:"Security System Extension" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000370_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000370_audit.stdout"
         tags: audit
 
       - name: "MEDIUM | WN19-AU-000370 | Must be configured to audit System - Security System Extension successes."
         win_shell: AuditPol /set /subcategory:"Security System Extension" /success:enable
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000370_audit.stdout"
         when: wn19_au_000370_audit is defined
   when: wn19_au_000370
@@ -1772,13 +1758,13 @@
       - name: "MEDIUM | WN19-AU-000380 | AUDIT | Windows Server 2019 must be configured to audit System - System Integrity successes."
         win_shell: AuditPol /get /subcategory:"System Integrity" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000380_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000380_audit.stdout"
         tags: audit
 
       - name: "MEDIUM | WN19-AU-000380 | Windows Server 2019 must be configured to audit System - System Integrity successes."
         win_shell: AuditPol /set /subcategory:"System Integrity" /success:enable
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_au_000380_audit.stdout"
         when: wn19_au_000380_audit is defined
   when: wn19_au_000380
@@ -1796,13 +1782,13 @@
       - name: "MEDIUM | WN19-AU-000390 | AUDIT | Windows Server 2019 must be configured to audit System - System Integrity failures."
         win_shell: AuditPol /get /subcategory:"System Integrity" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_au_000390_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_au_000390_audit.stdout"
         tags: audit
           
       - name: "MEDIUM | WN19-AU-000390 | Windows Server 2019 must be configured to audit System - System Integrity failures."
         win_shell: AuditPol /set /subcategory:"System Integrity" /failure:enable
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_au_000390_audit.stdout"
         when: wn19_au_000390_audit is defined
   when: wn19_au_000390
@@ -2091,7 +2077,7 @@
             path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application
             name: MaxSize
         register: wn19_cc_000270_audit
-        changed_when: no
+        changed_when: false
         tags: audit
 
       - name: "MEDIUM | WN19-CC-000270 | Windows Server 2019 Application event log size must be configured to 32768 KB or greater."
@@ -2120,7 +2106,7 @@
             path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security
             name: MaxSize
         register: wn19_cc_000280_audit
-        changed_when: no
+        changed_when: false
         tags: audit
 
       - name: "MEDIUM | WN19-CC-000280 | Windows Server 2019 Security event log size must be configured to 196608 KB or greater."
@@ -2149,7 +2135,7 @@
             path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\System
             name: MaxSize
         register: wn19_cc_000290_audit
-        changed_when: no
+        changed_when: false
         tags: audit
 
       - name: "MEDIUM | WN19-CC-000290 | Windows Server 2019 System event log size must be configured to 32768 KB or greater."
@@ -2806,7 +2792,7 @@
       - name: "MEDIUM | WN19-DC-000230 | AUDIT | Windows Server 2019 must be configured to audit Account Management - Computer Account Management successes."
         win_shell: AuditPol /get /subcategory:"Computer Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_dc_000230_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_dc_000230_audit.stdout"
         tags: audit
           
@@ -2839,7 +2825,7 @@
       - name: "MEDIUM | WN19-DC-000240 | AUDIT | Windows Server 2019 must be configured to audit DS Access - Directory Service Access successes."
         win_shell: AuditPol /get /subcategory:"Directory Service Access" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_dc_000240_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_dc_000240_audit.stdout"
         tags: audit
 
@@ -2867,7 +2853,7 @@
       - name: "MEDIUM | WN19-DC-000250 | AUDIT | Windows Server 2019 must be configured to audit DS Access - Directory Service Access failures."
         win_shell: AuditPol /get /subcategory:"Directory Service Access" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_dc_000250_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_dc_000250_audit.stdout"
         tags: audit
 
@@ -2895,7 +2881,7 @@
       - name: "MEDIUM | WN19-DC-000260 | AUDIT | Windows Server 2019 must be configured to audit DS Access - Directory Service Changes successes."
         win_shell: AuditPol /get /subcategory:"Directory Service Changes" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_dc_000260_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Success' not in wn19_dc_000260_audit.stdout"
         tags: audit
 
@@ -2923,7 +2909,7 @@
       - name: "MEDIUM | WN19-DC-000270 | AUDIT | Windows Server 2019 must be configured to audit DS Access - Directory Service Changes failures."
         win_shell: AuditPol /get /subcategory:"Directory Service Changes" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         register: wn19_dc_000270_audit
-        check_mode: no
+        check_mode: false
         changed_when: "'Failure' not in wn19_dc_000270_audit.stdout"
         tags: audit
 
@@ -3197,7 +3183,7 @@
       - name: "MEDIUM | WN19-DC-000430 | AUDIT | The password for the krbtgt account on a domain must be reset at least every 180 days."
         win_shell: "Get-ADUser krbtgt -Property PasswordLastSet | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ wn19_dc_000430_pass_age }}))} | Select-Object -ExpandProperty PasswordLastSet"
         register: wn19_dc_000430_audit
-        check_mode: no
+        check_mode: false
         changed_when: wn19_dc_000430_audit.stdout != ""
         tags: audit
       
@@ -3493,8 +3479,8 @@
       - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store."
         win_shell: Get-ChildItem -Path Cert:Localmachine\root | Where Subject -Like "*DoD*" | FL Subject, Thumbprint, NotAfter
         register: wn19_PK_000010_audit
-        check_mode: no
-        changed_when: no
+        check_mode: false
+        changed_when: false
         tags: audit
   when: 
       - wn19_PK_000010
@@ -3512,8 +3498,8 @@
       - name: "MEDIUM | WN19-PK-000020 | AUDIT | Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems."
         win_shell: Get-ChildItem -Path Cert:Localmachine\disallowed | Where {$_.Issuer -Like "*DoD Interoperability*" -and $_.Subject -Like "*DoD*"} | FL Subject, Issuer, Thumbprint, NotAfter
         register: wn19_pk_000020_audit
-        check_mode: no
-        changed_when: no
+        check_mode: false
+        changed_when: false
         tags: audit
 
       - name: "MEDIUM | WN19-PK-000020 | Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems."
@@ -3540,8 +3526,8 @@
       - name: "MEDIUM | WN19-PK-000030 | AUDIT | Windows Server 2019 must have the US DoD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems."
         win_shell: Get-ChildItem -Path Cert:Localmachine\disallowed | Where Issuer -Like "*CCEB Interoperability*" | FL Subject, Issuer, Thumbprint, NotAfter
         register: wn19_pk_000030_audit
-        check_mode: no
-        changed_when: no
+        check_mode: false
+        changed_when: false
         tags: audit
 
       - name: "MEDIUM | WN19-PK-000030 | Windows Server 2019 must have the US DoD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems."
@@ -4440,4 +4426,3 @@
       - SV-205768r569188_rule
       - CCI-002235
       - CAT2
-
