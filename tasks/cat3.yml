@@ -23,14 +23,13 @@
   block:
       - name: "LOW | WN19-00-000180 | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
+            msg: "Warning!! This is a manual task. Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
 
-      - name: import reuseable task
+      - name: "LOW | WN19-00-000180 | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000180'
-  when:
-      - wn19_00_000180
+        vars:
+            warn_control_id: 'wn19_00_000180'
+  when: wn19_00_000180
   tags:
       - WN19-00-000180
       - V-205664
@@ -59,12 +58,12 @@
   block:
       - name: "LOW | WN19-DC-000160 | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
+            msg: "Warning!! This is a manual task. Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
 
-      - name: import reuseable task
+      - name: "LOW | WN19-DC-000160 | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'WN19-DC-000160'
+        vars:
+            warn_control_id: 'WN19-DC-000160'
   when:
       - wn19_dc_000160
   tags:
@@ -79,15 +78,14 @@
   block:
       - name: "LOW | WN19-00-000440 | The Windows Server 2019 time service must synchronize with an appropriate DoD time source."
         debug:
-          msg: "Warning!! This is a manual task. The Windows Server 2019 time service must synchronize with an appropriate DoD time source. "
+            msg: "Warning!! This is a manual task. The Windows Server 2019 time service must synchronize with an appropriate DoD time source. "
 
-      - name: import reuseable task
+      - name: "LOW | WN19-00-000440 | The Windows Server 2019 time service must synchronize with an appropriate DoD time source. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000440'
+        vars:
+            warn_control_id: 'wn19_00_000440'
 
-  when:
-      - wn19_00_000440
+  when: wn19_00_000440
   tags:
       - WN19-00-000440
       - V-205800
@@ -116,14 +114,13 @@
   block:
       - name: "LOW | WN19-00-000460 | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
+            msg: "Warning!! This is a manual task. Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
 
-      - name: import reuseable task
+      - name: "LOW | WN19-00-000460 | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000460'
-  when:
-      - wn19_00_000460
+        vars:
+            warn_control_id: 'wn19_00_000460'
+  when: wn19_00_000460
   tags:
       - WN19-00-000460
       - V-205856
@@ -136,14 +133,13 @@
   block:
       - name: "LOW | WN19-00-000470 | Windows Server 2019 must have Secure Boot enabled."
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 must have Secure Boot enabled. "
+            msg: "Warning!! This is a manual task. Windows Server 2019 must have Secure Boot enabled. "
 
-      - name: import reuseable task
+      - name: "LOW | WN19-00-000470 | Windows Server 2019 must have Secure Boot enabled. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_00_000470'
-  when:
-      - wn19_00_000470
+        vars:
+            warn_control_id: 'wn19_00_000470'
+  when: wn19_00_000470
   tags:
       - WN19-00-000470
       - V-205857
@@ -205,7 +201,7 @@
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization
       state: present
       value: DODownloadMode
-      data: 1 
+      data: 1
       datatype: dword
   when: wn19_cc_000260
   tags:
@@ -220,14 +216,13 @@
   block:
       - name: "LOW | WN19-CC-000320 | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled."
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled. "
+            msg: "Warning!! This is a manual task. Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled. "
 
-      - name: import reuseable task
+      - name: "LOW | WN19-CC-000320 | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-    warn_control_id: 'wn19_cc_000320'
-  when:
-      - wn19_cc_000320
+        vars:
+            warn_control_id: 'wn19_cc_000320'
+  when: wn19_cc_000320
   tags:
       - WN19-CC-000320
       - SV-205871r569188_rule
