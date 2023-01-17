@@ -17,5 +17,5 @@
 
 - name: "NO CONTROL ID | AUDIT | Set fact for manual task warning"
   set_fact:
-    warn_control_list: "{{ warn_control_list }} [{{ warn_control_id }}]"
-    warn_count: "{{ warn_count | int + 1 }}"
+      warn_control_list: "{{ warn_control_list }} [{{ warn_control_id }}]"
+      warn_count: "{{ warn_count | int + 1 }}"

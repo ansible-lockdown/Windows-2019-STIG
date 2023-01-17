@@ -347,7 +347,7 @@
         check_mode: false
         changed_when: false
         tags: audit
-        register: wn19_00_000210_audit        
+        register: wn19_00_000210_audit
 
       - name: "MEDIUM  | WN19-00-000210  | Windows Server 2019 passwords must be configured to expire.| Message out"
         debug:
@@ -472,12 +472,12 @@
   block:
       - name: "MEDIUM | WN19-00-000260 | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
+            msg: "Warning!! This is a manual task. Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
 
       - name: "MEDIUM | WN19-00-000260 | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-          warn_control_id: 'wn19_00_000260'
+            warn_control_id: 'wn19_00_000260'
   when: wn19_00_000260
   tags:
       - WN19-00-000260
@@ -522,7 +522,7 @@
       - name: "MEDIUM | WN19-00-000280 | Windows Server 2019 must have a host-based firewall installed and enabled. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-          warn_control_id: 'wn19_00_000280'
+            warn_control_id: 'wn19_00_000280'
   when: wn19_00_000280
   tags:
       - WN19-00-000280
@@ -1109,7 +1109,7 @@
         changed_when: "'Success' not in wn19_au_000080_audit.stdout"
         ignore_errors: true
         register: wn19_au_000080_audit
-          
+
       - name: "MEDIUM | WN19-AU-000080 | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
         win_shell: AuditPol /set /subcategory:"Credential Validation" /failure:enable
         when: wn19_au_000080_audit is defined
@@ -1338,7 +1338,7 @@
   when: wn19_au_000200
   tags:
       - WN19-AU-000200
-      - V-205635	
+      - V-205635
       - SRG-OS-000032-GPOS-00013
       - SV-205635r569188_rule
       - CCI-000067
@@ -1732,7 +1732,7 @@
         check_mode: false
         changed_when: "'Failure' not in wn19_au_000390_audit.stdout"
         register: wn19_au_000390_audit
-          
+
       - name: "MEDIUM | WN19-AU-000390 | Windows Server 2019 must be configured to audit System - System Integrity failures."
         win_shell: AuditPol /set /subcategory:"System Integrity" /failure:enable
         check_mode: false
@@ -1759,7 +1759,7 @@
   when: wn19_cc_000010
   tags:
       - WN19-CC-000010
-      - V-205686	
+      - V-205686
       - SRG-OS-000095-GPOS-00049
       - SV-205686r569188_rule
       - CCI-000381
@@ -2474,7 +2474,7 @@
   block:
       - name: "MEDIUM | WN19-DC-000040 | Windows Server 2019 Kerberos user ticket lifetime must be limited to 10 hours or less."
         debug:
-          msg: "Warning!! This is a manual task. Windows Server 2019 Kerberos user ticket lifetime must be limited to 10 hours or less."
+            msg: "Warning!! This is a manual task. Windows Server 2019 Kerberos user ticket lifetime must be limited to 10 hours or less."
 
       - name: "MEDIUM | WN19-DC-000040 | Windows Server 2019 Kerberos user ticket lifetime must be limited to 10 hours or less. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
@@ -3220,8 +3220,7 @@
       - CCI-000366
       - CAT2
 
-- name: "MEDIUM | WN19-MS-000060 | Windows Server 2019 must restrict remote calls to the Security Account Manager (SAM) to Administrators on domain-joined member servers and standalone or nondomain-joined systems.
-"
+- name: "MEDIUM | WN19-MS-000060 | Windows Server 2019 must restrict remote calls to the Security Account Manager (SAM) to Administrators on domain-joined member servers and standalone or nondomain-joined systems."
   win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
       state: present
@@ -4117,7 +4116,7 @@
       - WN19-UR-000040
       - V-205751
       - SRG-OS-000324-GPOS-00125
-      -  SV-205751r569188_rule
+      - SV-205751r569188_rule
       - CCI-002235
       - CAT2
 

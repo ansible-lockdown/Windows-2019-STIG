@@ -460,7 +460,7 @@
         debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
 
-      - name: "HIGH | WN19-00-000030 | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | import reuseable task."        
+      - name: "HIGH | WN19-00-000030 | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000030'
