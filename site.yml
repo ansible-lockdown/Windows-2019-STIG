@@ -1,4 +1,5 @@
 ---
+
 - hosts: all
   vars:
       is_container: false

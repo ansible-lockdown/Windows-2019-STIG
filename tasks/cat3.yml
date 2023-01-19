@@ -1,23 +1,24 @@
 ---
-# - name: "LOW | WN19-SO-000140 | Windows Server 2019 title for the legal banner must be configured with the appropriate text."
-#   win_regedit:
-#       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
-#       state: present
-#       value: LegalNoticeCaption
-#       data: "{{ wn19_so_000140_legalnoticecaption }}"
-#       datatype: string
-#   when: wn19_so_000140
-#   tags:
-#       - WN19-SO-000140
-#       - V-93149
-#       - SRG-OS-000023-GPOS-00006
-#       - SV-103237r1
-#       - CCI-000048
-#       - CCI-001384
-#       - CCI-001385
-#       - CCI-001386
-#       - CCI-001387
-#       - CCI-001388
+- name: "LOW | WN19-SO-000140 | Windows Server 2019 title for the legal banner must be configured with the appropriate text."
+  win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+      state: present
+      value: LegalNoticeCaption
+      data: "{{ wn19_so_000140_legalnoticecaption }}"
+      datatype: string
+  when: wn19_so_000140
+  tags:
+      - WN19-SO-000140
+      - V-205632
+      - SRG-OS-000023-GPOS-00006
+      - SRG-OS-000228-GPOS-00088
+      - SV-205632r569188_rule
+      - CCI-000048
+      - CCI-001384
+      - CCI-001385
+      - CCI-001386
+      - CCI-001387
+      - CCI-001388
 
 - name: "LOW | WN19-00-000180 | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
   block:

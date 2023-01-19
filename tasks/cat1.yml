@@ -1,4 +1,5 @@
 ---
+
 - name: "HIGH | WN19-DC-000290 | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
   block:
       - name: "HIGH | WN19-DC-000290 | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | Message out"
@@ -81,8 +82,8 @@
   block:
       - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
         win_shell: Get-Volume
-        check_mode: false
         changed_when: false
+        check_mode: false
         register: wn19_00_000130_audit
 
       - name: "HIGH | WN19-00-000130 | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | Message out"
@@ -306,7 +307,9 @@
       - name: "HIGH | WN19-MS-000010 | AUDIT | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
         win_shell: Get-LocalGroupMember -Name 'Administrators'
         changed_when: false
+        check_mode: false
         register: wn19_ms_000010_audit
+
       - name: "HIGH | WN19-MS-000010 | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
         debug:
             msg:
@@ -327,9 +330,9 @@
 
 - name: "HIGH | WN19-UR-000020 | Windows Server 2019 Act as part of the operating system user right must not be assigned to any groups or accounts."
   win_user_right:
-    name: SeTcbPrivilege
-    users: []
-    action: set
+      name: SeTcbPrivilege
+      users: []
+      action: set
   when: wn19_ur_000020
   tags:
       - WN19-UR-000020

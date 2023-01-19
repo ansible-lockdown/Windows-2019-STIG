@@ -1,4 +1,5 @@
 ---
+
 - name: "PRELIM | Detect if Trusted Platform Module (TPM) is available"
   win_shell: (Get-CimInstance -ClassName Win32_OperatingSystem).ProductType
   changed_when: false
