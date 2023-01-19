@@ -12,7 +12,6 @@
             warn_control_id: 'wn19_dc_000290'
   when:
       - wn19_dc_000290
-      - is_implemented
       - ansible_windows_domain_role == "Primary domain controller"
   tags:
       - WN19-DC-000290
@@ -37,7 +36,6 @@
   when:
       - wn19_dc_000300
       - ansible_windows_domain_role == "Primary domain controller"
-      - is_implemented
   tags:
       - WN19-DC-000300
       - V-205647
@@ -52,8 +50,8 @@
       section: System Access
       key: ClearTextPassword
       value: "0"
-  changed_when: false
-  when: wn19_ac_000090
+  when:
+      - wn19_ac_000090
   tags:
       - WN19-AC-000090
       - V-205653
@@ -65,11 +63,11 @@
 - name: "HIGH | WN19-SO-000300 | Windows Server 2019 must be configured to prevent the storage of the LAN Manager hash of passwords."
   win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
-      state: present
       value: NoLMHash
       data: 1
       datatype: dword
-  when: wn19_so_000300
+  when:
+      - wn19_so_000300
   tags:
       - WN19-SO-000300
       - V-205654
@@ -83,6 +81,7 @@
       - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
         win_shell: Get-Volume
         changed_when: false
+        failed_when: false
         check_mode: false
         register: wn19_00_000130_audit
 
@@ -96,7 +95,6 @@
             warn_control_id: 'wn19_00_000130'
   when:
       - wn19_00_000130
-      - is_implemented
   tags:
       - WN19-00-000130
       - V-205663
@@ -108,11 +106,11 @@
 - name: "HIGH | WN19-CC-000470 | Windows Server 2019 Windows Remote Management (WinRM) client must not use Basic authentication."
   win_regedit:
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
-      state: present
       value: AllowBasic
       data: 0
       datatype: dword
-  when: wn19_cc_000470
+  when:
+      - wn19_cc_000470
   tags:
       - WN19-CC-000470
       - V-205711
@@ -124,11 +122,11 @@
 - name: "HIGH | WN19-CC-000500 | Windows Server 2019 Windows Remote Management (WinRM) service must not use Basic authentication."
   win_regedit:
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service
-      state: present
       value: AllowBasic
       data: 0
       datatype: dword
-  when: wn19_cc_000500
+  when:
+      - wn19_cc_000500
   tags:
       - WN19-CC-000500
       - V-205713
@@ -140,11 +138,11 @@
 - name: "HIGH | WN19-SO-000230 | Windows Server 2019 must not allow anonymous enumeration of shares."
   win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
-      state: present
       value: RestrictAnonymous
       data: 1
       datatype: dword
-  when: wn19_so_000230
+  when:
+      - wn19_so_000230
   tags:
       - WN19-SO-000230
       - V-205724
@@ -156,11 +154,11 @@
 - name: "HIGH | WN19-SO-000250 | Windows Server 2019 must restrict anonymous access to Named Pipes and Shares."
   win_regedit:
       path: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
-      state: present
       value: restrictnullsessaccess
       data: 1
       datatype: dword
-  when: wn19_so_000250
+  when:
+      - wn19_so_000250
   tags:
       - WN19-SO-000250
       - V-205725
@@ -208,7 +206,6 @@
   when:
       - wn19_dc_000070
       - ansible_windows_domain_role == "Primary domain controller"
-      - is_implemented
   tags:
       - WN19-DC-000070
       - V-205739
@@ -333,7 +330,8 @@
       name: SeTcbPrivilege
       users: []
       action: set
-  when: wn19_ur_000020
+  when:
+      - wn19_ur_000020
   tags:
       - WN19-UR-000020
       - V-205750
@@ -347,7 +345,8 @@
       section: Privilege Rights
       key: SeCreateTokenPrivilege
       value: ""
-  when: wn19_ur_000060
+  when:
+      - wn19_ur_000060
   tags:
       - WN19-UR-000060
       - V-205753
@@ -365,7 +364,8 @@
       name: SeDebugPrivilege
       users: Administrators
       action: set
-  when: wn19_ur_000100
+  when:
+      - wn19_ur_000100
   tags:
       - WN19-UR-000100
       - V-205757
@@ -381,7 +381,8 @@
       value: AlwaysInstallElevated
       data: 0
       datatype: dword
-  when: wn19_cc_000430
+  when:
+      - wn19_cc_000430
   tags:
       - WN19-CC-000430
       - V-205802
@@ -393,11 +394,11 @@
 - name: "HIGH | WN19-CC-000210 | Windows Server 2019 AutoPlay must be turned off for non-volume devices."
   win_regedit:
       path: HKLM:\Software\Policies\Microsoft\Windows\Explorer
-      state: present
       value: NoAutoplayfornonVolume
       data: 1
       datatype: dword
-  when: wn19_cc_000210
+  when:
+      - wn19_cc_000210
   tags:
       - WN19-CC-000210
       - V-205804
@@ -409,11 +410,11 @@
 - name: "HIGH | WN19-CC-000220 | Windows Server 2019 default AutoRun behavior must be configured to prevent AutoRun commands."
   win_regedit:
       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
-      state: present
       value: NoAutorun
       data: 1
       datatype: dword
-  when: wn19_cc_000220
+  when:
+      - wn19_cc_000220
   tags:
       - WN19-CC-000220
       - V-205805
@@ -425,7 +426,6 @@
 - name: "HIGH | WN19-CC-000230 | Windows Server 2019 AutoPlay must be disabled for all drives."
   win_regedit:
       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
-      state: present
       name: NoDriveTypeAutoRun
       data: 255
       datatype: dword
@@ -448,7 +448,8 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000010'
-  when: wn19_00_000010
+  when:
+      - wn19_00_000010
   tags:
       - WN19-00-000010
       - V-205844
@@ -467,7 +468,8 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000030'
-  when: wn19_00_000030
+  when:
+      - wn19_00_000030
   tags:
       - WN19-00-000030
       - V-205845
@@ -483,33 +485,33 @@
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion\
             name: CurrentMajorVersionNumber
         failed_when: wn19_00_000100_audit_currentmajorversionnumber.value is not version('10', '>=')
-        changed_when: false
         register: wn19_00_000100_audit_currentmajorversionnumber
 
       - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Build (currentNumber)."
         win_reg_stat:
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
             name: CurrentBuildNumber
-        failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
         changed_when: false
+        failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
         register: wn19_00_000100_audit_currentbuildnumber
 
       - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Release"
         win_reg_stat:
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
             name: ReleaseId
-        failed_when: wn19_00_000100_audit_releaseid.value is not version('1809', '>=')
         changed_when: false
+        failed_when: wn19_00_000100_audit_releaseid.value is not version('1809', '>=')
         register: wn19_00_000100_audit_releaseid
 
       - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Build"
         win_reg_stat:
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
             name: CurrentBuild
-        failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
         changed_when: false
+        failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
         register: wn19_00_000100_audit_currentbuild
-  when: wn19_00_000100
+  when:
+      - wn19_00_000100
   tags:
       - WN19-00-000100
       - V-205849
@@ -532,7 +534,8 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000110'
-  when: wn19_00_000110
+  when:
+      - wn19_00_000110
   tags:
       - WN19-00-000110
       - V-205850
@@ -564,20 +567,17 @@
 
 
 - name: "HIGH | WN19-MS-000140 | Windows Server 2019 must be running Credential Guard on domain-joined member servers."
-  block:
-      - name: "HIGH | WN19-MS-000140 | Windows Server 2019 must be running Credential Guard on domain-joined member servers."
-        win_regedit:
-            path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard
-            state: present
-            value: "{{ item }}"
-            data: 1
-            datatype: dword
-        loop:
-            - EnableVirtualizationBasedSecurity
-            - RequirePlatformSecurityFeatures
-            - HypervisorEnforcedCodeIntegrity
-            - HVCIMATRequired
-            - LsaCfgFlags
+  win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard
+      value: "{{ item }}"
+      data: 1
+      datatype: dword
+  with_items:
+      - EnableVirtualizationBasedSecurity
+      - RequirePlatformSecurityFeatures
+      - HypervisorEnforcedCodeIntegrity
+      - HVCIMATRequired
+      - LsaCfgFlags
   when:
       - wn19_ms_000140
       - ansible_windows_domain_role == "Member server"
@@ -593,11 +593,11 @@
 - name: "HIGH | WN19-SO-000020 | Windows Server 2019 must prevent local accounts with blank passwords from being used from the network."
   win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
-      state: present
       value: LimitBlankPasswordUse
       data: 1
       datatype: string
-  when: wn19_so_000020
+  when:
+      - wn19_so_000020
   tags:
       - WN19-SO-000020
       - V-205908
@@ -613,7 +613,8 @@
       section: System Access
       key: LSAAnonymousNameLookup
       value: 0
-  when: wn19_so_000210
+  when:
+      - wn19_so_000210
   tags:
       - WN19-SO-000210
       - V-205913
@@ -625,7 +626,6 @@
 - name: "HIGH | WN19-SO-000220 | Windows Server 2019 must not allow anonymous enumeration of Security Account Manager (SAM) accounts."
   win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
-      state: present
       value: RestrictAnonymousSAM
       data: 1
       datatype: dword
@@ -643,11 +643,11 @@
 - name: "HIGH | WN19-SO-000310 | Windows Server 2019 LAN Manager authentication level must be configured to send NTLMv2 response only and to refuse LM and NTLM."
   win_regedit:
       path: HKLM:\System\CurrentControlSet\Control\Lsa
-      state: present
       value: LmCompatibilityLevel
       data: 5
       datatype: dword
-  when: wn19_so_000310
+  when:
+      - wn19_so_000310
   tags:
       - WN19-SO-000310
       - V-205919

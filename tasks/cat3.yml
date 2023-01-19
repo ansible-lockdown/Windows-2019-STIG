@@ -2,11 +2,11 @@
 - name: "LOW | WN19-SO-000140 | Windows Server 2019 title for the legal banner must be configured with the appropriate text."
   win_regedit:
       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
-      state: present
       value: LegalNoticeCaption
-      data: "{{ wn19_so_000140_legalnoticecaption }}"
+      data: "{{ wn19stig_legalnoticecaption }}"
       datatype: string
-  when: wn19_so_000140
+  when:
+      - wn19_so_000140
   tags:
       - WN19-SO-000140
       - V-205632
@@ -30,7 +30,8 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000180'
-  when: wn19_00_000180
+  when:
+      - wn19_00_000180
   tags:
       - WN19-00-000180
       - V-205664
@@ -42,11 +43,11 @@
 - name: "LOW | WN19-CC-000200 | Windows Server 2019 Application Compatibility Program Inventory must be prevented from collecting data and sending the information to Microsoft."
   win_regedit:
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat
-      state: present
       value: DisableInventory
       data: 1
       datatype: dword
-  when: wn19_cc_000200
+  when:
+      - wn19_cc_000200
   tags:
       - WN19-CC-000200
       - V-205691
@@ -85,7 +86,6 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000440'
-
   when: wn19_00_000440
   tags:
       - WN19-00-000440
@@ -98,11 +98,11 @@
 - name: "LOW | WN19-CC-000060 | Windows Server 2019 Must be configured to ignore NetBIOS name release requests except from WINS servers."
   win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Services\Netbt\Parameters
-      state: present
       value: NoNameReleaseOnDemand
       data: 1
       datatype: dword
-  when: wn19_cc_000060
+  when:
+      - wn19_cc_000060
   tags:
       - WN19-CC-000060
       - V-205819
@@ -121,7 +121,8 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000460'
-  when: wn19_00_000460
+  when:
+      - wn19_00_000460
   tags:
       - WN19-00-000460
       - V-205856
@@ -140,7 +141,8 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000470'
-  when: wn19_00_000470
+  when:
+      - wn19_00_000470
   tags:
       - WN19-00-000470
       - V-205857
@@ -152,11 +154,11 @@
 - name: "LOW | WN19-CC-000030 | Windows Server 2019 internet Protocol version 6 (IPv6) source routing must be configured to the highest protection level to prevent IP source routing."
   win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters
-      state: present
       value: DisableIPSourceRouting
       data: 2
       datatype: dword
-  when: wn19_cc_000030
+  when:
+      - wn19_cc_000030
   tags:
       - WN19-CC-000030
       - V-205858
@@ -168,11 +170,11 @@
 - name: "LOW | WN19-CC-000040 | Windows Server 2019 source routing must be configured to the highest protection level to prevent Internet Protocol (IP) source routing."
   win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
-      state: present
       value: DisableIPSourceRouting
       data: 2
       datatype: dword
-  when: wn19_cc_000040
+  when:
+      - wn19_cc_000040
   tags:
       - WN19-CC-000040
       - V-205859
@@ -184,11 +186,11 @@
 - name: "LOW | WN19-CC-000050 | Windows Server 2019 must be configured to prevent Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF)-generated routes."
   win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
-      state: present
       value: EnableICMPRedirect
       data: 0
       datatype: dword
-  when: wn19_cc_000050
+  when:
+      - wn19_cc_000050
   tags:
       - WN19-CC-000050
       - V-205860
@@ -200,11 +202,11 @@
 - name: "LOW | WN19-CC-000260 | Windows Server 2019 Windows Update must not obtain updates from other PCs on the Internet."
   win_regedit:
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization
-      state: present
       value: DODownloadMode
       data: 1
       datatype: dword
-  when: wn19_cc_000260
+  when:
+      - wn19_cc_000260
   tags:
       - WN19-CC-000260
       - V-205870
@@ -223,7 +225,8 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_cc_000320'
-  when: wn19_cc_000320
+  when:
+      - wn19_cc_000320
   tags:
       - WN19-CC-000320
       - SV-205871r569188_rule
@@ -235,11 +238,11 @@
 - name: "LOW | WN19-SO-000370 | Windows Server 2019 default permissions of global system objects must be strengthened."
   win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager
-      state: present
       value: ProtectionMode
       data: 1
       datatype: string
-  when: wn19_so_000370
+  when:
+      - wn19_so_000370
   tags:
       - WN19-SO-000370
       - V-205871
