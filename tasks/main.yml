@@ -26,29 +26,34 @@
       - always
 
 - name: Include the preliminary tasks
-  include_tasks: prelim.yml
+  import_tasks: prelim.yml
   tags:
       - prelim_tasks
 
 - name: Execute the category 1 (highest severity) tasks
-  # import_tasks: cat1.yml
   import_tasks: cat1.yml
   when: win2019stig_cat1_patch | bool
   tags:
-      - cat1
-      - high
+      - CAT1
 
 - name: Execute the category 2 (medium severity) tasks
   import_tasks: cat2.yml
   when: win2019stig_cat2_patch | bool
   tags:
-      - cat2
-      - medium
+      - CAT2
 
 - name: Execute the category 3 (lowest severity) tasks
-  # import_tasks: cat3.yml
   import_tasks: cat3.yml
   when: win2019stig_cat3_patch | bool
   tags:
-      - cat3
-      - medium
+      - CAT3
+
+- name: If Warnings found Output count and control IDs affected
+  debug:
+      msg:
+          - "You have {{ warn_count }} Warning(s) that require investigation(s). Their ID's are listed below:"
+          - "{{ warn_control_list }}"
+  when: warn_count != 0
+
+# - debug: var=warn_count
+# - debug: var=control_number
