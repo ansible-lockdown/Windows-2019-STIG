@@ -1,12 +1,12 @@
 ---
 
-- name: "HIGH | WN19-DC-000290 | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+- name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
   block:
-      - name: "HIGH | WN19-DC-000290 | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | Message out"
+      - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
 
-      - name: "HIGH | WN19-DC-000290 | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | import reuseable task."
+      - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_dc_000290'
@@ -23,13 +23,13 @@
       - high
 
 # add some task/external variable for approved CAs, check for DoD and how to pull programatically
-- name: "HIGH | WN19-DC-000300 | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
+- name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
   block:
-      - name: "HIGH | WN19-DC-000300 | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | Message out"
+      - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
 
-      - name: "HIGH | WN19-DC-000300 | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | import reuseable task."
+      - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_dc_000300'
@@ -45,7 +45,7 @@
       - high
       - CAT1
 
-- name: "HIGH | WN19-AC-000090 | Windows Server 2019 reversible password encryption must be disabled."
+- name: "HIGH | WN19-AC-000090 | PATCH | Windows Server 2019 reversible password encryption must be disabled."
   win_security_policy:
       section: System Access
       key: ClearTextPassword
@@ -60,7 +60,7 @@
       - CCI-000196
       - CAT1
 
-- name: "HIGH | WN19-SO-000300 | Windows Server 2019 must be configured to prevent the storage of the LAN Manager hash of passwords."
+- name: "HIGH | WN19-SO-000300 | PATCH | Windows Server 2019 must be configured to prevent the storage of the LAN Manager hash of passwords."
   ansible.windows.win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
       value: NoLMHash
@@ -76,7 +76,7 @@
       - CCI-000196
       - CAT1
 
-- name: "HIGH | WN19-00-000130 | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
+- name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
   block:
       - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
         ansible.windows.win_shell: Get-Volume
@@ -85,11 +85,11 @@
         check_mode: false
         register: wn19_00_000130_audit
 
-      - name: "HIGH | WN19-00-000130 | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | Message out"
+      - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | Message out"
         debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 local volumes must use a format that supports NTFS attributes."
 
-      - name: "HIGH | WN19-00-000130 | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | import reuseable task."
+      - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000130'
@@ -103,7 +103,7 @@
       - CCI-000213
       - CAT1
 
-- name: "HIGH | WN19-CC-000470 | Windows Server 2019 Windows Remote Management (WinRM) client must not use Basic authentication."
+- name: "HIGH | WN19-CC-000470 | PATCH | Windows Server 2019 Windows Remote Management (WinRM) client must not use Basic authentication."
   ansible.windows.win_regedit:
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
       value: AllowBasic
@@ -119,7 +119,7 @@
       - CCI-000877
       - CAT1
 
-- name: "HIGH | WN19-CC-000500 | Windows Server 2019 Windows Remote Management (WinRM) service must not use Basic authentication."
+- name: "HIGH | WN19-CC-000500 | PATCH | Windows Server 2019 Windows Remote Management (WinRM) service must not use Basic authentication."
   ansible.windows.win_regedit:
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service
       value: AllowBasic
@@ -136,7 +136,7 @@
       - CCI-000877
       - CAT1
 
-- name: "HIGH | WN19-SO-000230 | Windows Server 2019 must not allow anonymous enumeration of shares."
+- name: "HIGH | WN19-SO-000230 | PATCH | Windows Server 2019 must not allow anonymous enumeration of shares."
   ansible.windows.win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
       value: RestrictAnonymous
@@ -152,7 +152,7 @@
       - CCI-001090
       - CAT1
 
-- name: "HIGH | WN19-SO-000250 | Windows Server 2019 must restrict anonymous access to Named Pipes and Shares."
+- name: "HIGH | WN19-SO-000250 | PATCH | Windows Server 2019 must restrict anonymous access to Named Pipes and Shares."
   ansible.windows.win_regedit:
       path: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
       value: restrictnullsessaccess
@@ -168,7 +168,7 @@
       - CCI-001090
       - CAT1
 
-- name: "HIGH | WN19-DC-000010 | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
+- name: "HIGH | WN19-DC-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
   block:
       - name: "HIGH | WN19-DC-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
         ansible.windows.win_shell: get-localgroupmember administrators | Select name | Format-Table -HideTableHeaders
@@ -176,7 +176,7 @@
         failed_when: false
         register: wn19_dc_000010_admin_usrs
 
-      - name: "HIGH | WN19-DC-000010 | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
+      - name: "HIGH | WN19-DC-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
         ansible.builtin.debug:
             msg:
                 - "Alert! Below are the users in the administrators group. Please review and confirm all users should be in this group"
@@ -193,13 +193,13 @@
       - notest
       - CAT1
 
-- name: "HIGH | WN19-DC-000070 | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
+- name: "HIGH | WN19-DC-000070 | AUDIT | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
   block:
-      - name: "HIGH | WN19-DC-000070 | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access. | Message out"
+      - name: "HIGH | WN19-DC-000070 | AUDIT | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access. | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
 
-      - name: "WN19-DC-000070 | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access. | import reuseable task."
+      - name: "WN19-DC-000070 | AUDIT | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_dc_000070'
@@ -214,13 +214,13 @@
       - CCI-002235
       - CAT1
 
-- name: "HIGH | WN19-DC-000080 | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions."
+- name: "HIGH | WN19-DC-000080 | AUDIT | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions."
   block:
-      - name: "HIGH | WN19-DC-000080 | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions. | Message out"
+      - name: "HIGH | WN19-DC-000080 | AUDIT | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions. | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions."
 
-      - name: "HIGH | WN19-DC-000080 | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions. | import reuseable task."
+      - name: "HIGH | WN19-DC-000080 | AUDIT | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_dc_000080'
@@ -235,13 +235,13 @@
       - CCI-002235
       - CAT1
 
-- name: "HIGH | WN19-DC-000090 | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions."
+- name: "HIGH | WN19-DC-000090 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions."
   block:
-      - name: "HIGH | WN19-DC-000090 | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions. | Message out"
+      - name: "HIGH | WN19-DC-000090 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions. | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions."
 
-      - name: "HIGH | WN19-DC-000090 | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions. | import reuseable task."
+      - name: "HIGH | WN19-DC-000090 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_dc_000090'
@@ -256,13 +256,13 @@
       - CCI-002235
       - CAT1
 
-- name: "HIGH | WN19-DC-000100 | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
+- name: "HIGH | WN19-DC-000100 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
   block:
-      - name: "HIGH | WN19-DC-000100 | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions. | Message out"
+      - name: "HIGH | WN19-DC-000100 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions. | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
 
-      - name: "HIGH | WN19-DC-000100 | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions. | import reuseable task."
+      - name: "HIGH | WN19-DC-000100 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_dc_000100'
@@ -277,13 +277,13 @@
       - CCI-002235
       - CAT1
 
-- name: "HIGH | WN19-DC-000110 | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
+- name: "HIGH | WN19-DC-000110 | AUDIT | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
   block:
-      - name: "HIGH | WN19-DC-000110 | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions. | Message out"
+      - name: "HIGH | WN19-DC-000110 | AUDIT | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions. | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
 
-      - name: "HIGH | WN19-DC-000110 | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions. | import reuseable task."
+      - name: "HIGH | WN19-DC-000110 | AUDIT | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_dc_000110'
@@ -299,7 +299,7 @@
       - CAT1
 
 # populate a dictionary/list from customer
-- name: "HIGH | WN19-MS-000010 | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
+- name: "HIGH | WN19-MS-000010 | AUDIT | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
   block:
       - name: "HIGH | WN19-MS-000010 | AUDIT | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
         ansible.windows.win_shell: Get-LocalGroupMember -Name 'Administrators'
@@ -307,7 +307,7 @@
         check_mode: false
         register: wn19_ms_000010_audit
 
-      - name: "HIGH | WN19-MS-000010 | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
+      - name: "HIGH | WN19-MS-000010 | AUDIT | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
         ansible.builtin.debug:
             msg:
                 - The following users or groups have Administrator rights on this system
@@ -325,7 +325,7 @@
       - audit
       - CAT1
 
-- name: "HIGH | WN19-UR-000020 | Windows Server 2019 Act as part of the operating system user right must not be assigned to any groups or accounts."
+- name: "HIGH | WN19-UR-000020 | PATCH | Windows Server 2019 Act as part of the operating system user right must not be assigned to any groups or accounts."
   ansible.windows.win_user_right:
       name: SeTcbPrivilege
       users: []
@@ -340,7 +340,7 @@
       - CCI-002235
       - CAT1
 
-- name: "HIGH | WN19-UR-000060 | Windows Server 2019 Create a token object user right must not be assigned to any groups or accounts."
+- name: "HIGH | WN19-UR-000060 | PATCH | Windows Server 2019 Create a token object user right must not be assigned to any groups or accounts."
   community.windows.win_security_policy:
       section: Privilege Rights
       key: SeCreateTokenPrivilege
@@ -359,7 +359,7 @@
 # "SeDebugPrivilege = *S-1-5-32-544"  is Administrators (openscap fails)
 # emailed_disa.letterkenny.re.mbx.stig-customer-support-mailbox@mail.mil
 # SCC tool works
-- name: "HIGH | WN19-UR-000100 | Windows Server 2019 Debug programs: user right must only be assigned to the Administrators group."
+- name: "HIGH | WN19-UR-000100 | PATCH | Windows Server 2019 Debug programs: user right must only be assigned to the Administrators group."
   ansible.windows.win_user_right:
       name: SeDebugPrivilege
       users: Administrators
@@ -374,7 +374,7 @@
       - CCI-002235
       - CAT1
 
-- name: "HIGH | WN19-CC-000430 | Windows Server 2019 must disable the Windows Installer Always install with elevated privileges option."
+- name: "HIGH | WN19-CC-000430 | PATCH | Windows Server 2019 must disable the Windows Installer Always install with elevated privileges option."
   ansible.windows.win_regedit:
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
       state: present
@@ -391,7 +391,7 @@
       - CCI-001812
       - CAT1
 
-- name: "HIGH | WN19-CC-000210 | Windows Server 2019 AutoPlay must be turned off for non-volume devices."
+- name: "HIGH | WN19-CC-000210 | PATCH | Windows Server 2019 AutoPlay must be turned off for non-volume devices."
   ansible.windows.win_regedit:
       path: HKLM:\Software\Policies\Microsoft\Windows\Explorer
       value: NoAutoplayfornonVolume
@@ -407,7 +407,7 @@
       - CCI-001764
       - CAT1
 
-- name: "HIGH | WN19-CC-000220 | Windows Server 2019 default AutoRun behavior must be configured to prevent AutoRun commands."
+- name: "HIGH | WN19-CC-000220 | PATCH | Windows Server 2019 default AutoRun behavior must be configured to prevent AutoRun commands."
   ansible.windows.win_regedit:
       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
       value: NoAutorun
@@ -423,7 +423,7 @@
       - CCI-001764
       - CAT1
 
-- name: "HIGH | WN19-CC-000230 | Windows Server 2019 AutoPlay must be disabled for all drives."
+- name: "HIGH | WN19-CC-000230 | PATCH | Windows Server 2019 AutoPlay must be disabled for all drives."
   ansible.windows.win_regedit:
       path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
       name: NoDriveTypeAutoRun
@@ -438,13 +438,13 @@
       - CCI-002235
       - CAT1
 
-- name: "HIGH | WN19-00-000010 | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
+- name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
   block:
-      - name: "HIGH | WN19-00-000010 | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | Message out"
+      - name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
 
-      - name: "HIGH | WN19-00-000010 | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | import reuseable task."
+      - name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000010'
@@ -458,13 +458,13 @@
       - SV-205844r569188_rule
       - CAT1
 
-- name: "HIGH | WN19-00-000030 | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
+- name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
   block:
-      - name: "HIGH | WN19-00-000030 | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | Message out"
+      - name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
 
-      - name: "HIGH | WN19-00-000030 | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | import reuseable task."
+      - name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000030'
@@ -478,7 +478,7 @@
       - CCI-000366
       - CAT1
 
-- name: "HIGH | WN19-00-000100 | Windows Server 2019 must be maintained at a supported servicing level."
+- name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level."
   block:
       - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Major Version."
         ansible.windows.win_reg_stat:
@@ -524,13 +524,13 @@
 # we have to figure out a common list of AV apps? and even if its installed would have to verify its running and set for auto-start, etc?
 # mcaffee is the approved virus? McAfee VirusScan Enterprise has been replaced by McAfee Endpoint Security. Start your migration now. https://www.mcafee.com/enterprise/en-us/products/virusscan-enterprise.html
 # so guess we need to scan for the old and the new in case customers not migrated?
-- name: "HIGH | WN19-00-000110  | Windows Server 2019 must use an anti-virus program."
+- name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program."
   block:
-      - name: "HIGH | WN19-00-000110  | Windows Server 2019 must use an anti-virus program. | Message out"
+      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
 
-      - name: "HIGH | WN19-00-000110  | Windows Server 2019 must use an anti-virus program. | import reuseable task."
+      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'wn19_00_000110'
@@ -544,13 +544,13 @@
       - CCI-000366
       - CAT1
 
-- name: "HIGH | WN19-DC-000150  | Windows Server 2019 must use an anti-virus program."
+- name: "HIGH | WN19-DC-000150 | AUDIT | Windows Server 2019 must use an anti-virus program."
   block:
-      - name: "HIGH | WN19-DC-000150  | Windows Server 2019 must use an anti-virus program. | Message out"
+      - name: "HIGH | WN19-DC-000150 | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
 
-      - name: "HIGH | WN19-DC-000150  | Windows Server 2019 must use an anti-virus program. | import reuseable task."
+      - name: "HIGH | WN19-DC-000150 | AUDIT | Windows Server 2019 must use an anti-virus program. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
   vars:
       warn_control_id: 'wn19_dc_000150'
@@ -565,7 +565,7 @@
       - CCI-000366
       - CAT1
 
-- name: "HIGH | WN19-MS-000140 | Windows Server 2019 must be running Credential Guard on domain-joined member servers."
+- name: "HIGH | WN19-MS-000140 | PATCH | Windows Server 2019 must be running Credential Guard on domain-joined member servers."
   ansible.windows.win_regedit:
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard
       value: "{{ item }}"
@@ -589,7 +589,7 @@
       - NeedToTestMemberServer
       - CAT1
 
-- name: "HIGH | WN19-SO-000020 | Windows Server 2019 must prevent local accounts with blank passwords from being used from the network."
+- name: "HIGH | WN19-SO-000020 | PATCH | Windows Server 2019 must prevent local accounts with blank passwords from being used from the network."
   ansible.windows.win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
       value: LimitBlankPasswordUse
@@ -607,7 +607,7 @@
 
 #  odd one
 # https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lsad/2a769a08-e023-459f-aebe-4fb3f595c0b7
-- name: "HIGH | WN19-SO-000210 | Windows Server 2019 must not allow anonymous SID/Name translation."
+- name: "HIGH | WN19-SO-000210 | PATCH | Windows Server 2019 must not allow anonymous SID/Name translation."
   community.windows.win_security_policy:
       section: System Access
       key: LSAAnonymousNameLookup
@@ -622,7 +622,7 @@
       - CCI-000366
       - CAT1
 
-- name: "HIGH | WN19-SO-000220 | Windows Server 2019 must not allow anonymous enumeration of Security Account Manager (SAM) accounts."
+- name: "HIGH | WN19-SO-000220 | PATCH | Windows Server 2019 must not allow anonymous enumeration of Security Account Manager (SAM) accounts."
   ansible.windows.win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
       value: RestrictAnonymousSAM
@@ -639,7 +639,7 @@
       - CCI-000366
       - CAT1
 
-- name: "HIGH | WN19-SO-000310 | Windows Server 2019 LAN Manager authentication level must be configured to send NTLMv2 response only and to refuse LM and NTLM."
+- name: "HIGH | WN19-SO-000310 | PATCH | Windows Server 2019 LAN Manager authentication level must be configured to send NTLMv2 response only and to refuse LM and NTLM."
   ansible.windows.win_regedit:
       path: HKLM:\System\CurrentControlSet\Control\Lsa
       value: LmCompatibilityLevel
