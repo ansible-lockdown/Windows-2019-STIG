@@ -4,7 +4,7 @@ win2019stig_cat1_patch: true
 win2019stig_cat2_patch: true
 win2019stig_cat3_patch: true
 
-win2019stig_min_ansible_version: "2.6"
+win2019stig_min_ansible_version: "2.10.1"
 
 # We've defined complexity-high to mean that we cannot automatically remediate
 # the rule in question.  In the future this might mean that the remediation
@@ -31,6 +31,14 @@ win2019stig_system_is_container: false
 # set to false to skip long running tasks
 long_running: false
 
+# win2019stig_skip_for_ansible is used in the playbook to skip over certain controls that
+# may cause breaking changes when running it for testing purposes.
+# Controls that will be skipped:
+# WN19-CC-000500
+# WN19-CC-000520
+# WN19-CC-000510
+win2019stig_skip_for_ansible: false
+
 # These variables correspond with the STIG IDs defined in the STIG and allows you to enable/disable specific rules.
 # PLEASE NOTE: These work in coordination with the cat1, cat2, cat3 group variables. You must enable an entire group
 # in order for the variables below to take effect.
@@ -46,8 +54,10 @@ wn19_cc_000210: true
 wn19_cc_000220: true
 wn19_cc_000230: true
 wn19_cc_000430: true
+# WINRM CONTROL
 wn19_cc_000470: true
 wn19_cc_000500: true
+# WINRM CONTROL END
 wn19_dc_000010: true
 wn19_dc_000070: true
 wn19_dc_000080: true
@@ -191,10 +201,12 @@ wn19_cc_000440: true
 wn19_cc_000450: true
 wn19_cc_000451: true
 wn19_cc_000460: true
+# WINRM CONTROL
 wn19_cc_000480: true
 wn19_cc_000490: true
 wn19_cc_000510: true
 wn19_cc_000520: true
+# WINRM CONTROL END
 wn19_dc_000020: true
 wn19_dc_000030: true
 wn19_dc_000040: true
@@ -316,7 +328,6 @@ wn19_dc_000160: true
 wn19_so_000140: true
 wn19_so_000370: true
 
-
 # CAT 1 defaults
 
 # Possibly remove
@@ -394,7 +405,6 @@ wn19stig_legalnoticetext: |
     -This IS includes security measures (e.g., authentication and access controls) to protect USG interests--not for your personal benefit or privacy.
 
     -Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details.
-
 
 # WN19-CC-000270
 # Windows Server 2019 Application event log size must be configured to 32768 KB or greater.

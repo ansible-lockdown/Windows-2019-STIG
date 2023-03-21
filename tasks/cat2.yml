@@ -157,7 +157,6 @@
       - CAT2
       # Get-AppLockerPolicy -Effective
 
-
 # Current hardware and virtual environments may not support virtualization-based security features, including Credential Guard, due to specific supporting requirements including a TPM, UEFI with Secure Boot, and the capability to run the Hyper-V feature within a virtual machine.
 - name: "MEDIUM | WN19-00-000090  | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
   block:
@@ -301,7 +300,6 @@
       - SV-205707r857292_rule
       - CCI-000795
       - CAT2
-
 
 - name: "MEDIUM | WN19-00-000200 | Windows Server 2019 accounts must require passwords."
   block:
@@ -2240,7 +2238,6 @@
       - CCI-001453
       - CAT2
 
-
 - name: "MEDIUM | WN19-CC-000380 | Windows Server 2019 remote Desktop Services must be configured with the client connection encryption set to High Level."
   win_regedit:
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
@@ -2428,6 +2425,7 @@
       datatype: dword
   when:
       - wn19_cc_000510
+      - not win2019stig_skip_for_ansible
   tags:
       - WN19-CC-000510
       - V-205817
@@ -2445,6 +2443,7 @@
       datatype: dword
   when:
       - wn19_cc_000520
+      - not win2019stig_skip_for_ansible
   tags:
       - WN19-CC-000520
       - V-205810
@@ -4168,7 +4167,6 @@
       - SV-205752r569188_rule
       - CCI-002235
       - CAT2
-
 
 - name: "MEDIUM | WN19-UR-000070 | Windows Server 2019 Create global objects user right must only be assigned to Administrators, Service, Local Service, and Network Service."
   win_user_right:

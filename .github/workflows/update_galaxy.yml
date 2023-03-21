@@ -3,7 +3,8 @@
 name: update galaxy
 
 # Controls when the action will run.
-# Triggers the workflow on merge request events to the main branch
+# Triggers the workflow on push or pull request
+# events but only for the devel branch
 on:
   push:
     branches:

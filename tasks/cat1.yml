@@ -127,6 +127,7 @@
       datatype: dword
   when:
       - wn19_cc_000500
+      - not win2019stig_skip_for_ansible
   tags:
       - WN19-CC-000500
       - V-205713
@@ -191,7 +192,6 @@
       - CCI-002235
       - notest
       - CAT1
-
 
 - name: "HIGH | WN19-DC-000070 | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
   block:
@@ -564,7 +564,6 @@
       - SV-205875r569188_rule
       - CCI-000366
       - CAT1
-
 
 - name: "HIGH | WN19-MS-000140 | Windows Server 2019 must be running Credential Guard on domain-joined member servers."
   win_regedit:
