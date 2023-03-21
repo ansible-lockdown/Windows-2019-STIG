@@ -1,10 +1,9 @@
 # This is a basic workflow to help you get started with Actions
 
-name: update_galaxy
+name: update galaxy
 
 # Controls when the action will run.
-# Triggers the workflow on push or pull request
-# events but only for the devel branch
+# Triggers the workflow on merge request events to the main branch
 on:
   push:
     branches:

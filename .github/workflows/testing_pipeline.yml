@@ -30,12 +30,12 @@ jobs:
                 repo-token: ${{ secrets.GITHUB_TOKEN }}
                 pr-message: |-
                   Congrats on opening your first pull request and thank you for taking the time to help improve Ansible-Lockdown! 
-                  Please join in the conversation happening on the [Discord Server](https://discord.gg/ArDjfhY8) as well.
+                  Please join in the conversation happening on the [Discord Server](https://discord.io/ansible-lockdown) as well.
               
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: windows
     # Set the OS to test on here
     # Name matches the os_name.tfvars file
     # one of
