@@ -13,3 +13,4 @@
 - Updated Workflows
 - Fixed Linting
 - Added Skip for WinRm breaking changes for Ansible.
+- Updated Full Module Names
