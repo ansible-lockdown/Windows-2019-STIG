@@ -34,6 +34,16 @@
         when:
             - wn19_00_000020_audit_dm_sa is defined
             - wn19_00_000020_audit_dm_sa.stdout != ""
+
+      - name: Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-00-000020'
+        when:
+            - not wn19_00_000020_audit_dc is skipped
+            - wn19_00_000020_audit_dc.stdout != "" or
+            - wn19_00_000020_audit_dm_sa is defined
+            - wn19_00_000020_audit_dm_sa.stdout != ""
   when:
       - wn19_00_000020
   tags:
@@ -63,6 +73,14 @@
             - not wn19_00_000040_audit is skipped
             - wn19_00_000040_audit.stdout != ""
         changed_when: false
+
+      - name: Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-00-000040'
+        when:
+            - not wn19_00_000040_audit is skipped
+            - wn19_00_000040_audit.stdout != ""
   when:
       - wn19_00_000040
       - "'controller' not in ansible_windows_domain_role"
@@ -84,7 +102,7 @@
       - name: "MEDIUM | WN19-00-000050 | AUDIT | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000050'
+            warn_control_id: 'WN19-00-000050'
   when:
       - wn19_00_000050
   tags:
@@ -104,7 +122,7 @@
       - name: "MEDIUM | WN19-00-000060 | AUDIT | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000060'
+            warn_control_id: 'WN19-00-000060'
   when:
       - wn19_00_000060
   tags:
@@ -125,7 +143,7 @@
       - name: "MEDIUM | WN19-00-000070 | AUDIT | Windows Server 2019 shared user accounts must not be permitted. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000070'
+            warn_control_id: 'WN19-00-000070'
   when:
       - wn19_00_000070
   tags:
@@ -145,7 +163,7 @@
       - name: "MEDIUM | WN19-00-000080 | AUDIT | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000080'
+            warn_control_id: 'WN19-00-000080'
   when:
       - wn19_00_000080
   tags:
@@ -167,7 +185,7 @@
       - name: "MEDIUM | WN19-00-000090 | AUDIT | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000090'
+            warn_control_id: 'WN19-00-000090'
   when:
       - wn19_00_000090
   tags:
@@ -189,7 +207,7 @@
       - name: "MEDIUM | WN19-00-000120 | AUDIT | Windows Server 2019 must have a host-based intrusion detection or prevention system. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000120'
+            warn_control_id: 'WN19-00-000120'
   when:
       - wn19_00_000120
   tags:
@@ -210,7 +228,7 @@
       - name: "MEDIUM | WN19-00-000140 | AUDIT | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000140'
+            warn_control_id: 'WN19-00-000140'
   when:
       - wn19_00_000140
   tags:
@@ -230,7 +248,7 @@
       - name: "MEDIUM | WN19-00-000150 | AUDIT | Windows Server 2019 permissions for program file directories must conform to minimum requirements. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000150'
+            warn_control_id: 'WN19-00-000150'
   when:
       - wn19_00_000150
   tags:
@@ -250,7 +268,7 @@
       - name: "MEDIUM | WN19-00-000160 | AUDIT | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000160'
+            warn_control_id: 'WN19-00-000160'
   when:
       - wn19_00_000160
   tags:
@@ -270,7 +288,7 @@
       - name: "MEDIUM | WN19-00-000170 | AUDIT | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000170'
+            warn_control_id: 'WN19-00-000170'
   when:
       - wn19_00_000170
   tags:
@@ -290,7 +308,7 @@
       - name: "MEDIUM | WN19-00-000190 | AUDIT | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000190'
+            warn_control_id: 'WN19-00-000190'
   when:
       - wn19_00_000190
   tags:
@@ -336,6 +354,16 @@
         when:
             - not wn19_00_000200_audit_dm_sa is skipped
             - wn19_00_000200_audit_dm_sa.stdout != ""
+
+      - name: Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-00-000200'
+        when:
+            - not wn19_00_000200_audit_dc is skipped
+            - wn19_00_000200_audit_dc.stdout != "" or
+            - not wn19_00_000200_audit_dm_sa is skipped
+            - wn19_00_000200_audit_dm_sa.stdout != ""
   when:
       - wn19_00_000200
   tags:
@@ -366,7 +394,7 @@
       - name: "MEDIUM | WN19-00-000210 | AUDIT | Windows Server 2019 passwords must be configured to expire.| import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000210'
+            warn_control_id: 'WN19-00-000210'
   when:
       - wn19_00_000210
   tags:
@@ -386,7 +414,7 @@
       - name: "MEDIUM | WN19-00-000220 | AUDIT | Windows Server 2019 system files must be monitored for unauthorized changes. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000220'
+            warn_control_id: 'WN19-00-000220'
   when:
       - wn19_00_000220
   tags:
@@ -414,7 +442,7 @@
       - name: "MEDIUM | WN19-00-000230 | AUDIT | Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000230'
+            warn_control_id: 'WN19-00-000230'
   when:
       - wn19_00_000230
   tags:
@@ -446,7 +474,7 @@
       - name: "MEDIUM | WN19-00-000240 | AUDIT | Windows Server 2019 must have software certificate installation files removed. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000240'
+            warn_control_id: 'WN19-00-000240'
   when:
       - wn19_00_000240
   tags:
@@ -468,7 +496,7 @@
       - name: "MEDIUM | WN19-00-000250 | AUDIT | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000250'
+            warn_control_id: 'WN19-00-000250'
   when:
       - wn19_00_000250
   tags:
@@ -490,7 +518,7 @@
       - name: "MEDIUM | WN19-00-000260 | AUDIT | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000260'
+            warn_control_id: 'WN19-00-000260'
   when:
       - wn19_00_000260
   tags:
@@ -518,7 +546,7 @@
       - name: "MEDIUM | WN19-00-000270 | AUDIT | Windows Server 2019 must have the roles and features required by the system documented. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000270'
+            warn_control_id: 'WN19-00-000270'
   when:
       - wn19_00_000270
   tags:
@@ -538,7 +566,7 @@
       - name: "MEDIUM | WN19-00-000280 | AUDIT | Windows Server 2019 must have a host-based firewall installed and enabled. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000280'
+            warn_control_id: 'WN19-00-000280'
   when:
       - wn19_00_000280
   tags:
@@ -559,7 +587,7 @@
       - name: "MEDIUM | WN19-00-000290 | AUDIT | Windows Server 2019 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where Host Based Security System (HBSS) is used; 30 days, for any additional internal network scans not covered by HBSS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP). | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000290'
+            warn_control_id: 'WN19-00-000290'
   when:
       - wn19_00_000290
   tags:
@@ -579,7 +607,7 @@
       - name: "MEDIUM | WN19-00-000300 | AUDIT | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000300'
+            warn_control_id: 'WN19-00-000300'
   when:
       - wn19_00_000300
   tags:
@@ -599,7 +627,7 @@
       - name: "MEDIUM | WN19-00-000310 | AUDIT | Windows Server 2019 must automatically remove or disable emergency accounts after the crisis is resolved or within 72 hours. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000310'
+            warn_control_id: 'WN19-00-000310'
   when:
       - wn19_00_000310
   tags:
@@ -769,7 +797,7 @@
       - name: "MEDIUM | WN19-00-000420 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent anonymous logons. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000420'
+            warn_control_id: 'WN19-00-000420'
   when:
       - wn19_00_000420
   tags:
@@ -789,7 +817,7 @@
       - name: "MEDIUM | WN19-00-000430 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent access to the system drive. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000430'
+            warn_control_id: 'WN19-00-000430'
   when:
       - wn19_00_000430
   tags:
@@ -809,7 +837,7 @@
       - name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000450'
+            warn_control_id: 'WN19-00-000450'
   when:
       - wn19_00_000450
   tags:
@@ -823,10 +851,32 @@
 
 # below task is dependent on WN19-AC-000020 and WN19-AC-000030, maybe custom fail when known error if WN19-AC-000020 not set? "The key 'LockoutDuration' in section 'System Access' is not a valid key, cannot set this value"
 - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater."
-  community.windows.win_security_policy:
-      section: System Access
-      key: LockoutDuration
-      value: "{{ wn19stig_lockoutduration }}"
+  block:
+      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warning For Bad Variable."
+        debug:
+            msg:
+                - "Warning!! You have a invalid number of minutes set for wn19stig_lockoutduration please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when:
+            - wn19stig_lockoutduration < 15
+            - wn19stig_lockoutduration > 0
+
+      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warn Count."
+        import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-AC-000010'
+        when:
+            - wn19stig_lockoutduration < 15
+            - wn19stig_lockoutduration > 0
+
+      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Apply Variable."
+        community.windows.win_security_policy:
+            section: System Access
+            key: LockoutDuration
+            value: "{{ wn19stig_lockoutduration }}"
+        when:
+            - wn19stig_lockoutduration == 0 or
+            - wn19stig_lockoutduration >= 15
   when:
       - wn19_ac_000010 | bool
   tags:
@@ -838,10 +888,32 @@
       - CAT2
 
 - name: "MEDIUM | WN19-AC-000020 | PATCH | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less."
-  community.windows.win_security_policy:
-      section: System Access
-      key: LockoutBadCount
-      value: "{{ wn19stig_lockoutbadcount }}"
+  block:
+      - name: "MEDIUM | WN19-AC-000020 | AUDIT | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Warning For Bad Variable."
+        debug:
+            msg:
+                - "Warning!! You have a invalid number of days set for wn19stig_lockoutbadcount please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when:
+            - wn19stig_lockoutbadcount == 0 or
+              wn19stig_lockoutbadcount > 3
+
+      - name: "MEDIUM | WN19-AC-000020 | AUDIT | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Warn Count."
+        import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-AC-000020'
+        when:
+            - wn19stig_lockoutbadcount == 0 or
+              wn19stig_lockoutbadcount > 3
+
+      - name: "MEDIUM | WN19-AC-000020 | PATCH | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Apply Variable."
+        community.windows.win_security_policy:
+            section: System Access
+            key: LockoutBadCount
+            value: "{{ wn19stig_lockoutbadcount }}"
+        when:
+            - wn19stig_lockoutbadcount > 0
+            - wn19stig_lockoutbadcount <= 3
   when:
       - wn19_ac_000020
   tags:
@@ -850,7 +922,7 @@
       - SRG-OS-000021-GPOS-00005
       - SV-205629r569188_rule
       - CCI-000044
-      - cat 2
+      - CAT2
 
 # below task is dependent on WN16-AC-000020, maybe custom fail when known error if WN16-AC-000020 not set? "The key 'ResetLockoutCount' in section 'System Access' is not a valid key, cannot set this value"
 - name: "MEDIUM | WN19-AC-000030 | PATCH | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
@@ -863,14 +935,14 @@
         when:
             - wn19stig_resetlockoutcount < 15
 
-      - name: MEDIUM | WN19-AC-000030 | AUDIT | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
+      - name: MEDIUM | WN19-AC-000030 | AUDIT | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater. | Warn Count."
         import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-AC-000030'
         when:
             - wn19stig_resetlockoutcount < 15
 
-      - name: "MEDIUM | WN19-AC-000030 | PATCH | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
+      - name: "MEDIUM | WN19-AC-000030 | PATCH | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater. | Apply Variable"
         community.windows.win_security_policy:
             section: System Access
             key: ResetLockoutCount
@@ -886,13 +958,13 @@
       - SV-205630r569188_rule
       - CCI-000044
       - CCI-002238
-      - cat 2
+      - CAT2
 
 - name: "MEDIUM | WN19-AC-000040 | PATCH | Windows Server 2019 password history must be configured to 24 passwords remembered."
   community.windows.win_security_policy:
       section: System Access
       key: PasswordHistorySize
-      value: "{{ wn19stig_passwordhistorysize }}"
+      value: 24
   when:
       - wn19_ac_000040
   tags:
@@ -904,10 +976,32 @@
       - CAT2
 
 - name: "MEDIUM | WN19-AC-000050 | PATCH | Windows Server 2019 maximum password age must be configured to 60 days or less."
-  community.windows.win_security_policy:
-      section: System Access
-      key: MaximumPasswordAge
-      value: "{{ wn19stig_maximumpasswordage }}"
+  block:
+      - name: "MEDIUM | WN19-AC-000050 | AUDIT | Windows Server 2019 maximum password age must be configured to 60 days or less. | Warning For Bad Variable."
+        debug:
+            msg:
+                - "Warning!! You have a invalid number of days set for wn19stig_maximumpasswordage please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when:
+            - wn19stig_maximumpasswordage == 0 or
+              wn19stig_maximumpasswordage > 60
+
+      - name: "MEDIUM | WN19-AC-000050 | AUDIT | Windows Server 2019 maximum password age must be configured to 60 days or less. | Warn Count."
+        import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-AC-000050'
+        when:
+            - wn19stig_maximumpasswordage == 0 or
+              wn19stig_maximumpasswordage > 60
+
+      - name: "MEDIUM | WN19-AC-000050 | PATCH | Windows Server 2019 maximum password age must be configured to 60 days or less. | Apply Variable."
+        community.windows.win_security_policy:
+            section: System Access
+            key: MaximumPasswordAge
+            value: "{{ wn19stig_maximumpasswordage }}"
+        when:
+            - wn19stig_maximumpasswordage > 0
+            - wn19stig_maximumpasswordage <= 60
   when:
       - wn19_ac_000050
   tags:
@@ -919,10 +1013,29 @@
       - CAT2
 
 - name: "MEDIUM | WN19-AC-000060 | PATCH | Windows Server 2019 minimum password age must be configured to at least one day."
-  community.windows.win_security_policy:
-      section: System Access
-      key: MinimumPasswordAge
-      value: "{{ wn19stig_minimumpasswordage }}"
+  block:
+      - name: "MEDIUM | WN19-AC-000060 | AUDIT | Windows Server 2019 minimum password age must be configured to at least one day. | Warning For Bad Variable."
+        debug:
+            msg:
+                - "Warning!! You have a invalid number of days set for wn19stig_minimumpasswordage please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when:
+            - wn19stig_minimumpasswordage == 0
+
+      - name: "MEDIUM | WN19-AC-000060 | AUDIT | Windows Server 2019 minimum password age must be configured to at least one day. | Warn Count."
+        import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-AC-000060'
+        when:
+            wn19stig_minimumpasswordage == 0
+
+      - name: "MEDIUM | WN19-AC-000060 | PATCH | Windows Server 2019 minimum password age must be configured to at least one day. | Set Variable."
+        community.windows.win_security_policy:
+            section: System Access
+            key: MinimumPasswordAge
+            value: "{{ wn19stig_minimumpasswordage }}"
+        when:
+            wn19stig_minimumpasswordage > 0
   when:
       - wn19_ac_000060
   tags:
@@ -934,10 +1047,29 @@
       - CAT2
 
 - name: "MEDIUM | WN19-AC-000070 | PATCH | Windows Server 2019 minimum password length must be configured to 14 characters."
-  community.windows.win_security_policy:
-      section: System Access
-      key: MinimumPasswordLength
-      value: "{{ wn19stig_minimumpasswordlength }}"
+  block:
+      - name: "MEDIUM | WN19-AC-000070 | AUDIT | Windows Server 2019 minimum password length must be configured to 14 characters. | Warning For Bad Variable."
+        debug:
+            msg:
+                - "Warning!! You have a invalid password length for wn19stig_minimumpasswordlength please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when:
+            - wn19stig_minimumpasswordlength < 14
+
+      - name: "MEDIUM | WN19-AC-000070 | AUDIT | Windows Server 2019 minimum password length must be configured to 14 characters. | Warn Count."
+        import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-AC-000070'
+        when:
+            - wn19stig_minimumpasswordlength < 14
+
+      - name: "MEDIUM | WN19-AC-000070 | PATCH | Windows Server 2019 minimum password length must be configured to 14 characters. | Apply Variable."
+        community.windows.win_security_policy:
+            section: System Access
+            key: MinimumPasswordLength
+            value: "{{ wn19stig_minimumpasswordlength }}"
+        when:
+            - wn19stig_minimumpasswordlength >= 14
   when:
       - wn19_ac_000070
   tags:
@@ -975,7 +1107,7 @@
       - name: "MEDIUM | WN19-AU-000010 | AUDIT | Windows Server 2019 audit records must be backed up to a different system or media than the system being audited. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_au_000010'
+            warn_control_id: 'WN19-AU-000010'
   when:
       - wn19_au_000010
   tags:
@@ -995,7 +1127,7 @@
       - name: "MEDIUM | WN19-AU-000020 | AUDIT | Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real time and offload standalone or nondomain-joined systems weekly. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_au_000020'
+            warn_control_id: 'WN19-AU-000020'
   when:
       - wn19_au_000020
   tags:
@@ -1016,7 +1148,7 @@
       - name: "MEDIUM | WN19-AU-000030 | AUDIT | Windows Server 2019 permissions for the Application event log must prevent access by non-privileged accounts. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_au_000030'
+            warn_control_id: 'WN19-AU-000030'
   when:
       - wn19_au_000030
   tags:
@@ -1038,7 +1170,7 @@
       - name: "MEDIUM | WN19-AU-000040 | AUDIT | Windows Server 2019 permissions for the Security event log must prevent access by non-privileged accounts. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_au_000040'
+            warn_control_id: 'WN19-AU-000040'
   when:
       - wn19_au_000040
   tags:
@@ -1060,7 +1192,7 @@
       - name: "MEDIUM | WN19-AU-000050 | AUDIT | Windows Server 2019 permissions for the System event log must prevent access by non-privileged accounts. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_au_000050'
+            warn_control_id: 'WN19-AU-000050'
   when:
       - wn19_au_000050
   tags:
@@ -1082,7 +1214,7 @@
       - name: "MEDIUM | WN19-AU-000060 | AUDIT | Windows Server 2019 Event Viewer must be protected from unauthorized modification and deletion. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_au_000060'
+            warn_control_id: 'WN19-AU-000060'
   when:
       - wn19_au_000060
   tags:
@@ -1897,7 +2029,7 @@
       - name: "MEDIUM | WN19-CC-000110 | AUDIT | Windows Server 2019 virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_cc_000110'
+            warn_control_id: 'WN19-CC-000110'
   when:
       - wn19_cc_000110
       - ansible_windows_domain_member
@@ -2472,7 +2604,7 @@
       - name: "MEDIUM | WN19-DC-000020 | AUDIT | Windows Server 2019 Kerberos user logon restrictions must be enforced. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000020'
+            warn_control_id: 'WN19-DC-000020'
   when:
       - wn19_dc_000020
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2494,7 +2626,7 @@
       - name: "MEDIUM | WN19-DC-000030 | AUDIT | Windows Server 2019 Kerberos service ticket maximum lifetime must be limited to 600 minutes or less. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000030'
+            warn_control_id: 'WN19-DC-000030'
   when:
       - wn19_dc_000030
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2516,7 +2648,7 @@
       - name: "MEDIUM | WN19-DC-000040 | AUDIT | Windows Server 2019 Kerberos user ticket lifetime must be limited to 10 hours or less. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000040'
+            warn_control_id: 'WN19-DC-000040'
   when:
       - wn19_dc_000040
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2538,7 +2670,7 @@
       - name: "MEDIUM | WN19-DC-000050 | AUDIT | Windows Server 2019 Kerberos policy user ticket renewal maximum lifetime must be limited to seven days or less.| import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000050'
+            warn_control_id: 'WN19-DC-000050'
   when:
       - wn19_dc_000050
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2560,7 +2692,7 @@
       - name: "MEDIUM | WN19-DC-000060 | AUDIT | Windows Server 2019 computer clock synchronization tolerance must be limited to 5 minutes or less. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000060'
+            warn_control_id: 'WN19-DC-000060'
   when:
       - wn19_dc_000060
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2582,7 +2714,7 @@
       - name: "MEDIUM | WN19-DC-000120 | AUDIT | Windows Server 2019 data files owned by users must be on a different logical partition from the directory server data files. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000120'
+            warn_control_id: 'WN19-DC-000120'
   when:
       - wn19_dc_000120
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2603,7 +2735,7 @@
       - name: "MEDIUM | WN19-DC-000130 | AUDIT | Windows Server 2019 domain controllers must run on a machine dedicated to that function. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000130'
+            warn_control_id: 'WN19-DC-000130'
   when:
       - wn19_dc_000130
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2624,7 +2756,7 @@
       - name: "MEDIUM | WN19-DC-000140 | AUDIT | Windows Server 2019 must use separate, NSA-approved (Type 1) cryptography to protect the directory data in transit for directory service implementations at a classified confidentiality level when replication data traverses a network cleared to a lower level than the data. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000140'
+            warn_control_id: 'WN19-DC-000140'
   when:
       - wn19_dc_000140
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2645,7 +2777,7 @@
       - name: "MEDIUM | WN19-DC-000170 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must be configured with proper audit settings. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000170'
+            warn_control_id: 'WN19-DC-000170'
   when:
       - wn19_dc_000170
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2667,7 +2799,7 @@
       - name: "MEDIUM | WN19-DC-000180 | AUDIT | Windows Server 2019 Active Directory Domain object must be configured with proper audit settings. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000180'
+            warn_control_id: 'WN19-DC-000180'
   when:
       - wn19_dc_000180
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2689,7 +2821,7 @@
       - name: "MEDIUM | WN19-DC-000190 | AUDIT | Windows Server 2019 Active Directory Infrastructure object must be configured with proper audit settings. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000190'
+            warn_control_id: 'WN19-DC-000190'
   when:
       - wn19_dc_000190
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2711,7 +2843,7 @@
       - name: "MEDIUM | WN19-DC-000200 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must be configured with proper audit settings. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000200'
+            warn_control_id: 'WN19-DC-000200'
   when:
       - wn19_dc_000200
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2733,7 +2865,7 @@
       - name: "MEDIUM | WN19-DC-000210 | AUDIT | Windows Server 2019 Active Directory AdminSDHolder object must be configured with proper audit settings. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000210'
+            warn_control_id: 'WN19-DC-000210'
   when:
       - wn19_dc_000210
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2755,7 +2887,7 @@
       - name: "MEDIUM | WN19-DC-000220 | AUDIT | Windows Server 2019 Active Directory RID Manager$ object must be configured with proper audit settings. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000220'
+            warn_control_id: 'WN19-DC-000220'
   when:
       - wn19_dc_000220
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2922,7 +3054,7 @@
       - name: "MEDIUM | WN19-DC-000280 | AUDIT | Windows Server 2019 domain controllers must have a PKI server certificate. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000280'
+            warn_control_id: 'WN19-DC-000280'
   when:
       - wn19_dc_000280
       - ansible_windows_domain_role == "Primary domain controller"
@@ -2943,7 +3075,7 @@
       - name: "MEDIUM | WN19-DC-000310 | AUDIT | Windows Server 2019 Active Directory user accounts, including administrators, must be configured to require the use of a Common Access Card (CAC), Personal Identity Verification (PIV)-compliant hardware token, or Alternate Logon Token (ALT) for user authentication. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000310'
+            warn_control_id: 'WN19-DC-000310'
   when:
       - wn19_dc_000310
       - ansible_windows_domain_role == "Primary domain controller"
@@ -3173,7 +3305,7 @@
       - name: "MEDIUM | WN19-DC-000430 | AUDIT | The password for the krbtgt account on a domain must be reset at least every 180 days. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_dc_000430'
+            warn_control_id: 'WN19-DC-000430'
   when:
       - wn19_dc_000430
       - ansible_windows_domain_role == "Primary domain controller"
@@ -3482,7 +3614,7 @@
       - name: "MEDIUM | WN19-PK-000020 | AUDIT | Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_pk_000020'
+            warn_control_id: 'WN19-PK-000020'
   when:
       - wn19_pk_000020
   tags:
@@ -3509,7 +3641,7 @@
       - name: "MEDIUM | WN19-PK-000030 | AUDIT | Windows Server 2019 must have the US DoD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_pk_000030'
+            warn_control_id: 'WN19-PK-000030'
   when:
       - wn19_pk_000030
   tags:
@@ -3537,10 +3669,29 @@
       - CAT2
 
 - name: "MEDIUM | WN19-SO-000030 | PATCH | Windows Server 2019 built-in administrator account must be renamed."
-  community.windows.win_security_policy:
-      section: System Access
-      key: NewAdministratorName
-      value: "{{ wn19stig_newadministratorname }}"
+  block:
+      - name: "MEDIUM | WN19-SO-000030 | AUDIT | Windows Server 2019 built-in administrator account must be renamed. | Warning For Bad Variable."
+        debug:
+            msg:
+                - "Warning!! You have not changed the default name for wn19stig_newadministratorname, please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when:
+            - "'adminchangethis' in wn19stig_newadministratorname"
+
+      - name: "MEDIUM | WN19-SO-000030 | AUDIT | Windows Server 2019 built-in administrator account must be renamed. | Warn Count."
+        import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-SO-000030'
+        when:
+            - "'adminchangethis' in wn19stig_newadministratorname"
+
+      - name: "MEDIUM | WN19-SO-000030 | PATCH | Windows Server 2019 built-in administrator account must be renamed. | Set Variable."
+        community.windows.win_security_policy:
+            section: System Access
+            key: NewAdministratorName
+            value: "{{ wn19stig_newadministratorname }}"
+        when:
+            - "'adminchangethis' not in wn19stig_newadministratorname"
   when:
       - wn19_so_000030
   tags:
@@ -3552,10 +3703,29 @@
       - CAT2
 
 - name: "MEDIUM | WN19-SO-000040 | PATCH | Windows Server 2019 built-in guest account must be renamed."
-  community.windows.win_security_policy:
-      section: System Access
-      key: NewGuestName
-      value: "{{ wn19stig_newguestname }}"
+  block:
+      - name: "MEDIUM | WN19-SO-000040 | AUDIT | Windows Server 2019 built-in guest account must be renamed. | Warning For Bad Variable."
+        debug:
+            msg:
+                - "Warning!! You have not changed the default name for wn19stig_newguestname, please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when:
+            - "'guestchangethis' in wn19stig_newguestname"
+
+      - name: "MEDIUM | WN19-SO-000040 | AUDIT | Windows Server 2019 built-in guest account must be renamed. | Warn Count."
+        import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-SO-000040'
+        when:
+            - "'guestchangethis' in wn19stig_newguestname"
+
+      - name: "MEDIUM | WN19-SO-000040 | PATCH | Windows Server 2019 built-in guest account must be renamed. | Set Variable."
+        community.windows.win_security_policy:
+            section: System Access
+            key: NewGuestName
+            value: "{{ wn19stig_newguestname }}"
+        when:
+            - "'guestchangethis' not in wn19stig_newguestname"
   when:
       - wn19_so_000040
   tags:

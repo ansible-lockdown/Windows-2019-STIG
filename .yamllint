@@ -17,7 +17,7 @@ rules:
     comments: disable
     comments-indentation: disable
     document-start: disable
-    empty-lines: {max: 1, level: error}
+    empty-lines: {max: 3, level: error}
     hyphens: {level: error}
     indentation:
         # Requiring 4 space indentation

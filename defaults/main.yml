@@ -328,14 +328,6 @@ wn19_dc_000160: true
 wn19_so_000140: true
 wn19_so_000370: true
 
-# CAT 1 defaults
-
-# Possibly remove
-# # WN19-UR-000130
-# # Windows Server 2019 Impersonate a client after authentication user right must only be assigned to Administrators, Service, Local Service, and Network Service.
-# # wn19_ur_000130_sedebugprivilege is the standard SID for standalone, member, and domain controllers for 'Administrators' group
-# wn19stig_sedebugprivilege: "*S-1-5-32-544"
-
 # CAT 2 defaults
 
 # WN19-00-000020
@@ -345,12 +337,13 @@ wn19stig_pass_age: 60
 
 # WN19-AC-000010
 # Windows Server 2019 account lockout duration must be configured to 15 minutes or greater.
-# If the Account lockout duration is less than wn19stig_lockoutduration minutes (excluding 0)
+# Configuring this to "0", requiring an administrator to unlock the account, is more restrictive and is not a finding.
+# Valid Variables are 15 or more or 0.
 wn19stig_lockoutduration: 15
 
 # WN19-AC-000020
 # Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less.
-# wn19stig_lockoutbadcount is the 'LockoutBadCount' equals
+# and may not be set to 0.
 wn19stig_lockoutbadcount: 3
 
 # WN19-AC-000030
@@ -358,35 +351,30 @@ wn19stig_lockoutbadcount: 3
 # wn19stig_resetlockoutcount is the Reset account lockout counter after value in mintues.
 wn19stig_resetlockoutcount: 15
 
-# WN19-AC-000040
-# Windows Server 2019 password history must be configured to 24 passwords remembered.
-# wn19stig_passwordhistorysize is the Enforce password history value
-wn19stig_passwordhistorysize: 24
-
 # WN19-AC-000050
-# Windows Server 2019 maximum password age must be configured to 60 days or less.
+# Windows Server 2019 maximum password age must be configured to 60 days or less and cannot be 0.
 # wn19stig_maximumpasswordage is the Maximum password age value in days.
 wn19stig_maximumpasswordage: 60
 
 # WN19-AC-000060
-# Windows Server 2019 minimum password age must be configured to at least one day.
+# Windows Server 2019 minimum password age must be configured to at least one day and cannot be set to 0.
 # wn19stig_minimumpasswordage is the Minimum password age value in days.
 wn19stig_minimumpasswordage: 1
 
 # WN19-AC-000070
-# Windows Server 2019 minimum password length must be configured to 14 characters.
+# Windows Server 2019 minimum password length must be configured to 14 characters or more.
 # wn19stig_minimumpasswordlength is the Minimum password characters length value.
 wn19stig_minimumpasswordlength: 14
 
 # WN19-SO-000030
 # Windows Server 2019 built-in administrator account must be renamed.
 # wn19stig_newadministratorname is the non-default name for the Administror Account.
-wn19stig_newadministratorname: renamedadmin
+wn19stig_newadministratorname: adminchangethis
 
 # WN19-SO-000040
 # Windows Server 2019 built-in guest account must be renamed.
 # wn19stig_newguestname is the non-default name for the guest Account.
-wn19stig_newguestname: renamedguest
+wn19stig_newguestname: guestchangethis
 
 # WN19-SO-000130
 # Windows Server 2019 required legal notice must be configured to display before console logon.

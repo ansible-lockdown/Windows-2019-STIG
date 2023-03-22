@@ -29,7 +29,7 @@
       - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000180'
+            warn_control_id: 'WN19-00-000180'
   when:
       - wn19_00_000180
   tags:
@@ -85,7 +85,7 @@
       - name: "LOW | WN19-00-000440 | AUDIT |  The Windows Server 2019 time service must synchronize with an appropriate DoD time source. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000440'
+            warn_control_id: 'WN19-00-000440'
   when: wn19_00_000440
   tags:
       - WN19-00-000440
@@ -120,7 +120,7 @@
       - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000460'
+            warn_control_id: 'WN19-00-000460'
   when:
       - wn19_00_000460
   tags:
@@ -140,7 +140,7 @@
       - name: "LOW | WN19-00-000470 | AUDIT | Windows Server 2019 must have Secure Boot enabled. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_00_000470'
+            warn_control_id: 'WN19-00-000470'
   when:
       - wn19_00_000470
   tags:
@@ -224,7 +224,7 @@
       - name: "LOW | WN19-CC-000320 | AUDIT | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'wn19_cc_000320'
+            warn_control_id: 'WN19-CC-000320'
   when:
       - wn19_cc_000320
   tags:
