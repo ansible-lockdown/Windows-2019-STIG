@@ -1,3 +1,5 @@
+---
+
 parseable: true
 quiet: true
 skip_list:
@@ -10,7 +12,9 @@ skip_list:
     - 'name[casing]'
     - 'name[template]'
     - 'jinja[spacing]'
+    - 'var-naming'  # Older playbook no new release
     - '204'
+    - '208'
     - '305'
     - '303'
     - '403'
