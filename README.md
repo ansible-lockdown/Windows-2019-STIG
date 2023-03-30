@@ -49,7 +49,7 @@ This role **will make changes to the system** which may have unintended conseque
 
 Check Mode is not supported! The role will complete in check mode without errors, but it is not supported and should be used with caution.
 
-This role was developed against a clean install of the Windows 10. If you are implementing to an existing system please review this role for any site specific changes that are needed.
+This role was developed against a clean install of the Windows 10 operating system. If you are implementing to an existing system please review this role for any site specific changes that are needed.
 
 To use release version please point to main branch and relevant release for the stig benchmark you wish to work with.
 
