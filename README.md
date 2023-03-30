@@ -100,7 +100,7 @@ Currently this release does not have a auditing tool.
 
 **Technical Dependencies:**
 
-- Windows 10 - Other versions are not supported
+- Windows 2019 - Other versions are not supported
 - Running Ansible/Tower setup (this role is tested against Ansible version 2.9.1 and newer)
 - Python3 Ansible run environment
 - passlib (or python2-passlib, if using python2)
