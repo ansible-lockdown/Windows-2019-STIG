@@ -1,6 +1,7 @@
 ---
 
 collections:
-  - name: community.windows
-  - name: community.general
-  
+
+    - name: community.windows
+
+    - name: community.general

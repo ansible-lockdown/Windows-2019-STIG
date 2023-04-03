@@ -7,7 +7,7 @@ galaxy_info:
     license: MIT
     role_name: windows19_stig
     namespace: mindpointgroup
-    min_ansible_version: 2.6
+    min_ansible_version: 2.10.1
     platforms:
         - name: Windows Server
           versions:

@@ -1,5 +1,9 @@
 ---
 
+- name: Display Banner
+  ansible.builtin.debug:
+      msg: "{{ motd_asciiart.split('\n') }}"
+
 - name: Gather distribution info
   setup:
       gather_subset: distribution,!all,!min
