@@ -4,7 +4,7 @@
 - name: "MEDIUM | WN19-00-000020 | AUDIT | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every {{ wn19stig_pass_age }} days."
   block:
       - name: "MEDIUM | WN19-00-000020 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every {{ wn19stig_pass_age }} days."
-        ansible.windows.ansible.windows.win_shell: "Get-ADUser -Filter * -Property PasswordLastSet | Where SID -like S-1-5-21-*-500 | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ wn19stig_pass_age }}))} | Select Name,PasswordLastSet"
+        ansible.windows.win_shell: "Get-ADUser -Filter * -Property PasswordLastSet | Where SID -like S-1-5-21-*-500 | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ wn19stig_pass_age }}))} | Select Name,PasswordLastSet"
         # win_shell: "Get-ADUser krbtgt -Property PasswordLastSet | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ wn19stig_krbtgt_pass_age }}))} | Select-Object -ExpandProperty PasswordLastSet"
         changed_when: false
         check_mode: false
@@ -347,7 +347,7 @@
         when: not ansible_windows_domain_role == "Primary domain controller"
 
       - name: "MEDIUM | WN19-00-000200 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 accounts must require passwords."
-        ansible.builtin.ansible.builtin.debug:
+        ansible.builtin.debug:
             msg:
                 - The accounts listed are do not require a password and are currently enabled
                 - "{{ wn19_00_000200_audit_dm_sa.stdout.split('\n') }}"
