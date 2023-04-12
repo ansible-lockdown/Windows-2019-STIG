@@ -46,7 +46,7 @@
       - CAT1
 
 - name: "HIGH | WN19-AC-000090 | PATCH | Windows Server 2019 reversible password encryption must be disabled."
-  win_security_policy:
+  community.windows.win_security_policy:
       section: System Access
       key: ClearTextPassword
       value: "0"

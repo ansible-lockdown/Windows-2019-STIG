@@ -3,3 +3,5 @@
 # Used to control warning summary
 warn_control_list: ""
 warn_count: 0
+
+lockdown_banner: "{{lookup('file', './templates/banner.txt')}}"

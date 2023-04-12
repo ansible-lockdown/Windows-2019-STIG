@@ -27,7 +27,7 @@
         register: wn19_00_000020_audit_dm_sa
 
       - name: "MEDIUM | WN19-00-000020 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every {{ wn19stig_pass_age }} days."
-        ansible.builtin.:
+        ansible.builtin.debug:
             msg:
                 - "The following account appears to be the default admin account and the password does not meet the control specific age of {{ wn19stig_pass_age }}"
                 - "{{ wn19_00_000020_audit_dm_sa.stdout.split('\n') }}"
@@ -58,13 +58,13 @@
 
 - name: "MEDIUM | WN19-00-000040 | AUDIT | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
   block:
-      - name: "MEDIUM | WN19-00-000040 | AUDIT STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
+      - name: "MEDIUM | WN19-00-000040 | AUDIT - STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
         ansible.windows.win_shell: Get-LocalGroupMember -Name 'Backup Operators'
         changed_when: false
         check_mode: false
         register: wn19_00_000040_audit
 
-      - name: "MEDIUM | WN19-00-000040 | AUDIT STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
+      - name: "MEDIUM | WN19-00-000040 | AUDIT - STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
         ansible.builtin.debug:
             msg:
                 - The accounts listed are members of the Backup Operators group
@@ -74,7 +74,7 @@
             - wn19_00_000040_audit.stdout != ""
         changed_when: false
 
-      - name: Warn Count."
+      - name: "MEDIUM | WN19-00-000040 | AUDIT - STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000040'
@@ -853,7 +853,7 @@
 - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater."
   block:
       - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warning For Bad Variable."
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! You have a invalid number of minutes set for wn19stig_lockoutduration please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
@@ -862,7 +862,7 @@
             - wn19stig_lockoutduration > 0
 
       - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warn Count."
-        import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-AC-000010'
         when:
@@ -890,7 +890,7 @@
 - name: "MEDIUM | WN19-AC-000020 | PATCH | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less."
   block:
       - name: "MEDIUM | WN19-AC-000020 | AUDIT | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Warning For Bad Variable."
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! You have a invalid number of days set for wn19stig_lockoutbadcount please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
@@ -899,7 +899,7 @@
               wn19stig_lockoutbadcount > 3
 
       - name: "MEDIUM | WN19-AC-000020 | AUDIT | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Warn Count."
-        import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-AC-000020'
         when:
@@ -928,7 +928,7 @@
 - name: "MEDIUM | WN19-AC-000030 | PATCH | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
   block:
       - name: MEDIUM | WN19-AC-000030 | AUDIT | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! You have a invalid number of days set for wn19stig_resetlockoutcount please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
@@ -936,7 +936,7 @@
             - wn19stig_resetlockoutcount < 15
 
       - name: MEDIUM | WN19-AC-000030 | AUDIT | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater. | Warn Count."
-        import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-AC-000030'
         when:
@@ -978,7 +978,7 @@
 - name: "MEDIUM | WN19-AC-000050 | PATCH | Windows Server 2019 maximum password age must be configured to 60 days or less."
   block:
       - name: "MEDIUM | WN19-AC-000050 | AUDIT | Windows Server 2019 maximum password age must be configured to 60 days or less. | Warning For Bad Variable."
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! You have a invalid number of days set for wn19stig_maximumpasswordage please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
@@ -987,7 +987,7 @@
               wn19stig_maximumpasswordage > 60
 
       - name: "MEDIUM | WN19-AC-000050 | AUDIT | Windows Server 2019 maximum password age must be configured to 60 days or less. | Warn Count."
-        import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-AC-000050'
         when:
@@ -1015,7 +1015,7 @@
 - name: "MEDIUM | WN19-AC-000060 | PATCH | Windows Server 2019 minimum password age must be configured to at least one day."
   block:
       - name: "MEDIUM | WN19-AC-000060 | AUDIT | Windows Server 2019 minimum password age must be configured to at least one day. | Warning For Bad Variable."
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! You have a invalid number of days set for wn19stig_minimumpasswordage please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
@@ -1023,7 +1023,7 @@
             - wn19stig_minimumpasswordage == 0
 
       - name: "MEDIUM | WN19-AC-000060 | AUDIT | Windows Server 2019 minimum password age must be configured to at least one day. | Warn Count."
-        import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-AC-000060'
         when:
@@ -1049,7 +1049,7 @@
 - name: "MEDIUM | WN19-AC-000070 | PATCH | Windows Server 2019 minimum password length must be configured to 14 characters."
   block:
       - name: "MEDIUM | WN19-AC-000070 | AUDIT | Windows Server 2019 minimum password length must be configured to 14 characters. | Warning For Bad Variable."
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! You have a invalid password length for wn19stig_minimumpasswordlength please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
@@ -1057,7 +1057,7 @@
             - wn19stig_minimumpasswordlength < 14
 
       - name: "MEDIUM | WN19-AC-000070 | AUDIT | Windows Server 2019 minimum password length must be configured to 14 characters. | Warn Count."
-        import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-AC-000070'
         when:
@@ -1251,14 +1251,14 @@
 - name: "MEDIUM | WN19-AU-000080 | PATCH | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
   block:
       - name: "MEDIUM | WN19-AU-000080 | AUDIT | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
-        win_shell: AuditPol /get /subcategory:"Credential Validation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        ansible.windows.win_shell: AuditPol /get /subcategory:"Credential Validation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         check_mode: false
         register: wn19_au_000080_audit
 
       - name: "MEDIUM | WN19-AU-000080 | PATCH | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
-        win_shell: AuditPol /set /subcategory:"Credential Validation" /failure:enable
+        ansible.windows.win_shell: AuditPol /set /subcategory:"Credential Validation" /failure:enable
         when: "'Failure' not in wn19_au_000080_audit.stdout"
   when:
       - wn19_au_000080
@@ -3589,7 +3589,7 @@
         check_mode: false
         register: wn19_PK_000010_audit
   when:
-      - wn19_PK_000010
+      - wn19_pk_000010
   tags:
       - WN19-PK-000010
       - V-205648
@@ -3671,7 +3671,7 @@
 - name: "MEDIUM | WN19-SO-000030 | PATCH | Windows Server 2019 built-in administrator account must be renamed."
   block:
       - name: "MEDIUM | WN19-SO-000030 | AUDIT | Windows Server 2019 built-in administrator account must be renamed. | Warning For Bad Variable."
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! You have not changed the default name for wn19stig_newadministratorname, please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
@@ -3679,7 +3679,7 @@
             - "'adminchangethis' in wn19stig_newadministratorname"
 
       - name: "MEDIUM | WN19-SO-000030 | AUDIT | Windows Server 2019 built-in administrator account must be renamed. | Warn Count."
-        import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-SO-000030'
         when:
@@ -3705,7 +3705,7 @@
 - name: "MEDIUM | WN19-SO-000040 | PATCH | Windows Server 2019 built-in guest account must be renamed."
   block:
       - name: "MEDIUM | WN19-SO-000040 | AUDIT | Windows Server 2019 built-in guest account must be renamed. | Warning For Bad Variable."
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! You have not changed the default name for wn19stig_newguestname, please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
@@ -3713,7 +3713,7 @@
             - "'guestchangethis' in wn19stig_newguestname"
 
       - name: "MEDIUM | WN19-SO-000040 | AUDIT | Windows Server 2019 built-in guest account must be renamed. | Warn Count."
-        import_tasks: warning_facts.yml
+        ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-SO-000040'
         when:

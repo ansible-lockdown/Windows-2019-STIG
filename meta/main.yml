@@ -1,22 +1,33 @@
 ---
 
 galaxy_info:
-    author: Ryan Speelman
-    description: Apply the DISA Windows Server 2019 STIG
+    author: "Ryan Speelman"
+    description: "Ansible Role to Apply the DISA Windows Server 2019 STIG"
     company: "MindPoint Group"
     license: MIT
     role_name: windows19_stig
     namespace: mindpointgroup
     min_ansible_version: 2.10.1
+
     platforms:
         - name: Windows Server
           versions:
               - 2019
+
     galaxy_tags:
         - system
         - security
         - stig
         - hardening
+        - benchmark
         - microsoft
         - windows
+        - complianceascode
+        - compliance
+
+    collections:
+        - ansible.windows
+        - community.windows
+        - community.general
+
     dependencies: []
