@@ -2,10 +2,12 @@
 
 - name: Display Banner
   ansible.builtin.debug:
-      msg: "{{ wn19stig_legalnoticetext.split('\n') }}"
+      msg: "{{ lockdown_banner.split('\n') }}"
+  tags:
+      - always
 
 - name: Gather distribution info
-  setup:
+  ansible.builtin.setup:
       gather_subset: distribution,!all,!min
   when:
       - ansible_distribution is not defined
@@ -13,7 +15,7 @@
       - always
 
 - name: Check OS version and family
-  assert:
+  ansible.builtin.assert:
       that:
           - ansible_os_family == 'Windows'
           - ansible_distribution | regex_search('(Microsoft Windows Server 2019)')
@@ -23,41 +25,38 @@
       - always
 
 - name: Check ansible version
-  assert:
+  ansible.builtin.assert:
       that: ansible_version.full is version_compare(win2019stig_min_ansible_version, '>=')
       msg: You must use Ansible {{ win2019stig_min_ansible_version }} or greater
   tags:
       - always
 
 - name: Include the preliminary tasks
-  import_tasks: prelim.yml
+  ansible.builtin.import_tasks: prelim.yml
   tags:
       - prelim_tasks
 
 - name: Execute the category 1 (highest severity) tasks
-  import_tasks: cat1.yml
+  ansible.builtin.import_tasks: cat1.yml
   when: win2019stig_cat1_patch | bool
   tags:
       - CAT1
 
 - name: Execute the category 2 (medium severity) tasks
-  import_tasks: cat2.yml
+  ansible.builtin.import_tasks: cat2.yml
   when: win2019stig_cat2_patch | bool
   tags:
       - CAT2
 
 - name: Execute the category 3 (lowest severity) tasks
-  import_tasks: cat3.yml
+  ansible.builtin.import_tasks: cat3.yml
   when: win2019stig_cat3_patch | bool
   tags:
       - CAT3
 
 - name: If Warnings found Output count and control IDs affected
-  debug:
+  ansible.builtin.debug:
       msg:
           - "You have {{ warn_count }} Warning(s) that require investigation(s). Their ID's are listed below:"
           - "{{ warn_control_list }}"
   when: warn_count != 0
-
-# - debug: var=warn_count
-# - debug: var=control_number

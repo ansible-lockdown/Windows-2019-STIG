@@ -1,7 +1,7 @@
 ---
 
 - name: "PRELIM | Detect if Trusted Platform Module (TPM) is available"
-  win_shell: (Get-CimInstance -ClassName Win32_OperatingSystem).ProductType
+  ansible.windows.win_shell: (Get-CimInstance -ClassName Win32_OperatingSystem).ProductType
   changed_when: false
   failed_when: false
   register: win2019_tpm_enabled
@@ -11,7 +11,7 @@
 # 1 = disabled 0 = enabled
 # this reg key may be useful detect is secure conenctions enabled, etc?
 - name: "PRELIM | Detect if Remote Desktop Services (RDP) is enabled"
-  win_reg_stat:
+  ansible.windows.win_reg_stat:
       path: HKLM:\System\CurrentControlSet\Control\Terminal Server
       name: fDenyTSConnections
   changed_when: false
@@ -19,7 +19,8 @@
   register: win2019_rdp_enabled
   tags:
       - always
+
 # remove this debug or set a verb level
 - name: win2019_rdp_enabled.value var
-  debug:
+  ansible.builtin.debug:
       var: win2019_rdp_enabled.value
