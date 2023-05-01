@@ -15,7 +15,7 @@
         ansible.builtin.debug:
             msg:
                 - "The following account appears to be the default admin account and the password does not meet the control specific age of {{ wn19stig_pass_age }}"
-                - "{{ wn9_00_000020_audit_dc.stdout.split('\n') }}"
+                - "{{ wn19_00_000020_audit_dc.stdout.split('\n') }}"
         when:
             - not wn19_00_000020_audit_dc is skipped
             - wn19_00_000020_audit_dc.stdout != ""
@@ -41,7 +41,7 @@
             warn_control_id: 'WN19-00-000020'
         when:
             - not wn19_00_000020_audit_dc is skipped
-            - wn19_00_000020_audit_dc.stdout != "" or
+            - wn19_00_000020_audit_dc.stdout != ""
             - wn19_00_000020_audit_dm_sa is defined
             - wn19_00_000020_audit_dm_sa.stdout != ""
   when:
@@ -327,7 +327,7 @@
         failed_when: false
         check_mode: false
         register: wn19_00_000200_audit_dc
-        when: ansible_windows_domain_role == "Primary domain controller"
+        when: ansible_os_product_type == "domain_controller"
 
       - name: "MEDIUM | WN19-00-000200 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 accounts must require passwords."
         ansible.builtin.debug:
@@ -344,7 +344,7 @@
         failed_when: false
         check_mode: false
         register: wn19_00_000200_audit_dm_sa
-        when: not ansible_windows_domain_role == "Primary domain controller"
+        when: not ansible_os_product_type == "domain_controller"
 
       - name: "MEDIUM | WN19-00-000200 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 accounts must require passwords."
         ansible.builtin.debug:
@@ -2607,7 +2607,7 @@
             warn_control_id: 'WN19-DC-000020'
   when:
       - wn19_dc_000020
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000020
       - V-205702
@@ -2629,7 +2629,7 @@
             warn_control_id: 'WN19-DC-000030'
   when:
       - wn19_dc_000030
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000030
       - V-205703
@@ -2651,7 +2651,7 @@
             warn_control_id: 'WN19-DC-000040'
   when:
       - wn19_dc_000040
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000040
       - V-205704
@@ -2673,7 +2673,7 @@
             warn_control_id: 'WN19-DC-000050'
   when:
       - wn19_dc_000050
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000050
       - V-205705
@@ -2695,7 +2695,7 @@
             warn_control_id: 'WN19-DC-000060'
   when:
       - wn19_dc_000060
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000060
       - V-205706
@@ -2717,7 +2717,7 @@
             warn_control_id: 'WN19-DC-000120'
   when:
       - wn19_dc_000120
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000120
       - V-205723
@@ -2738,7 +2738,7 @@
             warn_control_id: 'WN19-DC-000130'
   when:
       - wn19_dc_000130
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000130
       - V-205695
@@ -2759,7 +2759,7 @@
             warn_control_id: 'WN19-DC-000140'
   when:
       - wn19_dc_000140
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000140
       - V-205818
@@ -2780,7 +2780,7 @@
             warn_control_id: 'WN19-DC-000170'
   when:
       - wn19_dc_000170
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000170
       - V-205785
@@ -2802,7 +2802,7 @@
             warn_control_id: 'WN19-DC-000180'
   when:
       - wn19_dc_000180
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000180
       - V-205786
@@ -2824,7 +2824,7 @@
             warn_control_id: 'WN19-DC-000190'
   when:
       - wn19_dc_000190
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000190
       - V-205787
@@ -2846,7 +2846,7 @@
             warn_control_id: 'WN19-DC-000200'
   when:
       - wn19_dc_000200
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000200
       - V-205788
@@ -2868,7 +2868,7 @@
             warn_control_id: 'WN19-DC-000210'
   when:
       - wn19_dc_000210
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000210
       - V-205789
@@ -2890,7 +2890,7 @@
             warn_control_id: 'WN19-DC-000220'
   when:
       - wn19_dc_000220
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000220
       - V-205790
@@ -2914,7 +2914,7 @@
         when: "'Success' not in wn19_dc_000230_audit.stdout"
   when:
       - wn19_dc_000230
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000230
       - V-205628
@@ -2947,7 +2947,7 @@
         when: "'Success' not in wn19_dc_000240_audit.stdout"
   when:
       - wn19_dc_000240
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000240
       - V-205791
@@ -2975,7 +2975,7 @@
         when: "'Failure' not in wn19_dc_000250_audit.stdout"
   when:
       - wn19_dc_000250
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000250
       - V-205792
@@ -3003,7 +3003,7 @@
         when: "'Success' not in wn19_dc_000260_audit.stdout"
   when:
       - wn19_dc_000260
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000260
       - V-205793
@@ -3031,7 +3031,7 @@
         when: "'Failure' not in wn19_dc_000270_audit.stdout"
   when:
       - wn19_dc_000270
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000270
       - V-205794
@@ -3057,7 +3057,7 @@
             warn_control_id: 'WN19-DC-000280'
   when:
       - wn19_dc_000280
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000280
       - V-205645
@@ -3078,7 +3078,7 @@
             warn_control_id: 'WN19-DC-000310'
   when:
       - wn19_dc_000310
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000310
       - V-205701
@@ -3103,7 +3103,7 @@
       datatype: dword
   when:
       - wn19_dc_000320
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000320
       - V-205820
@@ -3123,7 +3123,7 @@
       datatype: dword
   when:
       - wn19_dc_000330
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000330
       - V-205876
@@ -3143,7 +3143,7 @@
       action: set
   when:
       - wn19_dc_000340
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000340
       - V-205665
@@ -3160,7 +3160,7 @@
       action: set
   when:
       - wn19_dc_000350
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000350
       - V-205744
@@ -3177,7 +3177,7 @@
       action: set
   when:
       - wn19_dc_000360
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000360
       - V-205666
@@ -3194,7 +3194,7 @@
       action: set
   when:
       - wn19_dc_000370
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000370
       - V-205667
@@ -3211,7 +3211,7 @@
       action: set
   when:
       - wn19_dc_000380
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000380
       - V-205668
@@ -3228,7 +3228,7 @@
       value: ""
   when:
       - wn19_dc_000390
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000390
       - V-205669
@@ -3245,7 +3245,7 @@
       action: set
   when:
       - wn19_dc_000400
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000400
       - V-205670
@@ -3262,7 +3262,7 @@
       action: set
   when:
       - wn19_dc_000410
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000410
       - V-205732
@@ -3279,7 +3279,7 @@
       action: set
   when:
       - wn19_dc_000420
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
   tags:
       - WN19-DC-000420
       - V-205745
@@ -3308,7 +3308,7 @@
             warn_control_id: 'WN19-DC-000430'
   when:
       - wn19_dc_000430
-      - ansible_windows_domain_role == "Primary domain controller"
+      - ansible_os_product_type == "domain_controller"
       - win2019stig_complexity_high
   tags:
       - WN19-DC-000430
@@ -3363,7 +3363,7 @@
       datatype: dword
   when:
       - wn19_ms_000040
-      - not ansible_windows_domain_role == "Primary domain controller"
+      - not ansible_os_product_type == "domain_controller"
   tags:
       - WN19-MS-000040
       - V-205814
@@ -3397,7 +3397,7 @@
       datatype: string
   when:
       - wn19_ms_000060
-      - not ansible_windows_domain_role == "Primary domain controller"
+      - not ansible_os_product_type == "domain_controller"
   tags:
       - WN19-MS-000060
       - V-205747
@@ -3415,7 +3415,7 @@
       action: set
   when:
       - wn19_ms_000070
-      - not ansible_windows_domain_role == "Primary domain controller"
+      - not ansible_os_product_type == "domain_controller"
   tags:
       - WN19-MS-000070
       - V-205671
@@ -3446,7 +3446,7 @@
         when: not ansible_windows_domain_member
   when:
       - wn19_ms_000080
-      - not ansible_windows_domain_role == "Primary domain controller"
+      - not ansible_os_product_type == "domain_controller"
   tags:
       - WN19-MS-000080
       - V-205672
