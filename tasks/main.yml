@@ -42,6 +42,19 @@
   tags:
       - CAT1
 
+# We have found the order of these three tasks varies between cloud based instances
+# and VM based instances. The task below breaks out to run in a different order
+# for cloud based systems
+- name: Execute the category 2 (medium severity) tasks  
+  ansible.builtin.import_tasks: cat2_cloud.yml
+  when:
+      - wn19stig_cloud_based_system
+      - wn19_ac_000010 or
+        wn19_ac_000020 or
+        wn19_ac_000030
+  tags:
+      - CAT2_CLOUD2
+
 - name: Execute the category 2 (medium severity) tasks
   ansible.builtin.import_tasks: cat2.yml
   when: win2019stig_cat2_patch | bool

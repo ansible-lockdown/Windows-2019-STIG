@@ -8,6 +8,14 @@
   tags:
       - always
 
+- name: Set Fact If Non-Cloud Based System.
+  ansible.builtin.set_fact:
+      wn19stig_cloud_based_system: true
+  when:
+      - ansible_virtualization_type == 'Hyper-V'
+  tags:
+      - always
+
 # 1 = disabled 0 = enabled
 # this reg key may be useful detect is secure conenctions enabled, etc?
 - name: "PRELIM | Detect if Remote Desktop Services (RDP) is enabled"
