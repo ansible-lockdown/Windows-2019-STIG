@@ -26,7 +26,6 @@ data "external" "win_account" {
   program = ["cat", "./sensitive_info.json"]
 }
 
-
 resource "azurerm_resource_group" "main" {
   name     = "${var.prefix}-${var.OS_version}-RG"
   location = var.location
@@ -187,11 +186,8 @@ resource "local_file" "inventory" {
         ansible_winrm_server_cert_validation: ignore
         ansible_winrm_operation_timeout_sec: 120
         ansible_winrm_read_timeout_sec: 180
-        #
-        win2019stig_skip_for_ansible: false
-        # Indivigual controls that cause breaking changes to Ansible connections.
-        wn19_cc_000520: false
-        wn19_cc_000500: false
-        wn19_cc_000510: false
+        # This section turns off and on the groups of controls for connections and tests.
+        # Refer to default main for the controls here explanation.
+        win19cis_skip_for_test: true
     EOF
 }
