@@ -38,7 +38,7 @@
 
 - name: Execute the category 1 (highest severity) tasks
   ansible.builtin.import_tasks: cat1.yml
-  when: win2019stig_cat1_patch | bool
+  when: win2019stig_cat1_patch
   tags:
       - CAT1
 
@@ -57,13 +57,13 @@
 
 - name: Execute the category 2 (medium severity) tasks
   ansible.builtin.import_tasks: cat2.yml
-  when: win2019stig_cat2_patch | bool
+  when: win2019stig_cat2_patch
   tags:
       - CAT2
 
 - name: Execute the category 3 (lowest severity) tasks
   ansible.builtin.import_tasks: cat3.yml
-  when: win2019stig_cat3_patch | bool
+  when: win2019stig_cat3_patch
   tags:
       - CAT3
 
