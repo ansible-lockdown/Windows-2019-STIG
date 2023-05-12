@@ -3,7 +3,8 @@
 ## Release 1.0.0
 
 April 2023 Update
-  - Test
+  - Updated the testing pipelines
+  - Updated Controls For Cloud Systems 
 
 March 2023 Update
   - Updated yamllint
