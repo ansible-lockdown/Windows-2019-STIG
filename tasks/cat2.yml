@@ -879,7 +879,7 @@
             - wn19stig_lockoutbadcount <= 3
   when:
       - wn19_ac_000020
-      - not wn19stig_cloud_based_system
+      - not win19stig_cloud_based_system
   tags:
       - WN19-AC-000020
       - V-205629
@@ -915,7 +915,7 @@
             - wn19stig_resetlockoutcount >= 15
   when:
       - wn19_ac_000030
-      - not wn19stig_cloud_based_system
+      - not win19stig_cloud_based_system
   tags:
       - WN19-AC-000030
       - V-205630
@@ -955,7 +955,7 @@
               wn19stig_lockoutduration >= 15
   when:
       - wn19_ac_000010
-      - not wn19stig_cloud_based_system
+      - not win19stig_cloud_based_system
   tags:
       - WN19-AC-000010
       - V-205795
@@ -2539,6 +2539,7 @@
       datatype: dword
   when:
       - wn19_cc_000480
+      - not win2019stig_skip_for_test
   tags:
       - WN19-CC-000480
       - V-205816
@@ -2572,7 +2573,7 @@
       datatype: dword
   when:
       - wn19_cc_000510
-      - not win2019stig_skip_for_ansible
+      - not win2019stig_skip_for_test
   tags:
       - WN19-CC-000510
       - V-205817
@@ -2590,7 +2591,7 @@
       datatype: dword
   when:
       - wn19_cc_000520
-      - not win2019stig_skip_for_ansible
+      - not win2019stig_skip_for_test
   tags:
       - WN19-CC-000520
       - V-205810
