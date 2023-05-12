@@ -849,44 +849,7 @@
       - CAT2
       # https://www.stigviewer.com/stig/windows_server_2016/2019-01-16/finding/V-78127
 
-# below task is dependent on WN19-AC-000020 and WN19-AC-000030, maybe custom fail when known error if WN19-AC-000020 not set? "The key 'LockoutDuration' in section 'System Access' is not a valid key, cannot set this value"
-- name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater."
-  block:
-      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warning For Bad Variable."
-        ansible.builtin.debug:
-            msg:
-                - "Warning!! You have a invalid number of minutes set for wn19stig_lockoutduration please read"
-                - "the notes for the variable and make the necessary change to the variable to be in compliance."
-        when:
-            - wn19stig_lockoutduration < 15
-            - wn19stig_lockoutduration > 0
-
-      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
-        vars:
-            warn_control_id: 'WN19-AC-000010'
-        when:
-            - wn19stig_lockoutduration < 15
-            - wn19stig_lockoutduration > 0
-
-      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Apply Variable."
-        community.windows.win_security_policy:
-            section: System Access
-            key: LockoutDuration
-            value: "{{ wn19stig_lockoutduration }}"
-        when:
-            - wn19stig_lockoutduration == 0 or
-            - wn19stig_lockoutduration >= 15
-  when:
-      - wn19_ac_000010 | bool
-  tags:
-      - WN19-AC-000010
-      - V-205795
-      - SRG-OS-000329-GPOS-00128
-      - SV-205795r569188_rule
-      - CCI-002238
-      - CAT2
-
+# THE FOLLOWING 3 CONTROLS WILL FAIL UNLESS THEY ARE IN THE FOLLOWING ORDER FOR LOCAL BASED SYSTEMS.
 - name: "MEDIUM | WN19-AC-000020 | PATCH | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less."
   block:
       - name: "MEDIUM | WN19-AC-000020 | AUDIT | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Warning For Bad Variable."
@@ -916,6 +879,7 @@
             - wn19stig_lockoutbadcount <= 3
   when:
       - wn19_ac_000020
+      - not win19stig_cloud_based_system
   tags:
       - WN19-AC-000020
       - V-205629
@@ -951,12 +915,52 @@
             - wn19stig_resetlockoutcount >= 15
   when:
       - wn19_ac_000030
+      - not win19stig_cloud_based_system
   tags:
       - WN19-AC-000030
       - V-205630
       - SRG-OS-000021-GPOS-00005
       - SV-205630r569188_rule
       - CCI-000044
+      - CCI-002238
+      - CAT2
+
+# below task is dependent on WN19-AC-000020 and WN19-AC-000030, maybe custom fail when known error if WN19-AC-000020 not set? "The key 'LockoutDuration' in section 'System Access' is not a valid key, cannot set this value"
+- name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater."
+  block:
+      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warning For Bad Variable."
+        ansible.builtin.debug:
+            msg:
+                - "Warning!! You have a invalid number of minutes set for wn19stig_lockoutduration please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when:
+            - wn19stig_lockoutduration < 15
+            - wn19stig_lockoutduration > 0
+
+      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-AC-000010'
+        when:
+            - wn19stig_lockoutduration < 15
+            - wn19stig_lockoutduration > 0
+
+      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Apply Variable."
+        community.windows.win_security_policy:
+            section: System Access
+            key: LockoutDuration
+            value: "{{ wn19stig_lockoutduration }}"
+        when:
+            - wn19stig_lockoutduration == 0 or
+              wn19stig_lockoutduration >= 15
+  when:
+      - wn19_ac_000010
+      - not win19stig_cloud_based_system
+  tags:
+      - WN19-AC-000010
+      - V-205795
+      - SRG-OS-000329-GPOS-00128
+      - SV-205795r569188_rule
       - CCI-002238
       - CAT2
 
@@ -2535,6 +2539,7 @@
       datatype: dword
   when:
       - wn19_cc_000480
+      - not win2019stig_skip_for_test
   tags:
       - WN19-CC-000480
       - V-205816
@@ -2568,7 +2573,7 @@
       datatype: dword
   when:
       - wn19_cc_000510
-      - not win2019stig_skip_for_ansible
+      - not win2019stig_skip_for_test
   tags:
       - WN19-CC-000510
       - V-205817
@@ -2586,7 +2591,7 @@
       datatype: dword
   when:
       - wn19_cc_000520
-      - not win2019stig_skip_for_ansible
+      - not win2019stig_skip_for_test
   tags:
       - WN19-CC-000520
       - V-205810

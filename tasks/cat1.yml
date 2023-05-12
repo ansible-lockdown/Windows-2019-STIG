@@ -111,6 +111,7 @@
       datatype: dword
   when:
       - wn19_cc_000470
+      - not win2019stig_skip_for_test
   tags:
       - WN19-CC-000470
       - V-205711
@@ -127,7 +128,7 @@
       datatype: dword
   when:
       - wn19_cc_000500
-      - not win2019stig_skip_for_ansible
+      - not win2019stig_skip_for_test
   tags:
       - WN19-CC-000500
       - V-205713

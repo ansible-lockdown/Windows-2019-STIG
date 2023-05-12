@@ -5,6 +5,14 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 2.65"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~>3.5"
+    }
+    tls = {
+      source = "hashicorp/tls"
+      version = "~>4.0"
+    }
   }
   required_version = ">= 1.1.0"
 }
@@ -13,6 +21,7 @@ provider "azurerm" {
   features {}
 }
 
+#Read Username and password from file
 data "external" "win_account" {
   program = ["cat", "./sensitive_info.json"]
 }
@@ -154,9 +163,6 @@ resource "azurerm_virtual_machine_extension" "enablewinrm" {
 SETTINGS
 }
 
-output "public_ip_address" {
-  value = azurerm_public_ip.main.*.ip_address
-}
 
 // generate inventory file
 resource "local_file" "inventory" {
@@ -176,11 +182,12 @@ resource "local_file" "inventory" {
         run_audit: true
         system_is_ec2: true
         audit_git_version: devel
-        win2019stig_skip_for_ansible: true
         ansible_connection: winrm
         ansible_winrm_server_cert_validation: ignore
         ansible_winrm_operation_timeout_sec: 120
         ansible_winrm_read_timeout_sec: 180
-        # to keep ansible connections
+        # This section turns off and on the groups of controls for connections and tests.
+        # Refer to default main for the controls here explanation.
+        win2019stig_skip_for_test: true
     EOF
 }

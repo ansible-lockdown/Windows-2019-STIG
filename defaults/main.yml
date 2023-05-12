@@ -31,19 +31,21 @@ win2019stig_system_is_container: false
 # set to false to skip long running tasks
 long_running: false
 
-# win2019stig_skip_for_ansible is used in the playbook to skip over certain controls that
+# win2019stig_skip_for_test is used in the playbook to skip over certain controls that
 # may cause breaking changes when running it for testing purposes.
 # Controls that will be skipped:
-# WN19-CC-000500
-# WN19-CC-000520
-# WN19-CC-000510
-win2019stig_skip_for_ansible: false
+# WN19-CC-000470 - CAT1
+# WN19-CC-000500 - CAT1
+# WN19-CC-000480 - CAT2
+# WN19-CC-000510 - CAT2
+# WN19-CC-000520 - CAT2
+win2019stig_skip_for_test: false
 
 # These variables correspond with the STIG IDs defined in the STIG and allows you to enable/disable specific rules.
 # PLEASE NOTE: These work in coordination with the cat1, cat2, cat3 group variables. You must enable an entire group
 # in order for the variables below to take effect.
-# CAT 1 rules
 
+# CAT 1 rules
 wn19_00_000010: true
 wn19_00_000030: true
 wn19_00_000100: true
