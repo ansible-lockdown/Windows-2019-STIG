@@ -5,6 +5,7 @@
 April 2023 Update
   - Updated the testing pipelines
   - Updated Controls For Cloud Systems 
+  - Updated skip for testing controls
 
 March 2023 Update
   - Updated yamllint
