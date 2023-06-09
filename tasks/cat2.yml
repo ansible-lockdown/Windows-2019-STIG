@@ -35,7 +35,7 @@
             - wn19_00_000020_audit_dm_sa is defined
             - wn19_00_000020_audit_dm_sa.stdout != ""
 
-      - name: Warn Count."
+      - name: "MEDIUM | WN19-00-000020 | AUDIT | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every {{ wn19stig_pass_age }} days. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000020'
@@ -50,7 +50,7 @@
       - WN19-00-000020
       - V-205657
       - CCI-000199
-      - SV-205657r857286_rule
+      - SV-205657r916199_rule
       - SRG-OS-000076-GPOS-00044
       - NeedToTestDomainController
       - audit
@@ -170,7 +170,7 @@
       - WN19-00-000080
       - V-205807
       - SRG-OS-000370-GPOS-00155
-      - SV-205807r569188_rule
+      - SV-205807r890520_rule
       - CCI-001774
       - CAT2
       # Get-AppLockerPolicy -Effective
@@ -192,7 +192,7 @@
       - WN19-00-000090
       - V-205848
       - SRG-OS-000480-GPOS-00227
-      - SV-205848r857290_rule
+      - SV-205848r902429_rule
       - CCI-000366
       - CAT2
       # wmic /namespace:\\root\cimv2\security\microsofttpm path win32_tpm get *
@@ -235,7 +235,7 @@
       - WN19-00-000140
       - V-205734
       - SRG-OS-000312-GPOS-00122
-      - SV-205734r569188_rule
+      - SV-205734r852432_rule
       - CCI-002165
       - CAT2
 
@@ -255,7 +255,7 @@
       - WN19-00-000150
       - V-205735
       - SRG-OS-000312-GPOS-00122
-      - SV-205735r569188_rule
+      - SV-205735r852433_rule
       - CCI-002165
       - CAT2
 
@@ -275,7 +275,7 @@
       - WN19-00-000160
       - V-205736
       - SRG-OS-000312-GPOS-00122
-      - SV-205736r569188_rule
+      - SV-205736r852434_rule
       - CCI-002165
       - CAT2
 
@@ -295,7 +295,7 @@
       - WN19-00-000170
       - V-205737
       - SRG-OS-000324-GPOS-00125
-      - SV-205737r793220_rule
+      - SV-205737r877392_rule
       - CCI-002235
       - CAT2
 
@@ -421,7 +421,7 @@
       - WN19-00-000220
       - V-205803
       - SRG-OS-000363-GPOS-00150
-      - SV-205803r860026_rule
+      - SV-205803r890522_rule
       - CCI-001744
       - CAT2
       # Some third party software to monitor files
@@ -503,7 +503,7 @@
       - WN19-00-000250
       - V-205727
       - SRG-OS-000185-GPOS-00079
-      - SV-205727r569188_rule
+      - SV-205727r852429_rule
       - CCI-001199
       - CCI-002475
       - CCI-002476
@@ -525,7 +525,7 @@
       - WN19-00-000260
       - V-205829
       - SRG-OS-000425-GPOS-00189
-      - SV-205829r790513_rule
+      - SV-205829r852531_rule
       - CCI-002420
       - CCI-002422
       - CAT2
@@ -573,7 +573,7 @@
       - WN19-00-000280
       - V-214936
       - SRG-OS-000480-GPOS-00227
-      - SV-214936r569188_rule
+      - SV-214936r852535_rule
       - CCI-000366
       - CCI-002080
       - CAT2
@@ -920,7 +920,7 @@
       - WN19-AC-000030
       - V-205630
       - SRG-OS-000021-GPOS-00005
-      - SV-205630r569188_rule
+      - SV-205630r852416_rule
       - CCI-000044
       - CCI-002238
       - CAT2
@@ -960,7 +960,7 @@
       - WN19-AC-000010
       - V-205795
       - SRG-OS-000329-GPOS-00128
-      - SV-205795r569188_rule
+      - SV-205795r852496_rule
       - CCI-002238
       - CAT2
 
@@ -1095,7 +1095,7 @@
       - WN19-AC-000080
       - V-205652
       - SRG-OS-000069-GPOS-00037
-      - SV-205652r569188_rule
+      - SV-205655r877396_rule
       - CCI-000192
       - CCI-000193
       - CCI-000194
@@ -1118,7 +1118,7 @@
       - WN19-AU-000010
       - V-205799
       - SRG-OS-000342-GPOS-00133
-      - SV-205799r569188_rule
+      - SV-205799r877390_rule
       - CCI-001851
       - CAT2
 
@@ -1138,7 +1138,7 @@
       - WN19-AU-000020
       - V-205843
       - SRG-OS-000479-GPOS-00224
-      - SV-205843r860027_rule
+      - SV-205843r916198_rule
       - CCI-001851
       - CAT2
       # hard one, either need to standardize on say log shipping like splunk or other is set?
@@ -1292,9 +1292,63 @@
       - WN19-AU-000090
       - V-205769
       - SRG-OS-000327-GPOS-00127
-      - SV-205769r569188_rule
+      - SV-205769r852470_rule
       - CCI-000172
       - CCI-002234
+      - CAT2
+
+- name: "MEDIUM | WN19-AU-000100 | PATCH | Windows Server 2019 must be configured to audit Account Management - Security Group Management successes."
+  block:
+      - name: "MEDIUM | WN19-AU-000100 | AUDIT | Windows Server 2019 must be configured to audit Account Management - Security Group Management successes. | Get current audit events."
+        ansible.windows.win_shell: AuditPol /get /subcategory:"Security Group Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        changed_when: false
+        failed_when: false
+        check_mode: false
+        register: wn19_au_000100_audit
+
+      - name: "MEDIUM | WN19-AU-000100 | PATCH | Windows Server 2019 must be configured to audit Account Management - Security Group Management successes. | Success"
+        ansible.windows.win_shell: AuditPol /set /subcategory:"Security Group Management" /success:enable
+        when: "'Success' not in wn19_au_000100_audit.stdout"
+  when:
+      - wn19_au_000100
+  tags:
+      - WN19-AU-000100
+      - V-205625
+      - SRG-OS-000004-GPOS-00004
+      - SV-205625r852412_rule
+      - CCI-000018
+      - CCI-000172
+      - CCI-001403
+      - CCI-001404
+      - CCI-001405
+      - CCI-002130
+      - CAT2
+
+- name: "MEDIUM | WN19-AU-000110 | PATCH | Windows Server 2019 must be configured to audit Account Management - User Account Management successes."
+  block:
+      - name: "MEDIUM | WN19-AU-000100 | AUDIT | Windows Server 2019 must be configured to audit Account Management - User Account Management successes. | Get current audit events."
+        ansible.windows.win_shell: AuditPol /get /subcategory:"User Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
+        changed_when: false
+        failed_when: false
+        check_mode: false
+        register: wn19_au_000110_audit
+
+      - name: "MEDIUM | WN19-AU-000110 | PATCH | Windows Server 2019 must be configured to audit Account Management - User Account Management successes. | Success"
+        ansible.windows.win_shell: AuditPol /set /subcategory:"User Account Management" /success:enable
+        when: "'Success' not in wn19_au_000110_audit.stdout"
+  when:
+      - wn19_au_000110
+  tags:
+      - WN19-AU-000110
+      - V-205626
+      - SRG-OS-000004-GPOS-00004
+      - SV-205626r852413_rule
+      - CCI-000018
+      - CCI-000172
+      - CCI-001403
+      - CCI-001404
+      - CCI-001405
+      - CCI-002130
       - CAT2
 
 - name: "MEDIUM | WN19-AU-000120 | PATCH | Windows Server 2019 must be configured to audit Account Management - User Account Management failures."
@@ -1315,7 +1369,7 @@
       - WN19-AU-000120
       - V-205627
       - SRG-OS-000004-GPOS-00004
-      - SV-205627r569188_rule
+      - SV-205627r852414_rule
       - CCI-000018
       - CCI-000172
       - CCI-001403
@@ -1364,32 +1418,9 @@
       - WN19-AU-000140
       - V-205770
       - SRG-OS-000327-GPOS-00127
-      - SV-205770r569188_rule
+      - SV-205770r852471_rule
       - CCI-000172
       - CCI-002234
-      - CAT2
-
-- name: "MEDIUM | WN19-AU-000150 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff - Account Lockout successes."
-  block:
-      - name: "MEDIUM | WN19-AU-000150 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff - Account Lockout successes."
-        ansible.windows.win_shell: AuditPol /get /subcategory:"Account Lockout" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
-        changed_when: false
-        failed_when: false
-        check_mode: false
-        register: wn19_au_000150_audit
-
-      - name: "MEDIUM | WN19-AU-000150 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff - Account Lockout successes."
-        ansible.windows.win_shell: AuditPol /set /subcategory:"Account Lockout" /success:enable
-        when: "'Success' not in wn19_au_000150_audit.stdout"
-  when:
-      - wn19_au_000150
-  tags:
-      - WN19-AU-000150
-      - V-205729
-      - SRG-OS-000240-GPOS-00090
-      - SV-205729r569188_rule
-      - CCI-000172
-      - CCI-001404
       - CAT2
 
 - name: "MEDIUM | WN19-AU-000160 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff - Account Lockout failures."
@@ -1618,7 +1649,7 @@
       - WN19-AU-000260
       - V-205771
       - SRG-OS-000327-GPOS-00127
-      - SV-205771r569188_rule
+      - SV-205771r852472_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1641,7 +1672,7 @@
       - WN19-AU-000270
       - V-205772
       - SRG-OS-000327-GPOS-00127
-      - SV-205772r569188_rule
+      - SV-205772r852473_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1664,7 +1695,7 @@
       - WN19-AU-000280
       - V-205773
       - SRG-OS-000327-GPOS-00127
-      - SV-205773r569188_rule
+      - SV-205773r852474_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1687,7 +1718,7 @@
       - WN19-AU-000290
       - V-205774
       - SRG-OS-000327-GPOS-00127
-      - SV-205774r569188_rule
+      - SV-205774r852475_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1710,7 +1741,7 @@
       - WN19-AU-000300
       - V-205775
       - SRG-OS-000327-GPOS-00127
-      - SV-205775r569188_rule
+      - SV-205775r852476_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1733,7 +1764,7 @@
       - WN19-AU-000310
       - V-205776
       - SRG-OS-000327-GPOS-00127
-      - SV-205776r569188_rule
+      - SV-205776r852477_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1756,7 +1787,7 @@
       - WN19-AU-000320
       - V-205777
       - SRG-OS-000327-GPOS-00127
-      - SV-205777r569188_rule
+      - SV-205777r852478_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1779,7 +1810,7 @@
       - WN19-AU-000330
       - V-205778
       - SRG-OS-000327-GPOS-00127
-      - SV-205778r569188_rule
+      - SV-205778r852479_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1802,7 +1833,7 @@
       - WN19-AU-000340
       - V-205779
       - SRG-OS-000327-GPOS-00127
-      - SV-205779r569188_rule
+      - SV-205779r852480_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1825,7 +1856,7 @@
       - WN19-AU-000350
       - V-205780
       - SRG-OS-000327-GPOS-00127
-      - SV-205780r569188_rule
+      - SV-205780r852481_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1848,7 +1879,7 @@
       - WN19-AU-000360
       - V-205781
       - SRG-OS-000327-GPOS-00127
-      - SV-205781r569188_rule
+      - SV-205781r852482_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1871,7 +1902,7 @@
       - WN19-AU-000370
       - V-205782
       - SRG-OS-000327-GPOS-00127
-      - SV-205782r569188_rule
+      - SV-205782r852483_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1894,7 +1925,7 @@
       - WN19-AU-000380
       - V-205783
       - SRG-OS-000327-GPOS-00127
-      - SV-205783r569188_rule
+      - SV-205783r852484_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -1917,7 +1948,7 @@
       - WN19-AU-000390
       - V-205784
       - SRG-OS-000327-GPOS-00127
-      - SV-205784r569188_rule
+      - SV-205784r852485_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -2041,7 +2072,7 @@
       - WN19-CC-000110
       - V-205864
       - SRG-OS-000480-GPOS-00227
-      - SV-205864r857313_rule
+      - SV-205864r902431_rule
       - CCI-000366
       - CAT2
 
@@ -2213,7 +2244,7 @@
       - WN19-CC-000270
       - V-205796
       - SRG-OS-000341-GPOS-00132
-      - SV-205796r569188_rule
+      - SV-205796r877391_rule
       - CCI-001849
       - CAT2
 
@@ -2241,7 +2272,7 @@
       - WN19-CC-000280
       - V-205797
       - SRG-OS-000341-GPOS-00132
-      - SV-205797r569188_rule
+      - SV-205797r877391_rule
       - CCI-001849
       - CAT2
 
@@ -2267,10 +2298,11 @@
       - wn19_cc_000290
   tags:
       - WN19-CC-000290
-      - V-93181
+      - V-205798
       - SRG-OS-000341-GPOS-00132
-      - SV-103269r1
+      - SV-205798r877391_rule
       - CCI-001849
+      - CAT2
 
 - name: "MEDIUM | WN19-CC-000300 | PATCH | Windows Server 2019 Windows Defender SmartScreen must be enabled."
   ansible.windows.win_regedit:
@@ -2282,9 +2314,9 @@
       - wn19_cc_000300
   tags:
       - WN19-CC-000300
-      - V-205798
+      - V-205692
       - SRG-OS-000095-GPOS-00049
-      - SV-205798r569188_rule
+      - SV-205692r569188_rule
       - CCI-000381
       - CAT2
 
@@ -2300,7 +2332,7 @@
       - WN19-CC-000310
       - V-205830
       - SRG-OS-000433-GPOS-00192
-      - SV-205830r569188_rule
+      - SV-205830r852532_rule
       - CCI-002824
       - CAT2
 
@@ -2332,7 +2364,7 @@
       - WN19-CC-000340
       - V-205808
       - SRG-OS-000373-GPOS-00157
-      - SV-205808r569188_rule
+      - SV-205808r852510_rule
       - CCI-002038
       - CAT2
 
@@ -2364,7 +2396,7 @@
       - WN19-CC-000360
       - V-205809
       - SRG-OS-000373-GPOS-00157
-      - SV-205809r569188_rule
+      - SV-205809r852511_rule
       - CCI-002038
       - CAT2
 
@@ -2378,9 +2410,9 @@
       - wn19_cc_000370
   tags:
       - WN19-CC-000370
-      - V-92971
+      - V-205636
       - SRG-OS-000033-GPOS-00014
-      - SV-103059r1
+      - SV-205636r877398_rule
       - CCI-000068
       - CCI-001453
       - CAT2
@@ -2397,8 +2429,7 @@
       - WN19-CC-000380
       - V-205636
       - SRG-OS-000033-GPOS-00014
-      - SRG-OS-000250-GPOS-00093
-      - SV-205636r569188_rule
+      - SV-205637r877398_rule
       - CCI-000068
       - CCI-001453
       - CAT2
@@ -2463,7 +2494,7 @@
       - WN19-CC-000420
       - V-205801
       - SRG-OS-000362-GPOS-00149
-      - SV-205801r569188_rule
+      - SV-205801r852502_rule
       - CCI-001812
       - CAT2
 
@@ -2495,7 +2526,7 @@
       - WN19-CC-000450
       - V-205925
       - SRG-OS-000480-GPOS-00229
-      - SV-205925r569188_rule
+      - SV-205925r877377_rule
       - CCI-000366
       - CAT2
 
@@ -2544,7 +2575,7 @@
       - WN19-CC-000480
       - V-205816
       - SRG-OS-000393-GPOS-00173
-      - SV-205816r569188_rule
+      - SV-205816r877382_rule
       - CCI-002890
       - CCI-003123
       - CAT2
@@ -2561,7 +2592,7 @@
       - WN19-CC-000490
       - V-205712
       - SRG-OS-000125-GPOS-00065
-      - SV-205712r569188_rule
+      - SV-205712r877395_rule
       - CCI-000877
       - CAT2
 
@@ -2578,7 +2609,7 @@
       - WN19-CC-000510
       - V-205817
       - SRG-OS-000393-GPOS-00173
-      - SV-205817r569188_rule
+      - SV-205817r877382_rule
       - CCI-002890
       - CCI-003123
       - CAT2
@@ -2596,7 +2627,7 @@
       - WN19-CC-000520
       - V-205810
       - SRG-OS-000373-GPOS-00157
-      - SV-205810r569188_rule
+      - SV-205810r852512_rule
       - CCI-002038
       - CAT2
 
@@ -2617,7 +2648,7 @@
       - WN19-DC-000020
       - V-205702
       - SRG-OS-000112-GPOS-00057
-      - SV-205702r569188_rule
+      - SV-205702r852424_rule
       - CCI-001941
       - CCI-001942
       - CAT2
@@ -2639,7 +2670,7 @@
       - WN19-DC-000030
       - V-205703
       - SRG-OS-000112-GPOS-00057
-      - SV-205703r569188_rule
+      - SV-205703r852425_rule
       - CCI-001941
       - CCI-001942
       - CAT2
@@ -2661,7 +2692,7 @@
       - WN19-DC-000040
       - V-205704
       - SRG-OS-000112-GPOS-00057
-      - SV-205704r569188_rule
+      - SV-205704r852426_rule
       - CCI-001941
       - CCI-001942
       - CAT2
@@ -2683,7 +2714,7 @@
       - WN19-DC-000050
       - V-205705
       - SRG-OS-000112-GPOS-00057
-      - SV-205705r569188_rule
+      - SV-205705r852427_rule
       - CCI-001941
       - CCI-001942
       - CAT2
@@ -2705,7 +2736,7 @@
       - WN19-DC-000060
       - V-205706
       - SRG-OS-000112-GPOS-00057
-      - SV-205706r569188_rule
+      - SV-205706r852428_rule
       - CCI-001941
       - CCI-001942
       - CAT2
@@ -2769,7 +2800,7 @@
       - WN19-DC-000140
       - V-205818
       - SRG-OS-000396-GPOS-00176
-      - SV-205818r569188_rule
+      - SV-205818r877380_rule
       - CCI-002450
       - CAT2
 
@@ -2790,7 +2821,7 @@
       - WN19-DC-000170
       - V-205785
       - SRG-OS-000327-GPOS-00127
-      - SV-205785r569188_rule
+      - SV-205785r852486_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -2812,7 +2843,7 @@
       - WN19-DC-000180
       - V-205786
       - SRG-OS-000327-GPOS-00127
-      - SV-205786r569188_rule
+      - SV-205786r852487_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -2834,7 +2865,7 @@
       - WN19-DC-000190
       - V-205787
       - SRG-OS-000327-GPOS-00127
-      - SV-205787r569188_rule
+      - SV-205787r852488_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -2856,7 +2887,7 @@
       - WN19-DC-000200
       - V-205788
       - SRG-OS-000327-GPOS-00127
-      - SV-205788r569188_rule
+      - SV-205788r852489_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -2878,7 +2909,7 @@
       - WN19-DC-000210
       - V-205789
       - SRG-OS-000327-GPOS-00127
-      - WN19-DC-000210
+      - SV-205789r852490_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -2900,7 +2931,7 @@
       - WN19-DC-000220
       - V-205790
       - SRG-OS-000327-GPOS-00127
-      - SV-205790r569188_rule
+      - SV-205791r852492_rule
       - CCI-000172
       - CCI-002234
       - CAT2
@@ -2929,7 +2960,7 @@
       - SRG-OS-000241-GPOS-00091
       - SRG-OS-000303-GPOS-00120
       - SRG-OS-000476-GPOS-00221
-      - SV-205628r569188_rule
+      - SV-205628r852415_rule
       - CCI-000018
       - CCI-000172
       - CCI-001403
@@ -2985,7 +3016,7 @@
       - WN19-DC-000250
       - V-205792
       - SRG-OS-000327-GPOS-00127
-      - SV-205792r569188_rule
+      - SV-205792r852493_rule
       - SRG-OS-000458-GPOS-00203
       - SRG-OS-000463-GPOS-00207
       - SRG-OS-000468-GPOS-00212
@@ -3092,7 +3123,7 @@
       - SRG-OS-000107-GPOS-00054
       - SRG-OS-000108-GPOS-00055
       - SRG-OS-000375-GPOS-00160
-      - SV-205701r569188_rule
+      - SV-205701r860029_rule
       - CCI-000765
       - CCI-000766
       - CCI-000767
@@ -3114,7 +3145,7 @@
       - V-205820
       - SRG-OS-000423-GPOS-00187
       - SRG-OS-000424-GPOS-00188
-      - SV-205820r569188_rule
+      - SV-205820r852522_rule
       - CCI-002418
       - CCI-002421
       - CAT2
@@ -3170,7 +3201,7 @@
       - WN19-DC-000350
       - V-205744
       - SRG-OS-000324-GPOS-00125
-      - SV-205744r569188_rule
+      - SV-205744r877392_rule
       - CCI-002235
       - CAT2
       - NeedToTestDomainController
@@ -3272,7 +3303,7 @@
       - WN19-DC-000410
       - V-205732
       - SRG-OS-000297-GPOS-00115
-      - SV-205732r569188_rule
+      - SV-205732r852430_rule
       - CCI-002314
       - CAT2
       - NeedToTestDomainController
@@ -3289,7 +3320,7 @@
       - WN19-DC-000420
       - V-205745
       - SRG-OS-000324-GPOS-00125
-      - SV-205745r569188_rule
+      - SV-205745r877392_rule
       - CCI-002235
       - CAT2
       - NeedToTestDomainController
@@ -3373,7 +3404,7 @@
       - WN19-MS-000040
       - V-205814
       - SRG-OS-000379-GPOS-00164
-      - SV-205814r860031_rule
+      - SV-205814r877039_rule
       - CCI-001967
       - CAT2
 
@@ -3407,7 +3438,7 @@
       - WN19-MS-000060
       - V-205747
       - SRG-OS-000324-GPOS-00125
-      - SV-205747r860032_rule
+      - SV-205747r877392_rule
       - CCI-002235
       - CAT2
 
@@ -3505,7 +3536,7 @@
       - WN19-MS-000100
       - V-205674
       - SRG-OS-000080-GPOS-00048
-      - SV-205674r819709_rule
+      - SV-205674r891848_rule
       - CCI-000213
       - CAT2
       - NeedToTestMemberServer
@@ -3582,24 +3613,33 @@
       - WN19-MS-000130
       - V-205748
       - SRG-OS-000324-GPOS-00125
-      - SV-205748r860034_rule
+      - SV-205748r877392_rule
       - CCI-002235
       - CAT2
 
 - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store."
   block:
-      - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store."
+      - name: "MEDIUM | WN19-PK-000010 |  |AUDIT Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store."
         ansible.windows.win_shell: Get-ChildItem -Path Cert:Localmachine\root | Where Subject -Like "*DoD*" | FL Subject, Thumbprint, NotAfter
         changed_when: false
         check_mode: false
         register: wn19_PK_000010_audit
+
+      - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store."
+        ansible.builtin.debug:
+            msg: "Warning!! This is a manual task. Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store."
+
+      - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | import reuseable task."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-PK-000010'
   when:
       - wn19_pk_000010
   tags:
       - WN19-PK-000010
       - V-205648
       - SRG-OS-000066-GPOS-00034
-      - SV-205648r819704_rule
+      - SV-205648r890527_rule
       - CCI-000185
       - CCI-002470
       - CAT2
@@ -3626,7 +3666,7 @@
       - WN19-PK-000020
       - V-205649
       - SRG-OS-000066-GPOS-00034
-      - SV-205649r857346_rule
+      - SV-205649r894615_rule
       - CCI-000185
       - CCI-002470
       - CAT2
@@ -3653,7 +3693,7 @@
       - WN19-PK-000030
       - V-205650
       - SRG-OS-000066-GPOS-00034
-      - SV-205650r573797_rule
+      - SV-205650r890530_rule
       - CCI-000185
       - CCI-002470
       - CAT2
@@ -3770,8 +3810,26 @@
       - WN19-SO-000060
       - V-205821
       - SRG-OS-000423-GPOS-00187
-      - SRG-OS-000424-GPOS-00188
-      - SV-205821r569188_rule
+      - SV-205821r852523_rule
+      - CCI-002418
+      - CCI-002421
+      - CAT2
+      - NeedToTestMemberServer
+
+- name: "MEDIUM | WN19-SO-000070 | PATCH | Windows Server 2019 setting Domain member: Digitally encrypt secure channel data (when possible) must be configured to enabled."
+  ansible.windows.win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters\
+      value: SealSecureChannel
+      data: 1
+      datatype: dword
+  when:
+      - wn19_so_000070
+      - ansible_windows_domain_role == "Member server"
+  tags:
+      - WN19-SO-000070
+      - V-205822
+      - SRG-OS-000423-GPOS-00187
+      - SV-205822r852524_rule
       - CCI-002418
       - CCI-002421
       - CAT2
@@ -3790,7 +3848,7 @@
       - WN19-SO-000080
       - V-205823
       - SRG-OS-000423-GPOS-00187
-      - SV-205823r569188_rule
+      - SV-205823r852525_rule
       - CCI-002418
       - CCI-002421
       - CAT2
@@ -3808,7 +3866,7 @@
       - WN19-SO-000090
       - V-205815
       - SRG-OS-000379-GPOS-00164
-      - SV-205815r569188_rule
+      - SV-205815r877039_rule
       - CCI-001967
       - CAT2
 
@@ -3840,7 +3898,7 @@
       - WN19-SO-000110
       - V-205824
       - SRG-OS-000423-GPOS-00187
-      - SV-205824r569188_rule
+      - SV-205824r852526_rule
       - CCI-002418
       - CCI-002421
       - CAT2
@@ -3913,8 +3971,7 @@
       - WN19-SO-000160
       - V-205825
       - SRG-OS-000423-GPOS-00187
-      - SRG-OS-000424-GPOS-00188
-      - SV-205825r569188_rule
+      - SV-205825r852527_rule
       - CCI-002418
       - CCI-002421
       - CAT2
@@ -3931,8 +3988,7 @@
       - WN19-SO-000170
       - V-205826
       - SRG-OS-000423-GPOS-00187
-      - SRG-OS-000424-GPOS-00188
-      - SV-205826r569188_rule
+      - SV-205826r852528_rule
       - CCI-002421
       - CCI-002418
       - CAT2
@@ -3965,7 +4021,7 @@
       - WN19-SO-000190
       - V-205827
       - SRG-OS-000423-GPOS-00187
-      - SV-205827r569188_rule
+      - SV-205827r852529_rule
       - CCI-002418
       - CCI-002421
       - CAT2
@@ -3982,7 +4038,7 @@
       - WN19-SO-000200
       - V-205828
       - SRG-OS-000423-GPOS-00187
-      - SV-205828r569188_rule
+      - SV-205828r852530_rule
       - CCI-002418
       - CCI-002421
       - CAT2
@@ -4063,7 +4119,7 @@
       - WN19-SO-000290
       - V-205708
       - SRG-OS-000120-GPOS-00061
-      - WN19-SO-000290
+      - SV-205708r569188_rule
       - CCI-000803
       - CAT2
 
@@ -4143,7 +4199,7 @@
       - WN19-SO-000360
       - V-205842
       - SRG-OS-000480-GPOS-00227
-      - SV-205842r569188_rule
+      - SV-205842r877466_rule
       - CCI-002450
       - CAT2
 
@@ -4159,7 +4215,7 @@
       - WN19-SO-000380
       - V-205811
       - SRG-OS-000373-GPOS-00157
-      - SV-205811r569188_rule
+      - SV-205811r852513_rule
       - CCI-002038
       - CAT2
       # - exclusions for server core? think its NA there
@@ -4209,7 +4265,7 @@
       - WN19-SO-000410
       - V-205812
       - SRG-OS-000373-GPOS-00157
-      - SV-205812r569188_rule
+      - SV-205812r852514_rule
       - CCI-002038
       - CAT2
 
@@ -4257,7 +4313,7 @@
       - WN19-SO-000440
       - V-205813
       - SRG-OS-000373-GPOS-00157
-      - SV-205813r569188_rule
+      - SV-205813r852515_rule
       - CCI-002038
       - CAT2
 
@@ -4305,7 +4361,7 @@
       - WN19-UR-000010
       - V-205749
       - SRG-OS-000324-GPOS-00125
-      - SV-205749r569188_rule
+      - SV-205749r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4335,7 +4391,7 @@
       - WN19-UR-000040
       - V-205751
       - SRG-OS-000324-GPOS-00125
-      - SV-205751r569188_rule
+      - SV-205751r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4350,7 +4406,7 @@
       - WN19-UR-000050
       - V-205752
       - SRG-OS-000324-GPOS-00125
-      - SV-205752r569188_rule
+      - SV-205752r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4369,7 +4425,7 @@
       - WN19-UR-000070
       - V-205754
       - SRG-OS-000324-GPOS-00125
-      - SV-205754r569188_rule
+      - SV-205754r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4384,7 +4440,7 @@
       - WN19-UR-000080
       - V-205755
       - SRG-OS-000324-GPOS-00125
-      - SV-205755r569188_rule
+      - SV-205755r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4399,7 +4455,7 @@
       - WN19-UR-000090
       - V-205756
       - SRG-OS-000324-GPOS-00125
-      - SV-205756r569188_rule
+      - SV-205756r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4414,7 +4470,7 @@
       - WN19-UR-000110
       - V-205758
       - SRG-OS-000324-GPOS-00125
-      - SV-205758r569188_rule
+      - SV-205758r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4431,7 +4487,7 @@
       - WN19-UR-000120
       - V-205759
       - SRG-OS-000324-GPOS-00125
-      - SV-205759r569188_rule
+      - SV-205759r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4450,7 +4506,7 @@
       - WN19-UR-000130
       - V-205760
       - SRG-OS-000324-GPOS-00125
-      - SV-205760r569188_rule
+      - SV-205760r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4465,7 +4521,7 @@
       - WN19-UR-000140
       - V-205761
       - SRG-OS-000324-GPOS-00125
-      - SV-205761r569188_rule
+      - SV-205761r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4480,7 +4536,7 @@
       - WN19-UR-000150
       - V-205762
       - SRG-OS-000324-GPOS-00125
-      - SV-205762r569188_rule
+      - SV-205762r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4495,7 +4551,7 @@
       - WN19-UR-000160
       - V-205763
       - SRG-OS-000324-GPOS-00125
-      - SV-205763r569188_rule
+      - SV-205763r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4510,7 +4566,7 @@
       - WN19-UR-000170
       - V-205643
       - SRG-OS-000057-GPOS-00027
-      - SV-205643r569188_rule
+      - SV-205643r852417_rule
       - CCI-000162
       - CCI-000163
       - CCI-000164
@@ -4529,7 +4585,7 @@
       - WN19-UR-000180
       - V-205764
       - SRG-OS-000324-GPOS-00125
-      - SV-205764r569188_rule
+      - SV-205764r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4544,7 +4600,7 @@
       - WN19-UR-000190
       - V-205765
       - SRG-OS-000324-GPOS-00125
-      - SV-205765r569188_rule
+      - SV-205765r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4559,7 +4615,7 @@
       - WN19-UR-000200
       - V-205766
       - SRG-OS-000324-GPOS-00125
-      - SV-205766r569188_rule
+      - SV-205766r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4574,7 +4630,7 @@
       - WN19-UR-000210
       - V-205767
       - SRG-OS-000324-GPOS-00125
-      - SV-205767r569188_rule
+      - SV-205767r877392_rule
       - CCI-002235
       - CAT2
 
@@ -4589,6 +4645,6 @@
       - WN19-UR-000220
       - V-205768
       - SRG-OS-000324-GPOS-00125
-      - SV-205768r569188_rule
+      - SV-205768r877392_rule
       - CCI-002235
       - CAT2
