@@ -2,7 +2,7 @@
 
 ## Release 1.0.0
 
-June 2023 Upodate
+June 2023 Update
   - Updated Readme
   - Updated Changelog
   - Added Version 2 Release 6 changes to this update.
@@ -10,9 +10,10 @@ June 2023 Upodate
     - Removed Control WN19-DC-000270
   - Added Version 2 Release 7 changes to this update.
   - Addeed Warning To Control WN19-PK-000010
-  - Added Control WN19-AU-000100
-  - Added Control WN19-AU-000110
-  - Added Control WN19-SO-000070
+  - Added Controls 
+    - Added Control WN19-AU-000100
+    - Added Control WN19-AU-000110
+    - Added Control WN19-SO-000070
   - Rule IDs updated due to changes in content management system.
 
 April 2023 Update
