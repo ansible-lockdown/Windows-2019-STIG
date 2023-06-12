@@ -9,7 +9,7 @@ June 2023 Update
     - Removed Control WN19-AU-000150
     - Removed Control WN19-DC-000270
   - Added Version 2 Release 7 changes to this update.
-  - Addeed Warning To Control WN19-PK-000010
+  - Added Warning To Control WN19-PK-000010
   - Added Controls 
     - Added Control WN19-AU-000100
     - Added Control WN19-AU-000110
