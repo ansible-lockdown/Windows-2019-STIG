@@ -2999,14 +2999,14 @@
 
 - name: "MEDIUM | WN19-DC-000250 | PATCH | Windows Server 2019 must be configured to audit DS Access - Directory Service Access failures."
   block:
-      - name: "MEDIUM | WN19-DC-000250 | AUDIT | Windows Server 2019 must be configured to audit DS Access - Directory Service Access failures."
+      - name: "MEDIUM | WN19-DC-000250 | AUDIT | Windows Server 2019 must be configured to audit DS Access - Directory Service Access failures. | Check Settings"
         ansible.windows.win_shell: AuditPol /get /subcategory:"Directory Service Access" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         check_mode: false
         register: wn19_dc_000250_audit
 
-      - name: "MEDIUM | WN19-DC-000250 | PATCH | Windows Server 2019 must be configured to audit DS Access - Directory Service Access failures."
+      - name: "MEDIUM | WN19-DC-000250 | PATCH | Windows Server 2019 must be configured to audit DS Access - Directory Service Access failures. | Apply Fix"
         ansible.windows.win_shell: AuditPol /set /subcategory:"Directory Service Access" /failure:enable
         when: "'Failure' not in wn19_dc_000250_audit.stdout"
   when:
