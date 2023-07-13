@@ -24,7 +24,7 @@
 - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
   block:
       - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares. | Get Printer List"
-        ansible.windows.win_shell: Get-Printer | where Shared -eq $false | fl Name, Type
+        ansible.windows.win_shell: Get-Printer | where Shared -eq $true | fl Name, Type
         changed_when: false
         failed_when: false
         register: wn19_00_000180_audit
