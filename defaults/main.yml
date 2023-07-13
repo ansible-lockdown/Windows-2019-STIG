@@ -439,6 +439,38 @@ wn19stig_dma_protection: 3
 # 3 - Good, unknown and bad but critical
 wn19stig_driver_load_policy: 1
 
+# WN19-CC-000270
+# Windows Server 2019 Application event log size must be configured to 32768 KB or greater.
+# wn19stig_app_maxsize is the EventLog Application max log size value in KB.
+wn19stig_application_event_log_max_size: 32768
+
+# WN19-CC-000280
+# Windows Server 2019 Security event log size must be configured to 196608 KB or greater.
+# wn19stig_security_event_log_max_size: 196608 is the EventLog Security max log size value in KB.
+wn19stig_security_event_log_max_size: 196608
+
+# WN19-CC-000290
+# Windows Server 2019 System event log size must be configured to 32768 KB or greater.
+# wn19stig_system_event_log_max_size is the EventLog System max log size value in KB.
+wn19stig_system_event_log_max_size: 32768
+
+# WN19-DC-000340
+# Windows Server 2019 Access this computer from the network user right must only be assigned to the
+# Administrators, Authenticated Users, and Enterprise Domain Controllers groups on domain controllers.
+# If any SIDs other than the following are granted the "SeNetworkLogonRight" user right, this is a finding.
+# If an application requires this user right, this would not be a finding. Vendor documentation must support the
+# requirement for having the user right. The requirement must be documented with the ISSO.
+# NOTE: Improper Accounts Or Groups listed here will FAIL task.
+# Default: Administrators,Authenticated Users,Enterprise Domain Controllers
+wn19stig_senetworklogonright_dc: Administrators,Authenticated Users,Enterprise Domain Controllers
+
+# WN19-DC-000430
+# The password for the krbtgt account on a domain must be reset at least every 180 days.
+# The default setting here matches the STIG requirements.  If you would like to
+# enforce a more strcit policy you may do so for auditing purposes.
+# NOTE: Valid Days are 180 or less.
+wn19stig_krbtgt_account_pass_age: 180
+
 # WN19-MS-000070
 # Windows Server 2019 "Access this computer from the network" user right must only be assigned to the Administrators
 # and Authenticated Users groups on domain-joined member servers and standalone or nondomain-joined systems.
@@ -461,6 +493,20 @@ wn19stig_newadministratorname: adminchangethis
 # wn19stig_newguestname is the non-default name for the guest Account.
 wn19stig_newguestname: guestchangethis
 
+# WN19-SO-000100
+# The maximum age for machine account passwords must be configured to 30 days or less.
+# wn19stig_machineaccountpsswd_max_age is the setting for the Computer account passwords
+# are changed automatically on a regular basis. This setting controls the maximum password
+# age that a machine account may have. This must be set to no more than 30 days, ensuring
+# the machine changes its password monthly.
+wn19stig_machineaccountpsswd_max_age: 30
+
+# WN19-SO-000120
+# The machine inactivity limit must be set to 15 minutes, locking the system with the screen saver.
+# wn19stig_inactivitytimeoutsecs is the time in seconds that will be set in the registry that
+# enagages the screen saver. Default setting is "900" seconds or less excluding "0"
+wn19stig_inactivitytimeoutsecs: 900
+
 # WN19-SO-000130
 # Windows Server 2019 required legal notice must be configured to display before console logon.
 # wn19stig_legalnoticetext is the LegalNoticeText for Win logon.
@@ -479,42 +525,6 @@ wn19stig_legalnoticetext: |
 
     -Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details.
 
-# WN19-CC-000270
-# Windows Server 2019 Application event log size must be configured to 32768 KB or greater.
-# wn19stig_app_maxsize is the EventLog Application max log size value in KB.
-wn19stig_application_event_log_max_size: 32768
-
-# WN19-CC-000280
-# Windows Server 2019 Security event log size must be configured to 196608 KB or greater.
-# wn19stig_security_event_log_max_size: 196608 is the EventLog Security max log size value in KB.
-wn19stig_security_event_log_max_size: 196608
-
-# WN19-CC-000290
-# Windows Server 2019 System event log size must be configured to 32768 KB or greater.
-# wn19stig_system_event_log_max_size is the EventLog System max log size value in KB.
-wn19stig_system_event_log_max_size: 32768
-
-# WN19-DC-000430
-# The password for the krbtgt account on a domain must be reset at least every 180 days.
-# The default setting here matches the STIG requirements.  If you would like to
-# enforce a more strcit policy you may do so for auditing purposes.
-# NOTE: Valid Days are 180 or less.
-wn19stig_krbtgt_account_pass_age: 180
-
-# WN19-SO-000100
-# The maximum age for machine account passwords must be configured to 30 days or less.
-# wn19stig_machineaccountpsswd_max_age is the setting for the Computer account passwords
-# are changed automatically on a regular basis. This setting controls the maximum password
-# age that a machine account may have. This must be set to no more than 30 days, ensuring
-# the machine changes its password monthly.
-wn19stig_machineaccountpsswd_max_age: 30
-
-# WN19-SO-000120
-# The machine inactivity limit must be set to 15 minutes, locking the system with the screen saver.
-# wn19stig_inactivitytimeoutsecs is the time in seconds that will be set in the registry that
-# enagages the screen saver. Default setting is "900" seconds or less excluding "0"
-wn19stig_inactivitytimeoutsecs: 900
-
 # WN19-SO-000400
 # User Account Control must, at a minimum, prompt administrators for consent on the secure desktop.
 # The more secure option for this setting, "Prompt for credenti
@@ -522,16 +532,6 @@ wn19stig_inactivitytimeoutsecs: 900
 # 2 -(Prompt for consent on the secure desktop)
 # 1 -(Prompt for credentials on the secure desktop)
 wn19stig_consentprompt: 2
-
-# WN19-DC-000340
-# Windows Server 2019 Access this computer from the network user right must only be assigned to the
-# Administrators, Authenticated Users, and Enterprise Domain Controllers groups on domain controllers.
-# If any SIDs other than the following are granted the "SeNetworkLogonRight" user right, this is a finding.
-# If an application requires this user right, this would not be a finding. Vendor documentation must support the
-# requirement for having the user right. The requirement must be documented with the ISSO.
-# NOTE: Improper Accounts Or Groups listed here will FAIL task.
-# Default: Administrators,Authenticated Users,Enterprise Domain Controllers
-wn19stig_senetworklogonright_dc: Administrators,Authenticated Users,Enterprise Domain Controllers
 
 # WN19-UR-000030
 # The Allow log on locally user right must only be assigned to the Administrators group.
