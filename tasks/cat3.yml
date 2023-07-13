@@ -9,36 +9,49 @@
       - wn19_so_000140
   tags:
       - WN19-SO-000140
-      - V-205632
-      - SRG-OS-000023-GPOS-00006
-      - SRG-OS-000228-GPOS-00088
-      - SV-205632r890533_rule
+      - CAT3
       - CCI-000048
       - CCI-001384
       - CCI-001385
       - CCI-001386
       - CCI-001387
       - CCI-001388
+      - SRG-OS-000023-GPOS-00006
+      - SRG-OS-000228-GPOS-00088
+      - SV-205632r890533_rule
+      - V-205632
 
 - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
   block:
-      - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
-        ansible.builtin.debug:
-            msg: "Warning!! This is a manual task. Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
+      - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares. | Get Printer List"
+        ansible.windows.win_shell: Get-Printer | where Shared -eq $false | fl Name, Type
+        changed_when: false
+        failed_when: false
+        register: wn19_00_000180_audit
 
-      - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares. | import reuseable task."
+      - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares. | Warning Message."
+        ansible.builtin.debug:
+            msg:
+                - "Warning!! This is a manual task. Windows Server 2019 non-administrative accounts or groups"
+                - "must only have print permissions on printer shares. If A Printer is showing shared please"
+                - "configure the permissions on shared printers to restrict standard users to only have Print permissions."
+                - "{{ wn19_00_000180_audit.stdout.split('\n') | trim }}"
+        when: wn19_00_000180_audit.stdout | length > 0
+
+      - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares. | Warning Count"
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000180'
+        when: wn19_00_000180_audit.stdout | length > 0
   when:
       - wn19_00_000180
   tags:
       - WN19-00-000180
-      - V-205664
+      - CAT3
+      - CCI-000213
       - SRG-OS-000080-GPOS-00048
       - SV-205664r569188_rule
-      - CCI-000213
-      - CAT3
+      - V-205664
 
 - name: "LOW | WN19-CC-000200 | PATCH | Windows Server 2019 Application Compatibility Program Inventory must be prevented from collecting data and sending the information to Microsoft."
   ansible.windows.win_regedit:
@@ -50,50 +63,52 @@
       - wn19_cc_000200
   tags:
       - WN19-CC-000200
-      - V-205691
+      - CAT3
+      - CCI-000381
       - SRG-OS-000095-GPOS-00049
       - SV-205691r569188_rule
-      - CCI-000381
-      - CAT3
+      - V-205691
 
 - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
   block:
-      - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
+      - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity. | Warning Message."
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
 
-      - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity. | import reuseable task."
+      - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000160'
   when:
       - wn19_dc_000160
+      - ansible_windows_domain_role == "Primary domain controller"
   tags:
       - WN19-DC-000160
-      - V-205726
+      - CAT3
+      - CCI-001133
       - SRG-OS-000163-GPOS-00072
       - SV-205726r569188_rule
-      - CCI-001133
-      - CAT3
+      - V-205726
 
 - name: "LOW | WN19-00-000440 | AUDIT | The Windows Server 2019 time service must synchronize with an appropriate DoD time source."
   block:
-      - name: "LOW | WN19-00-000440 | AUDIT | The Windows Server 2019 time service must synchronize with an appropriate DoD time source."
+      - name: "LOW | WN19-00-000440 | AUDIT | The Windows Server 2019 time service must synchronize with an appropriate DoD time source. | Warning Message."
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. The Windows Server 2019 time service must synchronize with an appropriate DoD time source. "
 
-      - name: "LOW | WN19-00-000440 | AUDIT |  The Windows Server 2019 time service must synchronize with an appropriate DoD time source. | import reuseable task."
+      - name: "LOW | WN19-00-000440 | AUDIT |  The Windows Server 2019 time service must synchronize with an appropriate DoD time source. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000440'
-  when: wn19_00_000440
+  when:
+      - wn19_00_000440
   tags:
       - WN19-00-000440
-      - V-205800
+      - CAT3
+      - CCI-001891
       - SRG-OS-000355-GPOS-00143
       - SV-205800r877038_rule
-      - CCI-001891
-      - CAT3
+      - V-205800
 
 - name: "LOW | WN19-CC-000060 | PATCH | Windows Server 2019 Must be configured to ignore NetBIOS name release requests except from WINS servers."
   ansible.windows.win_regedit:
@@ -105,37 +120,48 @@
       - wn19_cc_000060
   tags:
       - WN19-CC-000060
-      - V-205819
+      - CAT3
+      - CCI-002385
       - SRG-OS-000420-GPOS-00186
       - SV-205819r852521_rule
-      - CCI-002385
-      - CAT3
+      - V-205819
 
 - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
   block:
-      - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
-        ansible.builtin.debug:
-            msg: "Warning!! This is a manual task. Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
+      - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS. | Check For UEFI"
+        ansible.windows.win_shell: $env:firmware_type
+        changed_when: false
+        failed_when: false
+        register: wn19_00_000460_audit
 
-      - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS. | import reuseable task."
+      - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS. | Warning Message"
+        ansible.builtin.debug:
+            msg:
+                - "Warning!! Windows Server 2016 is currently using {{ wn19_00_000460_audit.stdout | trim }} BIOS."
+                - "Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI)"
+                - "firmware and be configured to run in UEFI mode, not Legacy BIOS."
+        when: "'UEFI' not in wn19_00_000460_audit.stdout"
+
+      - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS. | Warning Count"
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000460'
+        when: "'UEFI' not in wn19_00_000460_audit.stdout"
   when:
       - wn19_00_000460
   tags:
       - WN19-00-000460
-      - V-205856
+      - CAT3
+      - CCI-000366
       - SRG-OS-000480-GPOS-00227
       - SV-205856r569188_rule
-      - CCI-000366
-      - CAT3
+      - V-205856
 
 - name: "LOW | WN19-00-000470 | AUDIT | Windows Server 2019 must have Secure Boot enabled."
   block:
       - name: "LOW | WN19-00-000470 | AUDIT | Windows Server 2019 must have Secure Boot enabled."
         ansible.builtin.debug:
-            msg: "Warning!! This is a manual task. Windows Server 2019 must have Secure Boot enabled. "
+            msg: "Warning!! This is a manual task. Windows Server 2019 must have Secure Boot enabled."
 
       - name: "LOW | WN19-00-000470 | AUDIT | Windows Server 2019 must have Secure Boot enabled. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
@@ -145,11 +171,11 @@
       - wn19_00_000470
   tags:
       - WN19-00-000470
-      - V-205857
+      - CAT3
+      - CCI-000366
       - SRG-OS-000480-GPOS-00227
       - SV-205857r569188_rule
-      - CCI-000366
-      - CAT3
+      - V-205857
 
 - name: "LOW | WN19-CC-000030 | PATCH | Windows Server 2019 internet Protocol version 6 (IPv6) source routing must be configured to the highest protection level to prevent IP source routing."
   ansible.windows.win_regedit:
@@ -161,11 +187,11 @@
       - wn19_cc_000030
   tags:
       - WN19-CC-000030
-      - V-205858
+      - CAT3
+      - CCI-000366
       - SRG-OS-000480-GPOS-00227
       - SV-205858r569188_rule
-      - CCI-000366
-      - CAT3
+      - V-205858
 
 - name: "LOW | WN19-CC-000040 | PATCH | Windows Server 2019 source routing must be configured to the highest protection level to prevent Internet Protocol (IP) source routing."
   ansible.windows.win_regedit:
@@ -177,11 +203,11 @@
       - wn19_cc_000040
   tags:
       - WN19-CC-000040
-      - V-205859
+      - CAT3
+      - CCI-000366
       - SRG-OS-000480-GPOS-00227
       - SV-205859r569188_rule
-      - CCI-000366
-      - CAT3
+      - V-205859
 
 - name: "LOW | WN19-CC-000050 | PATCH | Windows Server 2019 must be configured to prevent Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF)-generated routes."
   ansible.windows.win_regedit:
@@ -193,47 +219,60 @@
       - wn19_cc_000050
   tags:
       - WN19-CC-000050
-      - V-205860
+      - CAT3
+      - CCI-000366
       - SRG-OS-000480-GPOS-00227
       - SV-205860r569188_rule
-      - CCI-000366
-      - CAT3
+      - V-205860
 
 - name: "LOW | WN19-CC-000260 | PATCH | Windows Server 2019 Windows Update must not obtain updates from other PCs on the Internet."
-  ansible.windows.win_regedit:
-      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization
-      value: DODownloadMode
-      data: 1
-      datatype: dword
+  block:
+      - name: "LOW | WN19-CC-000260 | AUDIT | Windows Server 2019 Windows Update must not obtain updates from other PCs on the Internet. "
+        ansible.builtin.debug:
+            msg:
+                - "Warning!! You have a incorrect value set for wn19stig_dodownloadmode please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when: wn19stig_dodownloadmode > 2 and wn19stig_dodownloadmode != 99 and wn19stig_dodownloadmode != 100
+
+      - name: "LOW | WN19-00-000440 | AUDIT | The Windows Server 2019 time service must synchronize with an appropriate DoD time source. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-CC-000260'
+        when: wn19stig_dodownloadmode > 2 and wn19stig_dodownloadmode != 99 and wn19stig_dodownloadmode != 100
+
+      - name: "LOW | WN19-CC-000260 | PATCH | Windows Server 2019 Windows Update must not obtain updates from other PCs on the Internet. | Set Variable."
+        ansible.windows.win_regedit:
+            path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization
+            value: DODownloadMode
+            data: "{{ wn19stig_dodownloadmode }}"
+            datatype: dword
+        when: wn19stig_dodownloadmode <= 2 or wn19stig_dodownloadmode == 99 or wn19stig_dodownloadmode == 100
   when:
       - wn19_cc_000260
   tags:
       - WN19-CC-000260
-      - V-205870
+      - CAT3
+      - CCI-000366
       - SRG-OS-000480-GPOS-00227
       - SV-205870r569188_rule
-      - CCI-000366
-      - CAT3
+      - V-205870
 
 - name: "LOW | WN19-CC-000320 | AUDIT | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled."
-  block:
-      - name: "LOW | WN19-CC-000320 | AUDIT | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled."
-        ansible.builtin.debug:
-            msg: "Warning!! This is a manual task. Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled. "
-
-      - name: "LOW | WN19-CC-000320 | AUDIT | Windows Server 2019 turning off File Explorer heap termination on corruption must be disabled. | import reuseable task."
-        ansible.builtin.import_tasks: warning_facts.yml
-        vars:
-            warn_control_id: 'WN19-CC-000320'
+  ansible.windows.win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer\
+      value: NoHeapTerminationOnCorruption
+      state: present
+      data: 0
+      datatype: dword
   when:
       - wn19_cc_000320
   tags:
       - WN19-CC-000320
-      - SV-205871r569188_rule
-      - V-205871
+      - CAT3
       - CCI-000366
       - SRG-OS-000480-GPOS-00227
-      - CAT3
+      - SV-205871r569188_rule
+      - V-205871
 
 - name: "LOW | WN19-SO-000370 | PATCH | Windows Server 2019 default permissions of global system objects must be strengthened."
   ansible.windows.win_regedit:
@@ -245,8 +284,8 @@
       - wn19_so_000370
   tags:
       - WN19-SO-000370
-      - V-205871
+      - CAT3
+      - CCI-000366
       - SRG-OS-000480-GPOS-00227
       - SV-205871r569188_rule
-      - CCI-000366
-      - CAT3
+      - V-205871

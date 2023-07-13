@@ -38,3 +38,42 @@
 - name: win2019_rdp_enabled.value var
   ansible.builtin.debug:
       var: win2019_rdp_enabled.value
+
+- name: Get Drive Letters"
+  ansible.windows.win_shell: Get-Volume | ?{ $_.DriveType -eq 'Fixed' } | Select-Object -ExpandProperty 'DriveLetter'
+  changed_when: false
+  failed_when: false
+  register: wn19_drive_letters
+  when:
+      - wn19_00_000240 or
+        wn19_au_000060 or
+        wn19_00_000390 or
+        wn19_00_000400
+
+- name: Check For SecGuide.admx In PolicyDefinitions
+  ansible.windows.win_find:
+      paths: '{{ item }}:\Windows\PolicyDefinitions'
+      patterns: SecGuide.admx
+      hidden: true
+  changed_when: false
+  failed_when: false
+  with_items:
+      - "{{ wn19_drive_letters.stdout_lines }}"
+  register: wn19_secguide_admx_audit
+  when:
+      - wn19_00_000390 or
+        wn19_00_000400
+
+- name: Check For SecGuide.admx In PolicyDefinitions\en-US
+  ansible.windows.win_find:
+      paths: '{{ item }}:\Windows\PolicyDefinitions\en-US'
+      patterns: SecGuide.adml
+      hidden: true
+  changed_when: false
+  failed_when: false
+  with_items:
+      - "{{ wn19_drive_letters.stdout_lines }}"
+  register: wn19_secguide_adml_audit
+  when:
+      - wn19_00_000390 or
+        wn19_00_000400
