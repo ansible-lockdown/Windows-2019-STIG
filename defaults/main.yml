@@ -7,8 +7,8 @@ win2019stig_cat3_patch: true
 win2019stig_min_ansible_version: "2.10.1"
 
 # We've defined complexity-high to mean that we cannot automatically remediate
-# the rule in question.  In the future this might mean that the remediation
-# may fail in some cases.
+# the rule in question.  In the future, this toggle may cause remediation
+# to fail in some cases.
 win2019stig_complexity_high: false
 
 # Show "changed" for complex items not remediated per complexity-high setting

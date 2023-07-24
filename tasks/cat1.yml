@@ -1,80 +1,186 @@
 ---
 
-- name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+- name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
   block:
-      - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | Message out"
+      - name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | Message out"
         ansible.builtin.debug:
-            msg: "Warning!! This is a manual task. Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+            msg: "Warning!! This is a manual task. Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
 
-      - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | import reuseable task."
+      - name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'WN19-DC-000290'
+            warn_control_id: 'WN19-00-000010'
   when:
-      - wn19_dc_000290
-      - ansible_windows_domain_role == "Primary domain controller"
+      - wn19_00_000010
   tags:
-      - WN19-DC-000290
+      - WN19-00-000010
       - CAT1
-      - CCI-000185
-      - SRG-OS-000066-GPOS-00034
-      - SV-205646r569188_rule
-      - V-205646
-      - high
+      - CCI-000366
+      - SRG-OS-000480-GPOS-00227
+      - SV-205844r569188_rule
+      - V-205844
 
-# add some task/external variable for approved CAs, check for DoD and how to pull programatically
-- name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
+- name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
   block:
-      - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | Message out"
+      - name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | Message out"
         ansible.builtin.debug:
-            msg: "Warning!! This is a manual task. Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
+            msg: "Warning!! This is a manual task. Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
 
-      - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | import reuseable task."
+      - name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | import reuseable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
-            warn_control_id: 'WN19-DC-000300'
+            warn_control_id: 'WN19-00-000030'
   when:
-      - wn19_dc_000300
-      - ansible_windows_domain_role == "Primary domain controller"
+      - wn19_00_000030
   tags:
-      - WN19-DC-000300
+      - WN19-00-000030
       - CAT1
-      - CCI-000185
-      - SRG-OS-000066-GPOS-00034
-      - SV-205647r569188_rule
-      - V-205647
-      - high
+      - CCI-000366
+      - SRG-OS-000480-GPOS-00227
+      - SV-205845r569188_rule
+      - V-205845
 
-- name: "HIGH | WN19-AC-000090 | PATCH | Windows Server 2019 reversible password encryption must be disabled."
-  community.windows.win_security_policy:
-      section: System Access
-      key: ClearTextPassword
-      value: "0"
-  when:
-      - wn19_ac_000090
-  tags:
-      - WN19-AC-000090
-      - CAT1
-      - CCI-000196
-      - SRG-OS-000073-GPOS-00041
-      - SV-205653r877397_rule
-      - V-205653
+- name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level."
+  block:
+      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Major Version."
+        ansible.windows.win_reg_stat:
+            path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion\
+            name: CurrentMajorVersionNumber
+        failed_when: wn19_00_000100_audit_currentmajorversionnumber.value is not version('10', '>=')
+        register: wn19_00_000100_audit_currentmajorversionnumber
 
-- name: "HIGH | WN19-SO-000300 | PATCH | Windows Server 2019 must be configured to prevent the storage of the LAN Manager hash of passwords."
-  ansible.windows.win_regedit:
-      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
-      value: NoLMHash
-      data: 1
-      datatype: dword
+      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Build (currentNumber)."
+        ansible.windows.win_reg_stat:
+            path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
+            name: CurrentBuildNumber
+        changed_when: false
+        failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
+        register: wn19_00_000100_audit_currentbuildnumber
+
+      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Release"
+        ansible.windows.win_reg_stat:
+            path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
+            name: ReleaseId
+        changed_when: false
+        failed_when: wn19_00_000100_audit_releaseid.value is not version('1809', '>=')
+        register: wn19_00_000100_audit_releaseid
+
+      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Build"
+        ansible.windows.win_reg_stat:
+            path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
+            name: CurrentBuild
+        changed_when: false
+        failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
+        register: wn19_00_000100_audit_currentbuild
   when:
-      - wn19_so_000300
+      - wn19_00_000100
   tags:
-      - WN19-SO-000300
+      - WN19-00-000100
       - CAT1
-      - CCI-000196
-      - SRG-OS-000073-GPOS-00041
-      - SV-205654r877397_rule
-      - V-205654
+      - CCI-000366
+      - SRG-OS-000480-GPOS-00227
+      - SV-205849r569188_rule
+      - V-205849
+      - audit
+
+# mcaffee is the approved virus? McAfee VirusScan Enterprise has been replaced by McAfee Endpoint Security. Start your migration now. https://www.mcafee.com/enterprise/en-us/products/virusscan-enterprise.html
+# so guess we need to scan for the old and the new in case customers not migrated?
+- name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program."
+  block:
+      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Check For USer Defined Anti-virus."
+        ansible.windows.win_shell: get-service | where {$_.DisplayName -Like "*{{ wn19stig_antivirus_program }}*"} | Select Status,DisplayName
+        changed_when: false
+        failed_when: false
+        register: wn19_00_000110_virus_audit
+
+      - name: "HIGH | WN19-00-000120 | AUDIT | The Windows Server 2019 system must use an anti-virus program. | Get Defender AV Service Status."
+        ansible.windows.win_service_info:
+            name: WinDefend
+        changed_when: false
+        failed_when: false
+        register: win19_00_000120_av_sftw_status
+
+      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Check For Anti-virus Defender."
+        ansible.windows.win_shell: get-service | where {$_.DisplayName -Like "*defender*"} | Select Status,DisplayName
+        changed_when: false
+        failed_when: false
+        register: wn19_00_000110_virus_audit_windefend
+        when: win19_00_000120_av_sftw_status.services | length > 0
+
+      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Install Windows Defender."
+        ansible.windows.win_shell: Install-WindowsFeature -Name Windows-Defender
+        changed_when: false
+        failed_when: false
+        notify:
+            - reboot_windows
+        when:
+            - wn19_00_000110_virus_audit.stdout | length == 0
+            - "'defender' not in wn19stig_antivirus_program"
+            - win19_00_000120_av_sftw_status.services | length == 0
+
+      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out Defender Installed."
+        ansible.builtin.debug:
+            msg:
+                - "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
+                - "Defender was automatically installed by Ansible because your defined Antivirus is not"
+                - "currently Installed on the system or the shell search could not find it."
+                - "Please change the variable in wn19stig_antivirus_program back to defender to satisfy STIG"
+                - "requiurements or until you properly install a 3rd party Anti-Virus that yields results when searching."
+        when:
+            - wn19_00_000110_virus_audit.stdout_lines | length == 0
+            - "'defender' not in wn19stig_antivirus_program"
+            - win19_00_000120_av_sftw_status.services | length == 0
+
+      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Remove Windows Defender."
+        ansible.windows.win_shell: Uninstall-WindowsFeature -Name Windows-Defender
+        changed_when: false
+        failed_when: false
+        notify:
+            - reboot_windows
+        when:
+            - wn19_00_000110_virus_audit.stdout | length > 1
+            - "'defender' not in wn19stig_antivirus_program"
+            - win19_00_000120_av_sftw_status.services[0].state != "stopped"
+
+      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out Anti-Virus Running."
+        ansible.builtin.debug:
+            msg:
+                - "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
+                - "Please verify your Anti-Virus program is currently set to Running in the output below."
+                - "{{ wn19_00_000110_virus_audit.stdout_lines | trim }}"
+        when:
+            - wn19_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' in wn19stig_antivirus_program or
+              wn19_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' not in wn19stig_antivirus_program
+
+      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out Anti-Virus Running Bad Program Still In Variable."
+        ansible.builtin.debug:
+            msg:
+                - "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
+                - "Please change the variable in wn19stig_antivirus_program back to defender to satisfy STIG"
+                - "requiurements or until you properly install a 3rd party Anti-Virus that yields results when searching."
+                - "By Default Defender Antivirus has been installed, check current status below to verify running."
+                - "{{ wn19_00_000110_virus_audit_windefend.stdout_lines | trim }}"
+        when:
+            - wn19_00_000110_virus_audit_windefend.stdout_lines | length > 1 and 'defender' not in wn19stig_antivirus_program
+
+      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-00-000110'
+        when:
+            - wn19_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' in wn19stig_antivirus_program or
+              wn19_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' not in wn19stig_antivirus_program or
+              wn19_00_000110_virus_audit.stdout_lines | length == 0 and win19_00_000120_av_sftw_status.services | length == 0 and 'defender' not in wn19stig_antivirus_program or
+              wn19_00_000110_virus_audit_windefend.stdout_lines | length > 1 and 'defender' not in wn19stig_antivirus_program
+  when:
+      - wn19_00_000110
+  tags:
+      - WN19-00-000110
+      - CAT1
+      - CCI-000366
+      - SRG-OS-000480-GPOS-00227
+      - SV-205850r569245_rule
+      - V-205850
 
 - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
   block:
@@ -106,6 +212,86 @@
       - SRG-OS-000080-GPOS-00048
       - SV-205663r569188_rule
       - V-205663
+
+- name: "HIGH | WN19-AC-000090 | PATCH | Windows Server 2019 reversible password encryption must be disabled."
+  community.windows.win_security_policy:
+      section: System Access
+      key: ClearTextPassword
+      value: "0"
+  when:
+      - wn19_ac_000090
+  tags:
+      - WN19-AC-000090
+      - CAT1
+      - CCI-000196
+      - SRG-OS-000073-GPOS-00041
+      - SV-205653r877397_rule
+      - V-205653
+
+- name: "HIGH | WN19-CC-000210 | PATCH | Windows Server 2019 AutoPlay must be turned off for non-volume devices."
+  ansible.windows.win_regedit:
+      path: HKLM:\Software\Policies\Microsoft\Windows\Explorer
+      value: NoAutoplayfornonVolume
+      data: 1
+      datatype: dword
+  when:
+      - wn19_cc_000210
+  tags:
+      - WN19-CC-000210
+      - CAT1
+      - CCI-001764
+      - SRG-OS-000368-GPOS-00154
+      - SV-205804r852506_rule
+      - V-205804
+
+- name: "HIGH | WN19-CC-000220 | PATCH | Windows Server 2019 default AutoRun behavior must be configured to prevent AutoRun commands."
+  ansible.windows.win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+      value: NoAutorun
+      data: 1
+      datatype: dword
+  when:
+      - wn19_cc_000220
+  tags:
+      - WN19-CC-000220
+      - CAT1
+      - CCI-001764
+      - SRG-OS-000368-GPOS-00154
+      - SV-205805r852507_rule
+      - V-205805
+
+- name: "HIGH | WN19-CC-000230 | PATCH | Windows Server 2019 AutoPlay must be disabled for all drives."
+  ansible.windows.win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+      name: NoDriveTypeAutoRun
+      data: 255
+      datatype: dword
+  when:
+      - wn19_cc_000230
+  tags:
+      - WN19-DC-000110
+      - CAT1
+      - CCI-002235
+      - SRG-OS-000324-GPOS-00125
+      - SV-205806r852508_rule
+      - V-205806
+
+- name: "HIGH | WN19-CC-000430 | PATCH | Windows Server 2019 must disable the Windows Installer Always install with elevated privileges option."
+  ansible.windows.win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
+      state: present
+      value: AlwaysInstallElevated
+      data: 0
+      datatype: dword
+  when:
+      - wn19_cc_000430
+  tags:
+      - WN19-CC-000430
+      - CAT1
+      - CCI-001812
+      - SRG-OS-000362-GPOS-00149
+      - SV-205802r852503_rule
+      - V-205802
 
 - name: "HIGH | WN19-CC-000470 | PATCH | Windows Server 2019 Windows Remote Management (WinRM) client must not use Basic authentication."
   ansible.windows.win_regedit:
@@ -140,38 +326,6 @@
       - SRG-OS-000125-GPOS-00065
       - SV-205713r877395_rule
       - V-205713
-
-- name: "HIGH | WN19-SO-000230 | PATCH | Windows Server 2019 must not allow anonymous enumeration of shares."
-  ansible.windows.win_regedit:
-      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
-      value: RestrictAnonymous
-      data: 1
-      datatype: dword
-  when:
-      - wn19_so_000230
-  tags:
-      - WN19-SO-000230
-      - CAT1
-      - CCI-001090
-      - SRG-OS-000138-GPOS-00069
-      - SV-205724r569188_rule
-      - V-205724
-
-- name: "HIGH | WN19-SO-000250 | PATCH | Windows Server 2019 must restrict anonymous access to Named Pipes and Shares."
-  ansible.windows.win_regedit:
-      path: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
-      value: RestrictNullSessAccess
-      data: 1
-      datatype: dword
-  when:
-      - wn19_so_000250
-  tags:
-      - WN19-SO-000250
-      - CAT1
-      - CCI-001090
-      - SRG-OS-000138-GPOS-00069
-      - SV-205725r569188_rule
-      - V-205725
 
 - name: "HIGH | WN19-DC-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
   block:
@@ -307,6 +461,72 @@
       - SV-205743r877392_rule
       - V-205743
 
+- name: "HIGH | WN19-DC-000150 | AUDIT |  Windows Server 2019 directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access."
+  block:
+      - name: "HIGH | WN19-DC-000150 | AUDIT |  Windows Server 2019 directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access. | Message out"
+        ansible.builtin.debug:
+            msg:
+                - "Warning!! This is a manual task.  Windows Server 2019 directory data (outside the root DSE) of a non-public"
+                - "directory must be configured to prevent anonymous access."
+
+      - name: "HIGH | WN19-DC-000150 | AUDIT | Windows Server 2019 must use an anti-virus program. | import reuseable task."
+        ansible.builtin.import_tasks: warning_facts.yml
+  vars:
+      warn_control_id: 'WN19-DC-000150'
+  when:
+      - wn19_dc_000150
+      - ansible_windows_domain_role == "Primary domain controller"
+  tags:
+      - WN19-DC-000150
+      - CAT1
+      - CCI-000366
+      - SRG-OS-000480-GPOS-00227
+      - SV-205875r569188_rule
+      - V-205875
+
+- name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+  block:
+      - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | Message out"
+        ansible.builtin.debug:
+            msg: "Warning!! This is a manual task. Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+
+      - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | import reuseable task."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-DC-000290'
+  when:
+      - wn19_dc_000290
+      - ansible_windows_domain_role == "Primary domain controller"
+  tags:
+      - WN19-DC-000290
+      - CAT1
+      - CCI-000185
+      - SRG-OS-000066-GPOS-00034
+      - SV-205646r569188_rule
+      - V-205646
+
+# add some task/external variable for approved CAs, check for DoD and how to pull programatically
+- name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
+  block:
+      - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | Message out"
+        ansible.builtin.debug:
+            msg: "Warning!! This is a manual task. Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
+
+      - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | import reuseable task."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-DC-000300'
+  when:
+      - wn19_dc_000300
+      - ansible_windows_domain_role == "Primary domain controller"
+  tags:
+      - WN19-DC-000300
+      - CAT1
+      - CCI-000185
+      - SRG-OS-000066-GPOS-00034
+      - SV-205647r569188_rule
+      - V-205647
+
 # populate a dictionary/list from customer
 - name: "HIGH | WN19-MS-000010 | AUDIT | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
   block:
@@ -338,325 +558,6 @@
       - SV-205746r877392_rule
       - V-205746
       - audit
-
-- name: "HIGH | WN19-UR-000020 | PATCH | Windows Server 2019 Act as part of the operating system user right must not be assigned to any groups or accounts."
-  ansible.windows.win_user_right:
-      name: SeTcbPrivilege
-      users: "{{ wn19stig_setcbprivilege }}"
-      action: set
-  when:
-      - wn19_ur_000020
-  tags:
-      - WN19-UR-000020
-      - CAT1
-      - CCI-002235
-      - SRG-OS-000324-GPOS-00125
-      - SV-205750r877392_rule
-      - V-205750
-
-- name: "HIGH | WN19-UR-000060 | PATCH | Windows Server 2019 Create a token object user right must not be assigned to any groups or accounts."
-  community.windows.win_security_policy:
-      section: Privilege Rights
-      key: SeCreateTokenPrivilege
-      value: "{{ wn19stig_secreatetokenprivilege }}"
-  when:
-      - wn19_ur_000060
-  tags:
-      - WN19-UR-000060
-      - CAT1
-      - CCI-002235
-      - SRG-OS-000324-GPOS-00125
-      - SV-205753r877392_rule
-      - V-205753
-
-# fails openscap - the v1r10 xml checks for "Administrators" string but secedit uses the SIDs thus
-# "SeDebugPrivilege = *S-1-5-32-544"  is Administrators (openscap fails)
-# emailed_disa.letterkenny.re.mbx.stig-customer-support-mailbox@mail.mil
-# SCC tool works
-- name: "HIGH | WN19-UR-000100 | PATCH | Windows Server 2019 Debug programs: user right must only be assigned to the Administrators group."
-  ansible.windows.win_user_right:
-      name: SeDebugPrivilege
-      users: "{{ wn19stig_sedebugprivilege }}"
-      action: set
-  when:
-      - wn19_ur_000100
-  tags:
-      - WN19-UR-000100
-      - CAT1
-      - CCI-002235
-      - SRG-OS-000324-GPOS-00125
-      - SV-205757r877392_rule
-      - V-205757
-
-- name: "HIGH | WN19-CC-000430 | PATCH | Windows Server 2019 must disable the Windows Installer Always install with elevated privileges option."
-  ansible.windows.win_regedit:
-      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
-      state: present
-      value: AlwaysInstallElevated
-      data: 0
-      datatype: dword
-  when:
-      - wn19_cc_000430
-  tags:
-      - WN19-CC-000430
-      - CAT1
-      - CCI-001812
-      - SRG-OS-000362-GPOS-00149
-      - SV-205802r852503_rule
-      - V-205802
-
-- name: "HIGH | WN19-CC-000210 | PATCH | Windows Server 2019 AutoPlay must be turned off for non-volume devices."
-  ansible.windows.win_regedit:
-      path: HKLM:\Software\Policies\Microsoft\Windows\Explorer
-      value: NoAutoplayfornonVolume
-      data: 1
-      datatype: dword
-  when:
-      - wn19_cc_000210
-  tags:
-      - WN19-CC-000210
-      - CAT1
-      - CCI-001764
-      - SRG-OS-000368-GPOS-00154
-      - SV-205804r852506_rule
-      - V-205804
-
-- name: "HIGH | WN19-CC-000220 | PATCH | Windows Server 2019 default AutoRun behavior must be configured to prevent AutoRun commands."
-  ansible.windows.win_regedit:
-      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
-      value: NoAutorun
-      data: 1
-      datatype: dword
-  when:
-      - wn19_cc_000220
-  tags:
-      - WN19-CC-000220
-      - CAT1
-      - CCI-001764
-      - SRG-OS-000368-GPOS-00154
-      - SV-205805r852507_rule
-      - V-205805
-
-- name: "HIGH | WN19-CC-000230 | PATCH | Windows Server 2019 AutoPlay must be disabled for all drives."
-  ansible.windows.win_regedit:
-      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
-      name: NoDriveTypeAutoRun
-      data: 255
-      datatype: dword
-  when:
-      - wn19_cc_000230
-  tags:
-      - WN19-DC-000110
-      - CAT1
-      - CCI-002235
-      - SRG-OS-000324-GPOS-00125
-      - SV-205806r852508_rule
-      - V-205806
-
-- name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
-  block:
-      - name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | Message out"
-        ansible.builtin.debug:
-            msg: "Warning!! This is a manual task. Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
-
-      - name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | import reuseable task."
-        ansible.builtin.import_tasks: warning_facts.yml
-        vars:
-            warn_control_id: 'WN19-00-000010'
-  when:
-      - wn19_00_000010
-  tags:
-      - WN19-00-000010
-      - CAT1
-      - CCI-000366
-      - SRG-OS-000480-GPOS-00227
-      - SV-205844r569188_rule
-      - V-205844
-
-- name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
-  block:
-      - name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | Message out"
-        ansible.builtin.debug:
-            msg: "Warning!! This is a manual task. Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
-
-      - name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | import reuseable task."
-        ansible.builtin.import_tasks: warning_facts.yml
-        vars:
-            warn_control_id: 'WN19-00-000030'
-  when:
-      - wn19_00_000030
-  tags:
-      - WN19-00-000030
-      - CAT1
-      - CCI-000366
-      - SRG-OS-000480-GPOS-00227
-      - SV-205845r569188_rule
-      - V-205845
-
-- name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level."
-  block:
-      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Major Version."
-        ansible.windows.win_reg_stat:
-            path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion\
-            name: CurrentMajorVersionNumber
-        failed_when: wn19_00_000100_audit_currentmajorversionnumber.value is not version('10', '>=')
-        register: wn19_00_000100_audit_currentmajorversionnumber
-
-      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Build (currentNumber)."
-        ansible.windows.win_reg_stat:
-            path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
-            name: CurrentBuildNumber
-        changed_when: false
-        failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
-        register: wn19_00_000100_audit_currentbuildnumber
-
-      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Release"
-        ansible.windows.win_reg_stat:
-            path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
-            name: ReleaseId
-        changed_when: false
-        failed_when: wn19_00_000100_audit_releaseid.value is not version('1809', '>=')
-        register: wn19_00_000100_audit_releaseid
-
-      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Build"
-        ansible.windows.win_reg_stat:
-            path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
-            name: CurrentBuild
-        changed_when: false
-        failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
-        register: wn19_00_000100_audit_currentbuild
-  when:
-      - wn19_00_000100
-  tags:
-      - WN19-00-000100
-      - CAT1
-      - CCI-000366
-      - SRG-OS-000480-GPOS-00227
-      - SV-205849r569188_rule
-      - V-205849
-      - audit
-
-# mcaffee is the approved virus? McAfee VirusScan Enterprise has been replaced by McAfee Endpoint Security. Start your migration now. https://www.mcafee.com/enterprise/en-us/products/virusscan-enterprise.html
-# so guess we need to scan for the old and the new in case customers not migrated?
-- name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program."
-  block:
-      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Check For USer Defined Anti-virus."
-        ansible.windows.win_shell: get-service | where {$_.DisplayName -Like "*{{ wn19stig_antivirus_program }}*"} | Select Status,DisplayName
-        changed_when: false
-        failed_when: false
-        register: wn19_00_000110_virus_audit
-
-      - name: "HIGH | WN16-00-000120 | AUDIT | The Windows Server 2016 system must use an anti-virus program. | Get Defender AV Service Status."
-        ansible.windows.win_service_info:
-            name: WinDefend
-        changed_when: false
-        failed_when: false
-        register: win19_00_000120_av_sftw_status
-
-      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Check For Anti-virus Defender."
-        ansible.windows.win_shell: get-service | where {$_.DisplayName -Like "*defender*"} | Select Status,DisplayName
-        changed_when: false
-        failed_when: false
-        register: wn19_00_000110_virus_audit_windefend
-        when: win19_00_000120_av_sftw_status.services | length > 0
-
-      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Install Windows Defender."
-        ansible.windows.win_shell: Install-WindowsFeature -Name Windows-Defender
-        changed_when: false
-        failed_when: false
-        notify:
-            - reboot_windows
-        when:
-            - wn19_00_000110_virus_audit.stdout | length == 0
-            - "'defender' not in wn19stig_antivirus_program"
-            - win19_00_000120_av_sftw_status.services | length == 0
-
-      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out Defender Installed."
-        ansible.builtin.debug:
-            msg:
-                - "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
-                - "Defender was automatically installed by Ansible because your defined Antivirus is not"
-                - "currently Installed on the system or the shell search could not find it."
-                - "Please change the variable in wn19stig_antivirus_program back to defender to satisfy STIG"
-                - "requiurements or until you properly install a 3rd party Anti-Virus that yields results when searching."
-        when:
-            - wn19_00_000110_virus_audit.stdout_lines | length == 0
-            - "'defender' not in wn19stig_antivirus_program"
-            - win19_00_000120_av_sftw_status.services | length == 0
-
-      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Remove Windows Defender."
-        ansible.windows.win_shell: Uninstall-WindowsFeature -Name Windows-Defender
-        changed_when: false
-        failed_when: false
-        notify:
-            - reboot_windows
-        when:
-            - wn19_00_000110_virus_audit.stdout | length > 1
-            - "'defender' not in wn19stig_antivirus_program"
-            - win19_00_000120_av_sftw_status.services[0].state != "stopped"
-
-      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out Anti-Virus Running."
-        ansible.builtin.debug:
-            msg:
-                - "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
-                - "Please verify your Anti-Virus program is currently set to Running in the output below."
-                - "{{ wn19_00_000110_virus_audit.stdout_lines | trim }}"
-        when:
-            - wn19_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' in wn19stig_antivirus_program or
-              wn19_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' not in wn19stig_antivirus_program
-
-      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out Anti-Virus Running Bad Program Still In Variable."
-        ansible.builtin.debug:
-            msg:
-                - "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
-                - "Please change the variable in wn19stig_antivirus_program back to defender to satisfy STIG"
-                - "requiurements or until you properly install a 3rd party Anti-Virus that yields results when searching."
-                - "By Default Defender Antivirus has been installed, check current status below to verify running."
-                - "{{ wn19_00_000110_virus_audit_windefend.stdout_lines | trim }}"
-        when:
-            - wn19_00_000110_virus_audit_windefend.stdout_lines | length > 1 and 'defender' not in wn19stig_antivirus_program
-
-      - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
-        vars:
-            warn_control_id: 'WN19-00-000110'
-        when:
-            - wn19_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' in wn19stig_antivirus_program or
-              wn19_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' not in wn19stig_antivirus_program or
-              wn19_00_000110_virus_audit.stdout_lines | length == 0 and win19_00_000120_av_sftw_status.services | length == 0 and 'defender' not in wn19stig_antivirus_program or
-              wn19_00_000110_virus_audit_windefend.stdout_lines | length > 1 and 'defender' not in wn19stig_antivirus_program
-  when:
-      - wn19_00_000110
-  tags:
-      - WN19-00-000110
-      - CAT1
-      - CCI-000366
-      - SRG-OS-000480-GPOS-00227
-      - SV-205850r569245_rule
-      - V-205850
-
-- name: "HIGH | WN19-DC-000150 | AUDIT |  Windows Server 2019 directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access."
-  block:
-      - name: "HIGH | WN19-DC-000150 | AUDIT |  Windows Server 2019 directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access. | Message out"
-        ansible.builtin.debug:
-            msg:
-                - "Warning!! This is a manual task.  Windows Server 2019 directory data (outside the root DSE) of a non-public"
-                - "directory must be configured to prevent anonymous access."
-
-      - name: "HIGH | WN19-DC-000150 | AUDIT | Windows Server 2019 must use an anti-virus program. | import reuseable task."
-        ansible.builtin.import_tasks: warning_facts.yml
-  vars:
-      warn_control_id: 'WN19-DC-000150'
-  when:
-      - wn19_dc_000150
-      - ansible_windows_domain_role == "Primary domain controller"
-  tags:
-      - WN19-DC-000150
-      - CAT1
-      - CCI-000366
-      - SRG-OS-000480-GPOS-00227
-      - SV-205875r569188_rule
-      - V-205875
 
 - name: "HIGH | WN19-MS-000140 | PATCH | Windows Server 2019 must be running Credential Guard on domain-joined member servers."
   ansible.windows.win_regedit:
@@ -732,6 +633,38 @@
       - SV-205914r569188_rule
       - V-205914
 
+- name: "HIGH | WN19-SO-000230 | PATCH | Windows Server 2019 must not allow anonymous enumeration of shares."
+  ansible.windows.win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+      value: RestrictAnonymous
+      data: 1
+      datatype: dword
+  when:
+      - wn19_so_000230
+  tags:
+      - WN19-SO-000230
+      - CAT1
+      - CCI-001090
+      - SRG-OS-000138-GPOS-00069
+      - SV-205724r569188_rule
+      - V-205724
+
+- name: "HIGH | WN19-SO-000300 | PATCH | Windows Server 2019 must be configured to prevent the storage of the LAN Manager hash of passwords."
+  ansible.windows.win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+      value: NoLMHash
+      data: 1
+      datatype: dword
+  when:
+      - wn19_so_000300
+  tags:
+      - WN19-SO-000300
+      - CAT1
+      - CCI-000196
+      - SRG-OS-000073-GPOS-00041
+      - SV-205654r877397_rule
+      - V-205654
+
 - name: "HIGH | WN19-SO-000310 | PATCH | Windows Server 2019 LAN Manager authentication level must be configured to send NTLMv2 response only and to refuse LM and NTLM."
   ansible.windows.win_regedit:
       path: HKLM:\System\CurrentControlSet\Control\Lsa
@@ -747,3 +680,68 @@
       - SRG-OS-000480-GPOS-00227
       - SV-205919r857347_rule
       - CCI-000366
+
+- name: "HIGH | WN19-SO-000250 | PATCH | Windows Server 2019 must restrict anonymous access to Named Pipes and Shares."
+  ansible.windows.win_regedit:
+      path: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
+      value: RestrictNullSessAccess
+      data: 1
+      datatype: dword
+  when:
+      - wn19_so_000250
+  tags:
+      - WN19-SO-000250
+      - CAT1
+      - CCI-001090
+      - SRG-OS-000138-GPOS-00069
+      - SV-205725r569188_rule
+      - V-205725
+
+- name: "HIGH | WN19-UR-000020 | PATCH | Windows Server 2019 Act as part of the operating system user right must not be assigned to any groups or accounts."
+  ansible.windows.win_user_right:
+      name: SeTcbPrivilege
+      users: "{{ wn19stig_setcbprivilege }}"
+      action: set
+  when:
+      - wn19_ur_000020
+  tags:
+      - WN19-UR-000020
+      - CAT1
+      - CCI-002235
+      - SRG-OS-000324-GPOS-00125
+      - SV-205750r877392_rule
+      - V-205750
+
+- name: "HIGH | WN19-UR-000060 | PATCH | Windows Server 2019 Create a token object user right must not be assigned to any groups or accounts."
+  community.windows.win_security_policy:
+      section: Privilege Rights
+      key: SeCreateTokenPrivilege
+      value: "{{ wn19stig_secreatetokenprivilege }}"
+  when:
+      - wn19_ur_000060
+  tags:
+      - WN19-UR-000060
+      - CAT1
+      - CCI-002235
+      - SRG-OS-000324-GPOS-00125
+      - SV-205753r877392_rule
+      - V-205753
+
+# fails openscap - the v1r10 xml checks for "Administrators" string but secedit uses the SIDs thus
+# "SeDebugPrivilege = *S-1-5-32-544"  is Administrators (openscap fails)
+# emailed_disa.letterkenny.re.mbx.stig-customer-support-mailbox@mail.mil
+# SCC tool works
+- name: "HIGH | WN19-UR-000100 | PATCH | Windows Server 2019 Debug programs: user right must only be assigned to the Administrators group."
+  ansible.windows.win_user_right:
+      name: SeDebugPrivilege
+      users: "{{ wn19stig_sedebugprivilege }}"
+      action: set
+  when:
+      - wn19_ur_000100
+  tags:
+      - WN19-UR-000100
+      - CAT1
+      - CCI-002235
+      - SRG-OS-000324-GPOS-00125
+      - SV-205757r877392_rule
+      - V-205757
