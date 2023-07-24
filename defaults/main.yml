@@ -12,12 +12,12 @@ win2019stig_min_ansible_version: "2.10.1"
 win2019stig_complexity_high: false
 
 # Show "changed" for complex items not remediated per complexity-high setting
-# to make them stand out.  "changed" items on a second run of the role would
+# to make them stand out. "changed" items on a second run of the role would
 # indicate items requiring manual review.
 win2019stig_audit_complex: true
 
 # We've defined disruption-high to indicate items that are likely to cause
-# disruption in a normal workflow.  These items can be remediated automatically
+# disruption in a normal workflow. These items can be remediated automatically
 # but are disabled by default to avoid disruption.
 win2019stig_disruption_high: false
 
@@ -466,7 +466,7 @@ wn19stig_senetworklogonright_dc: Administrators,Authenticated Users,Enterprise D
 
 # WN19-DC-000430
 # The password for the krbtgt account on a domain must be reset at least every 180 days.
-# The default setting here matches the STIG requirements.  If you would like to
+# The default setting here matches the STIG requirements. If you would like to
 # enforce a more strcit policy you may do so for auditing purposes.
 # NOTE: Valid Days are 180 or less.
 wn19stig_krbtgt_account_pass_age: 180
@@ -485,7 +485,7 @@ wn19stig_senetworklogonright: Administrators,Authenticated Users
 # Windows Server 2019 built-in administrator account must be renamed.
 # wn19stig_newadministratorname is the non-default name for the Administror Account.
 # This can be skipped during testing so as to not break the box connection using
-# the tggle win_skip_for_test
+# the toggle win_skip_for_test
 wn19stig_newadministratorname: adminchangethis
 
 # WN19-SO-000040
