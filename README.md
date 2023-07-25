@@ -18,7 +18,7 @@
 ![Devel Build Status](https://img.shields.io/github/actions/workflow/status/ansible-lockdown/Windows-2019-STIG/windows_benchmark_testing_to_devel.yml?label=Devel%20Build%20Status)
 ![Devel Commits](https://img.shields.io/github/commit-activity/m/ansible-lockdown/Windows-2019-STIG/devel?color=dark%20green&label=Devel%20Branch%20commits)
 
-![Release Branch](https://img.shields.io/badge/Release%20Branch-Main-brightgreen) 
+![Release Branch](https://img.shields.io/badge/Release%20Branch-Main-brightgreen)
 ![Main Build Status](https://img.shields.io/github/actions/workflow/status/ansible-lockdown/Windows-2019-STIG/windows_benchmark_testing_to_main.yml?label=Build%20Status)
 ![Main Release Date](https://img.shields.io/github/release-date/ansible-lockdown/Windows-2019-STIG?label=Release%20Date)
 ![Release Tag](https://img.shields.io/github/v/tag/ansible-lockdown/Windows-2019-STIG?label=Release%20Tag&&color=success)
@@ -64,7 +64,7 @@ This is managed using tags:
 - CAT2
 - CAT3
 
-The control found in defaults main also need to reflect true so as this will allow the controls to run when the playbook is launched. 
+The control found in defaults main also need to reflect true so as this will allow the controls to run when the playbook is launched.
 
 ## Coming from a previous release
 
@@ -75,7 +75,7 @@ Further details can be seen in the [Changelog](./ChangeLog.md)
 
 ## Auditing (new)
 
-Currently this release does not have a auditing tool. 
+Currently this release does not have a auditing tool.
 
 ## Documentation
 
@@ -96,7 +96,7 @@ Currently this release does not have a auditing tool.
   - [Tower User Guide](https://docs.ansible.com/ansible-tower/latest/html/userguide/index.html)
   - [Ansible Community Info](https://docs.ansible.com/ansible/latest/community/index.html)
 - Functioning Ansible and/or Tower Installed, configured, and running. This includes all of the base Ansible/Tower configurations, needed packages installed, and infrastructure setup.
-- Please read through the tasks in this role to gain an understanding of what each control is doing. Some of the tasks are disruptive and can have unintended consiquences in a live production system. Also familiarize yourself with the variables in the defaults/main.yml file.
+- Please read through the tasks in this role to gain an understanding of what each control is doing. Some of the tasks are disruptive and can have unintended consequences in a live production system. Also familiarize yourself with the variables in the defaults/main.yml file.
 
 **Technical Dependencies:**
 
@@ -129,7 +129,6 @@ Below is an example of the tag section from a control within this role. Using th
       - SRG-OS-000066-GPOS-00034
       - SV-205646r569188_rule
       - CCI-000185
-      - high
 ```
 
 ## Community Contribution
