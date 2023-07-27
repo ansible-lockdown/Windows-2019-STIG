@@ -253,8 +253,6 @@
       - SV-205851r793214_rule
       - V-205851
 
-# think this is mcafee but need install and figure out paths for AV vs HIDS and/or running services?
-
 - name: "MEDIUM | WN19-00-000140 | AUDIT | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements."
   block:
       - name: "MEDIUM | WN19-00-000140 | AUDIT | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements. | Obtain icacls for Program Files."
@@ -844,7 +842,6 @@
       - SV-205728r793217_rule
       - V-205728
 
-######
 - name: "MEDIUM | WN19-00-000300 | AUDIT | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
   block:
       - name: "MEDIUM | WN19-00-000300 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours. | Get User List."
@@ -895,7 +892,6 @@
       - SRG-OS-000002-GPOS-00002
       - SV-205624r857301_rule
       - V-205624
-###########
 
 - name: "MEDIUM | WN19-00-000310 | AUDIT | Windows Server 2019 must automatically remove or disable emergency accounts after the crisis is resolved or within 72 hours."
   block:
@@ -1277,7 +1273,7 @@
       - CCI-000366
       - SRG-OS-000480-GPOS-00227
       - SV-205855r569188_rule
-      - V-205800
+      - V-205855
 
 # THE FOLLOWING 3 CONTROLS WILL FAIL UNLESS THEY ARE IN THE FOLLOWING ORDER FOR LOCAL BASED SYSTEMS.
 - name: "MEDIUM | WN19-AC-000020 | PATCH | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less."
@@ -1545,7 +1541,7 @@
       - CCI-000194
       - CCI-001619
       - SRG-OS-000069-GPOS-00037
-      - SV-205655r877396_rule
+      - SV-205652r569188_rule
       - V-205652
 
 - name: "MEDIUM | WN19-AU-000010 | AUDIT | Windows Server 2019 audit records must be backed up to a different system or media than the system being audited."
