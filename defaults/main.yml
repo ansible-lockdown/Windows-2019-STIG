@@ -32,12 +32,12 @@ win2019stig_audit_disruptive: true
 win19stig_lengthy_search: false
 
 # win19stig_cloud_based_system is a setting built into the playbook for testing locally vs azure.
-# We have found certain controls need to be set in a different order when being applied in the
+# We have found certain controls that need to be set in a different order when being applied in the
 # different enviroments. By Default This is set to false.
 win19stig_cloud_based_system: false
 
-# win_skip_for_test is used in the playbook to skip over certain controls that
-# may cause breaking changes when running it for testing purposes.
+# win_skip_for_test is used in the playbook to skip over the following controls that
+# may cause WINRM connection termination when running these controls below.
 # Controls that will be skipped:
 # WN19-CC-000470 - CAT1
 # WN19-CC-000500 - CAT1

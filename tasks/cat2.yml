@@ -2962,7 +2962,7 @@
       - CCI-001453
       - SRG-OS-000033-GPOS-00014
       - SV-205637r877398_rule
-      - V-205636
+      - V-205637
 
 - name: "MEDIUM | WN19-CC-000390 | PATCH | Windows Server 2019 must prevent attachments from being downloaded from RSS feeds."
   ansible.windows.win_regedit:
@@ -3028,7 +3028,7 @@
       - SV-205801r852502_rule
       - V-205801
 
-- name: "MEDIUM | WN19-CC-000440 | PATCH | Windows Server 2019  users must be notified if a web-based program attempts to install software."
+- name: "MEDIUM | WN19-CC-000440 | PATCH | Windows Server 2019 users must be notified if a web-based program attempts to install software."
   ansible.windows.win_regedit:
       path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
       value: SafeForScripting
@@ -3537,7 +3537,7 @@
       - CCI-000172
       - CCI-002234
       - SRG-OS-000327-GPOS-00127
-      - SV-205791r852492_rule
+      - SV-205790r852491_rule
       - V-205790
 
 - name: "MEDIUM | WN19-DC-000230 | PATCH | Windows Server 2019 must be configured to audit Account Management - Computer Account Management successes."
@@ -3589,7 +3589,7 @@
       - CCI-000172
       - CCI-002234
       - SRG-OS-000327-GPOS-00127
-      - SV-205791r569188_rule
+      - SV-205791r852492_rule
       - V-205791
       - NeedToTestDomainController
 
@@ -3639,7 +3639,7 @@
       - CCI-000172
       - CCI-002234
       - SRG-OS-000327-GPOS-00127
-      - SV-205793r569188_rule
+      - SV-205793r852494_rule
       - V-205793
       - NeedToTestDomainController
 
@@ -3894,7 +3894,7 @@
       - V-205745
       - NeedToTestDomainController
 
-## this seems highly prone to breakage? its a DC acct, has replicate. if you screw it up, it could stop kerberos tickets and break auth things
+## This seems highly prone to breakage. It's a DC account and has been replicated. May Cause, Kerberos tickets stoppage and break authentication protocols.
 ## https://www.kjctech.net/do-you-need-to-update-krbtgt-account-password/
 - name: "MEDIUM | WN19-DC-000430 | AUDIT | The password for the krbtgt account on a domain must be reset at least every 180 days."
   block:
@@ -4683,7 +4683,7 @@
       - CAT2
       - CCI-000197
       - SRG-OS-000074-GPOS-00042
-      - SV-205655r569188_rule
+      - SV-205655r877396_rule
       - V-205655
 
 - name: "MEDIUM | WN19-SO-000190 | PATCH | Windows Server 2019 setting Microsoft network server: Digitally sign communications (always) must be configured to Enabled."
@@ -4877,7 +4877,7 @@
       - WN19-SO-000360
       - CAT2
       - CCI-002450
-      - SRG-OS-000480-GPOS-00227
+      - SRG-OS-000478-GPOS-00223
       - SV-205842r877466_rule
       - V-205842
 
