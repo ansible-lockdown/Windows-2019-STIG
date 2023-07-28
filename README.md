@@ -2,7 +2,7 @@
 
 ## Configure a Windows 2019 system to be [DISA STIG](https://public.cyber.mil/stigs/downloads/) compliant.
 
-### Based on [ Windows DISA STIG Version 2, Rel 5 released on November 14, 2022 ](https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2019_V2R5_STIG.zip)
+### Based on [ Windows DISA STIG Version 2, Rel 7 released on June 7th, 2023 ](https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2019_V2R7_STIG.zip)
 
 ---
 
@@ -113,22 +113,23 @@ Package 'python-xmltodict' is required if you enable the OpenSCAP tool installat
 
 ## Role Variables
 
-This role is designed that the end user should not have to edit the tasks themselves. All customizing should be done via the defaults/main.yml file or with extra vars within the project, job, workflow, etc. Non-disruptive CAT I, CAT II, and CAT III findings will be corrected by default. Disruptive finding remediation can be enabled by setting `win10stig_disruption_high` to `yes`.
+This role is designed that the end user should not have to edit the tasks themselves. All customizing should be done via the defaults/main.yml file or with extra vars within the project, job, workflow, etc. Non-disruptive CAT I, CAT II, and CAT III findings will be corrected by default. Disruptive finding remediation can be enabled by setting `win19stig_disruption_high` to `yes`.
 
 ## Tags
 
 There are many tags available for added control precision. Each control may have it's own set of tags noting what level, if it's scored/notscored, what OS element it relates to, if it's a patch or audit, and the rule number.
 
-Below is an example of the tag section from a control within this role. Using this example if you set your run to skip all controls with the tag CCI-000366, this task will be skipped. The opposite can also happen where you run only controls tagged with CCI-000366.
+Below is an example of the tag section from a control within this role. Using this example if you set your run to skip all controls with the tag CCI-000185, this task will be skipped. The opposite can also happen where you run only controls tagged with CCI-000185.
 
 ```sh
-tags:
-      - WN10-CC-000295
-      - CAT2
-      - CCI-000366
-      - SRG-OS-000480-GPOS-00227
-      - SV-220853r569187_rule
-      - V-220853
+  tags:
+      - WN19-DC-000290
+      - V-205646
+      - CAT1
+      - SRG-OS-000066-GPOS-00034
+      - SV-205646r569188_rule
+      - CCI-000185
+      - high
 ```
 
 ## Community Contribution

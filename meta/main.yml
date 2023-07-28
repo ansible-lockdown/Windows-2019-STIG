@@ -1,7 +1,7 @@
 ---
 
 galaxy_info:
-    author: "Ryan Speelman"
+    author: "Ryan Speelman, Stephen Williams"
     description: "Ansible Role to Apply the DISA Windows Server 2019 STIG"
     company: "MindPoint Group"
     license: MIT

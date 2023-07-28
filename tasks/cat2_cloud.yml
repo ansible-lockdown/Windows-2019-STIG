@@ -32,15 +32,15 @@
       - wn19_ac_000020
   tags:
       - WN19-AC-000020
-      - V-205629
+      - CAT2_CLOUD2
+      - CCI-000044
       - SRG-OS-000021-GPOS-00005
       - SV-205629r569188_rule
-      - CCI-000044
-      - CAT2_CLOUD2
+      - V-205629
 
 - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater."
   block:
-      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warning For Bad Variable."
+      - name: "MEDIUM | WN19-AC-000010 | AUDIT | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warning For Bad Variable."
         ansible.builtin.debug:
             msg:
                 - "Warning!! You have a invalid number of minutes set for wn19stig_lockoutduration please read"
@@ -49,7 +49,7 @@
             - wn19stig_lockoutduration < 15
             - wn19stig_lockoutduration > 0
 
-      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warn Count."
+      - name: "MEDIUM | WN19-AC-000010 | AUDIT | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-AC-000010'
@@ -69,11 +69,11 @@
       - wn19_ac_000010
   tags:
       - WN19-AC-000010
-      - V-205795
+      - CAT2_CLOUD2
+      - CCI-002238
       - SRG-OS-000329-GPOS-00128
       - SV-205795r569188_rule
-      - CCI-002238
-      - CAT2_CLOUD2
+      - V-205795
 
 # below task is dependent on WN16-AC-000020, maybe custom fail when known error if WN16-AC-000020 not set? "The key 'ResetLockoutCount' in section 'System Access' is not a valid key, cannot set this value"
 - name: "MEDIUM | WN19-AC-000030 | PATCH | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
@@ -107,9 +107,9 @@
       - wn19_ac_000030
   tags:
       - WN19-AC-000030
-      - V-205630
-      - SRG-OS-000021-GPOS-00005
-      - SV-205630r569188_rule
+      - CAT2_CLOUD2
       - CCI-000044
       - CCI-002238
-      - CAT2_CLOUD2
+      - SRG-OS-000021-GPOS-00005
+      - SV-205630r569188_rule
+      - V-205630
