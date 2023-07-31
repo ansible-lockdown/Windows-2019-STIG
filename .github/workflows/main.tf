@@ -164,7 +164,7 @@ SETTINGS
 }
 
 
-// generate inventory file
+// Generate Inventory File
 resource "local_file" "inventory" {
   filename             = "./hosts.yml"
   directory_permission = "0755"
