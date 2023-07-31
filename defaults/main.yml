@@ -45,7 +45,7 @@ win19stig_cloud_based_system: false
 # WN19-CC-000510 - CAT2
 # WN19-CC-000520 - CAT2
 # WN19-SO-000030 - CAT2
-win_skip_for_test: true
+win_skip_for_test: false
 
 # These variables correspond with the STIG IDs defined in the STIG and allows you to enable/disable specific rules.
 # PLEASE NOTE: These work in coordination with the cat1, cat2, cat3 group variables. You must enable an entire group

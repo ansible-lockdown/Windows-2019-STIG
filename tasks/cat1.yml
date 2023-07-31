@@ -42,14 +42,14 @@
 
 - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level."
   block:
-      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Major Version."
+      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level | OS Major Version."
         ansible.windows.win_reg_stat:
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion\
             name: CurrentMajorVersionNumber
         failed_when: wn19_00_000100_audit_currentmajorversionnumber.value is not version('10', '>=')
         register: wn19_00_000100_audit_currentmajorversionnumber
 
-      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Build (currentNumber)."
+      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level | OS Build (currentNumber)."
         ansible.windows.win_reg_stat:
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
             name: CurrentBuildNumber
@@ -57,7 +57,7 @@
         failed_when: wn19_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
         register: wn19_00_000100_audit_currentbuildnumber
 
-      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Release"
+      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level | OS Release"
         ansible.windows.win_reg_stat:
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
             name: ReleaseId
@@ -65,7 +65,7 @@
         failed_when: wn19_00_000100_audit_releaseid.value is not version('1809', '>=')
         register: wn19_00_000100_audit_releaseid
 
-      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level - OS Build"
+      - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level | OS Build"
         ansible.windows.win_reg_stat:
             path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
             name: CurrentBuild
@@ -111,8 +111,7 @@
         ansible.windows.win_shell: Install-WindowsFeature -Name Windows-Defender
         changed_when: false
         failed_when: false
-        notify:
-            - reboot_windows
+        notify: reboot_windows
         when:
             - wn19_00_000110_virus_audit.stdout | length == 0
             - "'defender' not in wn19stig_antivirus_program"
@@ -135,8 +134,7 @@
         ansible.windows.win_shell: Uninstall-WindowsFeature -Name Windows-Defender
         changed_when: false
         failed_when: false
-        notify:
-            - reboot_windows
+        notify: reboot_windows
         when:
             - wn19_00_000110_virus_audit.stdout | length > 1
             - "'defender' not in wn19stig_antivirus_program"
@@ -186,8 +184,8 @@
   block:
       - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
         ansible.windows.win_shell: '[System.IO.DriveInfo]::GetDrives() | Format-Table'
-        failed_when: false
         changed_when: false
+        failed_when: false
         register: wn19_00_000130_audit
 
       - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | Message out"
