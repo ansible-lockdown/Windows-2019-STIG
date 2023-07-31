@@ -3,6 +3,8 @@
 ## Release 1.0.0
 
 June / July 2023 Update
+  - Updated tags on controls based Version 2 Release 7
+  - Updated win_skip_for_test var to true
   - Updated Readme
   - Updated Changelog
   - Added Version 2 Release 6 changes to this update.

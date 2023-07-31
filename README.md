@@ -51,7 +51,7 @@ Check Mode is not supported! The role will complete in check mode without errors
 
 This role was developed against a clean install of the Windows 2019 operating system. If you are implementing to an existing system please review this role for any site specific changes that are needed.
 
-To use release version please point to main branch and relevant release for the stig benchmark you wish to work with.
+To use release version please point to main branch and relevant release for the STIG benchmark you wish to work with.
 
 ---
 
@@ -117,7 +117,7 @@ This role is designed that the end user should not have to edit the tasks themse
 
 ## Tags
 
-There are many tags available for added control precision. Each control may have it's own set of tags noting what level, if it's scored/notscored, what OS element it relates to, if it's a patch or audit, and the rule number.
+There are many tags available for added control precision. Each control may have it's own set of tags noting what category, what OS element it relates to, if it's a patch or audit, and the rule number.
 
 Below is an example of the tag section from a control within this role. Using this example if you set your run to skip all controls with the tag CCI-000185, this task will be skipped. The opposite can also happen where you run only controls tagged with CCI-000185.
 
