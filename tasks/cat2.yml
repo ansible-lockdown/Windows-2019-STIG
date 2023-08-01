@@ -1747,16 +1747,16 @@
       - SV-205731r569188_rule
       - V-205731
 
-- name: "MEDIUM | WN19-AU-000070 | PATCH | Windows Server 2019 must be configured to audit Account Logon - Credential Validation successes."
+- name: "MEDIUM | WN19-AU-000070 | PATCH | Windows Server 2019 must be configured to audit Account Logon | Credential Validation successes."
   block:
-      - name: "MEDIUM | WN19-AU-000070 | AUDIT | Windows Server 2019 must be configured to audit Account Logon - Credential Validation successes."
+      - name: "MEDIUM | WN19-AU-000070 | AUDIT | Windows Server 2019 must be configured to audit Account Logon | Credential Validation successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Credential Validation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         check_mode: false
         register: wn19_au_000070_audit
 
-      - name: "MEDIUM | WN19-AU-000070 | PATCH | Windows Server 2019 must be configured to audit Account Logon - Credential Validation successes."
+      - name: "MEDIUM | WN19-AU-000070 | PATCH | Windows Server 2019 must be configured to audit Account Logon | Credential Validation successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Credential Validation" /success:enable
         when: "'Success' not in wn19_au_000070_audit.stdout"
   when:
@@ -1769,7 +1769,7 @@
       - SV-205832r569188_rule
       - V-205832
 
-- name: "MEDIUM | WN19-AU-000080 | PATCH | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
+- name: "MEDIUM | WN19-AU-000080 | PATCH | Windows Server 2019 must be configured to audit Account Logon | Credential Validation failures."
   block:
       - name: "MEDIUM | WN19-AU-000080 | AUDIT | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Credential Validation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
@@ -1778,7 +1778,7 @@
         check_mode: false
         register: wn19_au_000080_audit
 
-      - name: "MEDIUM | WN19-AU-000080 | PATCH | Windows Server 2019 must be configured to audit Account Logon - Credential Validation failures."
+      - name: "MEDIUM | WN19-AU-000080 | PATCH | Windows Server 2019 must be configured to audit Account Logon | Credential Validation failures."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Credential Validation" /failure:enable
         when: "'Failure' not in wn19_au_000080_audit.stdout"
   when:
@@ -1791,16 +1791,16 @@
       - SV-205833r569188_rule
       - V-205833
 
-- name: "MEDIUM | WN19-AU-000090 | PATCH | Windows Server 2019 must be configured to audit Account Management - Other Account Management Events successes."
+- name: "MEDIUM | WN19-AU-000090 | PATCH | Windows Server 2019 must be configured to audit Account Management | Other Account Management Events successes."
   block:
-      - name: "MEDIUM | WN19-AU-000090 | AUDIT | Windows Server 2019 must be configured to audit Account Management - Other Account Management Events successes."
+      - name: "MEDIUM | WN19-AU-000090 | AUDIT | Windows Server 2019 must be configured to audit Account Management | Other Account Management Events successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Other Account Management Events" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         check_mode: false
         register: wn19_au_000090_audit
 
-      - name: "MEDIUM | WN19-AU-000090 | PATCH | Windows Server 2019 must be configured to audit Account Management - Other Account Management Events successes."
+      - name: "MEDIUM | WN19-AU-000090 | PATCH | Windows Server 2019 must be configured to audit Account Management | Other Account Management Events successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Other Account Management Events" /success:enable
         when: "'Success' not in wn19_au_000090_audit.stdout"
   when:
@@ -1814,7 +1814,7 @@
       - SV-205769r852470_rule
       - V-205769
 
-- name: "MEDIUM | WN19-AU-000100 | PATCH | Windows Server 2019 must be configured to audit Account Management - Security Group Management successes."
+- name: "MEDIUM | WN19-AU-000100 | PATCH | Windows Server 2019 must be configured to audit Account Management | Security Group Management successes."
   block:
       - name: "MEDIUM | WN19-AU-000100 | AUDIT | Windows Server 2019 must be configured to audit Account Management - Security Group Management successes. | Get current audit events."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Security Group Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
@@ -1841,7 +1841,7 @@
       - SV-205625r852412_rule
       - V-205625
 
-- name: "MEDIUM | WN19-AU-000110 | PATCH | Windows Server 2019 must be configured to audit Account Management - User Account Management successes."
+- name: "MEDIUM | WN19-AU-000110 | PATCH | Windows Server 2019 must be configured to audit Account Management | User Account Management successes."
   block:
       - name: "MEDIUM | WN19-AU-000100 | AUDIT | Windows Server 2019 must be configured to audit Account Management - User Account Management successes. | Get current audit events."
         ansible.windows.win_shell: AuditPol /get /subcategory:"User Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
@@ -1868,15 +1868,15 @@
       - SV-205626r852413_rule
       - V-205626
 
-- name: "MEDIUM | WN19-AU-000120 | PATCH | Windows Server 2019 must be configured to audit Account Management - User Account Management failures."
+- name: "MEDIUM | WN19-AU-000120 | PATCH | Windows Server 2019 must be configured to audit Account Management | User Account Management failures."
   block:
-      - name: "MEDIUM | WN19-AU-000120 | AUDIT | Windows Server 2019 must be configured to audit Account Management - User Account Management failures."
+      - name: "MEDIUM | WN19-AU-000120 | AUDIT | Windows Server 2019 must be configured to audit Account Management | User Account Management failures."
         ansible.windows.win_shell: AuditPol /get /subcategory:"User Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000120_audit
 
-      - name: "MEDIUM | WN19-AU-000120 | PATCH | Windows Server 2019 must be configured to audit Account Management - User Account Management failures."
+      - name: "MEDIUM | WN19-AU-000120 | PATCH | Windows Server 2019 must be configured to audit Account Management | User Account Management failures."
         ansible.windows.win_shell: AuditPol /set /subcategory:"User Account Management" /failure:enable
         when: "'Failure' not in wn19_au_000120_audit.stdout"
   when:
@@ -1894,16 +1894,16 @@
       - SV-205627r852414_rule
       - V-205627
 
-- name: "MEDIUM | WN19-AU-000130 | PATCH | Windows Server 2019 must be configured to audit Detailed Tracking - Plug and Play Events successes."
+- name: "MEDIUM | WN19-AU-000130 | PATCH | Windows Server 2019 must be configured to audit Detailed Tracking | Plug and Play Events successes."
   block:
-      - name: "MEDIUM | WN19-AU-000130 | AUDIT | Windows Server 2019 must be configured to audit Detailed Tracking - Plug and Play Events successes."
+      - name: "MEDIUM | WN19-AU-000130 | AUDIT | Windows Server 2019 must be configured to audit Detailed Tracking | Plug and Play Events successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Plug and Play Events" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         check_mode: false
         register: wn19_au_000130_audit
 
-      - name: "MEDIUM | WN19-AU-000130 | PATCH | Windows Server 2019 must be configured to audit Detailed Tracking - Plug and Play Events successes."
+      - name: "MEDIUM | WN19-AU-000130 | PATCH | Windows Server 2019 must be configured to audit Detailed Tracking | Plug and Play Events successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Plug and Play Events" /success:enable
         when: "'Success' not in wn19_au_000130_audit.stdout"
   when:
@@ -1916,16 +1916,16 @@
       - SV-205839r569188_rule
       - V-205839
 
-- name: "MEDIUM | WN19-AU-000140 | PATCH | Windows Server 2019 must be configured to audit Detailed Tracking - Process Creation successes."
+- name: "MEDIUM | WN19-AU-000140 | PATCH | Windows Server 2019 must be configured to audit Detailed Tracking | Process Creation successes."
   block:
-      - name: "MEDIUM | WN19-AU-000140 | AUDIT | Windows Server 2019 must be configured to audit Detailed Tracking - Process Creation successes."
+      - name: "MEDIUM | WN19-AU-000140 | AUDIT | Windows Server 2019 must be configured to audit Detailed Tracking | Process Creation successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Process Creation" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         check_mode: false
         register: wn19_au_000140_audit
 
-      - name: "MEDIUM | WN19-AU-000140 | PATCH | Windows Server 2019 must be configured to audit Detailed Tracking - Process Creation successes."
+      - name: "MEDIUM | WN19-AU-000140 | PATCH | Windows Server 2019 must be configured to audit Detailed Tracking | Process Creation successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Process Creation" /success:enable
         when: "'Success' not in wn19_au_000140_audit.stdout"
   when:
@@ -1939,7 +1939,7 @@
       - SV-205770r852471_rule
       - V-205770
 
-- name: "MEDIUM | WN19-AU-000160 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff - Account Lockout failures."
+- name: "MEDIUM | WN19-AU-000160 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff | Account Lockout failures."
   block:
       - name: "MEDIUM | WN19-AU-000160 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff - Account Lockout failures."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Account Lockout" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
@@ -1947,7 +1947,7 @@
         failed_when: false
         register: wn19_au_000160_audit
 
-      - name: "MEDIUM | WN19-AU-000160 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff - Account Lockout failures."
+      - name: "MEDIUM | WN19-AU-000160 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff | Account Lockout failures."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Account Lockout" /failure:enable
         when: "'Failure' not in wn19_au_000160_audit.stdout"
   when:
@@ -1961,15 +1961,15 @@
       - SV-205730r569188_rule
       - V-205730
 
-- name: "MEDIUM | WN19-AU-000170 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff - Group Membership successes."
+- name: "MEDIUM | WN19-AU-000170 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff | Group Membership successes."
   block:
-      - name: "MEDIUM | WN19-AU-000170 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff - Group Membership successes."
+      - name: "MEDIUM | WN19-AU-000170 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff | Group Membership successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Group Membership" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000170_audit
 
-      - name: "MEDIUM | WN19-AU-000170 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff - Group Membership successes."
+      - name: "MEDIUM | WN19-AU-000170 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff | Group Membership successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Group Membership" /success:enable
         when: "'Success' not in wn19_au_000170_audit.stdout"
   when:
@@ -2048,15 +2048,15 @@
       - SV-205635r569188_rule
       - V-205635
 
-- name: "MEDIUM | WN19-AU-000210 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff - Special Logon successes."
+- name: "MEDIUM | WN19-AU-000210 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff | Special Logon successes."
   block:
-      - name: "MEDIUM | WN19-AU-000210 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff - Special Logon successes."
+      - name: "MEDIUM | WN19-AU-000210 | AUDIT | Windows Server 2019 must be configured to audit Logon/Logoff | Special Logon successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Special Logon" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000210_audit
 
-      - name: "MEDIUM | WN19-AU-000210 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff - Special Logon successes."
+      - name: "MEDIUM | WN19-AU-000210 | PATCH | Windows Server 2019 must be configured to audit Logon/Logoff | Special Logon successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Special Logon" /success:enable
         when: "'Success' not in wn19_au_000210_audit.stdout"
   when:
@@ -2070,8 +2070,8 @@
       - V-205835
 
 - name: |
-    "MEDIUM | WN19-AU-000220 | PATCH | Windows Server 2019 must be configured to audit Object Access - Other Object Access Events successes."
-    "MEDIUM | WN19-AU-000230 | PATCH | Windows Server 2019 must be configured to audit Object Access - Other Object Access Events failures."
+    "MEDIUM | WN19-AU-000220 | PATCH | Windows Server 2019 must be configured to audit Object Access | Other Object Access Events successes."
+    "MEDIUM | WN19-AU-000230 | PATCH | Windows Server 2019 must be configured to audit Object Access | Other Object Access Events failures."
   community.windows.win_audit_policy_system:
       subcategory: Other Object Access Events
       audit_type: success, failure
@@ -2089,15 +2089,15 @@
       - V-205836
       - V-205837
 
-- name: "MEDIUM | WN19-AU-000240 | PATCH | Windows Server 2019 must be configured to audit Object Access - Removable Storage successes."
+- name: "MEDIUM | WN19-AU-000240 | PATCH | Windows Server 2019 must be configured to audit Object Access | Removable Storage successes."
   block:
-      - name: "MEDIUM | WN19-AU-000240 | AUDIT | Windows Server 2019 must be configured to audit Object Access - Removable Storage successes."
+      - name: "MEDIUM | WN19-AU-000240 | AUDIT | Windows Server 2019 must be configured to audit Object Access | Removable Storage successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Removable Storage" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000240_audit
 
-      - name: "MEDIUM | WN19-AU-000240 | PATCH | Windows Server 2019 must be configured to audit Object Access - Removable Storage successes."
+      - name: "MEDIUM | WN19-AU-000240 | PATCH | Windows Server 2019 must be configured to audit Object Access | Removable Storage successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Removable Storage" /success:enable
         when: "'Success' not in wn19_au_000240_audit.stdout"
   when:
@@ -2110,15 +2110,15 @@
       - SV-205840r569188_rule
       - V-205840
 
-- name: "MEDIUM | WN19-AU-000250 | PATCH | Windows Server 2019 must be configured to audit Object Access - Removable Storage failures."
+- name: "MEDIUM | WN19-AU-000250 | PATCH | Windows Server 2019 must be configured to audit Object Access | Removable Storage failures."
   block:
-      - name: "MEDIUM | WN19-AU-000250 | AUDIT | Windows Server 2019 must be configured to audit Object Access - Removable Storage failures."
+      - name: "MEDIUM | WN19-AU-000250 | AUDIT | Windows Server 2019 must be configured to audit Object Access | Removable Storage failures."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Removable Storage" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000250_audit
 
-      - name: "MEDIUM | WN19-AU-000250 | PATCH | Windows Server 2019 must be configured to audit Object Access - Removable Storage failures."
+      - name: "MEDIUM | WN19-AU-000250 | PATCH | Windows Server 2019 must be configured to audit Object Access | Removable Storage failures."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Removable Storage" /failure:enable
         when: "'Failure' not in wn19_au_000250_audit.stdout"
   when:
@@ -2131,15 +2131,15 @@
       - SV-205841r569188_rule
       - V-205841
 
-- name: "MEDIUM | WN19-AU-000260 | PATCH | Windows Server 2019 must be configured to audit Policy Change - Audit Policy Change successes."
+- name: "MEDIUM | WN19-AU-000260 | PATCH | Windows Server 2019 must be configured to audit Policy Change | Audit Policy Change successes."
   block:
-      - name: "MEDIUM | WN19-AU-000260 | AUDIT | Windows Server 2019 must be configured to audit Policy Change - Audit Policy Change successes."
+      - name: "MEDIUM | WN19-AU-000260 | AUDIT | Windows Server 2019 must be configured to audit Policy Change | Audit Policy Change successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Audit Policy Change" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000260_audit
 
-      - name: "MEDIUM | WN19-AU-000260 | PATCH | Windows Server 2019 must be configured to audit Policy Change - Audit Policy Change successes."
+      - name: "MEDIUM | WN19-AU-000260 | PATCH | Windows Server 2019 must be configured to audit Policy Change | Audit Policy Change successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Audit Policy Change" /success:enable
         when: "'Success' not in wn19_au_000260_audit.stdout"
   when:
@@ -2153,15 +2153,15 @@
       - SV-205771r852472_rule
       - V-205771
 
-- name: "MEDIUM | WN19-AU-000270 | PATCH | Windows Server 2019 must be configured to audit Policy Change - Audit Policy Change failures."
+- name: "MEDIUM | WN19-AU-000270 | PATCH | Windows Server 2019 must be configured to audit Policy Change | Audit Policy Change failures."
   block:
-      - name: "MEDIUM | WN19-AU-000270 | AUDIT | Windows Server 2019 must be configured to audit Policy Change - Audit Policy Change failures."
+      - name: "MEDIUM | WN19-AU-000270 | AUDIT | Windows Server 2019 must be configured to audit Policy Change | Audit Policy Change failures."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Audit Policy Change" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000270_audit
 
-      - name: "MEDIUM | WN19-AU-000270 | PATCH | Windows Server 2019 must be configured to audit Policy Change - Audit Policy Change failures."
+      - name: "MEDIUM | WN19-AU-000270 | PATCH | Windows Server 2019 must be configured to audit Policy Change | Audit Policy Change failures."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Audit Policy Change" /failure:enable
         when: "'Failure' not in wn19_au_000270_audit.stdout"
   when:
@@ -2175,15 +2175,15 @@
       - SV-205772r852473_rule
       - V-205772
 
-- name: "MEDIUM | WN19-AU-000280 | PATCH | Windows Server 2019 must be configured to audit Policy Change - Authentication Policy Change successes."
+- name: "MEDIUM | WN19-AU-000280 | PATCH | Windows Server 2019 must be configured to audit Policy Change | Authentication Policy Change successes."
   block:
-      - name: "MEDIUM | WN19-AU-000280 | AUDIT | Windows Server 2019 must be configured to audit Policy Change - Authentication Policy Change successes."
+      - name: "MEDIUM | WN19-AU-000280 | AUDIT | Windows Server 2019 must be configured to audit Policy Change | Authentication Policy Change successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Authentication Policy Change" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000280_audit
 
-      - name: "MEDIUM | WN19-AU-000280 | PATCH | Windows Server 2019 must be configured to audit Policy Change - Authentication Policy Change successes."
+      - name: "MEDIUM | WN19-AU-000280 | PATCH | Windows Server 2019 must be configured to audit Policy Change | Authentication Policy Change successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Authentication Policy Change" /success:enable
         when: "'Success' not in wn19_au_000280_audit.stdout"
   when:
@@ -2197,15 +2197,15 @@
       - SV-205773r852474_rule
       - V-205773
 
-- name: "MEDIUM | WN19-AU-000290 | PATCH | Windows Server 2019 must be configured to audit Policy Change - Authorization Policy Change successes."
+- name: "MEDIUM | WN19-AU-000290 | PATCH | Windows Server 2019 must be configured to audit Policy Change | Authorization Policy Change successes."
   block:
-      - name: "MEDIUM | WN19-AU-000290 | AUDIT | Windows Server 2019 must be configured to audit Policy Change - Authorization Policy Change successes."
+      - name: "MEDIUM | WN19-AU-000290 | AUDIT | Windows Server 2019 must be configured to audit Policy Change | Authorization Policy Change successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Authorization Policy Change" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000290_audit
 
-      - name: "MEDIUM | WN19-AU-000290 | PATCH | Windows Server 2019 must be configured to audit Policy Change - Authorization Policy Change successes."
+      - name: "MEDIUM | WN19-AU-000290 | PATCH | Windows Server 2019 must be configured to audit Policy Change | Authorization Policy Change successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Authorization Policy Change" /success:enable
         when: "'Success' not in wn19_au_000290_audit.stdout"
   when:
@@ -2219,15 +2219,15 @@
       - SV-205774r852475_rule
       - V-205774
 
-- name: "MEDIUM | WN19-AU-000300 | PATCH | Windows Server 2019 must be configured to audit Privilege Use - Sensitive Privilege Use successes."
+- name: "MEDIUM | WN19-AU-000300 | PATCH | Windows Server 2019 must be configured to audit Privilege Use | Sensitive Privilege Use successes."
   block:
-      - name: "MEDIUM | WN19-AU-000300 | AUDIT | Windows Server 2019 must be configured to audit Privilege Use - Sensitive Privilege Use successes."
+      - name: "MEDIUM | WN19-AU-000300 | AUDIT | Windows Server 2019 must be configured to audit Privilege Use | Sensitive Privilege Use successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Sensitive Privilege Use" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000300_audit
 
-      - name: "MEDIUM | WN19-AU-000300 | PATCH | Windows Server 2019 must be configured to audit Privilege Use - Sensitive Privilege Use successes."
+      - name: "MEDIUM | WN19-AU-000300 | PATCH | Windows Server 2019 must be configured to audit Privilege Use | Sensitive Privilege Use successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Sensitive Privilege Use" /success:enable
         when: "'Success' not in wn19_au_000300_audit.stdout"
   when:
@@ -2241,15 +2241,15 @@
       - SV-205775r852476_rule
       - V-205775
 
-- name: "MEDIUM | WN19-AU-000310 | PATCH | Windows Server 2019 must be configured to audit Privilege Use - Sensitive Privilege Use failures."
+- name: "MEDIUM | WN19-AU-000310 | PATCH | Windows Server 2019 must be configured to audit Privilege Use | Sensitive Privilege Use failures."
   block:
-      - name: "MEDIUM | WN19-AU-000310 | AUDIT | Windows Server 2019 must be configured to audit Privilege Use - Sensitive Privilege Use failures."
+      - name: "MEDIUM | WN19-AU-000310 | AUDIT | Windows Server 2019 must be configured to audit Privilege Use | Sensitive Privilege Use failures."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Sensitive Privilege Use" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000310_audit
 
-      - name: "MEDIUM | WN19-AU-000310 | PATCH | Windows Server 2019 must be configured to audit Privilege Use - Sensitive Privilege Use failures."
+      - name: "MEDIUM | WN19-AU-000310 | PATCH | Windows Server 2019 must be configured to audit Privilege Use | Sensitive Privilege Use failures."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Sensitive Privilege Use" /failure:enable
         when: "'Failure' not in wn19_au_000310_audit.stdout"
   when:
@@ -2263,15 +2263,15 @@
       - SV-205776r852477_rule
       - V-205776
 
-- name: "MEDIUM | WN19-AU-000320 | PATCH | Windows Server 2019 must be configured to audit System - IPsec Driver successes."
+- name: "MEDIUM | WN19-AU-000320 | PATCH | Windows Server 2019 must be configured to audit System | IPsec Driver successes."
   block:
-      - name: "MEDIUM | WN19-AU-000320 | AUDIT | Windows Server 2019 must be configured to audit System - IPsec Driver successes."
+      - name: "MEDIUM | WN19-AU-000320 | AUDIT | Windows Server 2019 must be configured to audit System | IPsec Driver successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"IPsec Driver" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000320_audit
 
-      - name: "MEDIUM | WN19-AU-000320 | PATCH | Windows Server 2019 must be configured to audit System - IPsec Driver successes."
+      - name: "MEDIUM | WN19-AU-000320 | PATCH | Windows Server 2019 must be configured to audit System | IPsec Driver successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"IPsec Driver" /success:enable
         when: "'Success' not in wn19_au_000320_audit.stdout"
   when:
@@ -2285,15 +2285,15 @@
       - SV-205777r852478_rule
       - V-205777
 
-- name: "MEDIUM | WN19-AU-000330 | PATCH | Windows Server 2019 must be configured to audit System - IPsec Driver failures."
+- name: "MEDIUM | WN19-AU-000330 | PATCH | Windows Server 2019 must be configured to audit System | IPsec Driver failures."
   block:
-      - name: "MEDIUM | WN19-AU-000330 | AUDIT | Windows Server 2019 must be configured to audit System - IPsec Driver failures."
+      - name: "MEDIUM | WN19-AU-000330 | AUDIT | Windows Server 2019 must be configured to audit System | IPsec Driver failures."
         ansible.windows.win_shell: AuditPol /get /subcategory:"IPsec Driver" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000330_audit
 
-      - name: "MEDIUM | WN19-AU-000330 | PATCH | Windows Server 2019 must be configured to audit System - IPsec Driver failures."
+      - name: "MEDIUM | WN19-AU-000330 | PATCH | Windows Server 2019 must be configured to audit System | IPsec Driver failures."
         ansible.windows.win_shell: AuditPol /set /subcategory:"IPsec Driver" /failure:enable
         when: "'Success' not in wn19_au_000330_audit.stdout"
   when:
@@ -2307,15 +2307,15 @@
       - SV-205778r852479_rule
       - V-205778
 
-- name: "MEDIUM | WN19-AU-000340 | PATCH | Windows Server 2019 must be configured to audit System - Other System Events successes."
+- name: "MEDIUM | WN19-AU-000340 | PATCH | Windows Server 2019 must be configured to audit System | Other System Events successes."
   block:
-      - name: "MEDIUM | WN19-AU-000340 | AUDIT | Windows Server 2019 must be configured to audit System - Other System Events successes."
+      - name: "MEDIUM | WN19-AU-000340 | AUDIT | Windows Server 2019 must be configured to audit System | Other System Events successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Other System Events" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000340_audit
 
-      - name: "MEDIUM | WN19-AU-000340 | PATCH | Windows Server 2019 must be configured to audit System - Other System Events successes."
+      - name: "MEDIUM | WN19-AU-000340 | PATCH | Windows Server 2019 must be configured to audit System | Other System Events successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Other System Events" /success:enable
         when: "'Success' not in wn19_au_000340_audit.stdout"
   when:
@@ -2329,15 +2329,15 @@
       - SV-205779r852480_rule
       - V-205779
 
-- name: "MEDIUM | WN19-AU-000350 | PATCH | Windows Server 2019 must be configured to audit System - Other System Events failures."
+- name: "MEDIUM | WN19-AU-000350 | PATCH | Windows Server 2019 must be configured to audit System | Other System Events failures."
   block:
-      - name: "MEDIUM | WN19-AU-000350 | AUDIT | Windows Server 2019 must be configured to audit System - Other System Events failures."
+      - name: "MEDIUM | WN19-AU-000350 | AUDIT | Windows Server 2019 must be configured to audit System | Other System Events failures."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Other System Events" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000350_audit
 
-      - name: "MEDIUM | WN19-AU-000350 | PATCH | Windows Server 2019 must be configured to audit System - Other System Events failures."
+      - name: "MEDIUM | WN19-AU-000350 | PATCH | Windows Server 2019 must be configured to audit System | Other System Events failures."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Other System Events" /failure:enable
         when: "'Failure' not in wn19_au_000350_audit.stdout"
   when:
@@ -2351,15 +2351,15 @@
       - SV-205780r852481_rule
       - V-205780
 
-- name: "MEDIUM | WN19-AU-000360 | PATCH | Windows Server 2019 must be configured to audit System - Security State Change successes."
+- name: "MEDIUM | WN19-AU-000360 | PATCH | Windows Server 2019 must be configured to audit System | Security State Change successes."
   block:
-      - name: "MEDIUM | WN19-AU-000360 | AUDIT | Windows Server 2019 must be configured to audit System - Security State Change successes."
+      - name: "MEDIUM | WN19-AU-000360 | AUDIT | Windows Server 2019 must be configured to audit System | Security State Change successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Security State Change" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000360_audit
 
-      - name: "MEDIUM | WN19-AU-000360 | PATCH | Windows Server 2019 must be configured to audit System - Security State Change successes."
+      - name: "MEDIUM | WN19-AU-000360 | PATCH | Windows Server 2019 must be configured to audit System | Security State Change successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Security State Change" /success:enable
         when: "'Success' not in wn19_au_000360_audit.stdout"
   when:
@@ -2373,7 +2373,7 @@
       - SV-205781r852482_rule
       - V-205781
 
-- name: "MEDIUM | WN19-AU-000370 | PATCH | Windows Server 2019 must be configured to audit System - Security System Extension successes."
+- name: "MEDIUM | WN19-AU-000370 | PATCH | Windows Server 2019 must be configured to audit System | Security System Extension successes."
   block:
       - name: "MEDIUM | WN19-AU-000370 | AUDIT | Must be configured to audit System - Security System Extension successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Security System Extension" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
@@ -2381,7 +2381,7 @@
         failed_when: false
         register: wn19_au_000370_audit
 
-      - name: "MEDIUM | WN19-AU-000370 | PATCH | Must be configured to audit System - Security System Extension successes."
+      - name: "MEDIUM | WN19-AU-000370 | PATCH | Must be configured to audit System | Security System Extension successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Security System Extension" /success:enable
         when: "'Success' not in wn19_au_000370_audit.stdout"
   when:
@@ -2395,15 +2395,15 @@
       - SV-205782r852483_rule
       - V-205782
 
-- name: "MEDIUM | WN19-AU-000380 | PATCH | Windows Server 2019 must be configured to audit System - System Integrity successes."
+- name: "MEDIUM | WN19-AU-000380 | PATCH | Windows Server 2019 must be configured to audit System | System Integrity successes."
   block:
-      - name: "MEDIUM | WN19-AU-000380 | AUDIT | Windows Server 2019 must be configured to audit System - System Integrity successes."
+      - name: "MEDIUM | WN19-AU-000380 | AUDIT | Windows Server 2019 must be configured to audit System | System Integrity successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"System Integrity" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000380_audit
 
-      - name: "MEDIUM | WN19-AU-000380 | PATCH | Windows Server 2019 must be configured to audit System - System Integrity successes."
+      - name: "MEDIUM | WN19-AU-000380 | PATCH | Windows Server 2019 must be configured to audit System | System Integrity successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"System Integrity" /success:enable
         when: "'Success' not in wn19_au_000380_audit.stdout"
   when:
@@ -2417,15 +2417,15 @@
       - SV-205783r852484_rule
       - V-205783
 
-- name: "MEDIUM | WN19-AU-000390 | PATCH | Windows Server 2019 must be configured to audit System - System Integrity failures."
+- name: "MEDIUM | WN19-AU-000390 | PATCH | Windows Server 2019 must be configured to audit System | System Integrity failures."
   block:
-      - name: "MEDIUM | WN19-AU-000390 | AUDIT | Windows Server 2019 must be configured to audit System - System Integrity failures."
+      - name: "MEDIUM | WN19-AU-000390 | AUDIT | Windows Server 2019 must be configured to audit System | System Integrity failures."
         ansible.windows.win_shell: AuditPol /get /subcategory:"System Integrity" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         register: wn19_au_000390_audit
 
-      - name: "MEDIUM | WN19-AU-000390 | PATCH | Windows Server 2019 must be configured to audit System - System Integrity failures."
+      - name: "MEDIUM | WN19-AU-000390 | PATCH | Windows Server 2019 must be configured to audit System | System Integrity failures."
         ansible.windows.win_shell: AuditPol /set /subcategory:"System Integrity" /failure:enable
         when: "'Failure' not in wn19_au_000390_audit.stdout"
   when:
@@ -3540,16 +3540,16 @@
       - SV-205790r852491_rule
       - V-205790
 
-- name: "MEDIUM | WN19-DC-000230 | PATCH | Windows Server 2019 must be configured to audit Account Management - Computer Account Management successes."
+- name: "MEDIUM | WN19-DC-000230 | PATCH | Windows Server 2019 must be configured to audit Account Management | Computer Account Management successes."
   block:
-      - name: "MEDIUM | WN19-DC-000230 | AUDIT | Windows Server 2019 must be configured to audit Account Management - Computer Account Management successes."
+      - name: "MEDIUM | WN19-DC-000230 | AUDIT | Windows Server 2019 must be configured to audit Account Management | Computer Account Management successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Computer Account Management" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         check_mode: false
         register: wn19_dc_000230_audit
 
-      - name: "MEDIUM | WN19-DC-000230 | PATCH | Windows Server 2019 must be configured to audit Account Management - Computer Account Management successes."
+      - name: "MEDIUM | WN19-DC-000230 | PATCH | Windows Server 2019 must be configured to audit Account Management | Computer Account Management successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Computer Account Management" /success:enable
         when: "'Success' not in wn19_dc_000230_audit.stdout"
   when:
@@ -3568,16 +3568,16 @@
       - SV-205628r852415_rule
       - V-205628
 
-- name: "MEDIUM | WN19-DC-000240 | PATCH | Windows Server 2019 must be configured to audit DS Access - Directory Service Access successes."
+- name: "MEDIUM | WN19-DC-000240 | PATCH | Windows Server 2019 must be configured to audit DS Access | Directory Service Access successes."
   block:
-      - name: "MEDIUM | WN19-DC-000240 | AUDIT | Windows Server 2019 must be configured to audit DS Access - Directory Service Access successes."
+      - name: "MEDIUM | WN19-DC-000240 | AUDIT | Windows Server 2019 must be configured to audit DS Access | Directory Service Access successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Directory Service Access" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         check_mode: false
         register: wn19_dc_000240_audit
 
-      - name: "MEDIUM | WN19-DC-000240 | PATCH | Windows Server 2019 must be configured to audit DS Access - Directory Service Access successes."
+      - name: "MEDIUM | WN19-DC-000240 | PATCH | Windows Server 2019 must be configured to audit DS Access | Directory Service Access successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Directory Service Access" /success:enable
         when: "'Success' not in wn19_dc_000240_audit.stdout"
   when:
@@ -3595,14 +3595,14 @@
 
 - name: "MEDIUM | WN19-DC-000250 | PATCH | Windows Server 2019 must be configured to audit DS Access - Directory Service Access failures."
   block:
-      - name: "MEDIUM | WN19-DC-000250 | AUDIT | Windows Server 2019 must be configured to audit DS Access - Directory Service Access failures. | Check Settings"
+      - name: "MEDIUM | WN19-DC-000250 | AUDIT | Windows Server 2019 must be configured to audit DS Access | Directory Service Access failures. | Check Settings"
         ansible.windows.win_shell: AuditPol /get /subcategory:"Directory Service Access" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         check_mode: false
         register: wn19_dc_000250_audit
 
-      - name: "MEDIUM | WN19-DC-000250 | PATCH | Windows Server 2019 must be configured to audit DS Access - Directory Service Access failures. | Apply Fix"
+      - name: "MEDIUM | WN19-DC-000250 | PATCH | Windows Server 2019 must be configured to audit DS Access | Directory Service Access failures. | Apply Fix"
         ansible.windows.win_shell: AuditPol /set /subcategory:"Directory Service Access" /failure:enable
         when: "'Failure' not in wn19_dc_000250_audit.stdout"
   when:
@@ -3618,16 +3618,16 @@
       - V-205792
       - NeedToTestDomainController
 
-- name: "MEDIUM | WN19-DC-000260 | PATCH | Windows Server 2019 must be configured to audit DS Access - Directory Service Changes successes."
+- name: "MEDIUM | WN19-DC-000260 | PATCH | Windows Server 2019 must be configured to audit DS Access | Directory Service Changes successes."
   block:
-      - name: "MEDIUM | WN19-DC-000260 | AUDIT | Windows Server 2019 must be configured to audit DS Access - Directory Service Changes successes."
+      - name: "MEDIUM | WN19-DC-000260 | AUDIT | Windows Server 2019 must be configured to audit DS Access | Directory Service Changes successes."
         ansible.windows.win_shell: AuditPol /get /subcategory:"Directory Service Changes" -r | ConvertFrom-Csv | Select-Object -expand "Inclusion Setting"
         changed_when: false
         failed_when: false
         check_mode: false
         register: wn19_dc_000260_audit
 
-      - name: "MEDIUM | WN19-DC-000260 | PATCH | Windows Server 2019 must be configured to audit DS Access - Directory Service Changes successes."
+      - name: "MEDIUM | WN19-DC-000260 | PATCH | Windows Server 2019 must be configured to audit DS Access | Directory Service Changes successes."
         ansible.windows.win_shell: AuditPol /set /subcategory:"Directory Service Changes" /success:enable
         when: "'Success' not in wn19_dc_000260_audit.stdout"
   when:
