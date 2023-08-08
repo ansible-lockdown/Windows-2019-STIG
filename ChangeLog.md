@@ -3,6 +3,8 @@
 ## Release 1.0.0
 
 June / July 2023 Update
+  - Updated tags on controls based Version 2 Release 7
+  - Updated win_skip_for_test var to true
   - Updated Readme
   - Updated Changelog
   - Added Version 2 Release 6 changes to this update.
@@ -10,7 +12,7 @@ June / July 2023 Update
     - Removed Control WN19-DC-000270
   - Added Version 2 Release 7 changes to this update.
   - Added Warning To Control WN19-PK-000010
-  - Added Controls 
+  - Added Controls
     - Added Control WN19-AU-000100
     - Added Control WN19-AU-000110
     - Added Control WN19-SO-000070
@@ -24,7 +26,7 @@ June / July 2023 Update
 April 2023 Update
   - Updated the testing pipelines
   - Updated Controls For Cloud Systems
-  - Updated skip variable for testing controls 
+  - Updated skip variable for testing controls
 
 March 2023 Update
   - Updated yamllint
@@ -34,8 +36,8 @@ March 2023 Update
   - Added Skip for WinRm breaking changes for Ansible.
   - Updated Full Module Names
   - Removed All Asserts
-  - Added AUDIT | PATCH to names lines. 
-  - Removed Variable For WN19-AC-000040 the DoD has decided 24 is the appropriate value. 
+  - Added AUDIT | PATCH to names lines.
+  - Removed Variable For WN19-AC-000040 the DoD has decided 24 is the appropriate value.
 
 January 2023 Release
   - Added Changelog.md

@@ -1,25 +1,4 @@
 ---
-- name: "LOW | WN19-SO-000140 | PATCH | Windows Server 2019 title for the legal banner must be configured with the appropriate text."
-  ansible.windows.win_regedit:
-      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
-      value: LegalNoticeCaption
-      data: "{{ wn19stig_legalnoticecaption }}"
-      datatype: string
-  when:
-      - wn19_so_000140
-  tags:
-      - WN19-SO-000140
-      - CAT3
-      - CCI-000048
-      - CCI-001384
-      - CCI-001385
-      - CCI-001386
-      - CCI-001387
-      - CCI-001388
-      - SRG-OS-000023-GPOS-00006
-      - SRG-OS-000228-GPOS-00088
-      - SV-205632r890533_rule
-      - V-205632
 
 - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
   block:
@@ -53,43 +32,6 @@
       - SV-205664r569188_rule
       - V-205664
 
-- name: "LOW | WN19-CC-000200 | PATCH | Windows Server 2019 Application Compatibility Program Inventory must be prevented from collecting data and sending the information to Microsoft."
-  ansible.windows.win_regedit:
-      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat
-      value: DisableInventory
-      data: 1
-      datatype: dword
-  when:
-      - wn19_cc_000200
-  tags:
-      - WN19-CC-000200
-      - CAT3
-      - CCI-000381
-      - SRG-OS-000095-GPOS-00049
-      - SV-205691r569188_rule
-      - V-205691
-
-- name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
-  block:
-      - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity. | Warning Message."
-        ansible.builtin.debug:
-            msg: "Warning!! This is a manual task. Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
-
-      - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity. | Warn Count."
-        ansible.builtin.import_tasks: warning_facts.yml
-        vars:
-            warn_control_id: 'WN19-DC-000160'
-  when:
-      - wn19_dc_000160
-      - ansible_windows_domain_role == "Primary domain controller"
-  tags:
-      - WN19-DC-000160
-      - CAT3
-      - CCI-001133
-      - SRG-OS-000163-GPOS-00072
-      - SV-205726r569188_rule
-      - V-205726
-
 - name: "LOW | WN19-00-000440 | AUDIT | The Windows Server 2019 time service must synchronize with an appropriate DoD time source."
   block:
       - name: "LOW | WN19-00-000440 | AUDIT | The Windows Server 2019 time service must synchronize with an appropriate DoD time source. | Warning Message."
@@ -109,22 +51,6 @@
       - SRG-OS-000355-GPOS-00143
       - SV-205800r877038_rule
       - V-205800
-
-- name: "LOW | WN19-CC-000060 | PATCH | Windows Server 2019 Must be configured to ignore NetBIOS name release requests except from WINS servers."
-  ansible.windows.win_regedit:
-      path: HKLM:\SYSTEM\CurrentControlSet\Services\Netbt\Parameters
-      value: NoNameReleaseOnDemand
-      data: 1
-      datatype: dword
-  when:
-      - wn19_cc_000060
-  tags:
-      - WN19-CC-000060
-      - CAT3
-      - CCI-002385
-      - SRG-OS-000420-GPOS-00186
-      - SV-205819r852521_rule
-      - V-205819
 
 - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
   block:
@@ -225,6 +151,38 @@
       - SV-205860r569188_rule
       - V-205860
 
+- name: "LOW | WN19-CC-000060 | PATCH | Windows Server 2019 Must be configured to ignore NetBIOS name release requests except from WINS servers."
+  ansible.windows.win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Services\Netbt\Parameters
+      value: NoNameReleaseOnDemand
+      data: 1
+      datatype: dword
+  when:
+      - wn19_cc_000060
+  tags:
+      - WN19-CC-000060
+      - CAT3
+      - CCI-002385
+      - SRG-OS-000420-GPOS-00186
+      - SV-205819r852521_rule
+      - V-205819
+
+- name: "LOW | WN19-CC-000200 | PATCH | Windows Server 2019 Application Compatibility Program Inventory must be prevented from collecting data and sending the information to Microsoft."
+  ansible.windows.win_regedit:
+      path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat
+      value: DisableInventory
+      data: 1
+      datatype: dword
+  when:
+      - wn19_cc_000200
+  tags:
+      - WN19-CC-000200
+      - CAT3
+      - CCI-000381
+      - SRG-OS-000095-GPOS-00049
+      - SV-205691r569188_rule
+      - V-205691
+
 - name: "LOW | WN19-CC-000260 | PATCH | Windows Server 2019 Windows Update must not obtain updates from other PCs on the Internet."
   block:
       - name: "LOW | WN19-CC-000260 | AUDIT | Windows Server 2019 Windows Update must not obtain updates from other PCs on the Internet. "
@@ -273,6 +231,49 @@
       - SRG-OS-000480-GPOS-00227
       - SV-205871r569188_rule
       - V-205871
+
+- name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
+  block:
+      - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity. | Warning Message."
+        ansible.builtin.debug:
+            msg: "Warning!! This is a manual task. Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
+
+      - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-DC-000160'
+  when:
+      - wn19_dc_000160
+      - ansible_windows_domain_role == "Primary domain controller"
+  tags:
+      - WN19-DC-000160
+      - CAT3
+      - CCI-001133
+      - SRG-OS-000163-GPOS-00072
+      - SV-205726r569188_rule
+      - V-205726
+
+- name: "LOW | WN19-SO-000140 | PATCH | Windows Server 2019 title for the legal banner must be configured with the appropriate text."
+  ansible.windows.win_regedit:
+      path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+      value: LegalNoticeCaption
+      data: "{{ wn19stig_legalnoticecaption }}"
+      datatype: string
+  when:
+      - wn19_so_000140
+  tags:
+      - WN19-SO-000140
+      - CAT3
+      - CCI-000048
+      - CCI-001384
+      - CCI-001385
+      - CCI-001386
+      - CCI-001387
+      - CCI-001388
+      - SRG-OS-000023-GPOS-00006
+      - SRG-OS-000228-GPOS-00088
+      - SV-205632r890533_rule
+      - V-205632
 
 - name: "LOW | WN19-SO-000370 | PATCH | Windows Server 2019 default permissions of global system objects must be strengthened."
   ansible.windows.win_regedit:

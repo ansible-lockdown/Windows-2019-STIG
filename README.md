@@ -18,7 +18,7 @@
 ![Devel Build Status](https://img.shields.io/github/actions/workflow/status/ansible-lockdown/Windows-2019-STIG/windows_benchmark_testing_to_devel.yml?label=Devel%20Build%20Status)
 ![Devel Commits](https://img.shields.io/github/commit-activity/m/ansible-lockdown/Windows-2019-STIG/devel?color=dark%20green&label=Devel%20Branch%20commits)
 
-![Release Branch](https://img.shields.io/badge/Release%20Branch-Main-brightgreen) 
+![Release Branch](https://img.shields.io/badge/Release%20Branch-Main-brightgreen)
 ![Main Build Status](https://img.shields.io/github/actions/workflow/status/ansible-lockdown/Windows-2019-STIG/windows_benchmark_testing_to_main.yml?label=Build%20Status)
 ![Main Release Date](https://img.shields.io/github/release-date/ansible-lockdown/Windows-2019-STIG?label=Release%20Date)
 ![Release Tag](https://img.shields.io/github/v/tag/ansible-lockdown/Windows-2019-STIG?label=Release%20Tag&&color=success)
@@ -51,7 +51,7 @@ Check Mode is not supported! The role will complete in check mode without errors
 
 This role was developed against a clean install of the Windows 2019 operating system. If you are implementing to an existing system please review this role for any site specific changes that are needed.
 
-To use release version please point to main branch and relevant release for the stig benchmark you wish to work with.
+To use release version please point to main branch and relevant release for the STIG benchmark you wish to work with.
 
 ---
 
@@ -64,7 +64,7 @@ This is managed using tags:
 - CAT2
 - CAT3
 
-The control found in defaults main also need to reflect true so as this will allow the controls to run when the playbook is launched. 
+The control found in defaults main also need to reflect true so as this will allow the controls to run when the playbook is launched.
 
 ## Coming from a previous release
 
@@ -75,7 +75,7 @@ Further details can be seen in the [Changelog](./ChangeLog.md)
 
 ## Auditing (new)
 
-Currently this release does not have a auditing tool. 
+Currently this release does not have a auditing tool.
 
 ## Documentation
 
@@ -96,7 +96,7 @@ Currently this release does not have a auditing tool.
   - [Tower User Guide](https://docs.ansible.com/ansible-tower/latest/html/userguide/index.html)
   - [Ansible Community Info](https://docs.ansible.com/ansible/latest/community/index.html)
 - Functioning Ansible and/or Tower Installed, configured, and running. This includes all of the base Ansible/Tower configurations, needed packages installed, and infrastructure setup.
-- Please read through the tasks in this role to gain an understanding of what each control is doing. Some of the tasks are disruptive and can have unintended consiquences in a live production system. Also familiarize yourself with the variables in the defaults/main.yml file.
+- Please read through the tasks in this role to gain an understanding of what each control is doing. Some of the tasks are disruptive and can have unintended consequences in a live production system. Also familiarize yourself with the variables in the defaults/main.yml file.
 
 **Technical Dependencies:**
 
@@ -117,7 +117,7 @@ This role is designed that the end user should not have to edit the tasks themse
 
 ## Tags
 
-There are many tags available for added control precision. Each control may have it's own set of tags noting what level, if it's scored/notscored, what OS element it relates to, if it's a patch or audit, and the rule number.
+There are many tags available for added control precision. Each control may have it's own set of tags noting what category, what OS element it relates to, if it's a patch or audit, and the rule number.
 
 Below is an example of the tag section from a control within this role. Using this example if you set your run to skip all controls with the tag CCI-000185, this task will be skipped. The opposite can also happen where you run only controls tagged with CCI-000185.
 
@@ -129,7 +129,6 @@ Below is an example of the tag section from a control within this role. Using th
       - SRG-OS-000066-GPOS-00034
       - SV-205646r569188_rule
       - CCI-000185
-      - high
 ```
 
 ## Community Contribution

@@ -110,7 +110,7 @@ resource "azurerm_network_security_group" "secgroup" {
   }
 }
 
-# Associate subnet and network security group 
+# Associate subnet and network security group
 resource "azurerm_subnet_network_security_group_association" "secgroup-assoc" {
   subnet_id                 = azurerm_subnet.internal.id
   network_security_group_id = azurerm_network_security_group.secgroup.id
@@ -164,7 +164,7 @@ SETTINGS
 }
 
 
-// generate inventory file
+// Generate Inventory File
 resource "local_file" "inventory" {
   filename             = "./hosts.yml"
   directory_permission = "0755"

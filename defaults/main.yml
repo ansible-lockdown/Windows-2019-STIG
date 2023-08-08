@@ -7,17 +7,17 @@ win2019stig_cat3_patch: true
 win2019stig_min_ansible_version: "2.10.1"
 
 # We've defined complexity-high to mean that we cannot automatically remediate
-# the rule in question.  In the future this might mean that the remediation
-# may fail in some cases.
+# the rule in question.  In the future, this toggle may cause remediation
+# to fail in some cases.
 win2019stig_complexity_high: false
 
 # Show "changed" for complex items not remediated per complexity-high setting
-# to make them stand out.  "changed" items on a second run of the role would
+# to make them stand out. "changed" items on a second run of the role would
 # indicate items requiring manual review.
 win2019stig_audit_complex: true
 
 # We've defined disruption-high to indicate items that are likely to cause
-# disruption in a normal workflow.  These items can be remediated automatically
+# disruption in a normal workflow. These items can be remediated automatically
 # but are disabled by default to avoid disruption.
 win2019stig_disruption_high: false
 
@@ -32,12 +32,12 @@ win2019stig_audit_disruptive: true
 win19stig_lengthy_search: false
 
 # win19stig_cloud_based_system is a setting built into the playbook for testing locally vs azure.
-# We have found certain controls need to be set in a different order when being applied in the
+# We have found certain controls that need to be set in a different order when being applied in the
 # different enviroments. By Default This is set to false.
 win19stig_cloud_based_system: false
 
-# win_skip_for_test is used in the playbook to skip over certain controls that
-# may cause breaking changes when running it for testing purposes.
+# win_skip_for_test is used in the playbook to skip over the following controls that
+# may cause WINRM connection termination when running these controls below.
 # Controls that will be skipped:
 # WN19-CC-000470 - CAT1
 # WN19-CC-000500 - CAT1
@@ -466,7 +466,7 @@ wn19stig_senetworklogonright_dc: Administrators,Authenticated Users,Enterprise D
 
 # WN19-DC-000430
 # The password for the krbtgt account on a domain must be reset at least every 180 days.
-# The default setting here matches the STIG requirements.  If you would like to
+# The default setting here matches the STIG requirements. If you would like to
 # enforce a more strcit policy you may do so for auditing purposes.
 # NOTE: Valid Days are 180 or less.
 wn19stig_krbtgt_account_pass_age: 180
@@ -485,7 +485,7 @@ wn19stig_senetworklogonright: Administrators,Authenticated Users
 # Windows Server 2019 built-in administrator account must be renamed.
 # wn19stig_newadministratorname is the non-default name for the Administror Account.
 # This can be skipped during testing so as to not break the box connection using
-# the tggle win_skip_for_test
+# the toggle win_skip_for_test
 wn19stig_newadministratorname: adminchangethis
 
 # WN19-SO-000040
