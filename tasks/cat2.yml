@@ -1275,9 +1275,8 @@
       - SV-205855r569188_rule
       - V-205855
 
-# We have found the order of these three tasks varies between cloud based instances
-# and VM based instances. The task below breaks out to run in a different order
-# for cloud based systems
+# Controls WN19-AC-000010, WN19-AC-000020, and WN19-AC-000030 need to be in a different order for cloud based systems (AWS, Azure, etc.) vs non-cloud systems (VMWare, VirtualBox, etc.). 
+# The task below loads the control group in the correct order for cloud based systems
 - name: "CAT2 task side load for WN19-AC-000010, WN19-AC-000020, and WN19-AC-000030"
   ansible.builtin.import_tasks: cat2_cloud_lockout_order.yml
   when:
