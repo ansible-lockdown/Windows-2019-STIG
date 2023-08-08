@@ -19,9 +19,9 @@
 ![Release Tag](https://img.shields.io/github/v/tag/ansible-lockdown/Windows-2019-STIG?label=Release%20Tag&&color=success)
 ![Main Release Date](https://img.shields.io/github/release-date/ansible-lockdown/Windows-2019-STIG?label=Release%20Date)
 
-[![Main Pipeline Status](https://github.com/ansible-lockdown/Windows-2019-STIG/actions/workflows/main_pipeline_validation.yml/badge.svg?)](https://github.com/ansible-lockdown/Windows-2019-STIG/actions/workflows/main_pipeline_validation.yml)
+[![Main Pipeline Validation](https://github.com/ansible-lockdown/Windows-2019-STIG/actions/workflows/main_pipeline_validation.yml/badge.svg)](https://github.com/ansible-lockdown/Windows-2019-STIG/actions/workflows/main_pipeline_validation.yml)
 
-[![Devel Pipeline Status](https://github.com/ansible-lockdown/Windows-2019-STIG/actions/workflows/devel_pipeline_validation.yml/badge.svg?)](https://github.com/ansible-lockdown/Windows-2019-STIG/actions/workflows/devel_pipeline_validation.yml)
+[![Devel Pipeline Validation](https://github.com/ansible-lockdown/Windows-2019-STIG/actions/workflows/devel_pipeline_validation.yml/badge.svg)](https://github.com/ansible-lockdown/Windows-2019-STIG/actions/workflows/devel_pipeline_validation.yml)
 ![Devel Commits](https://img.shields.io/github/commit-activity/m/ansible-lockdown/Windows-2019-STIG/devel?color=dark%20green&label=Devel%20Branch%20Commits)
 
 ![Issues Open](https://img.shields.io/github/issues-raw/ansible-lockdown/Windows-2019-STIG?label=Open%20Issues)
