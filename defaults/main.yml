@@ -397,7 +397,7 @@ wn19stig_lockoutbadcount: 3
 # wn19stig_resetlockoutcount is the Reset account lockout counter after value in mintues.
 wn19stig_resetlockoutcount: 15
 
-# WN16-AC-000040
+# WN19-AC-000040
 # Windows Server 2019 password history must be configured to 24 passwords remembered.
 # wn19stig_passwordhistorysize is the number of passwords windows will remember before you may
 # be able to reuse that same password. The default value is "24" for Windows domain systems.
@@ -419,7 +419,7 @@ wn19stig_minimumpasswordage: 1
 # wn19stig_minimumpasswordlength is the Minimum password characters length value.
 wn19stig_minimumpasswordlength: 14
 
-# WN16-CC-000110
+# WN19-CC-000110
 # Windows Server 2019 virtualization-based security must be enabled with the platform security
 # level configured to Secure Boot or Secure Boot with DMA Protection.
 # wn16stig_dma_protection is the level that they would like to setup.
@@ -428,7 +428,7 @@ wn19stig_minimumpasswordlength: 14
 # 3 (Secure Boot and DMA Protection)
 wn19stig_dma_protection: 3
 
-# WN16-CC-000140
+# WN19-CC-000140
 # Early Launch Antimalware, Boot-Start Driver Initialization Policy must prevent boot drivers identified as bad.
 # wn16stig_driver_load_policy is the registry value that will be applied. The default behavior is for
 # Early Launch Antimalware - Boot-Start Driver Initialization policy to enforce "Good, unknown and bad but
