@@ -1275,6 +1275,16 @@
       - SV-205855r569188_rule
       - V-205855
 
+# We have found the order of these three tasks varies between cloud based instances
+# and VM based instances. The task below breaks out to run in a different order
+# for cloud based systems
+- name: "CAT2 task side load for WN19-AC-000010, WN19-AC-000020, and WN19-AC-000030"
+  ansible.builtin.import_tasks: cat2_cloud_lockout_order.yml
+  when:
+      - win19stig_cloud_based_system
+  tags:
+      - cat2_cloud_lockout_order
+
 # THE FOLLOWING 3 CONTROLS WILL FAIL UNLESS THEY ARE IN THE FOLLOWING ORDER FOR LOCAL BASED SYSTEMS.
 - name: "MEDIUM | WN19-AC-000020 | PATCH | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less."
   block:
