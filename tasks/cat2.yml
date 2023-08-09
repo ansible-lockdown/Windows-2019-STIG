@@ -48,9 +48,14 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000020'
+        # When statement does not follow standard formatting.
         when:
-            - not wn19_00_000020_audit_dc is skipped and wn19_00_000020_audit_dc.stdout != "" and - wn19stig_pass_age_administrator <= 60 or
-              wn19_00_000020_audit_dm_sa is defined and wn19_00_000020_audit_dm_sa.stdout != "" and - wn19stig_pass_age_administrator <= 60 or
+            - not wn19_00_000020_audit_dc is skipped
+            - wn19_00_000020_audit_dc.stdout != ""
+            - wn19stig_pass_age_administrator <= 60 or
+              wn19_00_000020_audit_dm_sa is defined
+            - wn19_00_000020_audit_dm_sa.stdout != ""
+            - wn19stig_pass_age_administrator <= 60 or
               wn19stig_pass_age_administrator > 60
   when:
       - wn19_00_000020
@@ -442,7 +447,11 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000190'
-        when: wn19_00_000190_account_audit_dc is not skipped and wn19_00_000190_account_audit_dc.stdout != "" or wn19_00_000190_account_audit_dm_sa is not skipped and wn19_00_000190_account_audit_dm_sa.stdout != ""
+        when:
+            - wn19_00_000190_account_audit_dc is not skipped
+            - wn19_00_000190_account_audit_dc.stdout != "" or
+              wn19_00_000190_account_audit_dm_sa is not skipped
+            - wn19_00_000190_account_audit_dm_sa.stdout != ""
   when:
       - wn19_00_000190
   tags:
@@ -496,7 +505,7 @@
         when:
             - not wn19_00_000200_audit_dc is skipped
             - wn19_00_000200_audit_dc.stdout != "" or
-            - not wn19_00_000200_audit_dm_sa is skipped
+              not wn19_00_000200_audit_dm_sa is skipped
             - wn19_00_000200_audit_dm_sa.stdout != ""
   when:
       - wn19_00_000200
@@ -552,7 +561,11 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000210'
-        when: wn19_00_000210_audit_dc is not skipped and wn19_00_000210_audit_dc.stdout != "" or wn19_00_000210_audit_dm_sa is not skipped and wn19_00_000210_audit_dm_sa.stdout != ""
+        when:
+            - wn19_00_000210_audit_dc is not skipped
+            - wn19_00_000210_audit_dc.stdout != "" or
+              wn19_00_000210_audit_dm_sa is not skipped
+            - wn19_00_000210_audit_dm_sa.stdout != ""
   when:
       - wn19_00_000210
   tags:
@@ -882,7 +895,11 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000300'
-        when: wn19_00_000300_audit_dc is not skipped and wn19_00_000300_audit_dc.stdout != "" or wn19_00_000300_audit_sa is not skipped and wn19_00_000300_audit_sa.stdout != ""
+        when:
+            - wn19_00_000300_audit_dc is not skipped
+            - wn19_00_000300_audit_dc.stdout != "" or
+              wn19_00_000300_audit_sa is not skipped
+            - wn19_00_000300_audit_sa.stdout != ""
   when:
       - wn19_00_000300
   tags:
@@ -933,7 +950,11 @@
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000310'
-        when: wn19_00_000310_audit_dc is not skipped and wn19_00_000310_audit_dc.stdout != "" or wn19_00_000310_audit_sa is not skipped and wn19_00_000310_audit_sa.stdout != ""
+        when:
+            - wn19_00_000310_audit_dc is not skipped
+            - wn19_00_000310_audit_dc.stdout != "" or
+              wn19_00_000310_audit_sa is not skipped
+            - wn19_00_000310_audit_sa.stdout != ""
   when:
       - wn19_00_000310
   tags:
@@ -1264,7 +1285,8 @@
         vars:
             warn_control_id: 'WN19-00-000450'
         when:
-            - wn19_00_000450_orphaned_user_accounts.stdout_lines | select() | length > 0 or wn19_00_000460_orphaned_group_accounts.stdout_lines | select() | length > 0
+            - wn19_00_000450_orphaned_user_accounts.stdout_lines | select() | length > 0 or 
+              wn19_00_000460_orphaned_group_accounts.stdout_lines | select() | length > 0
   when:
       - wn19_00_000450
   tags:
@@ -4238,8 +4260,7 @@
                 - "Warning!! The DOD Root CA 3 is not installed on the system or"
                 - "contains a incorrect Thumbprint for the Root CA Certificate."
                 - "Please refer to STIG documentation for proper cert to be installed."
-        when:
-            - wn19_pk_000010_root_3_Check.stdout == ""
+        when: wn19_pk_000010_root_3_Check.stdout == ""
 
       - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | Warning!! No DOD Root CA 4 Certificate Installed."
         ansible.builtin.debug:
@@ -4247,8 +4268,7 @@
                 - "Warning!! The DOD Root CA 4 is not installed on the system or"
                 - "contains a incorrect Thumbprint for the Root CA Certificate."
                 - "Please refer to STIG documentation for proper cert to be installed."
-        when:
-            - wn19_pk_000010_root_4_Check.stdout == ""
+        when: wn19_pk_000010_root_4_Check.stdout == ""
 
       - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | Warning!! No DOD Root CA 5 Certificate Installed."
         ansible.builtin.debug:
@@ -4290,15 +4310,13 @@
             msg:
                 - "Warning!! The DoD Root CA 3 - DoD Interoperability Root CA 2 certificate is not installed on the system or"
                 - "does not contain Thumbprint 49CBE933151872E17C8EAE7F0ABA97FB610F6477 for the Certificate."
-        when:
-            - wn19_pk_000020_interop_check_for_49.stdout == ""
+        when: wn19_pk_000020_interop_check_for_49.stdout == ""
 
       - name: "MEDIUM | WN19-PK-000020 | AUDIT | Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-PK-000020'
-        when:
-            - wn19_pk_000020_interop_check_for_49.stdout == ""
+        when: wn19_pk_000020_interop_check_for_49.stdout == ""
   when:
       - wn19_pk_000020
   tags:
@@ -4323,15 +4341,13 @@
             msg:
                 - "Warning!! The DoD Root CA 3 - US DoD CCEB Interoperability Root CA 2 certificate is not installed on the system or"
                 - "does not contain Thumbprint 9B74964506C7ED9138070D08D5F8B969866560C8 for the Certificate."
-        when:
-            - wn19_pk_000030_cceb_interop_check.stdout == ""
+        when: wn19_pk_000030_cceb_interop_check.stdout == ""
 
       - name: "MEDIUM | WN19-PK-000030 | AUDIT | Windows Server 2019 must have the US DoD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-PK-000030'
-        when:
-            - wn19_pk_000030_cceb_interop_check.stdout == ""
+        when: wn19_pk_000030_cceb_interop_check.stdout == ""
   when:
       - wn19_pk_000030
   tags:
