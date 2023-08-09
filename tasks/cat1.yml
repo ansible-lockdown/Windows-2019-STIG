@@ -159,12 +159,14 @@
                 - "By Default Defender Antivirus has been installed, check current status below to verify running."
                 - "{{ wn19_00_000110_virus_audit_windefend.stdout_lines | trim }}"
         when:
-            - wn19_00_000110_virus_audit_windefend.stdout_lines | length > 1 and 'defender' not in wn19stig_antivirus_program
+            - wn19_00_000110_virus_audit_windefend.stdout_lines | length > 1
+            - "'defender' not in wn19stig_antivirus_program"
 
       - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000110'
+        # When statement does not follow standard formatting.
         when:
             - wn19_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' in wn19stig_antivirus_program or
               wn19_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' not in wn19stig_antivirus_program or
