@@ -1285,7 +1285,7 @@
         vars:
             warn_control_id: 'WN19-00-000450'
         when:
-            - wn19_00_000450_orphaned_user_accounts.stdout_lines | select() | length > 0 or 
+            - wn19_00_000450_orphaned_user_accounts.stdout_lines | select() | length > 0 or
               wn19_00_000460_orphaned_group_accounts.stdout_lines | select() | length > 0
   when:
       - wn19_00_000450
