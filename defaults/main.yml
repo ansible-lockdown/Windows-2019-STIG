@@ -642,6 +642,6 @@ wn19stig_dodownloadmode: 1
 # If an organization-defined title is used, it can in no case contravene or modify the language of the banner text required in WN19-SO-000130.
 # Automated tools may only search for the titles defined above. If an organization-defined title is used, a manual review will be required.
 # "{{ wn19stig_legalnoticetext }}" will call to the default DoD Notice and Consent Banner.
-# Upon creating this both "DoD Notice and Consent Banner", "US Department of Defense Warning Statement" are the same.
+# Upon creating this both "DoD Notice and Consent Banner", "US Department of Defense Warning Statement" are the same:
 # wn19stig_legalnoticecaption: "{{ wn19stig_legalnoticetext }}"
 wn19stig_legalnoticecaption: "{{ wn19stig_legalnoticetext }}"
