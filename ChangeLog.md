@@ -8,7 +8,7 @@ August 2023 Update
   - Removed Templates & PR Temmplate from repo and adjusted to Org level. 
   - Updated Readme Layout to add new pipeline badges.
   - Fixed WN16 References in defaults/main.
-  - Cat2_Cloud moved frm tasks/main and renamed to cat2_cloud_lockout_order and in cat2.yml workflow.
+  - Cat2_Cloud moved from tasks/main and renamed to cat2_cloud_lockout_order and in cat2.yml workflow.
   - Updated Tags in tasks/main.
 
 June / July 2023 Update
