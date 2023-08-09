@@ -5,7 +5,7 @@
 August 2023 Update
   - Updated Workflows To Central Repo
     - Renamed them to better run across all repos. 
-  - Removed Templates from repo and adjusted to Org level. 
+  - Removed Templates & Pr Temmplate from repo and adjusted to Org level. 
   - Updated Readme Layout to add new pipeline badges.
   - Fixed WN16 References in defaults/main.
   - Cat2_Cloud moved frm tasks/main and renamed to cat2_cloud_lockout_order and in cat2.yml workflow.
