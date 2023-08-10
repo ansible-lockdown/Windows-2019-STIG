@@ -1,0 +1,116 @@
+---
+
+# THE FOLLOWING 3 CONTROLS WILL FAIL UNLESS THEY ARE IN THE FOLLOWING ORDER FOR CLOUD BASED SYSTEMS
+# below task is dependent on WN19-AC-000020 and WN19-AC-000030, maybe custom fail when known error if WN19-AC-000020 not set? "The key 'LockoutDuration' in section 'System Access' is not a valid key, cannot set this value"
+- name: "MEDIUM | WN19-AC-000020 | PATCH | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less."
+  block:
+      - name: "MEDIUM | WN19-AC-000020 | AUDIT | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Warning For Bad Variable."
+        ansible.builtin.debug:
+            msg:
+                - "Warning!! You have a invalid number of days set for wn19stig_lockoutbadcount please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when:
+            - wn19stig_lockoutbadcount == 0 or
+              wn19stig_lockoutbadcount > 3
+
+      - name: "MEDIUM | WN19-AC-000020 | AUDIT | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-AC-000020'
+        when:
+            - wn19stig_lockoutbadcount == 0 or
+              wn19stig_lockoutbadcount > 3
+
+      - name: "MEDIUM | WN19-AC-000020 | PATCH | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Apply Variable."
+        community.windows.win_security_policy:
+            section: System Access
+            key: LockoutBadCount
+            value: "{{ wn19stig_lockoutbadcount }}"
+        when:
+            - wn19stig_lockoutbadcount > 0
+            - wn19stig_lockoutbadcount <= 3
+  when:
+      - wn19_ac_000020
+  tags:
+      - WN19-AC-000020
+      - CAT2_CLOUD2
+      - CCI-000044
+      - SRG-OS-000021-GPOS-00005
+      - SV-205629r569188_rule
+      - V-205629
+
+- name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater."
+  block:
+      - name: "MEDIUM | WN19-AC-000010 | AUDIT | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warning For Bad Variable."
+        ansible.builtin.debug:
+            msg:
+                - "Warning!! You have a invalid number of minutes set for wn19stig_lockoutduration please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when:
+            - wn19stig_lockoutduration < 15
+            - wn19stig_lockoutduration > 0
+
+      - name: "MEDIUM | WN19-AC-000010 | AUDIT | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-AC-000010'
+        when:
+            - wn19stig_lockoutduration < 15
+            - wn19stig_lockoutduration > 0
+
+      - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Apply Variable."
+        community.windows.win_security_policy:
+            section: System Access
+            key: LockoutDuration
+            value: "{{ wn19stig_lockoutduration }}"
+        when:
+            - wn19stig_lockoutduration == 0 or
+              wn19stig_lockoutduration >= 15
+  when:
+      - wn19_ac_000010
+  tags:
+      - WN19-AC-000010
+      - CAT2_CLOUD2
+      - CCI-002238
+      - SRG-OS-000329-GPOS-00128
+      - SV-205795r852496_rule
+      - V-205795
+
+# below task is dependent on WN19-AC-000020, maybe custom fail when known error if WN19-AC-000020 not set? "The key 'ResetLockoutCount' in section 'System Access' is not a valid key, cannot set this value"
+- name: "MEDIUM | WN19-AC-000030 | PATCH | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
+  block:
+      - name: MEDIUM | WN19-AC-000030 | AUDIT | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
+        ansible.builtin.debug:
+            msg:
+                - "Warning!! You have a invalid number of days set for wn19stig_resetlockoutcount please read"
+                - "the notes for the variable and make the necessary change to the variable to be in compliance."
+        when:
+            - wn19stig_resetlockoutcount > wn19stig_lockoutduration or
+              wn19stig_resetlockoutcount < 15
+
+      - name: MEDIUM | WN19-AC-000030 | AUDIT | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater. | Warn Count."
+        ansible.builtin.import_tasks: warning_facts.yml
+        vars:
+            warn_control_id: 'WN19-AC-000030'
+        when:
+            - wn19stig_resetlockoutcount > wn19stig_lockoutduration or
+              wn19stig_resetlockoutcount < 15
+
+      - name: "MEDIUM | WN19-AC-000030 | PATCH | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater. | Apply Variable"
+        community.windows.win_security_policy:
+            section: System Access
+            key: ResetLockoutCount
+            value: "{{ wn19stig_resetlockoutcount }}"
+        when:
+            - wn19stig_resetlockoutcount >= 15
+            - wn19stig_resetlockoutcount <= wn19stig_lockoutduration
+  when:
+      - wn19_ac_000030
+  tags:
+      - WN19-AC-000030
+      - CAT2_CLOUD2
+      - CCI-000044
+      - CCI-002238
+      - SRG-OS-000021-GPOS-00005
+      - SV-205630r852416_rule
+      - V-205630
