@@ -1079,7 +1079,7 @@
         notify: reboot_windows
 
       - name: "MEDIUM | WN19-00-000390 | AUDIT | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server. | Warning Message No SecGuide.admx"
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! SecGuide.admx is not installed in C:\\Windows\\PolicyDefinitions folder."
                 - "This policy setting requires the installation of the SecGuide.admx custom templates"
@@ -1087,7 +1087,7 @@
         when: wn19_secguide_admx_audit.results[0].matched != 1
 
       - name: "MEDIUM | WN19-00-000390 | AUDIT | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server. | Warning Message No SecGuide.adml"
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! SecGuide.adml is not installed in C:\\Windows\\PolicyDefinitions\\en-US folder"
                 - "This policy setting requires the installation of the SecGuide.adml custom templates"
@@ -1123,7 +1123,7 @@
         notify: reboot_windows
 
       - name: "MEDIUM | WN19-00-000400 | AUDIT | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server - mrxsmb10 | Warning Message No SecGuide.admx"
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! SecGuide.admx is not installed in C:\\Windows\\PolicyDefinitions folder."
                 - "This policy setting requires the installation of the SecGuide.admx custom templates"
@@ -1131,7 +1131,7 @@
         when: wn19_secguide_admx_audit.results[0].matched != 1
 
       - name: "MEDIUM | WN19-00-000400 | AUDIT | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server - mrxsmb10 | Warning Message No SecGuide.adml"
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! SecGuide.adml is not installed in C:\\Windows\\PolicyDefinitions\\en-US folder"
                 - "This policy setting requires the installation of the SecGuide.adml custom templates"
@@ -1225,7 +1225,7 @@
         when: "'Installed' in wn19_00_000430_ftp_audit"
 
       - name: "MEDIUM | WN19-00-000430 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent access to the system drive. | Warning Message."
-        debug:
+        ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task. For any sites with a Binding that lists FTP, right-click the site and select Explore."
                 - "If the site includes any system areas such as root of the drive, Program Files, or Windows directories, this is a finding"
@@ -1437,7 +1437,7 @@
         when: wn19stig_passwordhistorysize < 24
 
       - name: "MEDIUM | WN19-AC-000040 | PATCH | Windows Server 2019 password history must be configured to 24 passwords remembered. | Apply Variable"
-        win_security_policy:
+        community.windows.win_security_policy:
             section: System Access
             key: PasswordHistorySize
             value: "{{ wn19stig_passwordhistorysize }}"
