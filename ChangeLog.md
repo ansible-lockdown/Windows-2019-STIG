@@ -4,8 +4,8 @@
 
 August 2023 Update
   - Updated Workflows To Central Repo
-    - Renamed them to better run across all repos. 
-  - Removed Templates & PR Temmplate from repo and adjusted to Org level. 
+    - Renamed them to better run across all repos.
+  - Removed Templates & PR Temmplate from repo and adjusted to Org level.
   - Updated Readme Layout to add new pipeline badges.
   - Fixed WN16 References in defaults/main.
   - Cat2_Cloud moved from tasks/main and renamed to cat2_cloud_lockout_order and in cat2.yml workflow.
@@ -54,4 +54,4 @@ January 2023 Release
   - Added Version 2 Release 3 changes during this update.
   - Added Version 2 Release 4 changes during this update.
   - Added Version 2 Release 5 changes during this update.
-  - Added Warning Count Summary to the End Of Playbook
+  - Added Warning Count Summary to the End Of Playbook.
