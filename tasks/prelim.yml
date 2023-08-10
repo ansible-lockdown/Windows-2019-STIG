@@ -22,23 +22,6 @@
   tags:
       - always
 
-# 1 = disabled 0 = enabled
-# this reg key may be useful to detect when secure conenctions are enabled, etc?
-- name: "PRELIM | Detect if Remote Desktop Services (RDP) is enabled"
-  ansible.windows.win_reg_stat:
-      path: HKLM:\System\CurrentControlSet\Control\Terminal Server
-      name: fDenyTSConnections
-  changed_when: false
-  failed_when: false
-  register: win2019_rdp_enabled
-  tags:
-      - always
-
-# remove this debug or set a verbose level
-- name: win2019_rdp_enabled.value var
-  ansible.builtin.debug:
-      var: win2019_rdp_enabled.value
-
 - name: Get Drive Letters"
   ansible.windows.win_shell: Get-Volume | ?{ $_.DriveType -eq 'Fixed' } | Select-Object -ExpandProperty 'DriveLetter'
   changed_when: false
