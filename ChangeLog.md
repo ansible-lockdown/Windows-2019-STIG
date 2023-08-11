@@ -1,6 +1,6 @@
 # Changelog
 
-## Release 1.0.0
+## Release 3.0.0
 
 August 2023 Update
   - Updated Workflows To Central Repo
@@ -55,3 +55,20 @@ January 2023 Release
   - Added Version 2 Release 4 changes during this update.
   - Added Version 2 Release 5 changes during this update.
   - Added Warning Count Summary to the End Of Playbook.
+
+## Release 2.1.0
+
+April 2021 Update
+  - Fixed issue #12
+  - Updated README.md
+  - Updated CONTRIBUTING.rst
+
+## Release 2.0.0
+
+November 2020 Update
+  - Update to DISA STIG Version 2 Release 1
+
+## Release 1.0.0
+
+December 2020 Update
+  - Initial Release
