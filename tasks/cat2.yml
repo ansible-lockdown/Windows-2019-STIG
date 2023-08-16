@@ -781,7 +781,7 @@
       - name: "MEDIUM | WN19-00-000280 | AUDIT | Windows Server 2019 must have a host-based firewall installed and enabled. | Warning Message No Windows Firewall Enabled"
         ansible.builtin.debug:
             msg:
-                - "Warning!! This is a manual task. Windows Server 9 must have a host-based firewall installed and enabled."
+                - "Warning!! This is a manual task. Windows Server 2019 must have a host-based firewall installed and enabled."
                 - "Windows does not currently have its built in firewall enabled."
                 - "Please check for 3rd party firewall and verify the configuration requirements conform to firewall STIG standards."
                 - "{{ wn19_00_000280_firewall_audit.stdout_lines }}"
@@ -1260,7 +1260,7 @@
         ansible.windows.win_shell: Get-WmiObject -Class Win32_UserAccount | Where-Object {$_.SID -match "*S"} | Select Name,SID,DOMAIN
         changed_when: false
         failed_when: false
-        register: wn19_00_000460_orphaned_group_accounts
+        register: wn19_00_000450_orphaned_group_accounts
 
       - name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights. | Warning Message User Accounts"
         ansible.builtin.debug:
@@ -1277,8 +1277,8 @@
                 - "Warning!! Please review the Group Rights listed for each of any unresolved SID to determine whether they are valid."
                 - "Group Accounts"
                 - "----------------------------------------------------------------------"
-                - "{{ wn19_00_000460_orphaned_group_accounts.stdout_lines }}"
-        when: wn19_00_000460_orphaned_group_accounts.stdout_lines | select() | length > 0
+                - "{{ wn19_00_000450_orphaned_group_accounts.stdout_lines }}"
+        when: wn19_00_000450_orphaned_group_accounts.stdout_lines | select() | length > 0
 
       - name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights. | Warn Count."
         ansible.builtin.import_tasks: warning_facts.yml
@@ -1286,7 +1286,7 @@
             warn_control_id: 'WN19-00-000450'
         when:
             - wn19_00_000450_orphaned_user_accounts.stdout_lines | select() | length > 0 or
-              wn19_00_000460_orphaned_group_accounts.stdout_lines | select() | length > 0
+              wn19_00_000450_orphaned_group_accounts.stdout_lines | select() | length > 0
   when:
       - wn19_00_000450
   tags:
