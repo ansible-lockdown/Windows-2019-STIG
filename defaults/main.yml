@@ -484,7 +484,7 @@ wn19stig_senetworklogonright: Administrators,Authenticated Users
 # WN19-SO-000030
 # Windows Server 2019 built-in administrator account must be renamed.
 # wn19stig_newadministratorname is the non-default name for the Administror Account.
-# This rule can be skipped during testing, conseqently to not break the box's connection using
+# This rule can be skipped during testing, conseqently to not break the box's connection by using
 # the toggle win_skip_for_test.
 wn19stig_newadministratorname: adminchangethis
 
