@@ -6,7 +6,7 @@ win2019stig_cat3_patch: true
 
 win2019stig_min_ansible_version: "2.10.1"
 
-# We've defined complexity-high to mean that we cannot automatically remediate
+# We've defined complexity-high as cannot automatically remediate
 # the rule in question.  In the future, this toggle may cause remediation
 # to fail in some cases.
 win2019stig_complexity_high: false
@@ -33,7 +33,7 @@ win19stig_lengthy_search: false
 
 # win19stig_cloud_based_system is a setting built into the playbook for testing locally vs azure.
 # We have found certain controls that need to be set in a different order when being applied in the
-# different enviroments. By Default This is set to false.
+# different environments. By Default This is set to false.
 win19stig_cloud_based_system: false
 
 # win_skip_for_test is used in the playbook to skip over the following controls that
@@ -401,7 +401,7 @@ wn19stig_resetlockoutcount: 15
 # Windows Server 2019 password history must be configured to 24 passwords remembered.
 # wn19stig_passwordhistorysize is the number of passwords windows will remember before you may
 # be able to reuse that same password. The default value is "24" for Windows domain systems.
-# DoD has decided this is the appropriate value for all Windows systems.
+# DoD determined appropriate value for all Windows systems.
 wn19stig_passwordhistorysize: 24
 
 # WN19-AC-000050
@@ -484,8 +484,8 @@ wn19stig_senetworklogonright: Administrators,Authenticated Users
 # WN19-SO-000030
 # Windows Server 2019 built-in administrator account must be renamed.
 # wn19stig_newadministratorname is the non-default name for the Administror Account.
-# This can be skipped during testing so as to not break the box connection using
-# the toggle win_skip_for_test
+# This rule can be skipped during testing, conseqently to not break the box's connection using
+# the toggle win_skip_for_test.
 wn19stig_newadministratorname: adminchangethis
 
 # WN19-SO-000040
@@ -570,7 +570,7 @@ wn19stig_secreateglobalprivilege: Administrators,Service,Local Service,Network S
 wn19stig_seauditprivilege: Local Service,Network Service
 
 # WN19-UR-000130
-# The Impersonate a client after authentication user right must only be assigned to Administrators, Service, Local Service, and Network Service.
+# The "Impersonate a client after authentication" user right must only be assigned to Administrators, Service, Local Service, and Network Service.
 # If any SIDs other than the following are granted the "SeImpersonatePrivilege" user right, this is a finding.
 # If an application requires this user right, this would not be a finding. Vendor documentation must support the
 # requirement for having the user right. The requirement must be documented with the ISSO.
