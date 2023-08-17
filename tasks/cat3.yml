@@ -188,7 +188,7 @@
       - name: "LOW | WN19-CC-000260 | AUDIT | Windows Server 2019 Windows Update must not obtain updates from other PCs on the Internet. "
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a incorrect value set for wn19stig_dodownloadmode please read"
+                - "Warning!! You have an incorrect value set for wn19stig_dodownloadmode please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when: wn19stig_dodownloadmode > 2 and wn19stig_dodownloadmode != 99 and wn19stig_dodownloadmode != 100
 

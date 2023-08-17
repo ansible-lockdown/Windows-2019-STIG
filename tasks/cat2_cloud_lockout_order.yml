@@ -7,7 +7,7 @@
       - name: "MEDIUM | WN19-AC-000020 | AUDIT | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Warning For Bad Variable."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid number of days set for wn19stig_lockoutbadcount please read"
+                - "Warning!! You have an invalid number of days set for wn19stig_lockoutbadcount please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_lockoutbadcount == 0 or
@@ -44,7 +44,7 @@
       - name: "MEDIUM | WN19-AC-000010 | AUDIT | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warning For Bad Variable."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid number of minutes set for wn19stig_lockoutduration please read"
+                - "Warning!! You have an invalid number of minutes set for wn19stig_lockoutduration please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_lockoutduration < 15
@@ -82,7 +82,7 @@
       - name: MEDIUM | WN19-AC-000030 | AUDIT | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid number of days set for wn19stig_resetlockoutcount please read"
+                - "Warning!! You have an invalid number of days set for wn19stig_resetlockoutcount please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_resetlockoutcount > wn19stig_lockoutduration or

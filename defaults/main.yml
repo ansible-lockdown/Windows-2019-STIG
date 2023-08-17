@@ -384,7 +384,7 @@ wn19stig_pass_age_administrator: 60
 # WN19-AC-000010
 # Windows Server 2019 account lockout duration must be configured to 15 minutes or greater.
 # Configuring this to "0", requiring an administrator to unlock the account, is more restrictive and is not a finding.
-# Valid Variables are 15 or more or 0.
+# Valid Variables are equal to 0 or greater than or equal to 15.
 wn19stig_lockoutduration: 15
 
 # WN19-AC-000020
@@ -422,7 +422,7 @@ wn19stig_minimumpasswordlength: 14
 # WN19-CC-000110
 # Windows Server 2019 virtualization-based security must be enabled with the platform security
 # level configured to Secure Boot or Secure Boot with DMA Protection.
-# wn16stig_dma_protection is the level that they would like to setup.
+# win19stig_dma_protection is the level that they would like to setup.
 # Valid settings are as follows.
 # 1 (Secure Boot only)
 # 3 (Secure Boot and DMA Protection)
@@ -430,7 +430,7 @@ wn19stig_dma_protection: 3
 
 # WN19-CC-000140
 # Early Launch Antimalware, Boot-Start Driver Initialization Policy must prevent boot drivers identified as bad.
-# wn16stig_driver_load_policy is the registry value that will be applied. The default behavior is for
+# win19stig_driver_load_policy is the registry value that will be applied. The default behavior is for
 # Early Launch Antimalware - Boot-Start Driver Initialization policy to enforce "Good, unknown and bad but
 # critical" (preventing "bad").
 # Approved values are below:
