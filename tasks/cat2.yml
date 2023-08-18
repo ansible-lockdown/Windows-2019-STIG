@@ -40,7 +40,7 @@
       - name: Warning Message
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid number of days set for wn19stig_pass_age_administrator please read"
+                - "Warning!! You have an invalid number of days set for wn19stig_pass_age_administrator please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when: wn19stig_pass_age_administrator > 60
 
@@ -1312,7 +1312,7 @@
       - name: "MEDIUM | WN19-AC-000020 | AUDIT | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Warning For Bad Variable."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid number of days set for wn19stig_lockoutbadcount please read"
+                - "Warning!! You have an invalid number of days set for wn19stig_lockoutbadcount please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_lockoutbadcount == 0 or
@@ -1351,7 +1351,7 @@
       - name: MEDIUM | WN19-AC-000030 | AUDIT | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid number of days set for wn19stig_resetlockoutcount please read"
+                - "Warning!! You have an invalid number of days set for wn19stig_resetlockoutcount please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_resetlockoutcount < 15
@@ -1388,7 +1388,7 @@
       - name: "MEDIUM | WN19-AC-000010 | AUDIT | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warning For Bad Variable."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid number of minutes set for wn19stig_lockoutduration please read"
+                - "Warning!! You have an invalid number of minutes set for wn19stig_lockoutduration please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_lockoutduration < 15
@@ -1426,7 +1426,7 @@
       - name: "MEDIUM | WN19-AC-000040 | AUDIT | Windows Server 2019 password history must be configured to 24 passwords remembered. | Warning Message"
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid number remembered passwords set for wn19stig_passwordhistorysize please read"
+                - "Warning!! You have an invalid number remembered passwords set for wn19stig_passwordhistorysize please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when: wn19stig_passwordhistorysize < 24
 
@@ -1457,7 +1457,7 @@
       - name: "MEDIUM | WN19-AC-000050 | AUDIT | Windows Server 2019 maximum password age must be configured to 60 days or less. | Warning For Bad Variable."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid number of days set for wn19stig_maximumpasswordage please read"
+                - "Warning!! You have an invalid number of days set for wn19stig_maximumpasswordage please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_maximumpasswordage == 0 or
@@ -1494,7 +1494,7 @@
       - name: "MEDIUM | WN19-AC-000060 | AUDIT | Windows Server 2019 minimum password age must be configured to at least one day. | Warning For Bad Variable."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid number of days set for wn19stig_minimumpasswordage please read"
+                - "Warning!! You have an invalid number of days set for wn19stig_minimumpasswordage please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_minimumpasswordage == 0
@@ -1528,7 +1528,7 @@
       - name: "MEDIUM | WN19-AC-000070 | AUDIT | Windows Server 2019 minimum password length must be configured to 14 characters. | Warning For Bad Variable."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid password length for wn19stig_minimumpasswordlength please read"
+                - "Warning!! You have an invalid password length for wn19stig_minimumpasswordlength please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_minimumpasswordlength < 14
@@ -2771,7 +2771,7 @@
       - name: "MEDIUM | WN19-CC-000270 | PATCH | Windows Server 2019 Application event log size must be configured to 32768 KB or greater. | Warning Message."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid file size set for wn19stig_application_event_log_max_size please read"
+                - "Warning!! You have an invalid file size set for wn19stig_application_event_log_max_size please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when: wn19stig_application_event_log_max_size < 32768
 
@@ -2804,7 +2804,7 @@
       - name: "MEDIUM | WN19-CC-000280 | AUDIT | Windows Server 2019 Security event log size must be configured to 196608 KB or greater. | Warning Message."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid file size set for wn19stig_security_event_log_max_size please read"
+                - "Warning!! You have an invalid file size set for wn19stig_security_event_log_max_size please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when: wn19stig_security_event_log_max_size < 196608
 
@@ -2837,7 +2837,7 @@
       - name: "MEDIUM | WN19-CC-000290 | AUDIT | Windows Server 2019 System event log size must be configured to 32768 KB or greater. | Warning Message."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid file size set for wn19stig_system_event_log_max_size please read"
+                - "Warning!! You have an invalid file size set for wn19stig_system_event_log_max_size please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when: wn19stig_system_event_log_max_size < 32768
 
@@ -3939,7 +3939,7 @@
       - name: "MEDIUM | WN19-DC-000430 | AUDIT | The password for the krbtgt account on a domain must be reset at least every 180 days. | Warning Message Variable."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have a invalid number of days set for wn19stig_krbtgt_account_pass_age please read"
+                - "Warning!! You have an invalid number of days set for wn19stig_krbtgt_account_pass_age please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when: wn19stig_krbtgt_account_pass_age > 180
 
@@ -4124,8 +4124,7 @@
       - name: "MEDIUM | WN19-MS-000090 | PATCH | STAND-ALONE | Windows Server 2019 Deny log on as a batch job user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and from unauthenticated access on all systems."
         ansible.windows.win_user_right:
             name: SeDenyBatchLogonRight
-            users:
-                - Guests
+            users: Guests
             action: set
         when: not ansible_windows_domain_member
   when:
@@ -4173,8 +4172,7 @@
       - name: "MEDIUM | WN19-MS-000110 | PATCH | STAND-ALONE | Windows Server 2019 Deny log on locally user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and from unauthenticated access on all systems."
         ansible.windows.win_user_right:
             name: SeDenyInteractiveLogonRight
-            users:
-                - Guests
+            users: Guests
             action: set
         when: not ansible_windows_domain_member
   when:
@@ -4204,8 +4202,7 @@
       - name: "MEDIUM | WN19-MS-000120 | PATCH | STAND-ALONE | Windows Server 2019 Deny log on through Remote Desktop Services user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and all local accounts and from unauthenticated access on all systems."
         ansible.windows.win_user_right:
             name: SeDenyRemoteInteractiveLogonRight
-            users:
-                - Guests
+            users: Guests
             action: set
         when: not ansible_windows_domain_member
   when:
@@ -4258,7 +4255,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! The DOD Root CA 3 is not installed on the system or"
-                - "contains a incorrect Thumbprint for the Root CA Certificate."
+                - "contains an incorrect Thumbprint for the Root CA Certificate."
                 - "Please refer to STIG documentation for proper cert to be installed."
         when: wn19_pk_000010_root_3_Check.stdout == ""
 
@@ -4266,7 +4263,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! The DOD Root CA 4 is not installed on the system or"
-                - "contains a incorrect Thumbprint for the Root CA Certificate."
+                - "contains an incorrect Thumbprint for the Root CA Certificate."
                 - "Please refer to STIG documentation for proper cert to be installed."
         when: wn19_pk_000010_root_4_Check.stdout == ""
 
@@ -4274,7 +4271,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! The DOD Root CA 5 is not installed on the system or"
-                - "contains a incorrect Thumbprint for the Root CA Certificate."
+                - "contains an incorrect Thumbprint for the Root CA Certificate."
                 - "Please refer to STIG documentation for proper cert to be installed."
         when: wn19_pk_000010_root_5_Check.stdout == ""
 
@@ -4531,7 +4528,7 @@
       - name: "MEDIUM | WN19-SO-000100 | AUDIT | Windows Server 2019 maximum age for machine account passwords must be configured to 30 days or less. | Number Of Days Check."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have have not set the right number of days for wn19stig_machineaccountpsswd_max_age"
+                - "Warning!! You have not set the right number of days for wn19stig_machineaccountpsswd_max_age"
                 - "Please read the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_machineaccountpsswd_max_age > 30 or
@@ -4587,7 +4584,7 @@
       - name: "MEDIUM | WN19-SO-000120 | AUDIT | Windows Server 2019 machine inactivity limit must be set to 15 minutes or less, locking the system with the screen saver. | Number Of Seconds Check."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have have not set the right number of seconds for wn19stig_inactivitytimeoutsecs"
+                - "Warning!! You have not set the right number of seconds for wn19stig_inactivitytimeoutsecs"
                 - "Please read the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_inactivitytimeoutsecs > 900 or
@@ -4944,7 +4941,7 @@
       - name: "MEDIUM | WN19-SO-000400 | PATCH | Windows Server 2019 User Account Control must, at a minimum, prompt administrators for consent on the secure desktop. | Variable Check."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have have not choosen a correct setting for wn19stig_consentprompt"
+                - "Warning!! You have not choosen a correct setting for wn19stig_consentprompt"
                 - "Please read the notes for the variable and make the necessary change to the variable to be in compliance."
         when:
             - wn19stig_consentprompt < 1 or
