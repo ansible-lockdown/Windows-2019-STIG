@@ -125,11 +125,11 @@ Below is an example of the tag section from a control within this role. Using th
 ```sh
   tags:
       - WN19-DC-000290
-      - V-205646
       - CAT1
+      - CCI-000185
       - SRG-OS-000066-GPOS-00034
       - SV-205646r569188_rule
-      - CCI-000185
+      - V-205646
 ```
 
 ## Community Contribution
