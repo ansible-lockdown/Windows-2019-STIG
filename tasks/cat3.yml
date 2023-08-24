@@ -103,7 +103,7 @@
       - SV-205857r569188_rule
       - V-205857
 
-- name: "LOW | WN19-CC-000030 | PATCH | Windows Server 2019 internet Protocol version 6 (IPv6) source routing must be configured to the highest protection level to prevent IP source routing."
+- name: "LOW | WN19-CC-000030 | PATCH | Windows Server 2019 Internet Protocol version 6 (IPv6) source routing must be configured to the highest protection level to prevent IP source routing."
   ansible.windows.win_regedit:
       path: HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters
       value: DisableIPSourceRouting

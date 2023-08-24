@@ -6,7 +6,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
 
-      - name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | import reuseable task."
+      - name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000010'
@@ -26,7 +26,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
 
-      - name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | import reuseable task."
+      - name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000030'
@@ -124,7 +124,7 @@
                 - "Defender was automatically installed by Ansible because your defined Antivirus is not"
                 - "currently Installed on the system or the shell search could not find it."
                 - "Please change the variable in wn19stig_antivirus_program back to defender to satisfy STIG"
-                - "requiurements or until you properly install a 3rd party Anti-Virus that yields results when searching."
+                - "requirements or until you properly install a 3rd party Anti-Virus that yields results when searching."
         when:
             - wn19_00_000110_virus_audit.stdout_lines | length == 0
             - "'defender' not in wn19stig_antivirus_program"
@@ -155,8 +155,8 @@
             msg:
                 - "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
                 - "Please change the variable in wn19stig_antivirus_program back to defender to satisfy STIG"
-                - "requiurements or until you properly install a 3rd party Anti-Virus that yields results when searching."
-                - "By Default Defender Antivirus has been installed, check current status below to verify running."
+                - "requirements or until you properly install a 3rd party Anti-Virus that yields results when searching."
+                - "By Default Defender Antivirus has been installed, check the current status below to verify running."
                 - "{{ wn19_00_000110_virus_audit_windefend.stdout_lines | trim }}"
         when:
             - wn19_00_000110_virus_audit_windefend.stdout_lines | length > 1
@@ -196,10 +196,10 @@
                 - "Warning!! This is a manual task. Windows Server 2019 local volumes must use a format"
                 - "that supports NTFS attributes. Please check to verify your system is in compliance."
                 - "ReFS (resilient file system) is also acceptable and would not be a finding."
-                - "This does not apply to system partitions such the Recovery and EFI System Partition."
+                - "This does not apply to system partitions such as the Recovery and EFI System Partition."
                 - "{{ wn19_00_000130_audit.stdout.split('\n') }}"
 
-      - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | import reuseable task."
+      - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000130'
@@ -338,7 +338,7 @@
       - name: "HIGH | WN19-DC-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
         ansible.builtin.debug:
             msg:
-                - "Alert! Below are the users in the administrators group. Please review and confirm all users should be in this group"
+                - "Alert! Below are the users in the Administrators Group. Please review and confirm all users should be in this group"
                 - "{{ wn19_dc_000010_admin_usrs.stdout_lines }}"
 
       - name: "HIGH | WN19-DC-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system. | Warn Count."
@@ -362,7 +362,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
 
-      - name: "WN19-DC-000070 | AUDIT | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access. | import reuseable task."
+      - name: "WN19-DC-000070 | AUDIT | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000070'
@@ -383,7 +383,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions."
 
-      - name: "HIGH | WN19-DC-000080 | AUDIT | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions. | import reuseable task."
+      - name: "HIGH | WN19-DC-000080 | AUDIT | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000080'
@@ -404,7 +404,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions."
 
-      - name: "HIGH | WN19-DC-000090 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions. | import reuseable task."
+      - name: "HIGH | WN19-DC-000090 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000090'
@@ -425,7 +425,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
 
-      - name: "HIGH | WN19-DC-000100 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions. | import reuseable task."
+      - name: "HIGH | WN19-DC-000100 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000100'
@@ -446,7 +446,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
 
-      - name: "HIGH | WN19-DC-000110 | AUDIT | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions. | import reuseable task."
+      - name: "HIGH | WN19-DC-000110 | AUDIT | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000110'
@@ -469,7 +469,7 @@
                 - "Warning!! This is a manual task.  Windows Server 2019 directory data (outside the root DSE) of a non-public"
                 - "directory must be configured to prevent anonymous access."
 
-      - name: "HIGH | WN19-DC-000150 | AUDIT | Windows Server 2019 must use an anti-virus program. | import reuseable task."
+      - name: "HIGH | WN19-DC-000150 | AUDIT | Windows Server 2019 must use an anti-virus program. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
   vars:
       warn_control_id: 'WN19-DC-000150'
@@ -490,7 +490,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
 
-      - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | import reuseable task."
+      - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000290'
@@ -505,14 +505,14 @@
       - SV-205646r569188_rule
       - V-205646
 
-# add some task/external variable for approved CAs, check for DoD and how to pull programatically
+# add some task/external variable for approved CAs, check for DoD and how to pull programmatically
 - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
   block:
       - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | Message out"
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
 
-      - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | import reuseable task."
+      - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000300'

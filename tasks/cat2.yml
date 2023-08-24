@@ -132,7 +132,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
 
-      - name: "MEDIUM | WN19-00-000060 | AUDIT | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization. | import reuseable task."
+      - name: "MEDIUM | WN19-00-000060 | AUDIT | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000060'
@@ -153,7 +153,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 shared user accounts must not be permitted."
 
-      - name: "MEDIUM | WN19-00-000070 | AUDIT | Windows Server 2019 shared user accounts must not be permitted. | import reuseable task."
+      - name: "MEDIUM | WN19-00-000070 | AUDIT | Windows Server 2019 shared user accounts must not be permitted. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000070'
@@ -173,7 +173,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
 
-      - name: "MEDIUM | WN19-00-000080 | AUDIT | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs. | import reuseable task."
+      - name: "MEDIUM | WN19-00-000080 | AUDIT | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000080'
@@ -244,7 +244,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 must have a host-based intrusion detection or prevention system."
 
-      - name: "MEDIUM | WN19-00-000120 | AUDIT | Windows Server 2019 must have a host-based intrusion detection or prevention system. | import reuseable task."
+      - name: "MEDIUM | WN19-00-000120 | AUDIT | Windows Server 2019 must have a host-based intrusion detection or prevention system. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000120'
@@ -364,7 +364,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained."
 
-      - name: "MEDIUM | WN19-00-000170 | AUDIT | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained. | import reuseable task."
+      - name: "MEDIUM | WN19-00-000170 | AUDIT | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000170'
@@ -582,7 +582,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 system files must be monitored for unauthorized changes."
 
-      - name: "MEDIUM | WN19-00-000220 | AUDIT | Windows Server 2019 system files must be monitored for unauthorized changes. | import reuseable task."
+      - name: "MEDIUM | WN19-00-000220 | AUDIT | Windows Server 2019 system files must be monitored for unauthorized changes. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000220'
@@ -690,7 +690,7 @@
                 - "Warning!! This is a manual task. Windows Server 2019 systems requiring data at rest protections"
                 - "must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
 
-      - name: "MEDIUM | WN19-00-000250 | AUDIT | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest. | import reuseable task."
+      - name: "MEDIUM | WN19-00-000250 | AUDIT | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000250'
@@ -747,7 +747,7 @@
                 - "Document the roles and features required for the system to operate. Uninstall any that are not required."
                 - "{{ wn19_00_000270_audit.stdout_lines }}"
 
-      - name: "MEDIUM | WN19-00-000270 | AUDIT | Windows Server 2019 must have the roles and features required by the system documented. | import reuseable task."
+      - name: "MEDIUM | WN19-00-000270 | AUDIT | Windows Server 2019 must have the roles and features required by the system documented. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000270'
@@ -841,7 +841,7 @@
                 - "Verify DoD-approved ESS software is installed and properly operating."
                 - "Ask the site ISSM for documentation of the ESS software installation and configuration."
 
-      - name: "MEDIUM | WN19-00-000290 | AUDIT | Windows Server 2019 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where Host Based Security System (HBSS) is used; 30 days, for any additional internal network scans not covered by HBSS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP). | import reuseable task."
+      - name: "MEDIUM | WN19-00-000290 | AUDIT | Windows Server 2019 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where Host Based Security System (HBSS) is used; 30 days, for any additional internal network scans not covered by HBSS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP). | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000290'
@@ -1584,7 +1584,7 @@
                 - "different system or media than the system being audited. Establish and implement a process"
                 - "for backing up log data to another system or media other than the system being audited."
 
-      - name: "MEDIUM | WN19-AU-000010 | AUDIT | Windows Server 2019 audit records must be backed up to a different system or media than the system being audited. | import reuseable task."
+      - name: "MEDIUM | WN19-AU-000010 | AUDIT | Windows Server 2019 audit records must be backed up to a different system or media than the system being audited. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-AU-000010'
@@ -1604,7 +1604,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real time and offload standalone or nondomain-joined systems weekly."
 
-      - name: "MEDIUM | WN19-AU-000020 | AUDIT | Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real time and offload standalone or nondomain-joined systems weekly. | import reuseable task."
+      - name: "MEDIUM | WN19-AU-000020 | AUDIT | Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real time and offload standalone or nondomain-joined systems weekly. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-AU-000020'
@@ -3213,7 +3213,7 @@
                 - ">> Policies >> Windows Settings >> Security Settings >> Account Policies >> Kerberos Policy"
                 - ">> Enforce user logon restrictions to Enabled"
 
-      - name: "MEDIUM | WN19-DC-000020 | AUDIT | Windows Server 2019 Kerberos user logon restrictions must be enforced. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000020 | AUDIT | Windows Server 2019 Kerberos user logon restrictions must be enforced. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000020'
@@ -3240,7 +3240,7 @@
                 - ">> Maximum lifetime for service ticket to a maximum of 600 minutes, but not 0, which equates to"
                 - "Ticket doesn't expire"
 
-      - name: "MEDIUM | WN19-DC-000030 | AUDIT | Windows Server 2019 Kerberos service ticket maximum lifetime must be limited to 600 minutes or less. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000030 | AUDIT | Windows Server 2019 Kerberos service ticket maximum lifetime must be limited to 600 minutes or less. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000030'
@@ -3266,7 +3266,7 @@
                 - ">> Policies >> Windows Settings >> Security Settings >> Account Policies >> Kerberos Policy"
                 - ">> Maximum lifetime for user ticket to a maximum of 10 hours but not 0, which equates to Ticket doesn't expire"
 
-      - name: "MEDIUM | WN19-DC-000040 | AUDIT | Windows Server 2019 Kerberos user ticket lifetime must be limited to 10 hours or less. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000040 | AUDIT | Windows Server 2019 Kerberos user ticket lifetime must be limited to 10 hours or less. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000040'
@@ -3292,7 +3292,7 @@
                 - ">> Policies >> Windows Settings >> Security Settings >> Account Policies >> Kerberos Policy"
                 - ">> Maximum lifetime for user ticket renewal to a maximum of 7 days or less"
 
-      - name: "MEDIUM | WN19-DC-000050 | AUDIT | Windows Server 2019 Kerberos policy user ticket renewal maximum lifetime must be limited to seven days or less.| import reuseable task."
+      - name: "MEDIUM | WN19-DC-000050 | AUDIT | Windows Server 2019 Kerberos policy user ticket renewal maximum lifetime must be limited to seven days or less.| import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000050'
@@ -3319,7 +3319,7 @@
                 - ">> Policies >> Windows Settings >> Security Settings >> Account Policies >> Kerberos Policy"
                 - ">> Maximum tolerance for computer clock synchronization to a maximum of 5 minutes or less."
 
-      - name: "MEDIUM | WN19-DC-000060 | AUDIT | Windows Server 2019 computer clock synchronization tolerance must be limited to 5 minutes or less. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000060 | AUDIT | Windows Server 2019 computer clock synchronization tolerance must be limited to 5 minutes or less. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000060'
@@ -3385,7 +3385,7 @@
                 - "Review installed applications. Remove additional roles or applications such as web, database,"
                 - "and email from the domain controller."
 
-      - name: "MEDIUM | WN19-DC-000130 | AUDIT | Windows Server 2019 domain controllers must run on a machine dedicated to that function. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000130 | AUDIT | Windows Server 2019 domain controllers must run on a machine dedicated to that function. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000130'
@@ -3411,7 +3411,7 @@
                 - "implementations at a classified confidentiality level that transfer replication data through a network cleared"
                 - "to a lower level than the data."
 
-      - name: "MEDIUM | WN19-DC-000140 | AUDIT | Windows Server 2019 must use separate, NSA-approved (Type 1) cryptography to protect the directory data in transit for directory service implementations at a classified confidentiality level when replication data traverses a network cleared to a lower level than the data. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000140 | AUDIT | Windows Server 2019 must use separate, NSA-approved (Type 1) cryptography to protect the directory data in transit for directory service implementations at a classified confidentiality level when replication data traverses a network cleared to a lower level than the data. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000140'
@@ -3434,7 +3434,7 @@
                 - "Warning!! This is a manual task. Active Directory Group Policy objects must be configured with proper audit settings."
                 - "Please review the STIG documentation for proper direction on auditing this control."
 
-      - name: "MEDIUM | WN19-DC-000170 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must be configured with proper audit settings. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000170 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must be configured with proper audit settings. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000170'
@@ -3458,7 +3458,7 @@
                 - "Warning!! This is a manual task. The Active Directory Domain object must be configured with proper audit settings."
                 - "Please review the STIG documentation for proper direction on auditing this control."
 
-      - name: "MEDIUM | WN19-DC-000180 | AUDIT | Windows Server 2019 Active Directory Domain object must be configured with proper audit settings. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000180 | AUDIT | Windows Server 2019 Active Directory Domain object must be configured with proper audit settings. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000180'
@@ -3482,7 +3482,7 @@
                 - "Warning!! This is a manual task. The Active Directory Infrastructure object must be configured with proper audit settings."
                 - "Please review the STIG documentation for proper direction on auditing this control."
 
-      - name: "MEDIUM | WN19-DC-000190 | AUDIT | Windows Server 2019 Active Directory Infrastructure object must be configured with proper audit settings. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000190 | AUDIT | Windows Server 2019 Active Directory Infrastructure object must be configured with proper audit settings. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000190'
@@ -3507,7 +3507,7 @@
                 - "Unit (OU) object must be configured with proper audit settings."
                 - "Please review the STIG documentation for proper direction on auditing this control."
 
-      - name: "MEDIUM | WN19-DC-000200 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must be configured with proper audit settings. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000200 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must be configured with proper audit settings. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000200'
@@ -3531,7 +3531,7 @@
                 - "Warning!! This is a manual task. The Active Directory AdminSDHolder object must be configured with proper audit settings."
                 - "Please review the STIG documentation for proper direction on auditing this control."
 
-      - name: "MEDIUM | WN19-DC-000210 | AUDIT | Windows Server 2019 Active Directory AdminSDHolder object must be configured with proper audit settings. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000210 | AUDIT | Windows Server 2019 Active Directory AdminSDHolder object must be configured with proper audit settings. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000210'
@@ -3555,7 +3555,7 @@
                 - "Warning!! This is a manual task. The Active Directory RID Manager$ object must be configured with proper audit settings."
                 - "Please review the STIG documentation for proper direction on auditing this control."
 
-      - name: "MEDIUM | WN19-DC-000220 | AUDIT | Windows Server 2019 Active Directory RID Manager$ object must be configured with proper audit settings. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000220 | AUDIT | Windows Server 2019 Active Directory RID Manager$ object must be configured with proper audit settings. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000220'
@@ -3682,7 +3682,7 @@
                 - "Warning!! This is a manual task. Domain controllers must have a PKI server certificate."
                 - "Please review the STIG documentation for proper direction on auditing this control."
 
-      - name: "MEDIUM | WN19-DC-000280 | AUDIT | Windows Server 2019 domain controllers must have a PKI server certificate. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000280 | AUDIT | Windows Server 2019 domain controllers must have a PKI server certificate. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000280'
@@ -3953,7 +3953,7 @@
             - wn19stig_krbtgt_account_pass_age <= 180
             - wn19_dc_000430_audit.stdout | length > 0
 
-      - name: "MEDIUM | WN19-DC-000430 | AUDIT | The password for the krbtgt account on a domain must be reset at least every 180 days. | import reuseable task."
+      - name: "MEDIUM | WN19-DC-000430 | AUDIT | The password for the krbtgt account on a domain must be reset at least every 180 days. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-DC-000430'
