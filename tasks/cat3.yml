@@ -89,7 +89,7 @@
         ansible.builtin.debug:
             msg: "Warning!! This is a manual task. Windows Server 2019 must have Secure Boot enabled."
 
-      - name: "LOW | WN19-00-000470 | AUDIT | Windows Server 2019 must have Secure Boot enabled. | import reuseable task."
+      - name: "LOW | WN19-00-000470 | AUDIT | Windows Server 2019 must have Secure Boot enabled. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000470'
