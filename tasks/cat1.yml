@@ -527,7 +527,7 @@
       - SV-205647r569188_rule
       - V-205647
 
-# populate a dictionary/list from customer
+# populate a dictionary/list from the customer
 - name: "HIGH | WN19-MS-000010 | AUDIT | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
   block:
       - name: "HIGH | WN19-MS-000010 | AUDIT | Windows Server 2019 must only allow Administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system"
@@ -727,7 +727,7 @@
       - SV-205753r877392_rule
       - V-205753
 
-# fails openscap - the v1r10 xml checks for "Administrators" string but secedit uses the SIDs thus
+# fails openscap - the v1r10 xml checks for the "Administrators" string but secedit uses the SIDs thus
 # "SeDebugPrivilege = *S-1-5-32-544"  is Administrators (openscap fails)
 # emailed_disa.letterkenny.re.mbx.stig-customer-support-mailbox@mail.mil
 # SCC tool works
