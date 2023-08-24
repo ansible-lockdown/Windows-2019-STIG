@@ -270,7 +270,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task to audit. Windows Server 2019 icacls program needs to meet"
-                - "the STIG requirements. Please check the report below and compare to the STIG requirements."
+                - "the STIG requirements. Please check the report below and compare it to the STIG requirements."
                 - "{{ wn19_00_000140_drive_root_audit.stdout_lines }}"
 
       - name: "MEDIUM | WN19-00-000140 | AUDIT | Windows Server 2019 permissions for the system drive root directory usually C:\ must conform to minimum requirements. | Warn Count"
@@ -299,7 +299,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task to audit. Windows Server 2019 icacls program needs to meet"
-                - "the STIG requirements. Please check the report below and compare to the STIG requirements."
+                - "the STIG requirements. Please check the report below and compare it to the STIG requirements."
                 - "{{ wn19_00_000150_program_files_audit.stdout_lines }}"
 
       - name: "MEDIUM | WN19-00-000150 | AUDIT | Windows Server 2019 permissions for program file directories must conform to minimum requirements. | Obtain icacls for Program Files x86"
@@ -312,7 +312,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task to audit. Windows Server 2019 icacls program files x86 needs to meet"
-                - "the STIG requirements. Please check the report below and compare to the STIG requirements."
+                - "the STIG requirements. Please check the report below and compare it to the STIG requirements."
                 - "{{ wn19_00_000150_program_files_86_audit.stdout_lines }}"
 
       - name: "MEDIUM | WN19-00-000150 | AUDIT | Windows Server 2019 permissions for program file directories must conform to minimum requirements. | Warn Count"
@@ -341,7 +341,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task to audit. Windows Server 2019 permissions for the Windows installation directory needs to meet"
-                - "the STIG requirements. Please check the report below and compare to the STIG requirements."
+                - "the STIG requirements. Please check the report below and compare it to the STIG requirements."
                 - "{{ wn19_00_000160_windows_dir_audit.stdout_lines }}"
 
       - name: "MEDIUM | WN19-00-000160 | AUDIT | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements. | Warn Count."
@@ -475,7 +475,7 @@
         ansible.builtin.debug:
             msg:
                 - "The accounts listed do not require a password and are currently enabled."
-                - "To conform to STIG complaince configure passwords on all accounts."
+                - "To conform to STIG complaint configure passwords on all accounts."
                 - "{{ wn19_00_000200_audit_dc.stdout.split('\n') }}"
         when:
             - not wn19_00_000200_audit_dc is skipped
@@ -492,7 +492,7 @@
         ansible.builtin.debug:
             msg:
                 - "The accounts listed do not require a password and are currently enabled."
-                - "To conform to STIG complaince configure passwords on all accounts."
+                - "To conform to STIG complaint configure passwords on all accounts."
                 - "{{ wn19_00_000200_audit_dm_sa.stdout.split('\n') }}"
         when:
             - not wn19_00_000200_audit_dm_sa is skipped
@@ -680,7 +680,7 @@
       - SRG-OS-000480-GPOS-00227
       - SV-205852r569188_rule
       - V-205852
-      # do we need async; its very long running to search filesystems
+      # do we need async?;  It's very long-running to search filesystems
 
 - name: "MEDIUM | WN19-00-000250 | AUDIT | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
   block:
@@ -732,7 +732,7 @@
 
 - name: "MEDIUM | WN19-00-000270 | AUDIT | Windows Server 2019 must have the roles and features required by the system documented."
   block:
-      - name: "MEDIUM | WN19-00-000270 | AUDIT | Windows Server 2019 bust have the roles and features required by the system documented. | Get Roles & Features Installed"
+      - name: "MEDIUM | WN19-00-000270 | AUDIT | Windows Server 2019 must have the roles and features required by the system documented. | Get Roles & Features Installed"
         ansible.windows.win_shell: Get-WindowsFeature | Where-Object -FilterScript {$_.Installed -EQ $True}
         changed_when: false
         failed_when: false
@@ -782,7 +782,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task. Windows Server 2019 must have a host-based firewall installed and enabled."
-                - "Windows does not currently have its built in firewall enabled."
+                - "Windows does not currently have its built-in firewall enabled."
                 - "Please check for 3rd party firewall and verify the configuration requirements conform to firewall STIG standards."
                 - "{{ wn19_00_000280_firewall_audit.stdout_lines }}"
         when:
@@ -794,7 +794,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task. Windows Server 2019 must have a host-based firewall installed and enabled."
-                - "Windows host based firewall currently is enabled on Domain, Private, And Public Profiles."
+                - "Windows host-based firewall currently is enabled on Domain, Private, And Public Profiles."
                 - "Please check the firewall and verify the configuration requirements conform to firewall STIG standards."
                 - "{{ wn19_00_000280_firewall_audit.stdout_lines }}"
         when:
@@ -806,7 +806,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task. Windows Server 2019 must have a host-based firewall installed and enabled."
-                - "Windows host based firewall currently is partially enabled on Domain, Private, And Public Profiles."
+                - "Windows host-based firewall currently is partially enabled on Domain, Private, And Public Profiles."
                 - "Please check the firewall and verify the configuration requirements conform to firewall STIG standards."
                 - "{{ wn19_00_000280_firewall_audit.stdout_lines }}"
         when:
@@ -829,9 +829,9 @@
       - SV-214936r852535_rule
       - V-214936
 
-- name: "MEDIUM | WN19-00-000290 | AUDIT | Windows Server 2019 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where Host Based Security System (HBSS) is used; 30 days, for any additional internal network scans not covered by HBSS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP)."
+- name: "MEDIUM | WN19-00-000290 | AUDIT | Windows Server 2019 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where Host-Based Security System (HBSS) is used; 30 days, for any additional internal network scans not covered by HBSS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP)."
   block:
-      - name: "MEDIUM | WN19-00-000290 | AUDIT | Windows Server 2019 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where Host Based Security System (HBSS) is used; 30 days, for any additional internal network scans not covered by HBSS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP)."
+      - name: "MEDIUM | WN19-00-000290 | AUDIT | Windows Server 2019 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where Host-Based Security System (HBSS) is used; 30 days, for any additional internal network scans not covered by HBSS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP)."
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task.  Windows Server 2019 must employ automated mechanisms to determine"
@@ -841,7 +841,7 @@
                 - "Verify DoD-approved ESS software is installed and properly operating."
                 - "Ask the site ISSM for documentation of the ESS software installation and configuration."
 
-      - name: "MEDIUM | WN19-00-000290 | AUDIT | Windows Server 2019 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where Host Based Security System (HBSS) is used; 30 days, for any additional internal network scans not covered by HBSS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP). | import reusable task."
+      - name: "MEDIUM | WN19-00-000290 | AUDIT | Windows Server 2019 must employ automated mechanisms to determine the state of system components with regard to flaw remediation using the following frequency: continuously, where Host-Based Security System (HBSS) is used; 30 days, for any additional internal network scans not covered by HBSS; and annually, for external scans by Computer Network Defense Service Provider (CNDSP). | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-00-000290'
@@ -868,7 +868,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task. Please review all accounts to verify there are no temporary accounts"
-                - "listed where the expiration date is longer then 72 hours."
+                - "listed where the expiration date is longer than 72 hours."
                 - "{{ wn19_00_000300_audit_dc.stdout.split('\n') }}"
         when:
             - wn19_00_000300_audit_dc is not skipped
@@ -885,7 +885,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task. Please review all accounts to verify there are no temporary accounts"
-                - "listed where the expiration date is longer then 72 hours."
+                - "listed where the expiration date is longer than 72 hours."
                 - "{{ wn19_00_000300_audit_sa.stdout.split('\n') }}"
         when:
             - wn19_00_000300_audit_sa is not skipped
@@ -1185,7 +1185,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task. Internet Information Services (IIS) Manager FTP is currently"
-                - "installed on the system. Anonymous Authentication must be set to diabled per STIG Requirements."
+                - "installed on the system. Anonymous Authentication must be set to disabled per STIG Requirements."
         when: "'Installed' in wn19_00_000420_ftp_audit"
 
       - name: "MEDIUM | WN19-00-000420 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent anonymous logons. | Warn Count"
@@ -1228,7 +1228,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! This is a manual task. For any sites with a Binding that lists FTP, right-click the site and select Explore."
-                - "If the site includes any system areas such as root of the drive, Program Files, or Windows directories, this is a finding"
+                - "If the site includes any system areas such as the root of the drive, Program Files, or Windows directories, this is a finding"
                 - "Configure the FTP sites to allow access only to specific FTP shared resources. Do not allow access to other areas of the system."
                 - "{{ wn19_00_000430_isssite_audit.stdout.split('\n') }}"
         when: "'Installed' in wn19_00_000430_ftp_audit"
@@ -1265,7 +1265,7 @@
       - name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights. | Warning Message User Accounts"
         ansible.builtin.debug:
             msg:
-                - "Warning!! Please review the User Rights listed for each of any unresolved SID to determine whether they are valid."
+                - "Warning!! Please review the User Rights listed for each of any unresolved SIDs to determine whether they are valid."
                 - "User Accounts"
                 - "----------------------------------------------------------------------"
                 - "{{ wn19_00_000450_orphaned_user_accounts.stdout_lines }}"
@@ -1274,7 +1274,7 @@
       - name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights. | Warning Message Group Accounts."
         ansible.builtin.debug:
             msg:
-                - "Warning!! Please review the Group Rights listed for each of any unresolved SID to determine whether they are valid."
+                - "Warning!! Please review the Group Rights listed for each of any unresolved SIDs to determine whether they are valid."
                 - "Group Accounts"
                 - "----------------------------------------------------------------------"
                 - "{{ wn19_00_000450_orphaned_group_accounts.stdout_lines }}"
@@ -1426,7 +1426,7 @@
       - name: "MEDIUM | WN19-AC-000040 | AUDIT | Windows Server 2019 password history must be configured to 24 passwords remembered. | Warning Message"
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have an invalid number remembered passwords set for wn19stig_passwordhistorysize please read"
+                - "Warning!! You have an invalid number of remembered passwords set for wn19stig_passwordhistorysize please read"
                 - "the notes for the variable and make the necessary change to the variable to be in compliance."
         when: wn19stig_passwordhistorysize < 24
 
@@ -1598,13 +1598,13 @@
       - SV-205799r877390_rule
       - V-205799
 
-- name: "MEDIUM | WN19-AU-000020 | AUDIT | Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real time and offload standalone or nondomain-joined systems weekly."
+- name: "MEDIUM | WN19-AU-000020 | AUDIT | Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real-time and offload standalone or nondomain-joined systems weekly."
   block:
-      - name: "MEDIUM | WN19-AU-000020 | AUDIT | Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real time and offload standalone or nondomain-joined systems weekly."
+      - name: "MEDIUM | WN19-AU-000020 | AUDIT | Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real-time and offload standalone or nondomain-joined systems weekly."
         ansible.builtin.debug:
-            msg: "Warning!! This is a manual task. Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real time and offload standalone or nondomain-joined systems weekly."
+            msg: "Warning!! This is a manual task. Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real-time and offload standalone or nondomain-joined systems weekly."
 
-      - name: "MEDIUM | WN19-AU-000020 | AUDIT | Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real time and offload standalone or nondomain-joined systems weekly. | import reusable task."
+      - name: "MEDIUM | WN19-AU-000020 | AUDIT | Windows Server 2019 must, at a minimum, offload audit records of interconnected systems in real-time and offload standalone or nondomain-joined systems weekly. | import reusable task."
         ansible.builtin.import_tasks: warning_facts.yml
         vars:
             warn_control_id: 'WN19-AU-000020'
@@ -1640,7 +1640,7 @@
                 - "to prevent standard user accounts or groups from having access. The default permissions listed below satisfy this requirement:"
                 - "Eventlog - Full Control, SYSTEM - Full Control, Administrators - Full Control"
                 - "Current location of Application.evtx is {{ wn19_au_000030_app_log_location.stdout | trim }}"
-                - "If the location of the logs has been changed, when adding Eventlog to the permissions,"
+                - "If the location of the logs has been changed when adding Eventlog to the permissions,"
                 - "it must be entered as NT Service\\Eventlog"
                 - "{{ wn19_au_000030_app_log_permissions.stdout_lines | reject('match', '^$') | list }}"
 
@@ -1681,7 +1681,7 @@
                 - "to prevent standard user accounts or groups from having access. The default permissions listed below satisfy this requirement:"
                 - "Eventlog - Full Control, SYSTEM - Full Control, Administrators - Full Control"
                 - "Current location of Security.evtx is {{ wn19_au_000040_sec_log_location.stdout | trim }}"
-                - "If there is no output below If the location of the logs has been changed, when adding Eventlog to the permissions,"
+                - "If there is no output below If the location of the logs has been changed when adding Eventlog to the permissions,"
                 - "it must be entered as NT Service\\Eventlog"
                 - "{{ wn19_au_000040_sec_log_permissions.stdout_lines | reject('match', '^$') | list }}"
 
@@ -1722,7 +1722,7 @@
                 - "to prevent standard user accounts or groups from having access. The default permissions listed below satisfy this requirement:"
                 - "Eventlog - Full Control, SYSTEM - Full Control, Administrators - Full Control"
                 - "Current location of System.evtx is {{ wn19_au_000050_system_log_location.stdout | trim }}"
-                - "If the location of the logs has been changed, when adding Eventlog to the permissions,"
+                - "If the location of the logs has been changed when adding Eventlog to the permissions,"
                 - "it must be entered as NT Service\\Eventlog"
                 - "{{ wn19_au_000050_system_log_permissions.stdout_lines | reject('match', '^$') | list }}"
 
@@ -3237,7 +3237,7 @@
                 - "Warning!! The Kerberos service ticket maximum lifetime must be limited to 600 minutes or less."
                 - "Configure the policy value in the Default Domain Policy for Computer Configuration"
                 - ">> Policies >> Windows Settings >> Security Settings >> Account Policies >> Kerberos Policy"
-                - ">> Maximum lifetime for service ticket to a maximum of 600 minutes, but not 0, which equates to"
+                - ">> Maximum lifetime for a service ticket to a maximum of 600 minutes, but not 0, which equates to"
                 - "Ticket doesn't expire"
 
       - name: "MEDIUM | WN19-DC-000030 | AUDIT | Windows Server 2019 Kerberos service ticket maximum lifetime must be limited to 600 minutes or less. | import reusable task."
@@ -3356,7 +3356,7 @@
                 - "from the directory server data files. Ignore system shares (e.g., NETLOGON, SYSVOL, and administrative"
                 - "shares ending in $). User shares that are hidden (ending with $) should not be ignored."
                 - "If user shares are located on the same logical partition as the directory server data files, this is a finding."
-                - "Note the directory locations in the values for DSA Database file"
+                - "Note the directory locations in the values for the DSA Database file"
                 - "{{ wn19_dc_000120_audit_dirlocation.stdout_lines | trim }}"
                 - "Note the logical drive(s) or file system partition for any organization-created data shares."
                 - "{{ wn19_dc_000120_audit_shares.stdout_lines | trim }}"
@@ -4529,7 +4529,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! You have not set the right number of days for wn19stig_machineaccountpsswd_max_age"
-                - "Please read the notes for the variable and make the necessary change to the variable to be in compliance."
+                - "Please read the notes for the variable and make the necessary changes to the variable to be in compliance."
         when:
             - wn19stig_machineaccountpsswd_max_age > 30 or
               wn19stig_machineaccountpsswd_max_age == 0
@@ -4585,7 +4585,7 @@
         ansible.builtin.debug:
             msg:
                 - "Warning!! You have not set the right number of seconds for wn19stig_inactivitytimeoutsecs"
-                - "Please read the notes for the variable and make the necessary change to the variable to be in compliance."
+                - "Please read the notes for the variable and make the necessary changes to the variable to be in compliance."
         when:
             - wn19stig_inactivitytimeoutsecs > 900 or
               wn19stig_inactivitytimeoutsecs == 0
@@ -4941,8 +4941,8 @@
       - name: "MEDIUM | WN19-SO-000400 | PATCH | Windows Server 2019 User Account Control must, at a minimum, prompt administrators for consent on the secure desktop. | Variable Check."
         ansible.builtin.debug:
             msg:
-                - "Warning!! You have not choosen a correct setting for wn19stig_consentprompt"
-                - "Please read the notes for the variable and make the necessary change to the variable to be in compliance."
+                - "Warning!! You have not chosen the correct setting for wn19stig_consentprompt"
+                - "Please read the notes for the variable and make the necessary changes to the variable to be in compliance."
         when:
             - wn19stig_consentprompt < 1 or
               wn19stig_consentprompt > 2
