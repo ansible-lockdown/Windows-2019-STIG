@@ -11,7 +11,7 @@ August 2023 Update
   - Updated Tags in tasks/main.
 
 June / July 2023 Update
-  - Updated tags on controls based Version 2 Release 7
+  - Updated tags on controls based on Version 2 Release 7
   - Updated win_skip_for_test var to true
   - Updated Readme
   - Updated Changelog
@@ -24,8 +24,8 @@ June / July 2023 Update
     - Added Control WN19-AU-000100
     - Added Control WN19-AU-000110
     - Added Control WN19-SO-000070
-  - Rule IDs updated due to changes in content management system.
-  - Updated all tags to proper format.
+  - Rule IDs updated due to changes in the content management system.
+  - Updated all tags to the proper format.
   - Major updates to all controls
     - Updated Misc Controls to have additional data in warning messages.
     - Fixed Misc Controls Registry entry errors.
