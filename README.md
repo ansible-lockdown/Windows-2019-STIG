@@ -48,7 +48,7 @@ Join us on our [Discord Server](https://discord.io/ansible-lockdown) to ask ques
 
 This role **will make changes to the system** which may have unintended consequences. This is not an auditing tool but a remediation tool to be used after an audit.
 
-Check Mode is not supported! The role wil be completed in check mode without errors, but it is not supported and should be used with caution.
+Check Mode is not supported! The role will be completed in check mode without errors, but it is not supported and should be used with caution.
 
 This role was developed against a clean install of the Windows 2019 operating system. If you are implementing an existing system please review this role for any site-specific changes that are needed.
 
@@ -58,19 +58,19 @@ To use the release version please point to the main branch and relevant release 
 
 ## Matching a security Level for STIG
 
-It is possible to to only run controls that are based on a particular security level for STIG.
+It is possible to only run controls that are based on a particular security level for STIG.
 This is managed using tags:
 
 - CAT1
 - CAT2
 - CAT3
 
-The control found in defaults/main.yml also needs to reflect true so as this will allow the controls to run when the playbook is launched.
+The control found in defaults/main.yml also needs to reflect true as this will allow the controls to run when the playbook is launched.
 
 ## Coming from a previous release
 
 STIG releases always contain changes, so it is highly recommended to review the new references and available variables. This has changed significantly since the initial release of ansible-lockdown.
-This is now compatible with python3 if it is found to be the default interpreter. This does come with prerequisites which it configures the system accordingly.
+This is now compatible with python3 if it is found to be the default interpreter. This does come with prerequisites that configure the system accordingly.
 
 Further details can be seen in the [Changelog](./ChangeLog.md)
 
@@ -118,7 +118,7 @@ This role is designed so that the end user should not have to edit the tasks the
 
 ## Tags
 
-There are many tags available for added control precision. Each control may have its own set of tags noting what category, what OS element it relates to, if it's a patch or audit, and the rule number.
+There are many tags available for added control precision. Each control may have its own set of tags noting what category, what OS element it relates to if it's a patch or audit, and the rule number.
 
 Below is an example of the tag section from a control within this role. Using this example if you set your run to skip all controls with the tag CCI-000185, this task will be skipped. The opposite can also happen where you run only controls tagged with CCI-000185.
 
