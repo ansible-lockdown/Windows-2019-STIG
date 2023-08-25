@@ -46,37 +46,37 @@ Join us on our [Discord Server](https://discord.io/ansible-lockdown) to ask ques
 
 ## Caution(s)
 
-This role **will make changes to the system** which may have unintended consequences. This is not an auditing tool but rather a remediation tool to be used after an audit has been conducted.
+This role **will make changes to the system** which may have unintended consequences. This is not an auditing tool but a remediation tool to be used after an audit.
 
-Check Mode is not supported! The role will complete in check mode without errors, but it is not supported and should be used with caution.
+Check Mode is not supported! The role will be completed in check mode without errors, but it is not supported and should be used with caution.
 
-This role was developed against a clean install of the Windows 2019 operating system. If you are implementing to an existing system please review this role for any site specific changes that are needed.
+This role was developed against a clean install of the Windows 2019 operating system. If you are implementing an existing system please review this role for any site-specific changes that are needed.
 
-To use release version please point to main branch and relevant release for the STIG benchmark you wish to work with.
+To use the release version please point to the main branch and relevant release for the STIG benchmark you wish to work with.
 
 ---
 
 ## Matching a security Level for STIG
 
-It is possible to to only run controls that are based on a particular for security level for STIG.
+It is possible to only run controls that are based on a particular security level for STIG.
 This is managed using tags:
 
 - CAT1
 - CAT2
 - CAT3
 
-The control found in defaults main also need to reflect true so as this will allow the controls to run when the playbook is launched.
+The control found in defaults/main.yml also needs to reflect true as this will allow the controls to run when the playbook is launched.
 
 ## Coming from a previous release
 
-STIG releases always contain changes, it is highly recommended to review the new references and available variables. This has changed significantly since the initial release of ansible-lockdown.
-This is now compatible with python3 if it is found to be the default interpreter. This does come with pre-requisites which it configures the system accordingly.
+STIG releases always contain changes, so it is highly recommended to review the new references and available variables. This has changed significantly since the initial release of ansible-lockdown.
+This is now compatible with python3 if it is found to be the default interpreter. This does come with prerequisites that configure the system accordingly.
 
 Further details can be seen in the [Changelog](./ChangeLog.md)
 
 ## Auditing (new)
 
-Currently this release does not have a auditing tool.
+Currently, this release does not have an auditing tool.
 
 ## Documentation
 
@@ -97,7 +97,7 @@ Currently this release does not have a auditing tool.
   - [Tower User Guide](https://docs.ansible.com/ansible-tower/latest/html/userguide/index.html)
   - [Ansible Community Info](https://docs.ansible.com/ansible/latest/community/index.html)
 - Functioning Ansible and/or Tower Installed, configured, and running. This includes all of the base Ansible/Tower configurations, needed packages installed, and infrastructure setup.
-- Please read through the tasks in this role to gain an understanding of what each control is doing. Some of the tasks are disruptive and can have unintended consequences in a live production system. Also familiarize yourself with the variables in the defaults/main.yml file.
+- Please read through the tasks in this role to gain an understanding of what each control is doing. Some of the tasks are disruptive and can have unintended consequences in a live production system. Also, familiarize yourself with the variables in the defaults/main.yml file.
 
 **Technical Dependencies:**
 
@@ -114,11 +114,11 @@ Package 'python-xmltodict' is required if you enable the OpenSCAP tool installat
 
 ## Role Variables
 
-This role is designed that the end user should not have to edit the tasks themselves. All customizing should be done via the defaults/main.yml file or with extra vars within the project, job, workflow, etc. Non-disruptive CAT I, CAT II, and CAT III findings will be corrected by default. Disruptive finding remediation can be enabled by setting `win19stig_disruption_high` to `yes`.
+This role is designed so that the end user should not have to edit the tasks themselves. All customizing should be done via the defaults/main.yml file or with extra vars within the project, job, workflow, etc. Non-disruptive CAT I, CAT II, and CAT III findings will be corrected by default. Disruptive finding remediation can be enabled by setting `win19stig_disruption_high` to `true`.
 
 ## Tags
 
-There are many tags available for added control precision. Each control may have it's own set of tags noting what category, what OS element it relates to, if it's a patch or audit, and the rule number.
+There are many tags available for added control precision. Each control may have its own set of tags noting what category, what OS element it relates to if it's a patch or audit, and the rule number.
 
 Below is an example of the tag section from a control within this role. Using this example if you set your run to skip all controls with the tag CCI-000185, this task will be skipped. The opposite can also happen where you run only controls tagged with CCI-000185.
 
