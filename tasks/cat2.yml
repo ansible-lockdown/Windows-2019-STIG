@@ -475,7 +475,7 @@
         ansible.builtin.debug:
             msg:
                 - "The accounts listed do not require a password and are currently enabled."
-                - "To conform to STIG complaint configure passwords on all accounts."
+                - "Configure passwords on all accounts to conform to STIG compliance."
                 - "{{ wn19_00_000200_audit_dc.stdout.split('\n') }}"
         when:
             - not wn19_00_000200_audit_dc is skipped
@@ -492,7 +492,7 @@
         ansible.builtin.debug:
             msg:
                 - "The accounts listed do not require a password and are currently enabled."
-                - "To conform to STIG complaint configure passwords on all accounts."
+                - "Configure passwords on all accounts to conform to STIG compliance."
                 - "{{ wn19_00_000200_audit_dm_sa.stdout.split('\n') }}"
         when:
             - not wn19_00_000200_audit_dm_sa is skipped
