@@ -2328,7 +2328,7 @@
 
       - name: "MEDIUM | WN19-AU-000330 | PATCH | Windows Server 2019 must be configured to audit System | IPsec Driver failures."
         ansible.windows.win_shell: AuditPol /set /subcategory:"IPsec Driver" /failure:enable
-        when: "'Success' not in wn19_au_000330_audit.stdout"
+        when: "'Failure' not in wn19_au_000330_audit.stdout"
   when:
       - wn19_au_000330
   tags:
