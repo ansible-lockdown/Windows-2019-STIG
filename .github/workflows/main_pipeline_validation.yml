@@ -12,12 +12,15 @@ on:  # yamllint disable-line rule:truthy
         types: [opened, reopened, synchronize]
         branches:
             - main
+            - latest
         paths:
             - '**.yml'
             - '**.sh'
             - '**.j2'
             - '**.ps1'
             - '**.cfg'
+  # Allow manual running of workflow
+    workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # This setion contains all the jobs below that are running in the workflow.
@@ -31,6 +34,12 @@ jobs:
         if: github.event.pull_request.head.repo.full_name == github.repository
         # The type of runner that the job will run on.
         runs-on: ubuntu-latest
+
+        # Least privilege for the job that holds the cloud credentials.
+        permissions:
+            id-token: write
+            contents: read
+            pull-requests: read
 
         env:
             ENABLE_DEBUG: false
@@ -52,13 +61,13 @@ jobs:
         steps:
           # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
             - name: Clone ${{ github.event.repository.name }}
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
               with:
                   ref: ${{ github.event.pull_request.head.sha }}
 
           # Pull In Terraform Code For Windows Azure
             - name: Clone github IaC plan
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
               with:
                   repository: ansible-lockdown/github_windows_IaC
                   path: .github/workflows/github_windows_IaC

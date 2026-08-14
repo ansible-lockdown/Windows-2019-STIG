@@ -3,6 +3,13 @@
 ## Release 3.0.0
 
 August 2026 Update
+ - Aligned the pipeline workflows with the Ansible-Lockdown Windows standard.
+  - The devel pipeline now also runs for pull requests into benchmark* branches, and the main
+    pipeline for pull requests into latest, so both branch models are covered.
+  - Added workflow_dispatch so the pipelines can be run manually.
+  - Added least-privilege permissions blocks. Neither job declared any, so both ran with the
+    default token scope.
+  - Moved actions/checkout to v7.
  - Hardened the pipeline workflows.
   - The playbook-test job now requires the pull request to originate from a branch in this
     repository. pull_request_target grants that job the repository secrets, and its steps check
