@@ -2,6 +2,22 @@
 
 ## Release 3.0.0
 
+August 2026 Update
+ - Hardened the pipeline workflows.
+  - The playbook-test job now requires the pull request to originate from a branch in this
+    repository. pull_request_target grants that job the repository secrets, and its steps check
+    out pull request head and run it, so a pull request from a fork must never reach them.
+  - Pinned every action to a released version rather than a mutable branch ref:
+    actions/first-interaction to v3.1.0, arillso/action.playbook to 0.5.0,
+    robertdebock/galaxy-action to 1.2.1.
+  - arillso/action.playbook was referenced as @master. That repository has no master branch,
+    its default is main, so the reference could not resolve and the playbook step could not
+    run. Pinning to 0.5.0 also repairs that.
+  - Corrected the first-interaction input names from repo-token and pr-message to repo_token
+    and pr_message. The action renamed them after v1, so the welcome comment had stopped
+    being posted.
+  - Moved actions/checkout from the deprecated v3 to v4.
+
 June 2024 Update
  - update WN19-SO-000140 var with title fix - Thank you @rlmass
 

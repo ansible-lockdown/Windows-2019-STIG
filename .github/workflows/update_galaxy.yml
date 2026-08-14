@@ -14,11 +14,11 @@ jobs:
     update_role:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout V3
-              uses: actions/checkout@v3
+            - name: Checkout
+              uses: actions/checkout@v4
 
             - name: Update Galaxy
-              uses: robertdebock/galaxy-action@master
+              uses: robertdebock/galaxy-action@1.2.1
               with:
                   galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
                   git_branch: main

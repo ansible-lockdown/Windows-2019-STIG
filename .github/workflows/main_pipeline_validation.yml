@@ -24,6 +24,11 @@ on:  # yamllint disable-line rule:truthy
 jobs:
     # This workflow will run terraform to load a instance in azure to test the playbook against a live cloud based instance.
     playbook-test:
+        # Only run for pull requests raised from a branch in this repository.
+        # pull_request_target grants this job the repository secrets below, and the
+        # steps check out pull request head and execute it, so a fork pull request
+        # must never reach them.
+        if: github.event.pull_request.head.repo.full_name == github.repository
         # The type of runner that the job will run on.
         runs-on: ubuntu-latest
 
@@ -47,13 +52,13 @@ jobs:
         steps:
           # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
             - name: Clone ${{ github.event.repository.name }}
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   ref: ${{ github.event.pull_request.head.sha }}
 
           # Pull In Terraform Code For Windows Azure
             - name: Clone github IaC plan
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   repository: ansible-lockdown/github_windows_IaC
                   path: .github/workflows/github_windows_IaC
@@ -112,7 +117,7 @@ jobs:
 
           # Run the Ansible Playbook
             - name: Run_Ansible_Playbook
-              uses: arillso/action.playbook@master
+              uses: arillso/action.playbook@0.5.0
               with:
                   playbook: site.yml
                   inventory: .github/workflows/github_windows_IaC/hosts.yml
