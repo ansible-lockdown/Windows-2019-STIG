@@ -3,6 +3,8 @@
 ## Release 3.0.0
 
 August 2026 Update
+ - Removed update_galaxy.yml. The workflow has never run, and the Galaxy entry has not been
+   updated since October 2023 at v3.0.0, so it was not the mechanism keeping Galaxy current.
  - Aligned the pipeline workflows with the Ansible-Lockdown Windows standard.
   - The devel pipeline now also runs for pull requests into benchmark* branches, and the main
     pipeline for pull requests into latest, so both branch models are covered.
