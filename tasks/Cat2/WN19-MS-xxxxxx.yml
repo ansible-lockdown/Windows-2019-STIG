@@ -1,0 +1,278 @@
+---
+
+- name: "MEDIUM | WN19-MS-000020 | PATCH | Windows Server 2019 local administrator accounts must have their privileged token filtered to prevent elevated privileges from being used over the network on domain systems."
+  when:
+    - wn19_ms_000020 | bool
+    - prelim_is_domain_member | bool
+    - not win_skip_for_test
+    # Skipped automatically when the run itself is a local account over a network logon
+    # transport, because applying this severs that connection. See the note in prelim.yml.
+    - not prelim_local_account_network_logon | bool
+  tags:
+    - WN19-MS-000020
+    - CAT2
+    - CCI-001084
+    - SRG-OS-000134-GPOS-00068
+    - SV-205715r958518_rule
+    - V-205715
+    - NIST800-53R4_SC-3
+    - NeedToTestMemberServer
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: LocalAccountTokenFilterPolicy
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-MS-000030 | PATCH | Windows Server 2019 local users on domain-joined member servers must not be enumerated."
+  when:
+    - wn19_ms_000030 | bool
+    - prelim_is_domain_member | bool
+  tags:
+    - WN19-MS-000030
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205696r958478_rule
+    - V-205696
+    - NIST800-53R4_CM-7
+    - NeedToTestMemberServer
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\System
+    value: EnumerateLocalUsers
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-MS-000040 | PATCH | Windows Server 2019 must restrict unauthenticated Remote Procedure Call (RPC) clients from connecting to the RPC server on domain-joined member servers and standalone or nondomain-joined systems."
+  when:
+    - wn19_ms_000040 | bool
+    - not prelim_is_domain_controller | bool
+  tags:
+    - WN19-MS-000040
+    - CAT2
+    - CCI-001967
+    - SRG-OS-000379-GPOS-00164
+    - SV-205814r971545_rule
+    - V-205814
+    - NIST800-53R4_IA-3
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Rpc
+    value: RestrictRemoteClients
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-MS-000050 | PATCH | Windows Server 2019 must limit the caching of logon credentials to four or less on domain-joined member servers."
+  when:
+    - wn19_ms_000050 | bool
+    - prelim_is_domain_member | bool
+  tags:
+    - WN19-MS-000050
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205906r991589_rule
+    - V-205906
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+    value: CachedLogonsCount
+    data: "{{ win19stig_cached_logons_count }}"
+    datatype: dword
+
+- name: "MEDIUM | WN19-MS-000060 | PATCH | Windows Server 2019 must restrict remote calls to the Security Account Manager (SAM) to Administrators on domain-joined member servers and standalone or nondomain-joined systems."
+  when:
+    - wn19_ms_000060 | bool
+    - not prelim_is_domain_controller | bool
+  tags:
+    - WN19-MS-000060
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205747r1106518_rule
+    - V-205747
+    - NIST800-53R4_AC-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+    value: RestrictRemoteSAM
+    data: O:BAG:BAD:(A;;RC;;;BA)
+    datatype: string
+
+- name: "MEDIUM | WN19-MS-000070 | PATCH | Windows Server 2019 Access this computer from the network user right must only be assigned to the Administrators and Authenticated Users groups on domain-joined member servers and standalone systems."
+  when:
+    - wn19_ms_000070 | bool
+    - not prelim_is_domain_controller | bool
+  tags:
+    - WN19-MS-000070
+    - CAT2
+    - CCI-000213
+    - SRG-OS-000080-GPOS-00048
+    - SV-205671r1137691_rule
+    - V-205671
+    - NIST800-53R4_AC-3
+  ansible.windows.win_user_right:
+    name: SeNetworkLogonRight
+    users: "{{ win19stig_senetworklogonright }}"
+    action: set
+
+- name: "MEDIUM | WN19-MS-000080 | PATCH | Windows Server 2019 Deny access to this computer from the network user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and local accounts and from unauthenticated access on all systems."
+  when:
+    - wn19_ms_000080 | bool
+    - not prelim_is_domain_controller | bool
+    - not win_skip_for_test
+  tags:
+    - WN19-MS-000080
+    - CAT2
+    - CCI-000213
+    - SRG-OS-000080-GPOS-00048
+    - SV-205672r1137691_rule
+    - V-205672
+    - NIST800-53R4_AC-3
+    - NeedToTestMemberServer
+  block:
+    - name: "MEDIUM | WN19-MS-000080 | PATCH | Windows Server 2019 Deny access to this computer from the network user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and local accounts and from unauthenticated access on all systems."
+      when:
+        - prelim_is_domain_member | bool
+        # This right denies network logon to every local account AND to the two privileged
+        # domain groups, so a Domain Admin does not survive it either. Unlike the token filter
+        # control it also takes SSH with it, because Windows OpenSSH password authentication
+        # uses the same logon path, leaving the console as the only way back in. Skipped
+        # automatically when the run itself is a local account. See the note in prelim.yml.
+        - not prelim_control_account_is_local | bool
+      ansible.windows.win_user_right:
+        name: SeDenyNetworkLogonRight
+        users:
+          - Guests
+          - Enterprise Admins
+          - Domain Admins
+          - Local account
+          - Local account and member of Administrators group
+        action: set
+
+    - name: "MEDIUM | WN19-MS-000080 | PATCH | Windows Server 2019 Deny access to this computer from the network user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and local accounts and from unauthenticated access on all systems."
+      when: not prelim_is_domain_member | bool
+      ansible.windows.win_user_right:
+        name: SeDenyNetworkLogonRight
+        users: Guests
+        action: set
+
+- name: "MEDIUM | WN19-MS-000090 | PATCH | Windows Server 2019 Deny log on as a batch job user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and from unauthenticated access on all systems."
+  when: wn19_ms_000090 | bool
+  tags:
+    - WN19-MS-000090
+    - CAT2
+    - CCI-000213
+    - SRG-OS-000080-GPOS-00048
+    - SV-205673r1137691_rule
+    - V-205673
+    - NIST800-53R4_AC-3
+    - NeedToTestMemberServer
+  block:
+    - name: "MEDIUM | WN19-MS-000090 | PATCH | DOMAIN MEMBER | Windows Server 2019 Deny log on as a batch job user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and from unauthenticated access on all systems."
+      when: prelim_is_domain_member | bool
+      ansible.windows.win_user_right:
+        name: SeDenyBatchLogonRight
+        users:
+          - Enterprise Admins
+          - Domain Admins
+          - Guests
+        action: set
+
+    - name: "MEDIUM | WN19-MS-000090 | PATCH | STAND-ALONE | Windows Server 2019 Deny log on as a batch job user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and from unauthenticated access on all systems."
+      when: not prelim_is_domain_member | bool
+      ansible.windows.win_user_right:
+        name: SeDenyBatchLogonRight
+        users: Guests
+        action: set
+
+- name: "MEDIUM | WN19-MS-000100 | PATCH | Windows Server 2019 Deny log on as a service user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts. No other groups or accounts must be assigned this right."
+  when:
+    - wn19_ms_000100 | bool
+    - prelim_is_domain_member | bool
+  tags:
+    - WN19-MS-000100
+    - CAT2
+    - CCI-000213
+    - SRG-OS-000080-GPOS-00048
+    - SV-205674r1137691_rule
+    - V-205674
+    - NIST800-53R4_AC-3
+    - NeedToTestMemberServer
+  ansible.windows.win_user_right:
+    name: SeDenyServiceLogonRight
+    users:
+      - Enterprise Admins
+      - Domain Admins
+    action: set
+
+- name: "MEDIUM | WN19-MS-000110 | PATCH | Windows Server 2019 Deny log on locally user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and from unauthenticated access on all systems."
+  when: wn19_ms_000110 | bool
+  tags:
+    - WN19-MS-000110
+    - CAT2
+    - CCI-000213
+    - SRG-OS-000080-GPOS-00048
+    - SV-205675r1137691_rule
+    - V-205675
+    - NIST800-53R4_SC-8
+    - NeedToTestMemberServer
+  block:
+    - name: "MEDIUM | WN19-MS-000110 | PATCH | DOMAIN MEMBER | Windows Server 2019 Deny log on locally user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and from unauthenticated access on all systems."
+      when: prelim_is_domain_member | bool
+      ansible.windows.win_user_right:
+        name: SeDenyInteractiveLogonRight
+        users:
+          - Guests
+          - Enterprise Admins
+          - Domain Admins
+        action: set
+
+    - name: "MEDIUM | WN19-MS-000110 | PATCH | STAND-ALONE | Windows Server 2019 Deny log on locally user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and from unauthenticated access on all systems."
+      when: not prelim_is_domain_member | bool
+      ansible.windows.win_user_right:
+        name: SeDenyInteractiveLogonRight
+        users: Guests
+        action: set
+
+- name: "MEDIUM | WN19-MS-000120 | PATCH | Windows Server 2019 Deny log on through Remote Desktop Services user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and all local accounts and from unauthenticated access on all systems."
+  when: wn19_ms_000120 | bool
+  tags:
+    - WN19-MS-000120
+    - CAT2
+    - CCI-002314
+    - SRG-OS-000297-GPOS-00115
+    - SV-205733r958672_rule
+    - V-205733
+    - NIST800-53R4_AC-17
+    - NeedToTestMemberServer
+  block:
+    - name: "MEDIUM | WN19-MS-000120 | PATCH | DOMAIN MEMBER | Windows Server 2019 Deny log on through Remote Desktop Services user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and all local accounts and from unauthenticated access on all systems."
+      when: prelim_is_domain_member | bool
+      ansible.windows.win_user_right:
+        name: SeDenyRemoteInteractiveLogonRight
+        users:
+          - Guests
+          - Local account
+          - Enterprise Admins
+          - Domain Admins
+        action: set
+
+    - name: "MEDIUM | WN19-MS-000120 | PATCH | STAND-ALONE | Windows Server 2019 Deny log on through Remote Desktop Services user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and all local accounts and from unauthenticated access on all systems."
+      when: not prelim_is_domain_member | bool
+      ansible.windows.win_user_right:
+        name: SeDenyRemoteInteractiveLogonRight
+        users: Guests
+        action: set
+
+- name: "MEDIUM | WN19-MS-000130 | PATCH | Windows Server 2019 Enable computer and user accounts to be trusted for delegation user right must not be assigned to any groups or accounts on domain-joined member servers and standalone or nondomain-joined systems."
+  when: wn19_ms_000130 | bool
+  tags:
+    - WN19-MS-000130
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205748r958726_rule
+    - V-205748
+    - NIST800-53R4_AC-8
+  community.windows.win_security_policy:
+    section: Privilege Rights
+    key: SeEnableDelegationPrivilege
+    value: ""

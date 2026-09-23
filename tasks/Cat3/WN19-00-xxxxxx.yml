@@ -1,0 +1,109 @@
+---
+
+- name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares."
+  when: wn19_00_000180 | bool
+  tags:
+    - WN19-00-000180
+    - CAT3
+    - CCI-000213
+    - SRG-OS-000080-GPOS-00048
+    - SV-205664r1137691_rule
+    - V-205664
+    - NIST800-53R4_AC-3
+  block:
+    - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares. | Get Printer List"
+      ansible.windows.win_shell: Get-Printer | where Shared -eq $true | fl Name, Type
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000180_audit
+
+    - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares. | Warning Message."
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 non-administrative accounts or groups"
+          - "must only have print permissions on printer shares. If A Printer is showing shared please"
+          - "configure the permissions on shared printers to restrict standard users to only have Print permissions."
+          - "{{ discovered_00_000180_audit.stdout.split('\n') | trim }}"
+      when: discovered_00_000180_audit.stdout | length > 0
+
+    - name: "LOW | WN19-00-000180 | AUDIT | Windows Server 2019 non-administrative accounts or groups must only have print permissions on printer shares. | Warning Count"
+      vars:
+        warn_control_id: 'LOW | WN19-00-000180'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+      when: discovered_00_000180_audit.stdout | length > 0
+
+- name: "LOW | WN19-00-000440 | AUDIT | The Windows Server 2019 time service must synchronize with an appropriate DoD time source."
+  when: wn19_00_000440 | bool
+  tags:
+    - WN19-00-000440
+    - CAT3
+    - CCI-001891
+    - CCI-004923
+    - SRG-OS-000355-GPOS-00143
+    - SV-205800r1051077_rule
+    - V-205800
+    - NIST800-53R4_AU-8
+  block:
+    - name: "LOW | WN19-00-000440 | AUDIT | The Windows Server 2019 time service must synchronize with an appropriate DoD time source. | Warning Message."
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. The Windows Server 2019 time service must synchronize with an appropriate DoD time source. "
+
+    - name: "LOW | WN19-00-000440 | AUDIT |  The Windows Server 2019 time service must synchronize with an appropriate DoD time source. | Warn Count."
+      vars:
+        warn_control_id: 'LOW | WN19-00-000440'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS."
+  when: wn19_00_000460 | bool
+  tags:
+    - WN19-00-000460
+    - CAT3
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205856r991589_rule
+    - V-205856
+    - NIST800-53R4_CM-6
+  block:
+    - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS. | Check For UEFI"
+      ansible.windows.win_shell: $env:firmware_type
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000460_audit
+
+    - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS. | Warning Message"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! Windows Server 2016 is currently using {{ discovered_00_000460_audit.stdout | trim }} BIOS."
+          - "Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI)"
+          - "firmware and be configured to run in UEFI mode, not Legacy BIOS."
+      when: "'UEFI' not in discovered_00_000460_audit.stdout"
+
+    - name: "LOW | WN19-00-000460 | AUDIT | Windows Server 2019 systems must have Unified Extensible Firmware Interface (UEFI) firmware and be configured to run in UEFI mode, not Legacy BIOS. | Warning Count"
+      vars:
+        warn_control_id: 'LOW | WN19-00-000460'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+      when: "'UEFI' not in discovered_00_000460_audit.stdout"
+
+- name: "LOW | WN19-00-000470 | AUDIT | Windows Server 2019 must have Secure Boot enabled."
+  when: wn19_00_000470 | bool
+  tags:
+    - WN19-00-000470
+    - CAT3
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205857r991589_rule
+    - V-205857
+    - NIST800-53R4_CM-6
+  block:
+    - name: "LOW | WN19-00-000470 | AUDIT | Windows Server 2019 must have Secure Boot enabled."
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 must have Secure Boot enabled."
+
+    - name: "LOW | WN19-00-000470 | AUDIT | Windows Server 2019 must have Secure Boot enabled. | import reusable task."
+      vars:
+        warn_control_id: 'LOW | WN19-00-000470'
+      ansible.builtin.import_tasks: warning_facts.yml

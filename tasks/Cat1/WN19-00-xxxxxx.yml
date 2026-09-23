@@ -1,0 +1,236 @@
+---
+
+- name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
+  when: wn19_00_000010 | bool
+  tags:
+    - WN19-00-000010
+    - CAT1
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205844r991589_rule
+    - V-205844
+    - NIST800-53R4_CM-6
+  block:
+    - name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks."
+
+    - name: "HIGH | WN19-00-000010 | AUDIT | Windows Server 2019 users with Administrative privileges must have separate accounts for administrative duties and normal operational tasks. | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-00-000010'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
+  when: wn19_00_000030 | bool
+  tags:
+    - WN19-00-000030
+    - CAT1
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205845r991589_rule
+    - V-205845
+    - NIST800-53R4_CM-6
+  block:
+    - name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email."
+
+    - name: "HIGH | WN19-00-000030 | AUDIT | Windows Server 2019 administrative accounts must not be used with applications that access the Internet, such as web browsers, or with potential Internet sources, such as email. | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-00-000030'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level."
+  when: wn19_00_000100 | bool
+  tags:
+    - WN19-00-000100
+    - CAT1
+    - CCI-003376
+    - SRG-OS-000480-GPOS-00227
+    - SV-205849r1210247_rule
+    - V-205849
+    - NIST800-53R4_SA-22
+    - audit
+  block:
+    - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level | OS Major Version."
+      ansible.windows.win_reg_stat:
+        path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion\
+        name: CurrentMajorVersionNumber
+      failed_when: discovered_00_000100_audit_currentmajorversionnumber.value is not version('10', '>=')
+      register: discovered_00_000100_audit_currentmajorversionnumber
+
+    - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level | OS Build (currentNumber)."
+      ansible.windows.win_reg_stat:
+        path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
+        name: CurrentBuildNumber
+      changed_when: false
+      failed_when: discovered_00_000100_audit_currentbuildnumber.value is not version('17763', '>=')
+      register: discovered_00_000100_audit_currentbuildnumber
+
+    - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level | OS Release"
+      ansible.windows.win_reg_stat:
+        path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
+        name: ReleaseId
+      changed_when: false
+      failed_when: discovered_00_000100_audit_releaseid.value is not version('1809', '>=')
+      register: discovered_00_000100_audit_releaseid
+
+    - name: "HIGH | WN19-00-000100 | AUDIT | Windows Server 2019 must be maintained at a supported servicing level | OS Build"
+      ansible.windows.win_reg_stat:
+        path: HKLM:\Software\Microsoft\Windows NT\CurrentVersion
+        name: CurrentBuild
+      changed_when: false
+      failed_when: discovered_00_000100_audit_currentbuild.value is not version('17763', '>=')
+      register: discovered_00_000100_audit_currentbuild
+
+# mcaffee is the approved virus? McAfee VirusScan Enterprise has been replaced by McAfee Endpoint Security. Start your migration now. https://www.mcafee.com/enterprise/en-us/products/virusscan-enterprise.html
+# so guess we need to scan for the old and the new in case customers not migrated?
+- name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program."
+  when: wn19_00_000110 | bool
+  tags:
+    - WN19-00-000110
+    - CAT1
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205850r991589_rule
+    - V-205850
+    - NIST800-53R4_CM-6
+  block:
+    - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Check For USer Defined Anti-virus."
+      ansible.windows.win_shell: get-service | where {$_.DisplayName -Like "*{{ win19stig_antivirus_program }}*"} | Select Status,DisplayName
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000110_virus_audit
+
+    - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Get Defender AV Service Status."
+      ansible.windows.win_service_info:
+        name: WinDefend
+      changed_when: false
+      failed_when: false
+      register: discovered_00_000110_av_sftw_status
+
+    - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Check For Anti-virus Defender."
+      when: discovered_00_000110_av_sftw_status.services | length > 0
+      ansible.windows.win_shell: get-service | where {$_.DisplayName -Like "*defender*"} | Select Status,DisplayName
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000110_virus_audit_windefend
+
+    - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Install Windows Defender."
+      when:
+        - discovered_00_000110_virus_audit.stdout | length == 0
+        - "'defender' not in win19stig_antivirus_program"
+        - discovered_00_000110_av_sftw_status.services | length == 0
+      ansible.windows.win_shell: Install-WindowsFeature -Name Windows-Defender
+      changed_when: false
+      failed_when: false
+      notify: Change_requires_reboot
+
+    - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out Defender Installed."
+      when:
+        - discovered_00_000110_virus_audit.stdout_lines | length == 0
+        - "'defender' not in win19stig_antivirus_program"
+        - discovered_00_000110_av_sftw_status.services | length == 0
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
+          - "Defender was automatically installed by Ansible because your defined Antivirus is not"
+          - "currently Installed on the system or the shell search could not find it."
+          - "Please change the variable in win19stig_antivirus_program back to defender to satisfy STIG"
+          - "requirements or until you properly install a 3rd party Anti-Virus that yields results when searching."
+
+    - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Remove Windows Defender."
+      when:
+        - discovered_00_000110_virus_audit.stdout | length > 1
+        - "'defender' not in win19stig_antivirus_program"
+        - discovered_00_000110_av_sftw_status.services[0].state != "stopped"
+      ansible.windows.win_shell: Uninstall-WindowsFeature -Name Windows-Defender
+      changed_when: false
+      failed_when: false
+      notify: Change_requires_reboot
+
+    - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out Anti-Virus Running."
+      when: discovered_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' in win19stig_antivirus_program or discovered_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' not in win19stig_antivirus_program
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
+          - "Please verify your Anti-Virus program is currently set to Running in the output below."
+          - "{{ discovered_00_000110_virus_audit.stdout_lines | trim }}"
+
+    - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Message out Anti-Virus Running Bad Program Still In Variable."
+      when:
+        - discovered_00_000110_virus_audit_windefend.stdout_lines | length > 1
+        - "'defender' not in win19stig_antivirus_program"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 must use an anti-virus program."
+          - "Please change the variable in win19stig_antivirus_program back to defender to satisfy STIG"
+          - "requirements or until you properly install a 3rd party Anti-Virus that yields results when searching."
+          - "By Default Defender Antivirus has been installed, check the current status below to verify running."
+          - "{{ discovered_00_000110_virus_audit_windefend.stdout_lines | trim }}"
+
+    - name: "HIGH | WN19-00-000110 | AUDIT | Windows Server 2019 must use an anti-virus program. | Warn Count."
+      # When statement does not follow standard formatting.
+      when: discovered_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' in win19stig_antivirus_program or discovered_00_000110_virus_audit.stdout_lines | length > 1 and 'defender' not in win19stig_antivirus_program or discovered_00_000110_virus_audit.stdout_lines | length == 0 and discovered_00_000110_av_sftw_status.services | length == 0 and 'defender' not in win19stig_antivirus_program or discovered_00_000110_virus_audit_windefend.stdout_lines | length > 1 and 'defender' not in win19stig_antivirus_program
+      vars:
+        warn_control_id: 'HIGH | WN19-00-000110'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
+  when: wn19_00_000130 | bool
+  tags:
+    - WN19-00-000130
+    - CAT1
+    - CCI-000213
+    - SRG-OS-000080-GPOS-00048
+    - SV-205663r1137691_rule
+    - V-205663
+    - NIST800-53R4_AC-3
+  block:
+    - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes."
+      ansible.windows.win_shell: '[System.IO.DriveInfo]::GetDrives() | Format-Table'
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000130_audit
+
+    - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | Message out"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 local volumes must use a format"
+          - "that supports NTFS attributes. Please check to verify your system is in compliance."
+          - "ReFS (resilient file system) is also acceptable and would not be a finding."
+          - "This does not apply to system partitions such as the Recovery and EFI System Partition."
+          - "{{ discovered_00_000130_audit.stdout.split('\n') }}"
+
+    - name: "HIGH | WN19-00-000130 | AUDIT | Windows Server 2019 local volumes must use a format that supports NTFS attributes. | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-00-000130'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "HIGH | WN19-00-000250 | AUDIT | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
+  when: wn19_00_000250 | bool
+  tags:
+    - WN19-00-000250
+    - CAT1
+    - CCI-001199
+    - CCI-002475
+    - CCI-002476
+    - SRG-OS-000185-GPOS-00079
+    - SV-205727r958552_rule
+    - V-205727
+    - NIST800-53R4_SC-8
+    - audit
+  block:
+    - name: "HIGH | WN19-00-000250 | AUDIT | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 systems requiring data at rest protections"
+          - "must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest."
+
+    - name: "HIGH | WN19-00-000250 | AUDIT | Windows Server 2019 systems requiring data at rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest. | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-00-000250'
+      ansible.builtin.import_tasks: warning_facts.yml

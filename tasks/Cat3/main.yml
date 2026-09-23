@@ -1,0 +1,17 @@
+---
+
+- name: "Run Cat3 STIG | WN19-00 controls"
+  ansible.builtin.import_tasks:
+    file: WN19-00-xxxxxx.yml
+
+- name: "Run Cat3 STIG | WN19-CC controls"
+  ansible.builtin.import_tasks:
+    file: WN19-CC-xxxxxx.yml
+
+- name: "Run Cat3 STIG | WN19-DC controls"
+  ansible.builtin.import_tasks:
+    file: WN19-DC-xxxxxx.yml
+
+- name: "Run Cat3 STIG | WN19-SO controls"
+  ansible.builtin.import_tasks:
+    file: WN19-SO-xxxxxx.yml

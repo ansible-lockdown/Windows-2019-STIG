@@ -1,0 +1,1322 @@
+---
+
+# enumerating on DC is different than standalone
+- name: "MEDIUM | WN19-00-000020 | AUDIT | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every 60 days."
+  when: wn19_00_000020 | bool
+  tags:
+    - WN19-00-000020
+    - CAT2
+    - CCI-000199
+    - CCI-004066
+    - SRG-OS-000076-GPOS-00044
+    - SV-205657r1153431_rule
+    - V-205657
+    - NIST800-53R4_IA-5
+    - audit
+  block:
+    - name: "MEDIUM | WN19-00-000020 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every 60 days."
+      when: "'controller' in ansible_facts['windows_domain_role']"
+      ansible.windows.win_shell: "Get-ADUser -Filter * -Property PasswordLastSet | Where SID -like S-1-5-21-*-500 | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ win19stig_pass_age_administrator }}))} | Select Name,PasswordLastSet"
+      # win_shell: "Get-ADUser krbtgt -Property PasswordLastSet | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ win19stig_krbtgt_pass_age }}))} | Select-Object -ExpandProperty PasswordLastSet"
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000020_audit_dc
+
+    - name: "MEDIUM | WN19-00-000020 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every 60 days."
+      when:
+        - not discovered_00_000020_audit_dc is skipped
+        - discovered_00_000020_audit_dc.stdout != ""
+        - win19stig_pass_age_administrator <= 60
+      ansible.builtin.debug:
+        msg:
+          - "The following account appears to be the default admin account and the password does not meet the control specific age of {{ win19stig_pass_age_administrator }}"
+          - "{{ discovered_00_000020_audit_dc.stdout.split('\n') }}"
+
+    - name: "MEDIUM | WN19-00-000020 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every 60 days."
+      ansible.windows.win_shell: "Get-Localuser -Name * | Select * | Where SID -like S-1-5-21-*-500 | Where-Object {$_.PasswordLastSet -lt ((Get-Date).AddDays(-{{ win19stig_pass_age_administrator }}))} | Select Name,PasswordLastSet"
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000020_audit_dm_sa
+
+    - name: "MEDIUM | WN19-00-000020 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every 60 days."
+      when:
+        - discovered_00_000020_audit_dm_sa is defined
+        - discovered_00_000020_audit_dm_sa.stdout != ""
+        - win19stig_pass_age_administrator <= 60
+      ansible.builtin.debug:
+        msg:
+          - "The following account appears to be the default admin account and the password does not meet the control specific age of {{ win19stig_pass_age_administrator }}"
+          - "{{ discovered_00_000020_audit_dm_sa.stdout.split('\n') }}"
+
+    - name: Warning Message
+      when: win19stig_pass_age_administrator > 60
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have an invalid number of days set for win19stig_pass_age_administrator please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-00-000020 | AUDIT | Windows Server 2019 passwords for the built-in Administrator account must be changed at least every 60 days. | Warn Count."
+      # When statement does not follow standard formatting.
+      when:
+        - not discovered_00_000020_audit_dc is skipped
+        - discovered_00_000020_audit_dc.stdout != ""
+        - win19stig_pass_age_administrator <= 60 or discovered_00_000020_audit_dm_sa is defined
+        - discovered_00_000020_audit_dm_sa.stdout != ""
+        - win19stig_pass_age_administrator <= 60 or win19stig_pass_age_administrator > 60
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000020'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000040 | AUDIT | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
+  when:
+    - wn19_00_000040 | bool
+    - not prelim_is_domain_controller | bool
+  tags:
+    - WN19-00-000040
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205846r991589_rule
+    - V-205846
+    - NIST800-53R4_CM-6
+    - audit
+  block:
+    - name: "MEDIUM | WN19-00-000040 | AUDIT - STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
+      ansible.windows.win_shell: Get-LocalGroupMember -Name 'Backup Operators'
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000040_audit
+
+    - name: "MEDIUM | WN19-00-000040 | AUDIT - STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks."
+      when:
+        - discovered_00_000040_audit is not skipped
+        - discovered_00_000040_audit.stdout != ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. The accounts listed are members of the Backup Operators group."
+          - "Please verify these accounts have separate accounts for backup duties and normal operational tasks."
+          - "{{ discovered_00_000040_audit.stdout.split('\n') }}"
+
+    - name: "MEDIUM | WN19-00-000040 | AUDIT - STAND-ALONE AND MEMBER SERVERS | Windows Server 2019 members of the Backup Operators group must have separate accounts for backup duties and normal operational tasks. | Warn Count."
+      when:
+        - discovered_00_000040_audit is not skipped
+        - discovered_00_000040_audit.stdout != ""
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000040'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000050 | AUDIT | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
+  when: wn19_00_000050 | bool
+  tags:
+    - WN19-00-000050
+    - CAT2
+    - CCI-000205
+    - CCI-004066
+    - SRG-OS-000078-GPOS-00046
+    - SV-205661r1051068_rule
+    - V-205661
+    - NIST800-53R4_IA-5
+  block:
+    - name: "MEDIUM | WN19-00-000050 | AUDIT | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 manually managed application account passwords must be at least 15 characters in length."
+
+    - name: "MEDIUM | WN19-00-000050 | AUDIT | Windows Server 2019 manually managed application account passwords must be at least 15 characters in length. | Warn Count."
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000050'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000060 | AUDIT | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
+  when: wn19_00_000060 | bool
+  tags:
+    - WN19-00-000060
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205847r991589_rule
+    - V-205847
+    - NIST800-53R4_CM-6
+  # how to make this list?
+  block:
+    - name: "MEDIUM | WN19-00-000060 | AUDIT | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization."
+
+    - name: "MEDIUM | WN19-00-000060 | AUDIT | Windows Server 2019 manually managed application account passwords must be changed at least annually or when a system administrator with knowledge of the password leaves the organization. | import reusable task."
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000060'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000070 | AUDIT | Windows Server 2019 shared user accounts must not be permitted."
+  when: wn19_00_000070 | bool
+  tags:
+    - WN19-00-000070
+    - CAT2
+    - CCI-000764
+    - SRG-OS-000104-GPOS-00051
+    - SV-205699r958482_rule
+    - V-205699
+    - NIST800-53R4_IA-2
+  block:
+    - name: "MEDIUM | WN19-00-000070  | Windows Server 2019 shared user accounts must not be permitted. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 shared user accounts must not be permitted."
+
+    - name: "MEDIUM | WN19-00-000070 | AUDIT | Windows Server 2019 shared user accounts must not be permitted. | import reusable task."
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000070'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000080 | AUDIT | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
+  when: wn19_00_000080 | bool
+  tags:
+    - WN19-00-000080
+    - CAT2
+    - CCI-001774
+    - SRG-OS-000370-GPOS-00155
+    - SV-205807r958808_rule
+    - V-205807
+    - NIST800-53R4_CM-7
+  # Get-AppLockerpolicy -Effective
+  block:
+    - name: "MEDIUM | WN19-00-000080 | AUDIT | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs."
+
+    - name: "MEDIUM | WN19-00-000080 | AUDIT | Windows Server 2019 must employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs. | import reusable task."
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000080'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+# Current hardware and virtual environments may not support virtualization-based security features, including Credential Guard, due to specific supporting requirements including a TPM, UEFI with Secure Boot, and the capability to run the Hyper-V feature within a virtual machine.
+- name: "MEDIUM | WN19-00-000090 | AUDIT | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use."
+  when:
+    - wn19_00_000090 | bool
+    - prelim_is_domain_member | bool
+  tags:
+    - WN19-00-000090
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205848r991589_rule
+    - V-205848
+    - NIST800-53R4_CM-6
+  block:
+    # wmic is deprecated and is a Feature-on-Demand that can be absent, in which case the register
+    # carries no stdout/stderr keys and every downstream conditional raises
+    # "dict object has no attribute stderr_lines". This uses CIM instead.
+    - name: "MEDIUM | WN19-00-000090 | AUDIT | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use. | Get TPM Settings"
+      ansible.windows.win_shell: |
+        $tpm = Get-CimInstance -Namespace root\cimv2\security\microsofttpm -ClassName Win32_Tpm -ErrorAction SilentlyContinue
+        if ($null -eq $tpm) { "No Instance" }
+        else { "IsActivated=$($tpm.IsActivated_InitialValue) IsEnabled=$($tpm.IsEnabled_InitialValue) IsOwned=$($tpm.IsOwned_InitialValue) SpecVersion=$($tpm.SpecVersion)" }
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000090_tpm_status
+
+    - name: "MEDIUM | WN19-00-000090 | AUDIT | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use. | Running Instances Check."
+      when: "'No Instance' in discovered_00_000090_tpm_status.stdout | default('', true)"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! Please confirm TPM status is Ready for use, there are no instances currently running."
+
+    # Warns when the TPM is NOT compliant. The previous conditions tested for the healthy values
+    # being present, so the warning fired on a good TPM and stayed silent on a broken one. They
+    # also read stderr_lines, where wmic writes nothing but its "No Instance(s)" diagnostic, and
+    # the SpecVersion clause read "'SpecVersion=2' or '...' in ..." - a non-empty string is always
+    # truthy, so that disjunct was unconditionally true.
+    - name: "MEDIUM | WN19-00-000090 | AUDIT | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use. | Full TPM Check."
+      when:
+        - "'No Instance' not in discovered_00_000090_tpm_status.stdout | default('', true)"
+        - "'IsActivated=True' not in discovered_00_000090_tpm_status.stdout | default('', true) or
+           'IsEnabled=True' not in discovered_00_000090_tpm_status.stdout | default('', true) or
+           'IsOwned=True' not in discovered_00_000090_tpm_status.stdout | default('', true)"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! Please confirm TPM status is Ready for use. Current settings do not meet STIG requirements."
+          - "{{ discovered_00_000090_tpm_status.stdout | default('', true) | trim }}"
+
+    - name: "MEDIUM | WN19-00-000090 | AUDIT | Windows Server 2019 domain-joined systems must have a Trusted Platform Module (TPM) enabled and ready for use. | Warning Count"
+      when: "'No Instance' in discovered_00_000090_tpm_status.stdout | default('', true) or
+             'IsActivated=True' not in discovered_00_000090_tpm_status.stdout | default('', true) or
+             'IsEnabled=True' not in discovered_00_000090_tpm_status.stdout | default('', true) or
+             'IsOwned=True' not in discovered_00_000090_tpm_status.stdout | default('', true)"
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000090'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000120 | AUDIT | Windows Server 2019 must have a host-based intrusion detection or prevention system."
+  when: wn19_00_000120 | bool
+  tags:
+    - WN19-00-000120
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205851r1186378_rule
+    - V-205851
+    - NIST800-53R4_CM-6
+  block:
+    - name: "MEDIUM | WN19-00-000120 | AUDIT | Windows Server 2019 must have a host-based intrusion detection or prevention system. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 must have a host-based intrusion detection or prevention system."
+
+    - name: "MEDIUM | WN19-00-000120 | AUDIT | Windows Server 2019 must have a host-based intrusion detection or prevention system. | import reusable task."
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000120'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000140 | AUDIT | Windows Server 2019 permissions for the system drive root directory usually C: must conform to minimum requirements."
+  when: wn19_00_000140 | bool
+  tags:
+    - WN19-00-000140
+    - CAT2
+    - CCI-002165
+    - SRG-OS-000312-GPOS-00122
+    - SV-205734r958702_rule
+    - V-205734
+    - NIST800-53R4_AC-3
+  block:
+    - name: "MEDIUM | WN19-00-000140 | AUDIT | Windows Server 2019 permissions for the system drive root directory usually C: must conform to minimum requirements. | Obtain icacls for Program Files."
+      ansible.windows.win_shell: icacls "c:\program files"
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000140_drive_root_audit
+
+    - name: "MEDIUM | WN19-00-000140 | AUDIT | Windows Server 2019 permissions for the system drive root directory usually C: must conform to minimum requirements. | Manual Audit icacls for Program Files."
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task to audit. Windows Server 2019 icacls program needs to meet"
+          - "the STIG requirements. Please check the report below and compare it to the STIG requirements."
+          - "{{ discovered_00_000140_drive_root_audit.stdout_lines }}"
+
+    - name: "MEDIUM | WN19-00-000140 | AUDIT | Windows Server 2019 permissions for the system drive root directory usually C: must conform to minimum requirements. | Warn Count"
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000140'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000150 | PATCH | Permissions for system files and directories must conform to minimum requirements."
+  when:
+    - wn19_00_000150 | bool
+    - wn19_so_000240 | bool
+  tags:
+    - WN19-00-000150
+    - CAT2
+    - CCI-002165
+    - SRG-OS-000312-GPOS-00122
+    - SV-205735r958702_rule
+    - V-205735
+    - NIST800-53R4_AC-3_4
+  block:
+    - name: "MEDIUM | WN19-00-000150 | AUDIT | Permissions for system files and directories must conform to minimum requirements. | Check file system permissions for key directories"
+      ansible.windows.win_shell:
+        cmd: |
+          $paths = @("C:\", "C:\Program Files", "C:\Windows")
+          foreach ($path in $paths) {
+              $permissions = icacls $path
+              Write-Output "Checking: $path"
+              Write-Output $permissions
+          }
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000150_filesystem_permissions
+
+    - name: "MEDIUM | WN19-00-000150 | AUDIT | Permissions for system files and directories must conform to minimum requirements. | Set Fact fir Find mismatched permissions"
+      ansible.builtin.set_fact:
+        discovered_00_000150_mismatched_permissions: {}
+
+    - name: "MEDIUM | WN19-00-000150 | AUDIT | Permissions for system files and directories must conform to minimum requirements. | Identify mismatches for each directory"
+      when: discovered_00_000150_filesystem_permissions.stdout_lines is defined and win19stig_default_expected_permissions[item] is defined
+      ansible.builtin.set_fact:
+        discovered_00_000150_mismatched_permissions: "{{ discovered_00_000150_mismatched_permissions | combine({item: discovered_00_000150_filesystem_permissions.stdout_lines | difference(win19stig_default_expected_permissions[item])}) }}"
+      loop:
+        - "C"
+        - "ProgramFiles"
+        - "Windows"
+
+    - name: "MEDIUM | WN19-00-000150 | AUDIT | Permissions for system files and directories must conform to minimum requirements. | Display Mismatched Permissions Warning"
+      when: not win19stig_auto_remediate_permissions | bool and discovered_00_000150_mismatched_permissions | length > 0
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! Mismatched permissions found but NOT remediated"
+          - "STIG states you are required Maintain the default file system permissions and configure the Security"
+          - "Option: Network access: Let everyone permissions apply to anonymous users is set Disabled in the registry. (WN11-SO-000160)."
+          - "{{ discovered_00_000150_mismatched_permissions }}"
+
+    - name: "MEDIUM | WN19-00-000150 | PATCH | Permissions for system files and directories must conform to minimum requirements. | Remediate file system permissions (only mismatched ones)."
+      changed_when: "'Fixed permissions' in discovered_00_000150_remediation_result.stdout"
+      when: win19stig_auto_remediate_permissions | bool and discovered_00_000150_mismatched_permissions | length > 0
+      ansible.windows.win_shell:
+        cmd: |
+          $paths = @("C:\", "C:\Program Files", "C:\Windows")
+          $fixedPermissions = @()
+
+          foreach ($path in $paths) {
+              $currentPermissions = icacls $path
+              $expectedPermissions = @(
+                  {% for path, perms in win19stig_default_expected_permissions.items() %}
+                      {% for perm in perms %}
+                          "{{ perm }}"
+                      {% endfor %}
+                  {% endfor %}
+              )
+
+              $missingPermissions = @()
+              foreach ($perm in $expectedPermissions) {
+                  if ($currentPermissions -notcontains $perm) {
+                      $missingPermissions += $perm
+                  }
+              }
+
+              if ($missingPermissions.Count -gt 0) {
+                  foreach ($perm in $missingPermissions) {
+                      icacls $path /grant $perm | Out-Null
+                  }
+                  $fixedPermissions += "Fixed permissions for $path: $missingPermissions"
+              }
+          }
+
+          if ($fixedPermissions.Count -gt 0) {
+              Write-Output $fixedPermissions
+          } else {
+              Write-Output "No permissions needed remediation."
+          }
+      register: discovered_00_000150_remediation_result
+
+    - name: "MEDIUM | WN19-00-000150 | AUDIT | Permissions for system files and directories must conform to minimum requirements. | Display Remediation Results"
+      when: win19stig_auto_remediate_permissions | bool and discovered_00_000150_mismatched_permissions | length > 0
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! The following permissions have been remediated by the Ansible."
+          - "{{ discovered_00_000150_mismatched_permissions }}"
+
+    - name: "MEDIUM | WN19-00-000150 | AUDIT | Permissions for system files and directories must conform to minimum requirements. | Warn Count."
+      when: (not win19stig_auto_remediate_permissions | bool and discovered_00_000150_mismatched_permissions | length > 0) or (win19stig_auto_remediate_permissions | bool and discovered_00_000150_mismatched_permissions | length > 0)
+      ansible.builtin.import_tasks: warning_facts.yml
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000150'
+
+- name: "MEDIUM | WN19-00-000160 | AUDIT | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements."
+  when: wn19_00_000160 | bool
+  tags:
+    - WN19-00-000160
+    - CAT2
+    - CCI-002165
+    - SRG-OS-000312-GPOS-00122
+    - SV-205736r1016383_rule
+    - V-205736
+    - NIST800-53R4_AC-3
+  block:
+    - name: "MEDIUM | WN19-00-000160 | AUDIT | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements. | Obtain icacls for Windows Directory."
+      ansible.windows.win_shell: icacls "c:\windows"
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000160_windows_dir_audit
+
+    - name: "MEDIUM | WN19-00-000160 | AUDIT | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements. | Warning Message."
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task to audit. Windows Server 2019 permissions for the Windows installation directory needs to meet"
+          - "the STIG requirements. Please check the report below and compare it to the STIG requirements."
+          - "{{ discovered_00_000160_windows_dir_audit.stdout_lines }}"
+
+    - name: "MEDIUM | WN19-00-000160 | AUDIT | Windows Server 2019 permissions for the Windows installation directory must conform to minimum requirements. | Warn Count."
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000160'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000170 | AUDIT | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained."
+  when: wn19_00_000170 | bool
+  tags:
+    - WN19-00-000170
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205737r1153434_rule
+    - V-205737
+    - NIST800-53R4_AC-6
+    - audit
+  # Get-Acl -Path HKLM:\"Software" | select-object $Access | Format-List * Possible Command To Use *
+  block:
+    - name: "MEDIUM | WN19-00-000170 | AUDIT | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained."
+
+    - name: "MEDIUM | WN19-00-000170 | AUDIT | Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained. | import reusable task."
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000170'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000190 | AUDIT | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled."
+  when: wn19_00_000190 | bool
+  tags:
+    - WN19-00-000190
+    - CAT2
+    - CCI-000795
+    - CCI-003627
+    - SRG-OS-000118-GPOS-00060
+    - SV-205707r1051076_rule
+    - V-205707
+    - NIST800-53R4_IA-4
+    - audit
+  block:
+    - name: "MEDIUM | WN19-00-000190 | AUDIT - DOMAIN CONTROLLERS | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled. | Audit System."
+      when: prelim_is_domain_controller | bool
+      ansible.windows.win_shell: Search-ADAccount -AccountInactive -UsersOnly -TimeSpan 35.00:00:00
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000190_account_audit_dc
+
+    - name: "MEDIUM | WN19-00-000190 | AUDIT - DOMAIN CONTROLLERS | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled. | Warning Message."
+      when:
+        - discovered_00_000190_account_audit_dc is not skipped
+        - discovered_00_000190_account_audit_dc.stdout != ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Outdated or unused accounts must be removed from"
+          - "the Windows Server 2019 system or disabled."
+          - "Accounts to exclude are the following:"
+          - "Built-in administrator account (Renamed, SID ending in 500)"
+          - "Built-in guest account (Renamed, Disabled, SID ending in 501)"
+          - "Built-in default account (Renamed, Disabled, SID ending in 503)"
+          - "Application accounts"
+          - "Below is the list of User accounts found on the system. Please check the report"
+          - "below and compare the the STIG requirements."
+          - "----------------------------------------------------------"
+          - "{{ discovered_00_000190_account_audit_dc.stdout.split('\n') }}"
+          - "----------------------------------------------------------"
+
+    - name: "MEDIUM | WN19-00-000190 | AUDIT | Windows Server 2019 outdated or unused accounts must be removed from the system or disabled. | Warn Count"
+      when:
+        - discovered_00_000190_account_audit_dc is not skipped
+        - discovered_00_000190_account_audit_dc.stdout != ""
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000190'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000200 | AUDIT | Windows Server 2019 accounts must require passwords."
+  when: wn19_00_000200 | bool
+  tags:
+    - WN19-00-000200
+    - CAT2
+    - CCI-000764
+    - SRG-OS-000104-GPOS-00051
+    - SV-205700r958482_rule
+    - V-205700
+    - NIST800-53R4_IA-2
+    - audit
+  block:
+    - name: "MEDIUM | WN19-00-000200 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 accounts must require passwords."
+      when: prelim_is_domain_controller | bool
+      ansible.windows.win_shell: Get-Aduser -Filter "(Passwordnotrequired -eq 'True') -and (Enabled -eq 'True')" | Select Name,Passwordnotrequired,Enabled
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000200_audit_dc
+
+    - name: "MEDIUM | WN19-00-000200 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 accounts must require passwords."
+      when:
+        - not discovered_00_000200_audit_dc is skipped
+        - discovered_00_000200_audit_dc.stdout != ""
+      ansible.builtin.debug:
+        msg:
+          - "The accounts listed do not require a password and are currently enabled."
+          - "Configure passwords on all accounts to conform to STIG compliance."
+          - "{{ discovered_00_000200_audit_dc.stdout.split('\n') }}"
+
+    - name: "MEDIUM | WN19-00-000200 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 accounts must require passwords."
+      when: not prelim_is_domain_controller | bool
+      ansible.windows.win_shell: Get-LocalUser | Where-Object {($_.PasswordRequired -ne 'True' -and $_.Enabled -eq 'True')} | Select Name,PasswordRequired,Enabled
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000200_audit_dm_sa
+
+    - name: "MEDIUM | WN19-00-000200 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 accounts must require passwords."
+      when:
+        - not discovered_00_000200_audit_dm_sa is skipped
+        - discovered_00_000200_audit_dm_sa.stdout != ""
+      ansible.builtin.debug:
+        msg:
+          - "The accounts listed do not require a password and are currently enabled."
+          - "Configure passwords on all accounts to conform to STIG compliance."
+          - "{{ discovered_00_000200_audit_dm_sa.stdout.split('\n') }}"
+
+    - name: "MEDIUM | WN19-00-000200 | AUDIT | Windows Server 2019 accounts must require passwords. | Warn Count."
+      when:
+        - not discovered_00_000200_audit_dc is skipped
+        - discovered_00_000200_audit_dc.stdout != "" or not discovered_00_000200_audit_dm_sa is skipped
+        - discovered_00_000200_audit_dm_sa.stdout != ""
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000200'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000210 | AUDIT | Windows Server 2019 passwords must be configured to expire."
+  when: wn19_00_000210 | bool
+  tags:
+    - WN19-00-000210
+    - CAT2
+    - CCI-000199
+    - CCI-004066
+    - SRG-OS-000076-GPOS-00044
+    - SV-205658r1051066_rule
+    - V-205658
+    - NIST800-53R4_IA-5
+    - audit
+  block:
+    - name: "MEDIUM | WN19-00-000210 | AUDIT | Windows Server 2019 passwords must be configured to expire. | Audit Accounts."
+      when: prelim_is_domain_controller | bool
+      ansible.windows.win_shell: Search-ADAccount -PasswordNeverExpires -UsersOnly | FT Name, PasswordNeverExpires, Enabled
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000210_audit_dc
+
+    - name: "MEDIUM | WN19-00-000210 | AUDIT | Windows Server 2019 passwords must be configured to expire. | Warning Message."
+      when:
+        - discovered_00_000210_audit_dc is not skipped
+        - discovered_00_000210_audit_dc.stdout != ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 passwords must be configured to expire."
+          - "The Following Accounts may not conform To STIG Standards."
+          - "{{ discovered_00_000210_audit_dc.stdout.split('\n') }}"
+
+    - name: "MEDIUM | WN19-00-000210 | AUDIT | Windows Server 2019 passwords must be configured to expire. | Audit Local Accounts."
+      when: not prelim_is_domain_controller | bool
+      ansible.windows.win_shell: |
+        Get-CimInstance -Class Win32_Useraccount -Filter "PasswordExpires=False and LocalAccount=True" |
+        Where-Object -FilterScript {$_.PasswordExpires -EQ $False -AND $_.Disabled -EQ $False} |
+        Format-Table -Property Name,PasswordExpires,Disabled,LocalAccount
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000210_audit_dm_sa
+
+    - name: "MEDIUM | WN19-00-000210 | AUDIT | Windows Server 2019 passwords must be configured to expire. | Warning Message"
+      when:
+        - discovered_00_000210_audit_dm_sa is not skipped
+        - discovered_00_000210_audit_dm_sa.stdout != ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 passwords must be configured to expire."
+          - "The Following Accounts may not conform To STIG Standards."
+          - "{{ discovered_00_000210_audit_dm_sa.stdout.split('\n') }}"
+
+    - name: "MEDIUM | WN19-00-000210 | AUDIT | Windows Server 2019 passwords must be configured to expire. | Warning Count."
+      when:
+        - discovered_00_000210_audit_dc is not skipped
+        - discovered_00_000210_audit_dc.stdout != "" or discovered_00_000210_audit_dm_sa is not skipped
+        - discovered_00_000210_audit_dm_sa.stdout != ""
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000210'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000220 | AUDIT | Windows Server 2019 system files must be monitored for unauthorized changes."
+  when: wn19_00_000220 | bool
+  tags:
+    - WN19-00-000220
+    - CAT2
+    - CCI-001744
+    - SRG-OS-000363-GPOS-00150
+    - SV-205803r958794_rule
+    - V-205803
+    - NIST800-53R4_CM-3
+  # Some third party software to monitor files
+  block:
+    - name: "MEDIUM | WN19-00-000220 | AUDIT | Windows Server 2019 system files must be monitored for unauthorized changes. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 system files must be monitored for unauthorized changes."
+
+    - name: "MEDIUM | WN19-00-000220 | AUDIT | Windows Server 2019 system files must be monitored for unauthorized changes. | import reusable task."
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000220'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000230 | AUDIT | Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it."
+  when: wn19_00_000230 | bool
+  tags:
+    - WN19-00-000230
+    - CAT2
+    - CCI-001090
+    - SRG-OS-000138-GPOS-00069
+    - SV-205721r1137695_rule
+    - V-205721
+    - NIST800-53R4_SC-4
+    - audit
+  block:
+    - name: "MEDIUM | WN19-00-000230 | AUDIT | Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it. | Audit Shares"
+      ansible.windows.win_shell: Get-SmbShare | Where-Object { ($_.Name -notlike "ADMIN$") -and ($_.Name -notlike 'C$') -and ($_.Name -notlike 'IPC$') } | Select-Object -Property Name | format-table -hidetableheaders
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000230_audit
+
+    - name: "MEDIUM | WN19-00-000230 | AUDIT | Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it.. | Warning Message."
+      when: discovered_00_000230_audit.stdout_lines | select() | length > 0
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have shares that non-system created. Please manually review those shares listed below to make sure appropriate permissions are applied"
+          - "{{ discovered_00_000230_audit.stdout_lines | select() | list }}"
+
+    - name: "MEDIUM | WN19-00-000230 | AUDIT | Windows Server 2019 non-system-created file shares on a system must limit access to groups that require it."
+      when: discovered_00_000230_audit.stdout_lines | select() | length > 0
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000230'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+# https://stackoverflow.com/questions/31049454/how-to-retrieve-recursively-any-files-with-a-specific-extensions-in-powershell/31049571
+- name: "MEDIUM | WN19-00-000240 | AUDIT | Windows Server 2019 must have software certificate installation files removed."
+  when:
+    - wn19_00_000240 | bool
+    - win19stig_lengthy_search | bool
+  tags:
+    - WN19-00-000240
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205852r991589_rule
+    - V-205852
+    - NIST800-53R4_CM-6
+    - audit
+  # do we need async?;  It's very long-running to search filesystems
+  block:
+    - name: "MEDIUM | WN19-00-000240 | AUDIT | Windows Server 2019 must have software certificate installation files removed. | Search for files"
+      ansible.windows.win_find:
+        paths: '{{ item }}:\'
+        patterns: ['*.p12', '*.pfx']
+        recurse: true
+        hidden: true
+      register: discovered_00_000240_files
+      with_items: "{{ prelim_drive_letters.stdout_lines }}"
+
+    - name: "MEDIUM | WN19-00-000240 | PATCH | Windows Server 2019 must have software certificate installation files removed. | Remove Files"
+      when:
+        - win19stig_disruption_high | bool
+        - discovered_00_000240_files.results[0].files | length > 0
+      ansible.windows.win_file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items:
+        - "{{ discovered_00_000240_files.results[0].files }}"
+      loop_control:
+        label: "{{ item.path }}"
+
+    - name: "MEDIUM | WN19-00-000240 | AUDIT | Windows Server 2019 must have software certificate installation files removed. | Alert on files if not Disruptive High"
+      when:
+        - not win19stig_disruption_high | bool
+        - discovered_00_000240_files.results[0].files | length > 0
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have .p12 and/or .pfx files on your system"
+          - "Please review and remove the following files manually. If you"
+          - "would like them removed with automation set win19stig_disruption_high: true"
+          - "Any files not removed must be documented with the ISSO."
+          - "{{ discovered_00_000240_files.results[0].files | map(attribute='path') | list }}"
+
+    - name: "MEDIUM | WN19-00-000240 | AUDIT | Windows Server 2019 must have software certificate installation files removed. | Warn Count."
+      when:
+        - not win19stig_disruption_high | bool
+        - discovered_00_000240_files.results[0].files | length > 0
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000240'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000260 | AUDIT | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process."
+  when: wn19_00_000260 | bool
+  tags:
+    - WN19-00-000260
+    - CAT2
+    - CCI-002420
+    - CCI-002422
+    - SRG-OS-000425-GPOS-00189
+    - SV-205829r958912_rule
+    - V-205829
+    - NIST800-53R4_SC-8
+    - audit
+  block:
+    - name: "MEDIUM | WN19-00-000260 | AUDIT | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. | Warning Message"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs,"
+          - "or IPsec if the data owner has a strict requirement for ensuring"
+          - "data integrity and confidentiality is maintained at every step of the data transfer and handling process."
+
+    - name: "MEDIUM | WN19-00-000260 | AUDIT | Windows Server 2019 must implement protection methods such as TLS, encrypted VPNs, or IPsec if the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. | Warn Count."
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000260'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000270 | AUDIT | Windows Server 2019 must have the roles and features required by the system documented."
+  when: wn19_00_000270 | bool
+  tags:
+    - WN19-00-000270
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205677r1186380_rule
+    - V-205677
+    - NIST800-53R4_CM-7
+    - audit
+  block:
+    - name: "MEDIUM | WN19-00-000270 | AUDIT | Windows Server 2019 must have the roles and features required by the system documented. | Get Roles & Features Installed"
+      ansible.windows.win_shell: Get-WindowsFeature | Where-Object -FilterScript {$_.Installed -EQ $True}
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000270_audit
+
+    - name: "MEDIUM | WN19-00-000270 | AUDIT | Windows Server 2019 must have the roles and features required by the system documented. | Warning Message."
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 must have the roles"
+          - "and features required by the system documented. Below is the current list of"
+          - "roles and features installed on the system."
+          - "Document the roles and features required for the system to operate. Uninstall any that are not required."
+          - "{{ discovered_00_000270_audit.stdout_lines }}"
+
+    - name: "MEDIUM | WN19-00-000270 | AUDIT | Windows Server 2019 must have the roles and features required by the system documented. | import reusable task."
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000270'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000280 | AUDIT | Windows Server 2019 must have a host-based firewall installed and enabled."
+  when: wn19_00_000280 | bool
+  tags:
+    - WN19-00-000280
+    - CAT2
+    - CCI-000366
+    - CCI-002080
+    - SRG-OS-000480-GPOS-00227
+    - SV-214936r991589_rule
+    - V-214936
+    - NIST800-53R4_CA-3
+    - audit
+  block:
+    - name: "MEDIUM | WN19-00-000280 | AUDIT | Windows Server 2019 must have a host-based firewall installed and enabled. | Check For Windows Based Firewall Enabled."
+      ansible.windows.win_shell: |
+        $FWProfiles = (Get-NetFirewallProfile);
+        Write-Host "Windows Firewall Profile Statuses" -Foregroundcolor Yellow;
+        $FWProfiles | %{
+            If($_.Enabled -eq 1){
+                Write-Host "The Windows Firewall $($_.Name) profile is enabled"
+                }Else{
+                Write-Host "The Windows Firewall $($_.Name) profile is disabled"
+                }
+            };
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000280_firewall_audit
+
+    - name: "MEDIUM | WN19-00-000280 | AUDIT | Windows Server 2019 must have a host-based firewall installed and enabled. | Warning Message No Windows Firewall Enabled"
+      when:
+        - "'Domain profile is disabled' in discovered_00_000280_firewall_audit.stdout_lines | string"
+        - "'Private profile is disabled' in discovered_00_000280_firewall_audit.stdout_lines | string"
+        - "'Public profile is disabled' in discovered_00_000280_firewall_audit.stdout_lines | string"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 must have a host-based firewall installed and enabled."
+          - "Windows does not currently have its built-in firewall enabled."
+          - "Please check for 3rd party firewall and verify the configuration requirements conform to firewall STIG standards."
+          - "{{ discovered_00_000280_firewall_audit.stdout_lines }}"
+
+    - name: "MEDIUM | WN19-00-000280 | AUDIT | Windows Server 2019 must have a host-based firewall installed and enabled. | Warning Message Windows Firewall On"
+      when:
+        - "'Domain profile is enabled' in discovered_00_000280_firewall_audit.stdout_lines | string"
+        - "'Private profile is enabled' in discovered_00_000280_firewall_audit.stdout_lines | string"
+        - "'Public profile is enabled' in discovered_00_000280_firewall_audit.stdout_lines | string"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 must have a host-based firewall installed and enabled."
+          - "Windows host-based firewall currently is enabled on Domain, Private, And Public Profiles."
+          - "Please check the firewall and verify the configuration requirements conform to firewall STIG standards."
+          - "{{ discovered_00_000280_firewall_audit.stdout_lines }}"
+
+    - name: "MEDIUM | WN19-00-000280 | AUDIT | Windows Server 2019 must have a host-based firewall installed and enabled. | Warning Message Windows Firewall Not Completely On"
+      when: "'Domain profile is enabled' not in discovered_00_000280_firewall_audit.stdout_lines | string or 'Private profile is enabled' not in discovered_00_000280_firewall_audit.stdout_lines | string or 'Public profile is enabled' not in discovered_00_000280_firewall_audit.stdout_lines | string"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 must have a host-based firewall installed and enabled."
+          - "Windows host-based firewall currently is partially enabled on Domain, Private, And Public Profiles."
+          - "Please check the firewall and verify the configuration requirements conform to firewall STIG standards."
+          - "{{ discovered_00_000280_firewall_audit.stdout_lines }}"
+
+    - name: "MEDIUM | WN19-00-000280 | AUDIT | Windows Server 2019 must have a host-based firewall installed and enabled. | Warn Count"
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000280'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000300 | AUDIT | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours."
+  when: wn19_00_000300 | bool
+  tags:
+    - WN19-00-000300
+    - CAT2
+    - CCI-000016
+    - SRG-OS-000002-GPOS-00002
+    - SV-205624r958364_rule
+    - V-205624
+    - NIST800-53R4_AC-2
+    - audit
+  block:
+    - name: "MEDIUM | WN19-00-000300 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours. | Get User List."
+      when: prelim_is_domain_controller | bool
+      ansible.windows.win_shell: Search-ADAccount -AccountExpiring | FT Name, AccountExpirationDate
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000300_audit_dc
+
+    - name: "MEDIUM | WN19-00-000300 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours. | Warning Message"
+      when:
+        - discovered_00_000300_audit_dc is not skipped
+        - discovered_00_000300_audit_dc.stdout != ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Please review all accounts to verify there are no temporary accounts"
+          - "listed where the expiration date is longer than 72 hours."
+          - "{{ discovered_00_000300_audit_dc.stdout.split('\n') }}"
+
+    - name: "MEDIUM | WN19-00-000300 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours. | Get User List."
+      when: not prelim_is_domain_controller | bool
+      ansible.windows.win_shell: Get-LocalUser
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000300_audit_sa
+
+    - name: "MEDIUM | WN19-00-000300 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours. | Warning Message"
+      when:
+        - discovered_00_000300_audit_sa is not skipped
+        - discovered_00_000300_audit_sa.stdout != ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Please review all accounts to verify there are no temporary accounts"
+          - "listed where the expiration date is longer than 72 hours."
+          - "{{ discovered_00_000300_audit_sa.stdout.split('\n') }}"
+
+    - name: "MEDIUM | WN19-00-000300 | AUDIT | Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours. | Warning Count"
+      when:
+        - discovered_00_000300_audit_dc is not skipped
+        - discovered_00_000300_audit_dc.stdout != "" or discovered_00_000300_audit_sa is not skipped
+        - discovered_00_000300_audit_sa.stdout != ""
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000300'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000310 | AUDIT | Windows Server 2019 must automatically remove or disable emergency accounts after the crisis is resolved or within 72 hours."
+  when: wn19_00_000310 | bool
+  tags:
+    - WN19-00-000310
+    - CAT2
+    - CCI-001682
+    - SRG-OS-000123-GPOS-00064
+    - SV-205710r958508_rule
+    - V-205710
+    - NIST800-53R4_AC-2
+    - audit
+  block:
+    - name: "MEDIUM | WN19-00-000310 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 must automatically remove or disable emergency accounts after the crisis is resolved or within 72 hours. | Get User List."
+      ansible.windows.win_shell: Search-ADAccount -AccountExpiring | FT Name, AccountExpirationDate
+      when: prelim_is_domain_controller | bool
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000310_audit_dc
+
+    - name: "MEDIUM | WN19-00-000310 | AUDIT - DOMAIN CONTROLLER | Windows Server 2019 must automatically remove or disable emergency accounts after the crisis is resolved or within 72 hours. | Warning Message"
+      when:
+        - discovered_00_000310_audit_dc is not skipped
+        - discovered_00_000310_audit_dc.stdout != ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 must automatically remove or disable emergency"
+          - "accounts after the crisis is resolved or within 72 hours."
+          - "{{ discovered_00_000310_audit_dc.stdout.split('\n') }}"
+
+    - name: "MEDIUM | WN19-00-000310 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 must automatically remove or disable emergency accounts after the crisis is resolved or within 72 hours. | Get User List."
+      when: not prelim_is_domain_controller | bool
+      ansible.windows.win_shell: Get-LocalUser
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000310_audit_sa
+
+    - name: "MEDIUM | WN19-00-000310 | AUDIT - DOMAIN MEMBERS OR STANDALONE | Windows Server 2019 must automatically remove or disable emergency accounts after the crisis is resolved or within 72 hours. | Warning Message"
+      when:
+        - discovered_00_000310_audit_sa is not skipped
+        - discovered_00_000310_audit_sa.stdout != ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 must automatically remove or disable emergency"
+          - "accounts after the crisis is resolved or within 72 hours."
+          - "{{ discovered_00_000310_audit_sa.stdout.split('\n') }}"
+
+    - name: "MEDIUM | WN19-00-000310 | AUDIT | Windows Server 2019 must automatically remove or disable emergency accounts after the crisis is resolved or within 72 hours. | Warning Count"
+      when:
+        - discovered_00_000310_audit_dc is not skipped
+        - discovered_00_000310_audit_dc.stdout != "" or discovered_00_000310_audit_sa is not skipped
+        - discovered_00_000310_audit_sa.stdout != ""
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000310'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000320 | PATCH | Windows Server 2019 must not have the Fax Server role installed."
+  when:
+    - wn19_00_000320 | bool
+    - "'Fax' in prelim_feature_names"
+  tags:
+    - WN19-00-000320
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205678r958478_rule
+    - V-205678
+    - NIST800-53R4_CM-7
+  notify: Change_requires_reboot
+  ansible.windows.win_feature:
+    name: Fax
+    state: absent
+
+- name: "MEDIUM | WN19-00-000330 | PATCH | Windows Server 2019 must not have the Microsoft FTP service installed unless required by the organization."
+  when:
+    - wn19_00_000330 | bool
+    - "'Web-Ftp-Server' in prelim_feature_names"
+  tags:
+    - WN19-00-000330
+    - CAT2
+    - CCI-000382
+    - SRG-OS-000096-GPOS-00050
+    - SV-205697r958480_rule
+    - V-205697
+    - NIST800-53R4_CM-7
+  notify: Change_requires_reboot
+  ansible.windows.win_feature:
+    name: Web-Ftp-Server
+    state: absent
+
+- name: "MEDIUM | WN19-00-000340 | PATCH | Windows Server 2019 must not have the Peer Name Resolution Protocol installed."
+  when:
+    - wn19_00_000340 | bool
+    - "'PNRP' in prelim_feature_names"
+  tags:
+    - WN19-00-000340
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205679r958478_rule
+    - V-205679
+    - NIST800-53R4_CM-7
+  notify: Change_requires_reboot
+  ansible.windows.win_feature:
+    name: PNRP
+    state: absent
+
+- name: "MEDIUM | WN19-00-000350 | PATCH | Windows Server 2019 must not have Simple TCP/IP Services installed."
+  when:
+    - wn19_00_000350 | bool
+    - "'Simple-TCPIP' in prelim_feature_names"
+  tags:
+    - WN19-00-000350
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205680r958478_rule
+    - V-205680
+    - NIST800-53R4_CM-7
+  ansible.windows.win_feature:
+    name: Simple-TCPIP
+    state: absent
+
+- name: "MEDIUM | WN19-00-000360 | PATCH | Windows Server 2019 must not have the Telnet Client installed."
+  when:
+    - wn19_00_000360 | bool
+    - "'Telnet-Client' in prelim_feature_names"
+  tags:
+    - WN19-00-000360
+    - CAT2
+    - CCI-000382
+    - SRG-OS-000096-GPOS-00050
+    - SV-205698r958480_rule
+    - V-205698
+    - NIST800-53R4_CM-7
+  ansible.windows.win_feature:
+    name: Telnet-Client
+    state: absent
+
+- name: "MEDIUM | WN19-00-000370 | PATCH | Windows Server 2019 must not have the TFTP Client installed."
+  when:
+    - wn19_00_000370 | bool
+    - "'TFTP-Client' in prelim_feature_names"
+  tags:
+    - WN19-00-000370
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205681r958478_rule
+    - V-205681
+    - NIST800-53R4_CM-7
+  ansible.windows.win_feature:
+    name: TFTP-Client
+    state: absent
+
+- name: "MEDIUM | WN19-00-000380 | PATCH | Windows Server 2019 must not have the Server Message Block (SMB) v1 protocol installed."
+  when:
+    - wn19_00_000380 | bool
+    - "'FS-SMB1' in prelim_feature_names"
+  tags:
+    - WN19-00-000380
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205682r958478_rule
+    - V-205682
+    - NIST800-53R4_CM-7
+  notify: Change_requires_reboot
+  ansible.windows.win_feature:
+    name: FS-SMB1
+    state: absent
+
+- name: "MEDIUM | WN19-00-000390 | PATCH | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server."
+  when: wn19_00_000390 | bool
+  tags:
+    - WN19-00-000390
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205683r958478_rule
+    - V-205683
+    - NIST800-53R4_CM-7
+  block:
+    - name: "MEDIUM | WN19-00-000390 | PATCH | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server. | Registry Edit"
+      notify: Change_requires_reboot
+      ansible.windows.win_regedit:
+        path: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters
+        state: present
+        value: SMB1
+        data: 0
+        datatype: dword
+
+    - name: "MEDIUM | WN19-00-000390 | AUDIT | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server. | Warning Message No SecGuide.admx"
+      when: prelim_secguide_admx_audit.results[0].matched != 1
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! SecGuide.admx is not installed in C:\\Windows\\PolicyDefinitions folder."
+          - "This policy setting requires the installation of the SecGuide.admx custom templates"
+          - "included with the STIG package."
+
+    - name: "MEDIUM | WN19-00-000390 | AUDIT | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server. | Warning Message No SecGuide.adml"
+      when: prelim_secguide_adml_audit.results[0].matched != 1
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! SecGuide.adml is not installed in C:\\Windows\\PolicyDefinitions\\en-US folder"
+          - "This policy setting requires the installation of the SecGuide.adml custom templates"
+          - "included with the STIG package."
+
+    - name: "MEDIUM | WN19-00-000390 | AUDIT | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server. | Warn Count."
+      when: prelim_secguide_admx_audit.results[0].matched != 1 or prelim_secguide_adml_audit.results[0].matched != 1
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000390'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000400 | PATCH | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server."
+  when: wn19_00_000400 | bool
+  tags:
+    - WN19-00-000400
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205684r958478_rule
+    - V-205684
+    - NIST800-53R4_CM-7
+  block:
+    - name: "MEDIUM | WN19-00-000400 | PATCH | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server - mrxsmb10 | Registry Edit."
+      notify: Change_requires_reboot
+      ansible.windows.win_regedit:
+        path: HKLM:\SYSTEM\CurrentControlSet\Services\mrxsmb10
+        state: present
+        value: Start
+        data: 4
+        datatype: dword
+
+    - name: "MEDIUM | WN19-00-000400 | AUDIT | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server - mrxsmb10 | Warning Message No SecGuide.admx"
+      when: prelim_secguide_admx_audit.results[0].matched != 1
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! SecGuide.admx is not installed in C:\\Windows\\PolicyDefinitions folder."
+          - "This policy setting requires the installation of the SecGuide.admx custom templates"
+          - "included with the STIG package."
+
+    - name: "MEDIUM | WN19-00-000400 | AUDIT | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server - mrxsmb10 | Warning Message No SecGuide.adml"
+      when: prelim_secguide_adml_audit.results[0].matched != 1
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! SecGuide.adml is not installed in C:\\Windows\\PolicyDefinitions\\en-US folder"
+          - "This policy setting requires the installation of the SecGuide.adml custom templates"
+          - "included with the STIG package."
+
+    - name: "MEDIUM | WN19-00-000400 | AUDIT | Windows Server 2019 must have the Server Message Block (SMB) v1 protocol disabled on the SMB server - mrxsmb10 | Warn Count."
+      when: prelim_secguide_admx_audit.results[0].matched != 1 or prelim_secguide_adml_audit.results[0].matched != 1
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000400'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000410 | PATCH | Windows Server 2019 must not have Windows PowerShell 2.0 installed."
+  when:
+    - wn19_00_000410 | bool
+    - "'PowerShell-V2' in prelim_feature_names"
+  tags:
+    - WN19-00-000410
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205685r958478_rule
+    - V-205685
+    - NIST800-53R4_CM-7
+  ansible.windows.win_feature:
+    name: PowerShell-V2
+    state: absent
+
+- name: "MEDIUM | WN19-00-000420 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent anonymous logons."
+  when: wn19_00_000420 | bool
+  tags:
+    - WN19-00-000420
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205853r991589_rule
+    - V-205853
+    - NIST800-53R4_CM-6
+  block:
+    - name: "MEDIUM | WN19-00-000420 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent anonymous logons. | Get FTP Installed Status."
+      ansible.windows.win_shell: Get-WindowsFeature | Where Name -eq Web-Ftp-Service
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000420_audit
+
+    # Holds a boolean. It previously ran regex_search over stdout_lines and stored the match, which
+    # is None whenever the feature is absent, and the consuming `'Installed' in <fact>` then failed
+    # the play outright with "argument of type 'NoneType' is not a container or iterable". Testing
+    # the string directly always yields a boolean, so the absent case reports rather than aborts.
+    - name: "MEDIUM | WN19-00-000420 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent anonymous logons. | Set Fact."
+      ansible.builtin.set_fact:
+        discovered_00_000420_ftp_audit: "{{ 'Installed' in (discovered_00_000420_audit.stdout | default('', true)) }}"
+
+    - name: "MEDIUM | WN19-00-000420 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent anonymous logons. | Warning Message"
+      when: discovered_00_000420_ftp_audit
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Internet Information Services (IIS) Manager FTP is currently"
+          - "installed on the system. Anonymous Authentication must be set to disabled per STIG Requirements."
+
+    - name: "MEDIUM | WN19-00-000420 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent anonymous logons. | Warn Count"
+      when: discovered_00_000420_ftp_audit
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000420'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000430 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent access to the system drive."
+  when: wn19_00_000430 | bool
+  tags:
+    - WN19-00-000430
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205854r991589_rule
+    - V-205854
+    - NIST800-53R4_CM-6
+  block:
+    - name: "MEDIUM | WN19-00-000430 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent access to the system drive. | Get FTP Installed."
+      ansible.windows.win_shell: Get-WindowsFeature | Where Name -eq Web-Ftp-Service
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000430_audit
+
+    # Boolean, for the same reason as WN19-00-000420 above: the previous regex_search stored None on
+    # any host without the FTP feature and the consuming `in` test then aborted the play.
+    - name: "MEDIUM | WN19-00-000430 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent access to the system drive. | Set Fact."
+      ansible.builtin.set_fact:
+        discovered_00_000430_ftp_audit: "{{ 'Installed' in (discovered_00_000430_audit.stdout | default('', true)) }}"
+
+    - name: "MEDIUM | WN19-00-000430 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent access to the system drive. | Get Sites Info."
+      when: discovered_00_000430_ftp_audit
+      ansible.windows.win_shell: |
+        Import-Module IISAdministration
+        Get-IISSite
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000430_isssite_audit
+
+    - name: "MEDIUM | WN19-00-000430 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent access to the system drive. | Warning Message."
+      when: discovered_00_000430_ftp_audit
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. For any sites with a Binding that lists FTP, right-click the site and select Explore."
+          - "If the site includes any system areas such as the root of the drive, Program Files, or Windows directories, this is a finding"
+          - "Configure the FTP sites to allow access only to specific FTP shared resources. Do not allow access to other areas of the system."
+          - "{{ discovered_00_000430_isssite_audit.stdout.split('\n') }}"
+
+    - name: "MEDIUM | WN19-00-000430 | AUDIT | Windows Server 2019 FTP servers must be configured to prevent access to the system drive. | Warn Count"
+      when: discovered_00_000430_ftp_audit
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000430'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights."
+  when: wn19_00_000450 | bool
+  tags:
+    - WN19-00-000450
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205855r991589_rule
+    - V-205855
+    - NIST800-53R4_CM-6
+  block:
+    - name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights. | Get User List"
+      ansible.windows.win_shell: Get-WmiObject Win32_UserAccount | Where-Object {$_.SID -match "*S"} | Select Name,SID,DOMAIN
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000450_orphaned_user_accounts
+
+    - name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights. | Check For Orphaned Group Accounts. | Get Group List"
+      ansible.windows.win_shell: Get-WmiObject -Class Win32_UserAccount | Where-Object {$_.SID -match "*S"} | Select Name,SID,DOMAIN
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_00_000450_orphaned_group_accounts
+
+    - name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights. | Warning Message User Accounts"
+      when: discovered_00_000450_orphaned_user_accounts.stdout_lines | select() | length > 0
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! Please review the User Rights listed for each of any unresolved SIDs to determine whether they are valid."
+          - "User Accounts"
+          - "----------------------------------------------------------------------"
+          - "{{ discovered_00_000450_orphaned_user_accounts.stdout_lines }}"
+
+    - name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights. | Warning Message Group Accounts."
+      when: discovered_00_000450_orphaned_group_accounts.stdout_lines | select() | length > 0
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! Please review the Group Rights listed for each of any unresolved SIDs to determine whether they are valid."
+          - "Group Accounts"
+          - "----------------------------------------------------------------------"
+          - "{{ discovered_00_000450_orphaned_group_accounts.stdout_lines }}"
+
+    - name: "MEDIUM | WN19-00-000450 | AUDIT | Windows Server 2019 must have orphaned security identifiers (SIDs) must be removed from user rights. | Warn Count."
+      when: discovered_00_000450_orphaned_user_accounts.stdout_lines | select() | length > 0 or discovered_00_000450_orphaned_group_accounts.stdout_lines | select() | length > 0
+      vars:
+        warn_control_id: 'MEDIUM | WN19-00-000450'
+      ansible.builtin.import_tasks: warning_facts.yml

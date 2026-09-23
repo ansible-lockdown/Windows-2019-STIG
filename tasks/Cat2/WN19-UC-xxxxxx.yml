@@ -1,0 +1,23 @@
+---
+
+- name: "MEDIUM | WN19-UC-000010 | PATCH | Windows Server 2019 must preserve zone information when saving attachments."
+  # prelim_hku_loaded_list is only set when win19stig_hku_based_controls is true, and this is its
+  # only consumer. Without the second condition the loop raises on an undefined variable.
+  when:
+    - wn19_uc_000010 | bool
+    - win19stig_hku_based_controls | bool
+  tags:
+    - WN19-UC-000010
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205924r991589_rule
+    - V-205924
+    - NIST800-53R4_CM-6
+  notify: Change_requires_reboot
+  ansible.windows.win_regedit:
+    path: HKU:\{{ item }}\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Attachments
+    name: SaveZoneInformation
+    data: 2
+    type: dword
+  loop: "{{ prelim_hku_loaded_list }}"

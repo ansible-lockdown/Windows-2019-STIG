@@ -1,0 +1,292 @@
+---
+
+# [WARNING]: Using this module to edit rights and privileges is error-prone, use the win_user_right module instead
+- name: "MEDIUM | WN19-UR-000010 | PATCH | Windows Server 2019 Access Credential Manager as a trusted caller user right must not be assigned to any groups or accounts."
+  when: wn19_ur_000010 | bool
+  tags:
+    - WN19-UR-000010
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205749r958726_rule
+    - V-205749
+    - NIST800-53R4_AC-6
+  community.windows.win_security_policy:
+    section: Privilege Rights
+    key: SeTrustedCredManAccessPrivilege
+    value: ""
+
+- name: "MEDIUM | WN19-UR-000030 | PATCH | Windows Server 2019 Allow log on locally user right must only be assigned to the Administrators group."
+  when: wn19_ur_000030 | bool
+  tags:
+    - WN19-UR-000030
+    - CAT2
+    - CCI-000213
+    - SRG-OS-000080-GPOS-00048
+    - SV-205676r1137691_rule
+    - V-205676
+    - NIST800-53R4_AC-3
+  ansible.windows.win_user_right:
+    name: SeInteractiveLogonRight
+    users: "{{ win19stig_seinteractivelogonright }}"
+    action: set
+
+- name: "MEDIUM | WN19-UR-000040 | PATCH | Windows Server 2019 Back up files and directories user right must only be assigned to the Administrators group."
+  when: wn19_ur_000040 | bool
+  tags:
+    - WN19-UR-000040
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205751r958726_rule
+    - V-205751
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeBackupPrivilege
+    users: "{{ win19stig_sebackuprivilege }}"
+    action: set
+
+- name: "MEDIUM | WN19-UR-000050 | PATCH | Windows Server 2019 Create a pagefile user right must only be assigned to the Administrators group."
+  when: wn19_ur_000050 | bool
+  tags:
+    - WN19-UR-000050
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205752r958726_rule
+    - V-205752
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeCreatePagefilePrivilege
+    users: Administrators
+    action: set
+
+- name: "MEDIUM | WN19-UR-000070 | PATCH |  Windows Server 2019 Create global objects user right must only be assigned to Administrators, Service, Local Service, and Network Service."
+  when: wn19_ur_000070 | bool
+  tags:
+    - WN19-UR-000070
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205754r958726_rule
+    - V-205754
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeCreateGlobalPrivilege
+    users: "{{ win19stig_secreateglobalprivilege }}"
+    action: set
+
+- name: "MEDIUM | WN19-UR-000080 | PATCH | Windows Server 2019 Create permanent shared objects user right must not be assigned to any groups or accounts."
+  when: wn19_ur_000080 | bool
+  tags:
+    - WN19-UR-000080
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205755r958726_rule
+    - V-205755
+    - NIST800-53R4_AC-6
+  community.windows.win_security_policy:
+    section: Privilege Rights
+    key: SeCreatePermanentPrivilege
+    value: ""
+
+- name: "MEDIUM | WN19-UR-000090 | PATCH | Windows Server 2019 Create symbolic links user right must only be assigned to the Administrators group."
+  when: wn19_ur_000090 | bool
+  tags:
+    - WN19-UR-000090
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205756r958726_rule
+    - V-205756
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeCreateSymbolicLinkPrivilege
+    users: Administrators
+    action: set
+
+- name: "MEDIUM | WN19-UR-000110 | PATCH | Windows Server 2019 Force shutdown from a remote system user right must only be assigned to the Administrators group."
+  when: wn19_ur_000110 | bool
+  tags:
+    - WN19-UR-000110
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205758r958726_rule
+    - V-205758
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeRemoteShutdownPrivilege
+    users: Administrators
+    action: set
+
+- name: "MEDIUM | WN19-UR-000120 | PATCH | Windows Server 2019 Generate security audits user right must only be assigned to Local Service and Network Service."
+  when: wn19_ur_000120 | bool
+  tags:
+    - WN19-UR-000120
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205759r958726_rule
+    - V-205759
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeAuditPrivilege
+    users: "{{ win19stig_seauditprivilege }}"
+    action: set
+
+- name: "MEDIUM | WN19-UR-000130 | PATCH | Windows Server 2019 Impersonate a client after authentication user right must only be assigned to Administrators, Service, Local Service, and Network Service."
+  when: wn19_ur_000130 | bool
+  tags:
+    - WN19-UR-000130
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205760r958726_rule
+    - V-205760
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeImpersonatePrivilege
+    users: "{{ win19stig_seimpersonateprivilege }}"
+    action: set
+
+- name: "MEDIUM | WN19-UR-000140 | PATCH | Windows Server 2019 Increase scheduling priority: user right must only be assigned to the Administrators group."
+  when: wn19_ur_000140 | bool
+  tags:
+    - WN19-UR-000140
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205761r958726_rule
+    - V-205761
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeIncreaseBasePriorityPrivilege
+    users: "{{ win19stig_seincreasebasepriorityprivilege }}"
+    action: set
+
+- name: "MEDIUM | WN19-UR-000150 | PATCH | Windows Server 2019 Load and unload device drivers user right must only be assigned to the Administrators group."
+  when: wn19_ur_000150 | bool
+  tags:
+    - WN19-UR-000150
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205762r958726_rule
+    - V-205762
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeLoadDriverPrivilege
+    users: Administrators
+    action: set
+
+- name: "MEDIUM | WN19-UR-000160 | PATCH | Windows Server 2019 Lock pages in memory user right must not be assigned to any groups or accounts."
+  when: wn19_ur_000160 | bool
+  tags:
+    - WN19-UR-000160
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205763r958726_rule
+    - V-205763
+    - NIST800-53R4_AC-6
+  community.windows.win_security_policy:
+    section: Privilege Rights
+    key: SeLockMemoryPrivilege
+    value: "{{ win19stig_selockmemorprivilege }}"
+
+- name: "MEDIUM | WN19-UR-000170 | PATCH | Windows Server 2019 Manage auditing and security log user right must only be assigned to the Administrators group."
+  when: wn19_ur_000170 | bool
+  tags:
+    - WN19-UR-000170
+    - CAT2
+    - CCI-000162
+    - CCI-000163
+    - CCI-000164
+    - CCI-000171
+    - CCI-001914
+    - SRG-OS-000057-GPOS-00027
+    - SV-205643r958434_rule
+    - V-205643
+    - NIST800-53R4_AU-9
+    - NIST800-53R4_AU-12
+  ansible.windows.win_user_right:
+    name: SeSecurityPrivilege
+    users: "{{ win19stig_sesecurityprivilege }}"
+    action: set
+
+- name: "MEDIUM | WN19-UR-000180 | PATCH | Windows Server 2019 Modify firmware environment values user right must only be assigned to the Administrators group."
+  when: wn19_ur_000180 | bool
+  tags:
+    - WN19-UR-000180
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205764r958726_rule
+    - V-205764
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeSystemEnvironmentPrivilege
+    users: Administrators
+    action: set
+
+- name: "MEDIUM | WN19-UR-000190 | PATCH | Windows Server 2019 Perform volume maintenance tasks user right must only be assigned to the Administrators group."
+  when: wn19_ur_000190 | bool
+  tags:
+    - WN19-UR-000190
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205765r958726_rule
+    - V-205765
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeManageVolumePrivilege
+    users: Administrators
+    action: set
+
+- name: "MEDIUM | WN19-UR-000200 | PATCH | Windows Server 2019 Profile single process user right must only be assigned to the Administrators group."
+  when: wn19_ur_000200 | bool
+  tags:
+    - WN19-UR-000200
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205766r958726_rule
+    - V-205766
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeProfileSingleProcessPrivilege
+    users: Administrators
+    action: set
+
+- name: "MEDIUM | WN19-UR-000210 | PATCH | Windows Server 2019 Restore files and directories user right must only be assigned to the Administrators group."
+  when: wn19_ur_000210 | bool
+  tags:
+    - WN19-UR-000210
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205767r958726_rule
+    - V-205767
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeRestorePrivilege
+    users: "{{ win19stig_serestoreprivilege }}"
+    action: set
+
+- name: "MEDIUM | WN19-UR-000220 | PATCH | Windows Server 2019 Take ownership of files or other objects user right must only be assigned to the Administrators group."
+  when: wn19_ur_000220 | bool
+  tags:
+    - WN19-UR-000220
+    - CAT2
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205768r958726_rule
+    - V-205768
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeTakeOwnershipPrivilege
+    users: "{{ win19stig_setakeownershipprivilege }}"
+    action: set

@@ -1,23 +1,18 @@
 ---
 
-parseable: true
 quiet: true
+# Binary asset; ansible-lint tries to decode it as UTF-8 and warns.
+exclude_paths:
+  - templates/windows_templates/PolicyDefinitions.zip
 skip_list:
-    - 'schema'
-    - 'no-changed-when'
-    - 'experimental'
-    - 'name[casing]'
-    - 'name[template]'
-    - 'jinja[spacing]'
-    - 'yaml[line-length]'
-    - 'key-order[task]'
-    - 'var-naming'  # Older playbook no new release
-    - '204'
-    - '208'
-    - '305'
-    - '303'
-    - '403'
-    - '306'
-    - '602'
+  - 'package-latest'
+  - 'risky-shell-pipe'
+  # The one-file-per-control-band layout puts 138 tasks in WN19-00-xxxxxx.yml and 140 in
+  # WN19-AU-xxxxxx.yml, over the rule's hard-coded 100. The limit is not configurable:
+  # max_tasks is a runtime option that the config-file schema rejects, and there is no CLI
+  # flag. Splitting the bands is the only way to satisfy the rule and would break the naming
+  # convention shared with the sibling Windows roles.
+  # NOTE: this disables the rule repo-wide, so a new file crossing 100 tasks is not reported.
+  - 'complexity'
 use_default_rules: true
 verbosity: 0

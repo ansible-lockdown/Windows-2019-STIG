@@ -1,0 +1,266 @@
+---
+
+- name: "MEDIUM | WN19-AC-000020 | PATCH | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less."
+  when:
+    - wn19_ac_000020 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-AC-000020
+    - CAT2
+    - CCI-000044
+    - SRG-OS-000021-GPOS-00005
+    - SV-205629r958388_rule
+    - V-205629
+    - NIST800-53R4_AC-7
+  block:
+    - name: "MEDIUM | WN19-AC-000020 | AUDIT | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Warning For Bad Variable."
+      when: win19stig_lockoutbadcount == 0 or win19stig_lockoutbadcount > 3
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have an invalid number of days set for win19stig_lockoutbadcount please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-AC-000020 | AUDIT | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Warn Count."
+      when: win19stig_lockoutbadcount == 0 or win19stig_lockoutbadcount > 3
+      vars:
+        warn_control_id: 'MEDIUM | WN19-AC-000020'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-AC-000020 | PATCH | Windows Server 2019 must have the number of allowed bad logon attempts configured to three or less. | Apply Variable."
+      when:
+        - win19stig_lockoutbadcount > 0
+        - win19stig_lockoutbadcount <= 3
+      community.windows.win_security_policy:
+        section: System Access
+        key: LockoutBadCount
+        value: "{{ win19stig_lockoutbadcount }}"
+
+# below task is dependent on WN19-AC-000020, maybe custom fail when known error if WN19-AC-000020 not set? "The key 'ResetLockoutCount' in section 'System Access' is not a valid key, cannot set this value"
+- name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater."
+  when:
+    - wn19_ac_000010 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-AC-000010
+    - CAT2
+    - CCI-002238
+    - SRG-OS-000329-GPOS-00128
+    - SV-205795r958736_rule
+    - V-205795
+    - NIST800-53R4_AC-7
+  block:
+    - name: "MEDIUM | WN19-AC-000010 | AUDIT | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warning For Bad Variable."
+      when:
+        - win19stig_lockoutduration < 15
+        - win19stig_lockoutduration > 0
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have an invalid number of minutes set for win19stig_lockoutduration please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-AC-000010 | AUDIT | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Warn Count."
+      when:
+        - win19stig_lockoutduration < 15
+        - win19stig_lockoutduration > 0
+      vars:
+        warn_control_id: 'MEDIUM | WN19-AC-000010'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-AC-000010 | PATCH | Windows Server 2019 account lockout duration must be configured to 15 minutes or greater. | Apply Variable."
+      when: win19stig_lockoutduration == 0 or win19stig_lockoutduration >= 15
+      community.windows.win_security_policy:
+        section: System Access
+        key: LockoutDuration
+        value: "{{ win19stig_lockoutduration }}"
+
+- name: "MEDIUM | WN19-AC-000030 | PATCH | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
+  when:
+    - wn19_ac_000030 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-AC-000030
+    - CAT2
+    - CCI-000044
+    - CCI-002238
+    - SRG-OS-000021-GPOS-00005
+    - SV-205630r958388_rule
+    - V-205630
+    - NIST800-53R4_AC-7
+  block:
+    - name: MEDIUM | WN19-AC-000030 | AUDIT | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater."
+      when: win19stig_resetlockoutcount < 15
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have an invalid number of days set for win19stig_resetlockoutcount please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: MEDIUM | WN19-AC-000030 | AUDIT | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater. | Warn Count."
+      when: win19stig_resetlockoutcount < 15
+      vars:
+        warn_control_id: 'MEDIUM | WN19-AC-000030'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-AC-000030 | PATCH | Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater. | Apply Variable"
+      when: win19stig_resetlockoutcount >= 15
+      community.windows.win_security_policy:
+        section: System Access
+        key: ResetLockoutCount
+        value: "{{ win19stig_resetlockoutcount }}"
+
+- name: "MEDIUM | WN19-AC-000040 | PATCH | Windows Server 2019 password history must be configured to 24 passwords remembered."
+  when:
+    - wn19_ac_000040 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-AC-000040
+    - CAT2
+    - CCI-004061
+    - SRG-OS-000077-GPOS-00045
+    - SV-205660r1000129_rule
+    - V-205660
+    - NIST800-53R4_AC-7
+  block:
+    - name: "MEDIUM | WN19-AC-000040 | AUDIT | Windows Server 2019 password history must be configured to 24 passwords remembered. | Warning Message"
+      when: win19stig_passwordhistorysize < 24
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have an invalid number of remembered passwords set for win19stig_passwordhistorysize please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-AC-000040 | AUDIT | Windows Server 2019 password history must be configured to 24 passwords remembered. | Warn Count."
+      when: win19stig_passwordhistorysize < 24
+      vars:
+        warn_control_id: 'MEDIUM | WN19-AC-000040'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-AC-000040 | PATCH | Windows Server 2019 password history must be configured to 24 passwords remembered. | Apply Variable"
+      when: win19stig_passwordhistorysize >= 24
+      community.windows.win_security_policy:
+        section: System Access
+        key: PasswordHistorySize
+        value: "{{ win19stig_passwordhistorysize }}"
+
+- name: "MEDIUM | WN19-AC-000050 | PATCH | Windows Server 2019 maximum password age must be configured to 60 days or less."
+  when:
+    - wn19_ac_000050 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-AC-000050
+    - CAT2
+    - CCI-000199
+    - CCI-004066
+    - SRG-OS-000076-GPOS-00044
+    - SV-205659r1051067_rule
+    - V-205659
+    - NIST800-53R4_IA-5
+  block:
+    - name: "MEDIUM | WN19-AC-000050 | AUDIT | Windows Server 2019 maximum password age must be configured to 60 days or less. | Warning For Bad Variable."
+      when: win19stig_maximumpasswordage == 0 or win19stig_maximumpasswordage > 60
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have an invalid number of days set for win19stig_maximumpasswordage please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-AC-000050 | AUDIT | Windows Server 2019 maximum password age must be configured to 60 days or less. | Warn Count."
+      when: win19stig_maximumpasswordage == 0 or win19stig_maximumpasswordage > 60
+      vars:
+        warn_control_id: 'MEDIUM | WN19-AC-000050'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-AC-000050 | PATCH | Windows Server 2019 maximum password age must be configured to 60 days or less. | Apply Variable."
+      when:
+        - win19stig_maximumpasswordage > 0
+        - win19stig_maximumpasswordage <= 60
+      community.windows.win_security_policy:
+        section: System Access
+        key: MaximumPasswordAge
+        value: "{{ win19stig_maximumpasswordage }}"
+
+- name: "MEDIUM | WN19-AC-000060 | PATCH | Windows Server 2019 minimum password age must be configured to at least one day."
+  when:
+    - wn19_ac_000060 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-AC-000060
+    - CAT2
+    - CCI-000198
+    - CCI-004066
+    - SRG-OS-000075-GPOS-00043
+    - SV-205656r1051064_rule
+    - V-205656
+    - NIST800-53R4_IA-5
+  block:
+    - name: "MEDIUM | WN19-AC-000060 | AUDIT | Windows Server 2019 minimum password age must be configured to at least one day. | Warning For Bad Variable."
+      when: win19stig_minimumpasswordage == 0
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have an invalid number of days set for win19stig_minimumpasswordage please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-AC-000060 | AUDIT | Windows Server 2019 minimum password age must be configured to at least one day. | Warn Count."
+      when: win19stig_minimumpasswordage == 0
+      vars:
+        warn_control_id: 'MEDIUM | WN19-AC-000060'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-AC-000060 | PATCH | Windows Server 2019 minimum password age must be configured to at least one day. | Set Variable."
+      when: win19stig_minimumpasswordage > 0
+      community.windows.win_security_policy:
+        section: System Access
+        key: MinimumPasswordAge
+        value: "{{ win19stig_minimumpasswordage }}"
+
+- name: "MEDIUM | WN19-AC-000070 | PATCH | Windows Server 2019 minimum password length must be configured to 14 characters."
+  when:
+    - wn19_ac_000070 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-AC-000070
+    - CAT2
+    - CCI-000205
+    - CCI-004066
+    - SRG-OS-000078-GPOS-00046
+    - SV-205662r1051069_rule
+    - V-205662
+    - NIST800-53R4_IA-5
+  block:
+    - name: "MEDIUM | WN19-AC-000070 | AUDIT | Windows Server 2019 minimum password length must be configured to 14 characters. | Warning For Bad Variable."
+      when: win19stig_minimumpasswordlength < 14
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have an invalid password length for win19stig_minimumpasswordlength please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-AC-000070 | AUDIT | Windows Server 2019 minimum password length must be configured to 14 characters. | Warn Count."
+      when: win19stig_minimumpasswordlength < 14
+      vars:
+        warn_control_id: 'MEDIUM | WN19-AC-000070'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-AC-000070 | PATCH | Windows Server 2019 minimum password length must be configured to 14 characters. | Apply Variable."
+      when: win19stig_minimumpasswordlength >= 14
+      community.windows.win_security_policy:
+        section: System Access
+        key: MinimumPasswordLength
+        value: "{{ win19stig_minimumpasswordlength }}"
+
+- name: "MEDIUM | WN19-AC-000080 | PATCH | Windows Server 2019 must have the built-in Windows password complexity policy enabled."
+  when:
+    - wn19_ac_000080 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-AC-000080
+    - CAT2
+    - CCI-000192
+    - CCI-000193
+    - CCI-000194
+    - CCI-001619
+    - CCI-004066
+    - SRG-OS-000069-GPOS-00037
+    - SV-205652r1051061_rule
+    - V-205652
+    - NIST800-53R4_IA-5
+  community.windows.win_security_policy:
+    section: System Access
+    key: PasswordComplexity
+    value: "{{ win19stig_passwordcomplexityvalue }}"
