@@ -2,6 +2,21 @@
 
 ## Based on STIG v3.9.0 - ALD Windows Alignment Updates
 
+### Breaking changes
+
+- BREAKING: **the variable prefixes are standardized on `win19stig_`, and 45 names change.** Measured
+  against the previous public release: 37 `wn19stig_<name>` become `win19stig_<name>`, 4
+  `win2019stig_<name>` become `win19stig_<name>`, the three category switches
+  `win2019stig_cat<N>_patch` become `win19stig_cat<N>_controls`, and
+  `wn19stig_machineaccountpsswd_max_age` becomes `win19stig_machineaccountpassword_max_age`. An
+  override left under an old name is no longer read and is silently ignored. Rule toggles are
+  unchanged and keep the `wn19_<control id>` form.
+- BREAKING: **four variables are removed.** `win19stig_cloud_based_system`, along with the cloud
+  detection it gated, which could not distinguish Azure from on-premises Hyper-V.
+  `win2019stig_min_ansible_version`, now `min_ansible_version` in `meta/main.yml` and raised from
+  `2.10.1` to `2.16.1`. And the rule toggles `wn19_00_000290` and `wn19_cc_000451`, whose controls
+  DISA retired and which appear nowhere in the V3R9 benchmark.
+
 ### Feature removals gated on the feature existing
 
 - FIXED: **eight feature removal controls aborted the play on a host that does not ship the feature.**

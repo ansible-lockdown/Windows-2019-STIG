@@ -159,6 +159,15 @@ and your setting will be silently ignored.
   becomes `win19stig_minimumpasswordlength`)
 - `win2019stig_<name>` becomes `win19stig_<name>` (for example `win2019stig_disruption_high`
   becomes `win19stig_disruption_high`)
+- the three category switches change suffix as well as prefix: `win2019stig_cat1_patch`,
+  `cat2_patch` and `cat3_patch` become `win19stig_cat1_controls`, `cat2_controls` and
+  `cat3_controls`
+- `wn19stig_machineaccountpsswd_max_age` becomes `win19stig_machineaccountpassword_max_age`
+
+Four variables are removed rather than renamed: `win19stig_cloud_based_system` with the cloud
+detection it gated, `win2019stig_min_ansible_version` which is now `min_ansible_version` in
+`meta/main.yml`, and the rule toggles `wn19_00_000290` and `wn19_cc_000451` for controls DISA has
+retired.
 
 Rule toggles are unchanged. They keep the `wn19_<control id>` form, for example
 `wn19_au_000010`.
