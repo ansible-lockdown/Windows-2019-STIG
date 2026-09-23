@@ -1,0 +1,19 @@
+---
+
+- name: "HIGH | WN19-AC-000090 | PATCH | Windows Server 2019 reversible password encryption must be disabled."
+  when:
+    - wn19_ac_000090 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-AC-000090
+    - CAT1
+    - CCI-000196
+    - CCI-004062
+    - SRG-OS-000073-GPOS-00041
+    - SV-205653r1051062_rule
+    - V-205653
+    - NIST800-53R4_IA-5
+  community.windows.win_security_policy:
+    section: System Access
+    key: ClearTextPassword
+    value: "0"

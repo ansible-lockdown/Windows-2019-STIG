@@ -1,0 +1,23 @@
+{
+    "lockdown_details": {
+        "managed_by": {{ (file_managed_by_ansible | regex_replace('^#\s?', '', multiline=True)).strip().split('\n') | to_json }},
+        "Benchmark_release": {{ ('STIG-' ~ benchmark_version) | to_json }},
+        "Benchmark_run_date": {{ ('%Y-%m-%d - %H:%M:%S' | ansible.builtin.strftime) | to_json }},
+        "cat_1_hardening_enabled": {{ win19stig_cat1_controls | bool | to_json }},
+        "cat_2_hardening_enabled": {{ win19stig_cat2_controls | bool | to_json }},
+        "cat_3_hardening_enabled": {{ win19stig_cat3_controls | bool | to_json }}
+{# ansible_run_tags is ['all'] on an untagged run, never empty, so only an explicitly
+   selected CAT tag is worth recording. Each entry carries a LEADING comma: they are all
+   optional, and a trailing comma after cat_3_hardening_enabled would emit invalid JSON
+   on the default untagged run. #}
+{% if 'CAT1' in ansible_run_tags %},
+        "Cat_1_tag_run": true
+{% endif %}
+{% if 'CAT2' in ansible_run_tags %},
+        "Cat_2_tag_run": true
+{% endif %}
+{% if 'CAT3' in ansible_run_tags %},
+        "Cat_3_tag_run": true
+{% endif %}
+    }
+}

@@ -1,0 +1,696 @@
+---
+
+- name: "MEDIUM | WN19-SO-000010 | PATCH | Windows Server 2019 must have the built-in guest account disabled."
+  when:
+    - wn19_so_000010 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-SO-000010
+    - CAT2
+    - CCI-000804
+    - SRG-OS-000121-GPOS-00062
+    - SV-205709r958504_rule
+    - V-205709
+    - NIST800-53R4_IA-8
+  community.windows.win_security_policy:
+    section: System Access
+    key: EnableGuestAccount
+    value: 0
+
+- name: "MEDIUM | WN19-SO-000030 | PATCH | Windows Server 2019 built-in administrator account must be renamed."
+  when:
+    - wn19_so_000030 | bool
+    - not win_skip_for_test | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-SO-000030
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205909r991589_rule
+    - V-205909
+    - NIST800-53R4_CM-6
+  block:
+    - name: "MEDIUM | WN19-SO-000030 | AUDIT | Windows Server 2019 built-in administrator account must be renamed. | Warning For Bad Variable."
+      when: "'adminchangethis' in win19stig_newadministratorname"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have not changed the default name for win19stig_newadministratorname, please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-SO-000030 | AUDIT | Windows Server 2019 built-in administrator account must be renamed. | Warn Count."
+      when: "'adminchangethis' in win19stig_newadministratorname"
+      vars:
+        warn_control_id: 'MEDIUM | WN19-SO-000030'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-SO-000030 | PATCH | Windows Server 2019 built-in administrator account must be renamed. | Set Variable."
+      when: "'adminchangethis' not in win19stig_newadministratorname"
+      community.windows.win_security_policy:
+        section: System Access
+        key: NewAdministratorName
+        value: "{{ win19stig_newadministratorname }}"
+
+- name: "MEDIUM | WN19-SO-000040 | PATCH | Windows Server 2019 built-in guest account must be renamed."
+  when:
+    - wn19_so_000040 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-SO-000040
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205910r991589_rule
+    - V-205910
+    - NIST800-53R4_CM-6
+  block:
+    - name: "MEDIUM | WN19-SO-000040 | AUDIT | Windows Server 2019 built-in guest account must be renamed. | Warning For Bad Variable."
+      when: "'guestchangethis' in win19stig_newguestname"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have not changed the default name for win19stig_newguestname, please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-SO-000040 | AUDIT | Windows Server 2019 built-in guest account must be renamed. | Warn Count."
+      when: "'guestchangethis' in win19stig_newguestname"
+      vars:
+        warn_control_id: 'MEDIUM | WN19-SO-000040'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-SO-000040 | PATCH | Windows Server 2019 built-in guest account must be renamed. | Set Variable."
+      when: "'guestchangethis' not in win19stig_newguestname"
+      community.windows.win_security_policy:
+        section: System Access
+        key: NewGuestName
+        value: "{{ win19stig_newguestname }}"
+
+- name: "MEDIUM | WN19-SO-000050 | PATCH | Windows Server 2019 must force audit policy subcategory settings to override audit policy category settings."
+  when: wn19_so_000050 | bool
+  tags:
+    - WN19-SO-000050
+    - CAT2
+    - CCI-000169
+    - SRG-OS-000062-GPOS-00031
+    - SV-205644r958442_rule
+    - V-205644
+    - NIST800-53R4_AU-12
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\
+    value: SCENoApplyLegacyAuditPolicy
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000060 | PATCH | Windows Server 2019 setting Domain member: Digitally encrypt or sign secure channel data (always) must be configured to Enabled."
+  when:
+    - wn19_so_000060 | bool
+    - prelim_is_domain_member | bool
+  tags:
+    - WN19-SO-000060
+    - CAT2
+    - CCI-002418
+    - CCI-002421
+    - SRG-OS-000423-GPOS-00187
+    - SV-205821r958908_rule
+    - V-205821
+    - NIST800-53R4_SC-8
+    - NeedToTestMemberServer
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+    value: RequireSignOrSeal
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000070 | PATCH | Windows Server 2019 setting Domain member: Digitally encrypt secure channel data (when possible) must be configured to enabled."
+  when:
+    - wn19_so_000070 | bool
+    - prelim_is_domain_member | bool
+  tags:
+    - WN19-SO-000070
+    - CAT2
+    - CCI-002418
+    - CCI-002421
+    - SRG-OS-000423-GPOS-00187
+    - SV-205822r958908_rule
+    - V-205822
+    - NIST800-53R4_SC-8
+    - NeedToTestMemberServer
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters\
+    value: SealSecureChannel
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000080 | PATCH | Windows Server 2019 setting Domain member: Digitally sign secure channel data (when possible) must be configured to Enabled."
+  when:
+    - wn19_so_000080 | bool
+    - prelim_is_domain_member | bool
+  tags:
+    - WN19-SO-000080
+    - CAT2
+    - CCI-002418
+    - CCI-002421
+    - SRG-OS-000423-GPOS-00187
+    - SV-205823r958908_rule
+    - V-205823
+    - NIST800-53R4_SC-8
+    - NeedToTestMemberServer
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+    value: SignSecureChannel
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000090 | PATCH | Windows Server 2019 computer account password must not be prevented from being reset."
+  when: wn19_so_000090 | bool
+  tags:
+    - WN19-SO-000090
+    - CAT2
+    - CCI-001967
+    - SRG-OS-000379-GPOS-00164
+    - SV-205815r971545_rule
+    - V-205815
+    - NIST800-53R4_IA-3
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+    value: DisablePasswordChange
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000100 | PATCH | Windows Server 2019 maximum age for machine account passwords must be configured to 30 days or less."
+  when: wn19_so_000100 | bool
+  tags:
+    - WN19-SO-000100
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205911r991589_rule
+    - V-205911
+    - NIST800-53R4_CM-6
+  block:
+    - name: "MEDIUM | WN19-SO-000100 | AUDIT | Windows Server 2019 maximum age for machine account passwords must be configured to 30 days or less. | Number Of Days Check."
+      when: win19stig_machineaccountpassword_max_age > 30 or win19stig_machineaccountpassword_max_age == 0
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have not set the right number of days for win19stig_machineaccountpassword_max_age"
+          - "Please read the notes for the variable and make the necessary changes to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-SO-000100 | AUDIT | Windows Server 2019 maximum age for machine account passwords must be configured to 30 days or less. | Warn Count."
+      when: win19stig_machineaccountpassword_max_age > 30 or win19stig_machineaccountpassword_max_age == 0
+      vars:
+        warn_control_id: 'MEDIUM | WN19-SO-000100'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-SO-000100 | PATCH | Windows Server 2019 maximum age for machine account passwords must be configured to 30 days or less. | Apply Variable."
+      when:
+        - win19stig_machineaccountpassword_max_age <= 30
+        - win19stig_machineaccountpassword_max_age != 0
+      ansible.windows.win_regedit:
+        path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+        state: present
+        value: MaximumPasswordAge
+        data: "{{ win19stig_machineaccountpassword_max_age }}"
+        datatype: dword
+
+- name: "MEDIUM | WN19-SO-000110 | PATCH | Windows Server 2019 must be configured to require a strong session key."
+  when: wn19_so_000110 | bool
+  tags:
+    - WN19-SO-000110
+    - CAT2
+    - CCI-002418
+    - CCI-002421
+    - SRG-OS-000423-GPOS-00187
+    - SV-205824r958908_rule
+    - V-205824
+    - NIST800-53R4_SC-8
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+    value: RequireStrongKey
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000120 | PATCH | Windows Server 2019 machine inactivity limit must be set to 15 minutes or less, locking the system with the screen saver."
+  when: wn19_so_000120 | bool
+  tags:
+    - WN19-SO-000120
+    - CAT2
+    - CCI-000056
+    - CCI-000057
+    - CCI-000060
+    - SRG-OS-000028-GPOS-00009
+    - SV-205633r958400_rule
+    - V-205633
+    - NIST800-53R4_AC-11
+  block:
+    - name: "MEDIUM | WN19-SO-000120 | AUDIT | Windows Server 2019 machine inactivity limit must be set to 15 minutes or less, locking the system with the screen saver. | Number Of Seconds Check."
+      when: win19stig_inactivitytimeoutsecs > 900 or win19stig_inactivitytimeoutsecs == 0
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have not set the right number of seconds for win19stig_inactivitytimeoutsecs"
+          - "Please read the notes for the variable and make the necessary changes to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-SO-000120 | AUDIT | Windows Server 2019 machine inactivity limit must be set to 15 minutes or less, locking the system with the screen saver. | Warn Count."
+      when: win19stig_inactivitytimeoutsecs > 900 or win19stig_inactivitytimeoutsecs == 0
+      vars:
+        warn_control_id: 'MEDIUM | WN19-SO-000120'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-SO-000120 | PATCH | Windows Server 2019 machine inactivity limit must be set to 15 minutes or less, locking the system with the screen saver. | Apply Variable."
+      when:
+        - win19stig_inactivitytimeoutsecs <= 900
+        - win19stig_inactivitytimeoutsecs != 0
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+        state: present
+        value: InactivityTimeoutSecs
+        data: "{{ win19stig_inactivitytimeoutsecs }}"
+        datatype: dword
+
+- name: "MEDIUM | WN19-SO-000130 | PATCH | Windows Server 2019 required legal notice must be configured to display before console logon."
+  when: wn19_so_000130 | bool
+  tags:
+    - WN19-SO-000130
+    - CAT2
+    - CCI-000048
+    - CCI-000050
+    - CCI-001384
+    - CCI-001385
+    - CCI-001386
+    - CCI-001387
+    - CCI-001388
+    - SRG-OS-000023-GPOS-00006
+    - SV-205631r958390_rule
+    - V-205631
+    - NIST800-53R4_AC-8
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: LegalNoticeText
+    data: "{{ win19stig_legalnoticetext }}"
+    datatype: string
+
+- name: "MEDIUM | WN19-SO-000150 | PATCH | Windows Server 2019 Smart Card removal option must be configured to Force Logoff or Lock Workstation."
+  when: wn19_so_000150 | bool
+  tags:
+    - WN19-SO-000150
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205912r991589_rule
+    - V-205912
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+    value: scremoveoption
+    data: 1
+    datatype: string
+
+- name: "MEDIUM | WN19-SO-000160 | PATCH | Windows Server 2019 etting Microsoft network client: Digitally sign communications (always) must be configured to Enabled."
+  when: wn19_so_000160 | bool
+  tags:
+    - WN19-SO-000160
+    - CAT2
+    - CCI-002418
+    - CCI-002421
+    - SRG-OS-000423-GPOS-00187
+    - SV-205825r958908_rule
+    - V-205825
+    - NIST800-53R4_SC-8
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters
+    value: RequireSecuritySignature
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000170 | PATCH | Windows Server 2019 setting Microsoft network client: Digitally sign communications (if server agrees) must be configured to Enabled."
+  when: wn19_so_000170 | bool
+  tags:
+    - WN19-SO-000170
+    - CAT2
+    - CCI-002421
+    - CCI-002418
+    - SRG-OS-000423-GPOS-00187
+    - SV-205826r958908_rule
+    - V-205826
+    - NIST800-53R4_SC-8
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters
+    value: EnableSecuritySignature
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000180 | PATCH | Windows Server 2019 unencrypted passwords must not be sent to third-party Server Message Block (SMB) servers."
+  when: wn19_so_000180 | bool
+  tags:
+    - WN19-SO-000180
+    - CAT2
+    - CCI-000197
+    - SRG-OS-000074-GPOS-00042
+    - SV-205655r987796_rule
+    - V-205655
+    - NIST800-53R4_IA-5
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters
+    value: EnablePlainTextPassword
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000190 | PATCH | Windows Server 2019 setting Microsoft network server: Digitally sign communications (always) must be configured to Enabled."
+  when: wn19_so_000190 | bool
+  tags:
+    - WN19-SO-000190
+    - CAT2
+    - CCI-002418
+    - CCI-002421
+    - SRG-OS-000423-GPOS-00187
+    - SV-205827r958908_rule
+    - V-205827
+    - NIST800-53R4_SC-8
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters
+    value: RequireSecuritySignature
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000200 | PATCH | Windows Server 2019 setting Microsoft network server: Digitally sign communications (if client agrees) must be configured to Enabled."
+  when: wn19_so_000200 | bool
+  tags:
+    - WN19-SO-000200
+    - CAT2
+    - CCI-002418
+    - CCI-002421
+    - SRG-OS-000423-GPOS-00187
+    - SV-205828r958908_rule
+    - V-205828
+    - NIST800-53R4_SC-8
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters
+    value: EnableSecuritySignature
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000240 | PATCH | Windows Server 2019 must be configured to prevent anonymous users from having the same permissions as the Everyone group."
+  when: wn19_so_000240 | bool
+  tags:
+    - WN19-SO-000240
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205915r991589_rule
+    - V-205915
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+    value: EveryoneIncludesAnonymous
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000260 | PATCH | Windows Server 2019 services using Local System that use Negotiate when reverting to NTLM authentication must use the computer identity instead of authenticating anonymously."
+  when: wn19_so_000260 | bool
+  tags:
+    - WN19-SO-000260
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205916r991589_rule
+    - V-205916
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+    value: UseMachineId
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000270 | PATCH | Windows Server 2019 must prevent NTLM from falling back to a Null session."
+  when: wn19_so_000270 | bool
+  tags:
+    - WN19-SO-000270
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205917r991589_rule
+    - V-205917
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
+    value: allownullsessionfallback
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000280 | PATCH | Windows Server 2019 Must prevent PKU2U authentication using online identities."
+  when: wn19_so_000280 | bool
+  tags:
+    - WN19-SO-000280
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205918r991589_rule
+    - V-205918
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\pku2u
+    value: AllowOnlineID
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000290 | PATCH | Windows Server 2019 Kerberos encryption types must be configured to prevent the use of DES and RC4 encryption suites."
+  when: wn19_so_000290 | bool
+  tags:
+    - WN19-SO-000290
+    - CAT2
+    - CCI-000803
+    - SRG-OS-000120-GPOS-00061
+    - SV-205708r971535_rule
+    - V-205708
+    - NIST800-53R4_IA-7
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters
+    value: SupportedEncryptionTypes
+    data: 2147483640
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000320 | PATCH | Windows Server 2019 must be configured to at least negotiate signing for LDAP client signing."
+  when: wn19_so_000320 | bool
+  tags:
+    - WN19-SO-000320
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205920r991589_rule
+    - V-205920
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Services\LDAP
+    value: LDAPClientIntegrity
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000330 | PATCH | Windows Server 2019 session security for NTLM SSP-based clients must be configured to require NTLMv2 session security and 128-bit encryption."
+  when: wn19_so_000330 | bool
+  tags:
+    - WN19-SO-000330
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205921r991589_rule
+    - V-205921
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
+    value: NTLMMinClientSec
+    data: 537395200
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000340 | PATCH | Windows Server 2019 session security for NTLM SSP-based servers must be configured to require NTLMv2 session security and 128-bit encryption."
+  when: wn19_so_000340 | bool
+  tags:
+    - WN19-SO-000340
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205922r991589_rule
+    - V-205922
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
+    value: NTLMMinServerSec
+    data: 537395200
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000350 | PATCH | Windows Server 2019 users must be required to enter a password to access private keys stored on the computer."
+  when: wn19_so_000350 | bool
+  tags:
+    - WN19-SO-000350
+    - CAT2
+    - CCI-000186
+    - SRG-OS-000067-GPOS-00035
+    - SV-205651r958450_rule
+    - V-205651
+    - NIST800-53R4_IA-5
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Cryptography
+    value: ForceKeyProtection
+    data: 2
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000360 | PATCH | Windows Server 2019 must be configured to use FIPS-compliant algorithms for encryption, hashing, and signing."
+  when: wn19_so_000360 | bool
+  tags:
+    - WN19-SO-000360
+    - CAT2
+    - CCI-002450
+    - SRG-OS-000478-GPOS-00223
+    - SV-205842r1137699_rule
+    - V-205842
+    - NIST800-53R4_SC-13
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy
+    state: present
+    value: Enabled
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000380 | PATCH | Windows Server 2019 User Account Control approval mode for the built-in Administrator must be enabled."
+  when: wn19_so_000380 | bool
+  tags:
+    - WN19-SO-000380
+    - CAT2
+    - CCI-002038
+    - SRG-OS-000373-GPOS-00157
+    - SV-205811r1051083_rule
+    - V-205811
+    - NIST800-53R4_IA-11
+  # - exclusions for server core? think its NA there
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: FilterAdministratorToken
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000390 | PATCH | Windows Server 2019 UIAccess applications must not be allowed to prompt for elevation without using the secure desktop."
+  when: wn19_so_000390 | bool
+  tags:
+    - WN19-SO-000390
+    - CAT2
+    - CCI-001084
+    - SRG-OS-000134-GPOS-00068
+    - SV-205716r958518_rule
+    - V-205716
+    - NIST800-53R4_SC-3
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: EnableUIADesktopToggle
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000400 | PATCH | Windows Server 2019 User Account Control must, at a minimum, prompt administrators for consent on the secure desktop."
+  when: wn19_so_000400 | bool
+  tags:
+    - WN19-SO-000400
+    - CAT2
+    - CCI-001084
+    - SRG-OS-000134-GPOS-00068
+    - SV-205717r958518_rule
+    - V-205717
+    - NIST800-53R4_SC-3
+  block:
+    - name: "MEDIUM | WN19-SO-000400 | PATCH | Windows Server 2019 User Account Control must, at a minimum, prompt administrators for consent on the secure desktop. | Variable Check."
+      when: win19stig_consentprompt < 1 or win19stig_consentprompt > 2
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have not chosen the correct setting for win19stig_consentprompt"
+          - "Please read the notes for the variable and make the necessary changes to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-SO-000400 | PATCH | Windows Server 2019 User Account Control must, at a minimum, prompt administrators for consent on the secure desktop. | Warn Count."
+      when: win19stig_consentprompt < 1 or win19stig_consentprompt > 2
+      vars:
+        warn_control_id: 'MEDIUM | WN19-SO-000400'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-SO-000400 | PATCH | Windows Server 2019 User Account Control must, at a minimum, prompt administrators for consent on the secure desktop. | Apply Variable."
+      when: win19stig_consentprompt == 1 or win19stig_consentprompt == 2
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+        state: present
+        value: ConsentPromptBehaviorAdmin
+        data: "{{ win19stig_consentprompt }}"
+        datatype: dword
+
+- name: "MEDIUM | WN19-SO-000410 | PATCH | Windows Server 2019 User Account Control must automatically deny standard user requests for elevation."
+  when: wn19_so_000410 | bool
+  tags:
+    - WN19-SO-000410
+    - CAT2
+    - CCI-002038
+    - SRG-OS-000373-GPOS-00157
+    - SV-205812r1051084_rule
+    - V-205812
+    - NIST800-53R4_IA-11
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    state: present
+    value: ConsentPromptBehaviorUser
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000420 | PATCH | Windows Server 2019 User Account Control must be configured to detect application installations and prompt for elevation."
+  when: wn19_so_000420 | bool
+  tags:
+    - WN19-SO-000420
+    - CAT2
+    - CCI-001084
+    - SRG-OS-000134-GPOS-00068
+    - SV-205718r958518_rule
+    - V-205718
+    - NIST800-53R4_SC-3
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: EnableInstallerDetection
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000430 | PATCH | Windows Server 2019 User Account Control (UAC) must only elevate UIAccess applications that are installed in secure locations."
+  when: wn19_so_000430 | bool
+  tags:
+    - WN19-SO-000430
+    - CAT2
+    - CCI-001084
+    - SRG-OS-000134-GPOS-00068
+    - SV-205719r958518_rule
+    - V-205719
+    - NIST800-53R4_SC-3
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: EnableSecureUIAPaths
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000440 | PATCH | Windows Server 2019 User Account Control must run all administrators in Admin Approval Mode, enabling UAC."
+  when: wn19_so_000440 | bool
+  tags:
+    - WN19-SO-000440
+    - CAT2
+    - CCI-002038
+    - SRG-OS-000373-GPOS-00157
+    - SV-205813r1051085_rule
+    - V-205813
+    - NIST800-53R4_IA-11
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: EnableLUA
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-SO-000450 | PATCH | Windows Server 2019 User Account Control (UAC) must virtualize file and registry write failures to per-user locations."
+  when: wn19_so_000450 | bool
+  tags:
+    - WN19-SO-000450
+    - CAT2
+    - V-205720
+    - SRG-OS-000134-GPOS-00068
+    - SV-205720r958518_rule
+    - CCI-001084
+    - NIST800-53R4_SC-3
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: EnableVirtualization
+    data: 1
+    datatype: dword

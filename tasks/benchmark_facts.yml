@@ -1,0 +1,32 @@
+---
+
+# Writes a machine-readable record of what this role applied, for inventory and reporting.
+#
+# Unlike Linux, Windows has no default local-facts directory: ansible.windows.setup's
+# fact_path defaults to null and reads only *.ps1 or *.json. So this file is written but
+# NOT collected unless the consumer passes fact_path explicitly:
+#
+#   - ansible.windows.setup:
+#       fact_path: 'C:\ProgramData\ansible\facts.d'
+#
+# The fact key is built from the file's BaseName, so this appears as ansible_compliance_facts
+# regardless of the extension, and not under ansible_local.
+
+- name: "BENCHMARK | Create Ansible Facts Directory"
+  ansible.windows.win_file:
+    path: "{{ ansible_facts_path }}"
+    state: directory
+
+# This role used to write compliance_facts.ps1. Both extensions are collected and both yield
+# the same fact key, so leaving the old file behind on an upgraded host would give two sources
+# for ansible_compliance_facts with no guaranteed precedence. Remove it before writing the JSON.
+- name: "BENCHMARK | Remove The Superseded PowerShell Facts File"
+  ansible.windows.win_file:
+    path: "{{ ansible_facts_path }}\\compliance_facts.ps1"
+    state: absent
+
+- name: "BENCHMARK | Create Ansible Facts File and Levels Applied"
+  ansible.windows.win_template:
+    src: compliance_facts.json.j2
+    dest: "{{ ansible_facts_path }}\\compliance_facts.json"
+    newline_sequence: "\r\n"

@@ -1,0 +1,39 @@
+---
+
+- name: "LOW | WN19-SO-000140 | PATCH | Windows Server 2019 title for the legal banner must be configured with the appropriate text."
+  when: wn19_so_000140 | bool
+  tags:
+    - WN19-SO-000140
+    - CAT3
+    - CCI-000048
+    - CCI-001384
+    - CCI-001385
+    - CCI-001386
+    - CCI-001387
+    - CCI-001388
+    - SRG-OS-000023-GPOS-00006
+    - SRG-OS-000228-GPOS-00088
+    - SV-205632r958390_rule
+    - V-205632
+    - NIST800-53R4_AC-8
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: LegalNoticeCaption
+    data: "{{ win19stig_legalnoticecaption }}"
+    datatype: string
+
+- name: "LOW | WN19-SO-000370 | PATCH | Windows Server 2019 default permissions of global system objects must be strengthened."
+  when: wn19_so_000370 | bool
+  tags:
+    - WN19-SO-000370
+    - CAT3
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205923r991589_rule
+    - V-205923
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager
+    value: ProtectionMode
+    data: 1
+    datatype: dword

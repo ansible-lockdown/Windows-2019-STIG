@@ -1,62 +1,102 @@
 ---
 
 - name: Display Banner
+  tags: always
   ansible.builtin.debug:
-      msg: "{{ lockdown_banner.split('\n') }}"
-  tags:
-      - always
+    msg: "{{ lockdown_banner.split('\n') }}"
 
+# os_installation_type is in the distribution subset alongside os_family and
+# distribution_version, so one gather supplies every fact the assert below reads. Both keys are
+# tested because a prior gather that populated distribution without it would otherwise skip this
+# task and leave the assert reading an undefined fact.
 - name: Gather distribution info
+  when: >-
+    ansible_facts['distribution'] is not defined or
+    ansible_facts['os_installation_type'] is not defined
+  tags: always
   ansible.builtin.setup:
-      gather_subset: distribution,!all,!min
-  when:
-      - ansible_distribution is not defined
-  tags:
-      - always
+    gather_subset: distribution,platform,!all,!min
 
+# The release year in the distribution caption is the discriminator. A build-number range would
+# admit the retired Server semi-annual-channel releases (1903 to 20H2, builds 18362 to 19042),
+# which sit between 2019's 10.0.17763 and 2022's 10.0.20348 and report a caption carrying no year.
+# 'Server Core' must be accepted as well as 'Server': the role supports Core installations and
+# win19stig_increase_scheduling_priority_users branches on exactly that value. Asserting
+# == 'Server' alone would reject every Core host here, before any control ran. It also does the
+# work the caption cannot, since Windows 10 1809 shares 2019's build number.
+# distribution is only gathered for an administrative connection, so it is defaulted rather than
+# left to raise an undefined error that would take the fail_msg down with it.
 - name: Check OS version and family
+  when: not skip_os_check | bool
+  tags: always
   ansible.builtin.assert:
-      that:
-          - ansible_os_family == 'Windows'
-          - ansible_distribution | regex_search('(Microsoft Windows Server 2019)')
-      success_msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} is the detected operating system."
-      fail_msg: "This role can only be run against Windows Server 2019 Editions. {{ ansible_distribution }} {{ ansible_distribution_major_version }} is not supported."
-  tags:
-      - always
+    that:
+      - ansible_facts['os_family'] == 'Windows'
+      - ansible_facts['os_installation_type'] in ['Server', 'Server Core']
+      - "'2019' in (ansible_facts['distribution'] | default('', true))"
+    success_msg: "{{ ansible_facts['distribution'] | default('unknown distribution', true) }} {{ ansible_facts['distribution_version'] }} ({{ ansible_facts['os_installation_type'] }}) is the detected operating system."
+    fail_msg: "This role can only be run against Windows Server 2019 Editions. {{ ansible_facts['distribution'] | default('unknown distribution', true) }} {{ ansible_facts['distribution_version'] }} is not supported."
 
 - name: Check ansible version
+  tags: always
   ansible.builtin.assert:
-      that: ansible_version.full is version_compare(win2019stig_min_ansible_version, '>=')
-      msg: You must use Ansible {{ win2019stig_min_ansible_version }} or greater
-  tags:
-      - always
+    that: ansible_version.full is version_compare(min_ansible_version, '>=')
+    msg: You must use Ansible {{ min_ansible_version }} or greater
 
-- name: Include the preliminary tasks
-  ansible.builtin.import_tasks: prelim.yml
-  tags:
-      - prelim_tasks
+# Kept as a variable because defaults/main/main.yml consumes it by name. It now aliases the gathered
+# fact rather than a second read of the same registry value.
+- name: Set the Windows installation type
+  tags: always
+  ansible.builtin.set_fact:
+    prelim_windows_installation_type: "{{ ansible_facts['os_installation_type'] }}"
 
-- name: Execute the category 1 (highest severity) tasks
-  ansible.builtin.import_tasks: cat1.yml
-  when: win2019stig_cat1_patch
+- name: Include preliminary tasks
   tags:
-      - cat1
+    - always
+    - prelim_tasks
+  ansible.builtin.import_tasks:
+    file: prelim.yml
 
-- name: Execute the category 2 (medium severity) tasks
-  ansible.builtin.import_tasks: cat2.yml
-  when: win2019stig_cat2_patch
+- name: Include CAT I controls
+  when: win19stig_cat1_controls | bool
   tags:
-      - cat2
+    - CAT1
+    - high
+  ansible.builtin.import_tasks:
+    file: Cat1/main.yml
 
-- name: Execute the category 3 (lowest severity) tasks
-  ansible.builtin.import_tasks: cat3.yml
-  when: win2019stig_cat3_patch
+- name: Include CAT II controls
+  when: win19stig_cat2_controls | bool
   tags:
-      - cat3
+    - CAT2
+    - medium
+  ansible.builtin.import_tasks:
+    file: Cat2/main.yml
+
+- name: Include CAT III controls
+  when: win19stig_cat3_controls | bool
+  tags:
+    - CAT3
+    - low
+  ansible.builtin.import_tasks:
+    file: Cat3/main.yml
+
+- name: Add ansible file showing Benchmark and levels applied
+  when: create_benchmark_facts | bool
+  tags:
+    - always
+    - benchmark
+  ansible.builtin.import_tasks:
+    file: benchmark_facts.yml
+
+- name: Run post tasks
+  tags: always
+  ansible.builtin.import_tasks:
+    file: post.yml
 
 - name: If Warnings found Output count and control IDs affected
-  ansible.builtin.debug:
-      msg:
-          - "You have {{ warn_count }} Warning(s) that require investigation(s). Their ID's are listed below:"
-          - "{{ warn_control_list }}"
   when: warn_count != 0
+  ansible.builtin.debug:
+    msg:
+      - "You have {{ warn_count }} Warning(s) that require investigation(s). Their ID's are listed below:"
+      - "{{ warn_control_list }}"

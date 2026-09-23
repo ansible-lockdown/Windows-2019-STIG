@@ -1,0 +1,103 @@
+---
+
+- name: "HIGH | WN19-CC-000210 | PATCH | Windows Server 2019 AutoPlay must be turned off for non-volume devices."
+  when: wn19_cc_000210 | bool
+  tags:
+    - WN19-CC-000210
+    - CAT1
+    - CCI-001764
+    - SRG-OS-000368-GPOS-00154
+    - SV-205804r958804_rule
+    - V-205804
+    - NIST800-53R4_CM-7
+  ansible.windows.win_regedit:
+    path: HKLM:\Software\Policies\Microsoft\Windows\Explorer
+    value: NoAutoplayfornonVolume
+    data: 1
+    datatype: dword
+
+- name: "HIGH | WN19-CC-000220 | PATCH | Windows Server 2019 default AutoRun behavior must be configured to prevent AutoRun commands."
+  when: wn19_cc_000220 | bool
+  tags:
+    - WN19-CC-000220
+    - CAT1
+    - CCI-001764
+    - SRG-OS-000368-GPOS-00154
+    - SV-205805r958804_rule
+    - V-205805
+    - NIST800-53R4_CM-7
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+    value: NoAutorun
+    data: 1
+    datatype: dword
+
+- name: "HIGH | WN19-CC-000230 | PATCH | Windows Server 2019 AutoPlay must be disabled for all drives."
+  when: wn19_cc_000230 | bool
+  tags:
+    - WN19-CC-000230
+    - CAT1
+    - CCI-001764
+    - SRG-OS-000368-GPOS-00154
+    - SV-205806r958804_rule
+    - V-205806
+    - NIST800-53R4_CM-7
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+    name: NoDriveTypeAutoRun
+    data: 255
+    datatype: dword
+
+- name: "HIGH | WN19-CC-000430 | PATCH | Windows Server 2019 must disable the Windows Installer Always install with elevated privileges option."
+  when: wn19_cc_000430 | bool
+  tags:
+    - WN19-CC-000430
+    - CAT1
+    - CCI-001812
+    - CCI-003980
+    - SRG-OS-000362-GPOS-00149
+    - SV-205802r1051079_rule
+    - V-205802
+    - NIST800-53R4_CM-11
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
+    state: present
+    value: AlwaysInstallElevated
+    data: 0
+    datatype: dword
+
+- name: "HIGH | WN19-CC-000470 | PATCH | Windows Server 2019 Windows Remote Management (WinRM) client must not use Basic authentication."
+  when:
+    - wn19_cc_000470 | bool
+    - not win_skip_for_test | bool
+  tags:
+    - WN19-CC-000470
+    - CAT1
+    - CCI-000877
+    - SRG-OS-000125-GPOS-00065
+    - SV-205711r958510_rule
+    - V-205711
+    - NIST800-53R4_MA-4
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
+    value: AllowBasic
+    data: 0
+    datatype: dword
+
+- name: "HIGH | WN19-CC-000500 | PATCH | Windows Server 2019 Windows Remote Management (WinRM) service must not use Basic authentication."
+  when:
+    - wn19_cc_000500 | bool
+    - not win_skip_for_test | bool
+  tags:
+    - WN19-CC-000500
+    - CAT1
+    - CCI-000877
+    - SRG-OS-000125-GPOS-00065
+    - SV-205713r958510_rule
+    - V-205713
+    - NIST800-53R4_MA-4
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service
+    value: AllowBasic
+    data: 0
+    datatype: dword

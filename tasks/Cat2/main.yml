@@ -1,0 +1,41 @@
+---
+
+- name: "Run Cat2 STIG | WN19-00 controls"
+  ansible.builtin.import_tasks:
+    file: WN19-00-xxxxxx.yml
+
+- name: "Run Cat2 STIG | WN19-AC controls"
+  ansible.builtin.import_tasks:
+    file: WN19-AC-xxxxxx.yml
+
+- name: "Run Cat2 STIG | WN19-AU controls"
+  ansible.builtin.import_tasks:
+    file: WN19-AU-xxxxxx.yml
+
+- name: "Run Cat2 STIG | WN19-CC controls"
+  ansible.builtin.import_tasks:
+    file: WN19-CC-xxxxxx.yml
+
+- name: "Run Cat2 STIG | WN19-DC controls"
+  ansible.builtin.import_tasks:
+    file: WN19-DC-xxxxxx.yml
+
+- name: "Run Cat2 STIG | WN19-MS controls"
+  ansible.builtin.import_tasks:
+    file: WN19-MS-xxxxxx.yml
+
+- name: "Run Cat2 STIG | WN19-PK controls"
+  ansible.builtin.import_tasks:
+    file: WN19-PK-xxxxxx.yml
+
+- name: "Run Cat2 STIG | WN19-SO controls"
+  ansible.builtin.import_tasks:
+    file: WN19-SO-xxxxxx.yml
+
+- name: "Run Cat2 STIG | WN19-UC controls"
+  ansible.builtin.import_tasks:
+    file: WN19-UC-xxxxxx.yml
+
+- name: "Run Cat2 STIG | WN19-UR controls"
+  ansible.builtin.import_tasks:
+    file: WN19-UR-xxxxxx.yml
