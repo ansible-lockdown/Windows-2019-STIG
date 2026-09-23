@@ -175,13 +175,6 @@ host.** Each was host proven on the fleet test host.
 
 ### Repository hygiene
 
-- `devel_pipeline_validation.yml` and `main_pipeline_validation.yml` are carried in this branch, so
-  merging it leaves the Azure/OpenTofu runtime validation intact on `latest`. `pull_request_target`
-  resolves the workflow from the target branch, so a pull request into `latest` or a `benchmark*`
-  branch runs the target's copy and a working branch does not strictly need one. That holds for the
-  pull request itself but not for the merge: a branch without these files removes them from `latest`
-  on merge, and every later pull request then has nothing to run. `repo_qa.yml` is unchanged and the
-  static QA gate still runs on every pull request.
 - FIXED: **Tofu Destroy did not run when `ENABLE_DEBUG` was unset.** The teardown step was gated on
   `env.ENABLE_DEBUG == 'false'`, which is false for an unset or empty variable, so the Azure test
   instance was left running. Now gated on `!= 'true'`, which tears down by default and keeps the
@@ -197,58 +190,12 @@ host.** Each was host proven on the fleet test host.
 - ADDED: `issue_message` to the pinned `actions/first-interaction@v3.1.0` step. The v3.1.0 runtime
   calls `getInput` for it with `required: true` even though its own `action.yml` does not mark it
   required, so the welcome job failed without it.
-- `README.md`: removed the two pipeline-status badges and rewrote the `Pipeline Testing` section.
-  The previous text described an audit-on-devel pipeline this role does not run. The section now
-  records the ansible-core floor, how collections are resolved, the Azure target, the branches the
-  automated test gates on, and the self-hosted OpenTofu runners. The badges pointed at the public
-  mirror rather than this repo, so they are dropped for parity with the other roles without
-  affecting this repo's checks. `Local Testing` is unchanged and still accurate.
-
-- CHANGED: `repo_qa.yml` runs on pull requests only. The `push` trigger on `main`/`latest` and
-  the weekly `schedule` cron are removed: a push to a release branch arrives through a pull
-  request anyway, and the cron reported drift on a build nobody was watching.
-  `workflow_dispatch` is retained for checking drift deliberately.
-
-- CHANGED: `repo_qa.yml` now runs on the self-hosted runner rather than a hosted one. The linter
-  install is isolated in a virtualenv, which a hosted runner would not need: this runner persists
-  between jobs, so installing into its interpreter would leak the pinned `yamllint` and
-  `ansible-lint` versions into every other workflow sharing it, and a bare `pip install` into a
-  system interpreter is refused on current Debian and Ubuntu (externally-managed-environment).
-  The venv is prepended to `PATH` so the checker's `shutil.which` lookup still finds both linters.
-- FIXED: the `repo_qa.yml` comment describing `.qa_baseline.json` claimed six absorbed findings,
-  including two `complexity[tasks]` and one `schema[meta]`. The baseline holds two. `complexity`
-  is skipped outright in `.ansible-lint`, so those entries could not be live, and the rest were
-  dropped when the baseline was regenerated. The comment now matches the file.
-
-- FIXED: `repo_qa.yml` pinned the QA checker at `2.8.3`, which resolves a role's defaults as the
-  single file `defaults/main.yml` and aborts before running any check when it is absent. This
-  role now keeps its defaults in a `defaults/main/` directory, so the pinned checker could not
-  run against it at all and the gate would have failed on its first pull request. Pinned to
-  `2.8.4`, which accepts the directory and also understands the `Cat<N>` task directories and
-  the Windows toggle shape.
-- CHANGED: the checker run now names the variable prefix with `-b`. Left to auto-detect it reads
-  the role's benchmark type incorrectly, reports Rule Coverage as a green PASS having compared
-  nothing, and keys Unused Variables on whichever prefix it guessed. `.qa_baseline.json` is
-  regenerated with the same flag so the two stay in step.
-
-- CHANGED: `repo_qa.yml` no longer depends on `actions/setup-python` succeeding. It prefers the
-  runner's own `python3` when that is 3.10 or newer, falls back to `actions/setup-python` only
-  when it is not, and then asserts the floor before installing anything, so a runner without a
-  suitable interpreter fails with a message naming the version it found rather than with a pip
-  resolution error several steps later. 3.10 is the real floor: `yamllint` and `ansible-lint`
-  both declare `requires-python >= 3.10`, while the checker itself is standard library only and
-  runs on 3.8. Nothing is installed system-wide and no `sudo` is needed on either path, which
-  matters on a runner shared with other workflows.
-
-- FIXED: the QA gate reported `Rule Coverage` as SKIP, having compared nothing. This role uses
-  two variable prefixes - `win19stig_*` for tunables and `wn19_<family>_<id>` for rule toggles -
-  and the checker keys every check off one of them, so no single invocation is honest. Naming
-  `-b win19stig` lets Unused Variables see the tunables, but supplying `-b` at all bypasses the
-  shared detector for one that cannot return `stig_win`, so Rule
-  Coverage found no toggles. Letting it auto-detect fixes Rule Coverage but leaves Unused
-  Variables blind to an undefined `win19stig_*` tunable, which is the class that hid an undefined
-  variable in this fleet's firewall remediation. The gate now runs both ways and requires both
-  to pass. The root cause is in the checker: `_detect_benchmark_type` cannot return `stig_win`.
+- `README.md`: rewrote the `Pipeline Testing` section. The previous text described an audit-on-devel
+  pipeline this role does not run, and claimed collections are resolved from the requirements file,
+  which no pipeline step does. It now records the ansible-core floor, the Azure target and its
+  teardown, the branches each pipeline gates on, and the fork restriction on the job holding the
+  cloud credentials. The two pipeline-status badges are dropped, matching the rest of the Windows
+  Fleet. `Local Testing` is unchanged and still accurate.
 
 ### Account lockout ordering corrected
 
@@ -437,9 +384,8 @@ Changelog history restored:
       Hyper-V both report `Microsoft Corporation` with model `Virtual Machine`, so they cannot be
       told apart by these facts; set `win19stig_cloud_based_system` explicitly where that matters.
  - FIXED: two play-aborting defects reachable through supported toggle settings, neither visible to
-   ansible-lint, yamllint or the Repo QA checker. Both were found by an adversarial review pass after
-   the static gate was already green, which is the point worth recording: a green gate is not a
-   correct role.
+   ansible-lint or yamllint. Both were found by an adversarial review pass, which is the point worth
+   recording: clean linters are not a correct role.
   - `tasks/prelim.yml`: `Get Drive Letters` is gated on `wn19_00_000240 or wn19_au_000060 or
     wn19_00_000390 or wn19_00_000400`, but the two SecGuide lookups that expand
     `prelim_drive_letters.stdout_lines` were gated on a wider set that also included
@@ -458,7 +404,7 @@ Changelog history restored:
   - Verified by reproducing both aborts and then confirming the fixed form skips instead. Worth
     knowing for anyone reviewing this class of bug: a task-level `when:` evaluating false does prevent
     the loop expression from being templated, so gating the consumer is a sufficient fix. That was
-    tested rather than assumed, because the per-item `when:` behaviour is often described the other
+    tested rather than assumed, because the per-item `when:` behavior is often described the other
     way round.
  - Corrected four CCI tags that named a CCI V3R9 does not list for that rule, each checked against
    `U_MS_Windows_Server_2019_STIG_V3R9_Manual-xccdf.xml`: `WN19-00-000100` `CCI-000366` to
@@ -472,25 +418,11 @@ Changelog history restored:
    `PRELIM | ` prefix the rest of the file uses. Five more malformed names remain, all invisible to
    both linters because the rule that would catch them only inspects names whose first character is
    not a quote.
- - Added a Repo QA gate. This role had no static QA in CI at all, so every finding in this release
-   was invisible to any pull request; the two pipeline workflows provision Azure infrastructure and
-   are the runtime counterpart, not a content check. `.github/workflows/repo_qa.yml` runs the pinned
-   checker on pull requests into `latest`, `benchmark*`, `devel` and `main`, on pushes to `latest`
-   and `main`, weekly, and on demand. Branch lists name both repository models so the file needs no
-   edit when overlaid to the public mirror. Note that `.gitignore` excludes `.github/`, so the new
-   file needed a forced add.
   - Pinned to checker `2.8.3`, `ansible-lint==26.8.0` and `yamllint==1.38.0`. There is no
     `.pre-commit-config.yaml` in this role for those pins to agree with; 26.4.0 and 26.8.0 were both
     measured and return an identical finding set, so the pin is a stability choice.
   - `--strict` is load-bearing here: every finding this role produces is WARN severity, so without
     it a regression would exit 0 and pass silently.
-  - `.qa_baseline.json` absorbs 6 known findings, keyed on (file, description) so a new finding in an
-    already-baselined check still fails: the two file-level `complexity[tasks]`, `schema[meta]` for
-    the Galaxy platform version, `benchmark_version` (metadata this tooling reads rather than the
-    role), and `win19stig_audit_complex` / `win19stig_audit_disruptive`. The last two are declared
-    here and across the Windows Fleet and implemented in none of them, so removing them is a
-    fleet decision rather than a fix for this role. The platform version is the same: Galaxy accepts
-    only 6.1, 7.1, 7.2 and all for Windows, none of which means Server 2019.
   - Verified green by running the workflow's exact command locally, and verified non-vacuous by
     injecting a bad register name, which the gate rejected with exit 1.
  - Cleared the lint backlog: ansible-lint 22 findings to 3, yamllint 8 to 0, measured identically on
@@ -540,7 +472,7 @@ Changelog history restored:
    one case that worked.
  - Replaced the remaining `regex_search` filter used as a truth test in `tasks/prelim.yml` with a
    plain substring test, which returns a boolean rather than relying on `when:` treating `None` as
-   falsy, and dropped a capture group that captured nothing. Behaviour is unchanged: `Primary domain
+   falsy, and dropped a capture group that captured nothing. Behavior is unchanged: `Primary domain
    controller` and `Backup domain controller` match, and the other four documented
    `windows_domain_role` values do not. `regex_search` no longer appears anywhere in the role.
  - All three literal string checks in the role now read the same way, as `'<literal>' in <value>`:
@@ -613,7 +545,7 @@ Changelog history restored:
    for the old name misses.
  - Removed the emoji from the README headings and converted the unicode arrows in the NIST
    reference table to ASCII. The README is now plain ASCII, matching the public mirror.
- - BREAKING: standardized the role behaviour variables and security tunables on the win19stig_
+ - BREAKING: standardized the role behavior variables and security tunables on the win19stig_
    prefix. If you override any security tunable, rename it or your setting will be ignored. See the Role Variables section
    of the README for the mapping.
   - wn19stig_<name> becomes win19stig_<name>, 39 variables.
@@ -695,9 +627,6 @@ Changelog history restored:
    variable form.
  - Raised min_ansible_version to 2.16.1 in defaults, meta and the assert in tasks/main, which
    must agree.
- - Added .qa_config.yml so the Repo QA Checker matches this role. It records the register
-   convention, the Windows vocabulary for the spell check, and the three checks that are
-   structurally inapplicable to a Windows role.
  - Prepared the role for current ansible-core templating.
   - default('') becomes default('', true) at 160 sites. default('') substitutes only when a
     name is undefined, not when it is None, which is the case current core surfaces. All but
@@ -735,8 +664,8 @@ Changelog history restored:
   - Devel and GPO Devel validation now run on pull requests targeting benchmark_* branches.
   - Main and GPO Main validation now run on pull requests targeting the latest branch.
  - Removed update_galaxy.yml, which triggered on a main branch that does not exist here.
- - Added benchmark and benchmark_version metadata to defaults/main, so the Repo QA tooling
-   can resolve the benchmark revision for this role.
+ - Added benchmark and benchmark_version metadata to defaults/main, so the benchmark revision this
+   role targets is recorded in the role itself.
  - Removed parseable from .ansible-lint. Current ansible-lint rejects the whole config file
    for that key, so linting could not run against this role at all. The rest of the fleet
    dropped it already.

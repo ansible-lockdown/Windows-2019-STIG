@@ -65,7 +65,7 @@ domain will not keep. Set them in the Default Domain Policy instead.
 
 Everything outside `[System Access]` applies normally on a domain member.
 
-This behaviour was verified on a domain joined workstation during Windows Fleet testing, where a
+This behavior was verified on a domain joined workstation during Windows Fleet testing, where a
 complete hardening run left all `[System Access]` values byte-identical to the pre-run baseline. It
 has not been separately measured on Windows Server 2019.
 
@@ -151,7 +151,7 @@ to skip writing it.
 
 ### Breaking change in this release
 
-Role behaviour variables and security tunables now share the `win19stig_` prefix. If you override any of the security
+Role behavior variables and security tunables now share the `win19stig_` prefix. If you override any of the security
 tunables in inventory, group_vars or extra vars, rename them - the old names are no longer read
 and your setting will be silently ignored.
 
@@ -221,11 +221,14 @@ requirements (GPG signature and Signed-off-by on every commit).
 
 uses:
 
-- ansible-core 2.16.1
-- ansible collections - pulls in the latest version based on requirements file
-- runs the role against a Windows target provisioned on Azure
-- This is an automated test that occurs on pull requests into latest and benchmark branches
-- self-hosted runners using OpenTofu
+- ansible-core 2.16.1 or newer, from the pinned virtualenv on the runner
+- runs the role against a Windows target provisioned on Azure with OpenTofu, which is torn down when
+  the run ends
+- self-hosted runners
+- pull requests into `devel` or a `benchmark*` branch run the devel pipeline; pull requests into
+  `main` or `latest` run the main pipeline
+- the job runs only for pull requests raised from a branch in this repository, because it carries the
+  cloud credentials
 
 ## Local Testing
 
