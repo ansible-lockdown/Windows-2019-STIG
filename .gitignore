@@ -36,10 +36,41 @@ tramp
 rh-creds.env
 travis.env
 
+# Windows
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Secret/key files
+*.vault
+*.key
+*.pem
+*.p12
+*.pfx
+*.keystore
+*.jks
+*.credentials
+*vault_pass*
+.vault_pass
+sensitive_info.json
+
 # Lockdown-specific
 benchparse/
 *xccdf.xml
 *.retry
+*.pdf
+*history.md
+*plan.md
+*qa_report*
+test_inv
+prompt.md
 
-# GitHub Action/Workflow files
-.github/
+# GitHub runtime checkouts only. Do NOT ignore .github/ wholesale - that silently
+# swallows every new workflow file and they have to be force-added.
+.github/workflows/github_windows_IaC/
+.github/.ansible/
+
+# ansible-lint cache
+.ansible/

@@ -1,0 +1,730 @@
+---
+
+# some versions may be core/no gui, may need a prelim to detect?
+- name: "MEDIUM | WN19-CC-000010 | PATCH | Windows Server 2019 must prevent the display of slide shows on the lock screen."
+  when: wn19_cc_000010 | bool
+  tags:
+    - WN19-CC-000010
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205686r958478_rule
+    - V-205686
+    - NIST800-53R4_CM-7
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization
+    value: NoLockScreenSlideshow
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000020 | PATCH | Windows Server 2019 must have WDigest Authentication disabled."
+  when: wn19_cc_000020 | bool
+  tags:
+    - WN19-CC-000020
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205687r958478_rule
+    - V-205687
+    - NIST800-53R4_CM-7
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\Wdigest
+    value: UseLogonCredential
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000070 | PATCH | Windows Server 2019 insecure logons to an SMB server must be disabled."
+  when: wn19_cc_000070 | bool
+  tags:
+    - WN19-CC-000070
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205861r991589_rule
+    - V-205861
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation
+    value: AllowInsecureGuestAuth
+    data: 0
+    datatype: dword
+
+# verify if this applies to DC or only MS?
+- name: "MEDIUM | WN19-CC-000080 | PATCH | Windows Server 2019 hardened Universal Naming Convention (UNC) paths must be defined to require mutual authentication and integrity for at least the SYSVOL and NETLOGON shares."
+  when:
+    - wn19_cc_000080 | bool
+    - prelim_is_domain_member | bool
+  tags:
+    - WN19-CC-000080
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205862r991589_rule
+    - V-205862
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths
+    value: "{{ item }}"
+    data: RequireMutualAuthentication=1, RequireIntegrity=1
+    datatype: string
+  with_items:
+    - \\*\SYSVOL
+    - \\*\NETLOGON
+
+- name: "MEDIUM | WN19-CC-000090 | PATCH | Windows Server 2019 command line data must be included in process creation events."
+  when: wn19_cc_000090 | bool
+  tags:
+    - WN19-CC-000090
+    - CAT2
+    - CCI-000135
+    - SRG-OS-000042-GPOS-00020
+    - SV-205638r958422_rule
+    - V-205638
+    - NIST800-53R4_AU-3
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit
+    value: ProcessCreationIncludeCmdLine_Enabled
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000100 | PATCH | Windows Server 2019 must be configured to enable Remote host allows delegation of non-exportable credentials."
+  when: wn19_cc_000100 | bool
+  tags:
+    - WN19-CC-000100
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205863r991589_rule
+    - V-205863
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation
+    value: AllowProtectedCreds
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000110 | AUDIT | Windows Server 2019 virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection."
+  when:
+    - wn19_cc_000110 | bool
+    - prelim_is_domain_member | bool
+  tags:
+    - WN19-CC-000110
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205864r991589_rule
+    - V-205864
+    - NIST800-53R4_CM-6
+  block:
+    - name: "MEDIUM | WN19-CC-000110 | PATCH | Windows Server 2019 virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection. | EnableVirtualizationBasedSecurity Registry Add"
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard\
+        state: present
+        value: EnableVirtualizationBasedSecurity
+        data: 1
+        datatype: dword
+
+    - name: "MEDIUM | WN19-CC-000110 | PATCH | Windows Server 2019 virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection. | RequirePlatformSecurityFeatures Registry Add"
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard\
+        state: present
+        value: RequirePlatformSecurityFeatures
+        data: "{{ win19stig_dma_protection }}"
+        datatype: dword
+
+    - name: "MEDIUM | WN19-CC-000110 | AUDIT | Windows Server 2019 virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection. | Get Status Of Device Guard Virtualization."
+      ansible.windows.win_shell: Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard | Select-Object VirtualizationBasedSecurityStatus | ft -hidetableheaders
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_cc_000110_audit
+
+    - name: "MEDIUM | WN19-CC-000110 | AUDIT | Windows Server 2019 virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection. | Device Guard Virtualization based security Not Running Warning Message."
+      when: "'2' not in discovered_cc_000110_audit.stdout | trim"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task. Windows Server 2019 virtualization-based security must be enabled with the platform security"
+          - "level configured to Secure Boot or Secure Boot with DMA Protection. The policy settings referenced in the Fix section will"
+          - "configure the following registry values. However, due to hardware requirements, the registry values alone do not ensure proper"
+          - "function."
+
+    - name: "MEDIUM | WN19-CC-000110 | AUDIT | Windows Server 2019 virtualization-based security must be enabled with the platform security level configured to Secure Boot or Secure Boot with DMA Protection. | Warn Count"
+      when: "'2' not in discovered_cc_000110_audit.stdout | trim"
+      vars:
+        warn_control_id: 'MEDIUM | WN19-CC-000110'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-CC-000130 | PATCH | Windows Server 2019 early Launch Antimalware, Boot-Start Driver Initialization Policy must prevent boot drivers identified as bad."
+  when: wn19_cc_000130 | bool
+  tags:
+    - WN19-CC-000130
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205865r991589_rule
+    - V-205865
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Policies\EarlyLaunch
+    state: present
+    value: DriverLoadPolicy
+    data: "{{ win19stig_driver_load_policy }}"
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000140 | PATCH | Windows Server 2019 group policy objects must be reprocessed even if they have not changed."
+  when: wn19_cc_000140 | bool
+  tags:
+    - WN19-CC-000140
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205866r1135352_rule
+    - V-205866
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Group Policy\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}
+    value: NoGPOListChanges
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000150 | PATCH | Windows Server 2019 downloading print driver packages over HTTP must be turned off."
+  when: wn19_cc_000150 | bool
+  tags:
+    - WN19-CC-000150
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205688r958478_rule
+    - V-205688
+    - NIST800-53R4_CM-7
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers
+    value: DisableWebPnPDownload
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000160 | PATCH | Windows Server 2019 printing over HTTP must be turned off."
+  when: wn19_cc_000160 | bool
+  tags:
+    - WN19-CC-000160
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205689r958478_rule
+    - V-205689
+    - NIST800-53R4_CM-7
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers
+    value: DisableHTTPPrinting
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000170 | PATCH | Windows Server 2019 network selection user interface (UI) must not be displayed on the logon screen."
+  when: wn19_cc_000170 | bool
+  tags:
+    - WN19-CC-000170
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205690r958478_rule
+    - V-205690
+    - NIST800-53R4_CM-7
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\System
+    value: DontDisplayNetworkSelectionUI
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000180 | PATCH | Windows Server 2019 users must be prompted to authenticate when the system wakes from sleep (on battery)."
+  when: wn19_cc_000180 | bool
+  tags:
+    - WN19-CC-000180
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205867r991589_rule
+    - V-205867
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51
+    value: DCSettingIndex
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000190 | PATCH | Windows Server 2019 users must be prompted to authenticate when the system wakes from sleep (plugged in)."
+  when: wn19_cc_000190 | bool
+  tags:
+    - WN19-CC-000190
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205868r991589_rule
+    - V-205868
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51
+    value: ACSettingIndex
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000240 | PATCH | Windows Server 2019 administrator accounts must not be enumerated during elevation."
+  when: wn19_cc_000240 | bool
+  tags:
+    - WN19-CC-000240
+    - CAT2
+    - CCI-001084
+    - SRG-OS-000134-GPOS-00068
+    - SV-205714r958518_rule
+    - V-205714
+    - NIST800-53R4_SC-3
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\CredUI
+    value: EnumerateAdministrators
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000250 | PATCH | Windows Server 2019 Telemetry must be configured to Security or Basic."
+  when: wn19_cc_000250 | bool
+  tags:
+    - WN19-CC-000250
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205869r991589_rule
+    - V-205869
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection
+    value: AllowTelemetry
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000270 | PATCH | Windows Server 2019 Application event log size must be configured to 32768 KB or greater."
+  when: wn19_cc_000270 | bool
+  tags:
+    - WN19-CC-000270
+    - CAT2
+    - CCI-001849
+    - SRG-OS-000341-GPOS-00132
+    - SV-205796r958752_rule
+    - V-205796
+    - NIST800-53R4_AU-4
+  block:
+    - name: "MEDIUM | WN19-CC-000270 | PATCH | Windows Server 2019 Application event log size must be configured to 32768 KB or greater. | Warning Message."
+      when: win19stig_application_event_log_max_size < 32768
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have an invalid file size set for win19stig_application_event_log_max_size please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-CC-000270 | PATCH | Windows Server 2019 Application event log size must be configured to 32768 KB or greater. | Warn Count."
+      when: win19stig_application_event_log_max_size < 32768
+      vars:
+        warn_control_id: 'MEDIUM | WN19-CC-000270'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+    - name: "MEDIUM | WN19-CC-000270 | PATCH | Windows Server 2019 Application event log size must be configured to 32768 KB or greater. | Apply Log Size"
+      when: win19stig_application_event_log_max_size >= 32768
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application
+        state: present
+        value: MaxSize
+        data: "{{ win19stig_application_event_log_max_size }}"
+        datatype: dword
+
+- name: "MEDIUM | WN19-CC-000280 | PATCH | Windows Server 2019 Security event log size must be configured to 196608 KB or greater."
+  when: wn19_cc_000280 | bool
+  tags:
+    - WN19-CC-000280
+    - CAT2
+    - CCI-001849
+    - SRG-OS-000341-GPOS-00132
+    - SV-205797r1210306_rule
+    - V-205797
+    - NIST800-53R4_AU-4
+  block:
+    - name: "MEDIUM | WN19-CC-000280 | AUDIT | Windows Server 2019 Security event log size must be configured to 196608 KB or greater. | Warning Message."
+      when: win19stig_security_event_log_max_size < 196608
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have an invalid file size set for win19stig_security_event_log_max_size please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-CC-000280 | AUDIT | Windows Server 2019 Security event log size must be configured to 196608 KB or greater. | Warn Count."
+      when: win19stig_security_event_log_max_size < 196608
+      ansible.builtin.import_tasks: warning_facts.yml
+      vars:
+        warn_control_id: 'MEDIUM | WN19-CC-000280'
+
+    - name: "MEDIUM | WN19-CC-000280 | PATCH | Windows Server 2019 Security event log size must be configured to 196608 KB or greater. |Apply Log Size"
+      when: win19stig_security_event_log_max_size >= 196608
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security
+        state: present
+        value: MaxSize
+        data: "{{ win19stig_security_event_log_max_size }}"
+        datatype: dword
+
+- name: "MEDIUM | WN19-CC-000290 | PATCH | Windows Server 2019 System event log size must be configured to 32768 KB or greater."
+  when: wn19_cc_000290 | bool
+  tags:
+    - WN19-CC-000290
+    - CAT2
+    - CCI-001849
+    - SRG-OS-000341-GPOS-00132
+    - SV-205798r958752_rule
+    - V-205798
+    - NIST800-53R4_AU-4
+  block:
+    - name: "MEDIUM | WN19-CC-000290 | AUDIT | Windows Server 2019 System event log size must be configured to 32768 KB or greater. | Warning Message."
+      when: win19stig_system_event_log_max_size < 32768
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! You have an invalid file size set for win19stig_system_event_log_max_size please read"
+          - "the notes for the variable and make the necessary change to the variable to be in compliance."
+
+    - name: "MEDIUM | WN19-CC-000290 | AUDIT | Windows Server 2019 System event log size must be configured to 32768 KB or greater. | Warn Count."
+      when: win19stig_system_event_log_max_size < 32768
+      ansible.builtin.import_tasks: warning_facts.yml
+      vars:
+        warn_control_id: 'MEDIUM | WN19-CC-000290'
+
+    - name: "MEDIUM | WN19-CC-000290 | PATCH | Windows Server 2019 System event log size must be configured to 32768 KB or greater. | Apply Log Size"
+      when: win19stig_system_event_log_max_size >= 32768
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\System
+        state: present
+        value: MaxSize
+        data: "{{ win19stig_system_event_log_max_size }}"
+        datatype: dword
+
+- name: "MEDIUM | WN19-CC-000300 | PATCH | Windows Server 2019 Windows Defender SmartScreen must be enabled."
+  when: wn19_cc_000300 | bool
+  tags:
+    - WN19-CC-000300
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205692r958478_rule
+    - V-205692
+    - NIST800-53R4_CM-7
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\System
+    value: EnableSmartScreen
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000310 | PATCH | Windows Server 2019 Explorer Data Execution Prevention must be enabled."
+  when: wn19_cc_000310 | bool
+  tags:
+    - WN19-CC-000310
+    - CAT2
+    - CCI-002824
+    - SRG-OS-000433-GPOS-00192
+    - SV-205830r958928_rule
+    - V-205830
+    - NIST800-53R4_SI-16
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer
+    value: NoDataExecutionPrevention
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000330 | PATCH | Windows Server 2019 File Explorer shell protocol must run in protected mode."
+  when: wn19_cc_000330 | bool
+  tags:
+    - WN19-CC-000330
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205872r991589_rule
+    - V-205872
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+    value: PreXPSP2ShellProtocolBehavior
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000340 | PATCH | Windows Server 2019 must not save passwords in the Remote Desktop Client."
+  when: wn19_cc_000340 | bool
+  tags:
+    - WN19-CC-000340
+    - CAT2
+    - CCI-002038
+    - SRG-OS-000373-GPOS-00157
+    - SV-205808r1051080_rule
+    - V-205808
+    - NIST800-53R4_IA-11
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+    value: DisablePasswordSaving
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000350 | PATCH | Windows Server 2019 Remote Desktop Services must prevent drive redirection."
+  when: wn19_cc_000350 | bool
+  tags:
+    - WN19-CC-000350
+    - CAT2
+    - CCI-001090
+    - SRG-OS-000138-GPOS-00069
+    - SV-205722r1137695_rule
+    - V-205722
+    - NIST800-53R4_SC-4
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+    value: fDisableCdm
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000360 | PATCH | Windows Server 2019 remote Desktop Services must always prompt a client for passwords upon connection."
+  when: wn19_cc_000360 | bool
+  tags:
+    - WN19-CC-000360
+    - CAT2
+    - CCI-002038
+    - SRG-OS-000373-GPOS-00157
+    - SV-205809r1051081_rule
+    - V-205809
+    - NIST800-53R4_IA-11
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+    value: fPromptForPassword
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000370 | PATCH | Windows Server 2019 Remote Desktop Services must require secure Remote Procedure Call (RPC) communications."
+  when: wn19_cc_000370 | bool
+  tags:
+    - WN19-CC-000370
+    - CAT2
+    - CCI-000068
+    - CCI-001453
+    - SRG-OS-000033-GPOS-00014
+    - SV-205636r958408_rule
+    - V-205636
+    - NIST800-53R4_AC-17
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+    value: fEncryptRPCTraffic
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000380 | PATCH | Windows Server 2019 remote Desktop Services must be configured with the client connection encryption set to High Level."
+  when: wn19_cc_000380 | bool
+  tags:
+    - WN19-CC-000380
+    - CAT2
+    - CCI-000068
+    - CCI-001453
+    - SRG-OS-000033-GPOS-00014
+    - SV-205637r958408_rule
+    - V-205637
+    - NIST800-53R4_AC-17
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+    value: MinEncryptionLevel
+    data: 3
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000390 | PATCH | Windows Server 2019 must prevent attachments from being downloaded from RSS feeds."
+  when: wn19_cc_000390 | bool
+  tags:
+    - WN19-CC-000390
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205873r991589_rule
+    - V-205873
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds
+    value: DisableEnclosureDownload
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000400 | PATCH | Windows Server 2019 must disable Basic authentication for RSS feeds over HTTP."
+  when: wn19_cc_000400 | bool
+  tags:
+    - WN19-CC-000400
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205693r958478_rule
+    - V-205693
+    - NIST800-53R4_CM-7
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds
+    value: AllowBasicAuthInClear
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000410 | PATCH | Windows Server 2019 must prevent Indexing of encrypted files."
+  when: wn19_cc_000410 | bool
+  tags:
+    - WN19-CC-000410
+    - CAT2
+    - CCI-000381
+    - SRG-OS-000095-GPOS-00049
+    - SV-205694r958478_rule
+    - V-205694
+    - NIST800-53R4_CM-7
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search
+    value: AllowIndexingEncryptedStoresOrItems
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000420 | PATCH | Windows Server 2019 must prevent users from changing installation options."
+  when: wn19_cc_000420 | bool
+  tags:
+    - WN19-CC-000420
+    - CAT2
+    - CCI-001812
+    - CCI-003980
+    - SRG-OS-000362-GPOS-00149
+    - SV-205801r1051078_rule
+    - V-205801
+    - NIST800-53R4_CM-11
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
+    value: EnableUserControl
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000440 | PATCH | Windows Server 2019 users must be notified if a web-based program attempts to install software."
+  when: wn19_cc_000440 | bool
+  tags:
+    - WN19-CC-000440
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205874r991589_rule
+    - V-205874
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer
+    value: SafeForScripting
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000450 | PATCH | Windows Server 2019 must disable automatically signing in the last interactive user after a system-initiated restart."
+  when: wn19_cc_000450 | bool
+  tags:
+    - WN19-CC-000450
+    - CAT2
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00229
+    - SV-205925r991591_rule
+    - V-205925
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: DisableAutomaticRestartSignOn
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000460 | PATCH | Windows Server 2019 PowerShell script block logging must be enabled."
+  when: wn19_cc_000460 | bool
+  tags:
+    - WN19-CC-000460
+    - CAT2
+    - CCI-000135
+    - SRG-OS-000042-GPOS-00020
+    - SV-205639r958422_rule
+    - V-205639
+    - NIST800-53R4_AU-3
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
+    value: EnableScriptBlockLogging
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000480 | PATCH | Windows Server 2019 Windows Remote Management (WinRM) client must not allow unencrypted traffic."
+  when:
+    - wn19_cc_000480 | bool
+    - not win_skip_for_test | bool
+  tags:
+    - WN19-CC-000480
+    - CAT2
+    - CCI-002890
+    - CCI-003123
+    - SRG-OS-000393-GPOS-00173
+    - SV-205816r958848_rule
+    - V-205816
+    - NIST800-53R4_MA-4
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
+    value: AllowUnencryptedTraffic
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000490 | PATCH | Windows Server 2019 Windows Remote Management (WinRM) client must not use Digest authentication."
+  when: wn19_cc_000490 | bool
+  tags:
+    - WN19-CC-000490
+    - CAT2
+    - CCI-000877
+    - SRG-OS-000125-GPOS-00065
+    - SV-205712r958510_rule
+    - V-205712
+    - NIST800-53R4_MA-4
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client
+    value: AllowDigest
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000510 | PATCH | Windows Server 2019 Windows Remote Management (WinRM) service must not allow unencrypted traffic."
+  when:
+    - wn19_cc_000510 | bool
+    - not win_skip_for_test | bool
+  tags:
+    - WN19-CC-000510
+    - CAT2
+    - CCI-002890
+    - CCI-003123
+    - SRG-OS-000393-GPOS-00173
+    - SV-205817r958848_rule
+    - V-205817
+    - NIST800-53R4_MA-4
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service
+    value: AllowUnencryptedTraffic
+    data: 0
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000520 | PATCH | Windows Server 2019 Windows Remote Management (WinRM) service must not store RunAs credentials."
+  when:
+    - wn19_cc_000520 | bool
+    - not win_skip_for_test | bool
+  tags:
+    - WN19-CC-000520
+    - CAT2
+    - CCI-002038
+    - SRG-OS-000373-GPOS-00157
+    - SV-205810r1051082_rule
+    - V-205810
+    - NIST800-53R4_IA-11
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WinRM\Service
+    value: DisableRunAs
+    data: 1
+    datatype: dword
+
+- name: "MEDIUM | WN19-CC-000530 | PATCH | Windows Server 2019 must have PowerShell Transcription enabled."
+  when: wn19_cc_000530 | bool
+  tags:
+    - WN19-CC-000530
+    - CAT2
+    - CCI-000134
+    - SRG-OS-000041-GPOS-00019
+    - SV-257503r958420_rule
+    - V-257503
+    - NIST800-53R4_AU-3
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription
+    value: EnableTranscripting
+    data: 1
+    datatype: dword

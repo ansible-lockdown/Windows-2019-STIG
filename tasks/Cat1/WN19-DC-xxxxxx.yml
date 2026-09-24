@@ -1,0 +1,211 @@
+---
+
+- name: "HIGH | WN19-DC-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
+  when:
+    - wn19_dc_000010 | bool
+    - prelim_is_domain_controller | bool
+  tags:
+    - WN19-DC-000010
+    - CAT1
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205738r958726_rule
+    - V-205738
+    - NIST800-53R4_AC-6
+  block:
+    - name: "HIGH | WN19-DC-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
+      ansible.windows.win_shell: get-localgroupmember administrators | Select name | Format-Table -HideTableHeaders
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_dc_000010_admin_usrs
+
+    - name: "HIGH | WN19-DC-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system."
+      ansible.builtin.debug:
+        msg:
+          - "Alert! Below are the users in the Administrators Group. Please review and confirm all users should be in this group"
+          - "{{ discovered_dc_000010_admin_usrs.stdout_lines }}"
+
+    - name: "HIGH | WN19-DC-000010 | AUDIT | Windows Server 2019 must only allow administrators responsible for the domain controller to have Administrator rights on the system. | Warn Count."
+      vars:
+        warn_control_id: 'HIGH | WN19-DC-000010'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "HIGH | WN19-DC-000070 | AUDIT | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
+  when:
+    - wn19_dc_000070 | bool
+    - prelim_is_domain_controller | bool
+  tags:
+    - WN19-DC-000070
+    - CAT1
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205739r958726_rule
+    - V-205739
+    - NIST800-53R4_AC-6
+  block:
+    - name: "HIGH | WN19-DC-000070 | AUDIT | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access."
+
+    - name: "WN19-DC-000070 | AUDIT | Windows Server 2019 permissions on the Active Directory data files must only allow System and Administrators access. | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-DC-000070'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "HIGH | WN19-DC-000080 | AUDIT | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions."
+  when:
+    - wn19_dc_000080 | bool
+    - prelim_is_domain_controller | bool
+  tags:
+    - WN19-DC-000080
+    - CAT1
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205740r958726_rule
+    - V-205740
+    - NIST800-53R4_AC-6
+  block:
+    - name: "HIGH | WN19-DC-000080 | AUDIT | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions."
+
+    - name: "HIGH | WN19-DC-000080 | AUDIT | Windows Server 2019 Active Directory SYSVOL directory must have the proper access control permissions. | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-DC-000080'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "HIGH | WN19-DC-000090 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions."
+  when:
+    - wn19_dc_000090 | bool
+    - prelim_is_domain_controller | bool
+  tags:
+    - WN19-DC-000090
+    - CAT1
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205741r1081998_rule
+    - V-205741
+    - NIST800-53R4_AC-6
+  block:
+    - name: "HIGH | WN19-DC-000090 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions."
+
+    - name: "HIGH | WN19-DC-000090 | AUDIT | Windows Server 2019 Active Directory Group Policy objects must have proper access control permissions. | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-DC-000090'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "HIGH | WN19-DC-000100 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
+  when:
+    - wn19_dc_000100 | bool
+    - prelim_is_domain_controller | bool
+  tags:
+    - WN19-DC-000100
+    - CAT1
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205742r958726_rule
+    - V-205742
+    - NIST800-53R4_AC-6
+  block:
+    - name: "HIGH | WN19-DC-000100 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions."
+
+    - name: "HIGH | WN19-DC-000100 | AUDIT | Windows Server 2019 Active Directory Domain Controllers Organizational Unit (OU) object must have the proper access control permissions. | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-DC-000100'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "HIGH | WN19-DC-000110 | AUDIT | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
+  when:
+    - wn19_dc_000110 | bool
+    - prelim_is_domain_controller | bool
+  tags:
+    - WN19-DC-000110
+    - CAT1
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205743r958726_rule
+    - V-205743
+    - NIST800-53R4_AC-6
+  block:
+    - name: "HIGH | WN19-DC-000110 | AUDIT | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions. | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions."
+
+    - name: "HIGH | WN19-DC-000110 | AUDIT | Windows Server 2019 organization created Active Directory Organizational Unit (OU) objects must have proper access control permissions. | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-DC-000110'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "HIGH | WN19-DC-000150 | AUDIT |  Windows Server 2019 directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access."
+  when:
+    - wn19_dc_000150 | bool
+    - prelim_is_domain_controller | bool
+  tags:
+    - WN19-DC-000150
+    - CAT1
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205875r991589_rule
+    - V-205875
+    - NIST800-53R4_CM-6
+  block:
+    - name: "HIGH | WN19-DC-000150 | AUDIT |  Windows Server 2019 directory data (outside the root DSE) of a non-public directory must be configured to prevent anonymous access. | Message out"
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! This is a manual task.  Windows Server 2019 directory data (outside the root DSE) of a non-public"
+          - "directory must be configured to prevent anonymous access."
+
+    - name: "HIGH | WN19-DC-000150 | AUDIT | Windows Server 2019 must use an anti-virus program. | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-DC-000150'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+  when:
+    - wn19_dc_000290 | bool
+    - prelim_is_domain_controller | bool
+  tags:
+    - WN19-DC-000290
+    - CAT1
+    - CCI-000185
+    - SRG-OS-000066-GPOS-00034
+    - SV-205646r1153437_rule
+    - V-205646
+    - NIST800-53R4_IA-5
+  block:
+    - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA)."
+
+    - name: "HIGH | WN19-DC-000290 | AUDIT | Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA). | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-DC-000290'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+# add some task/external variable for approved CAs, check for DoD and how to pull programmatically
+- name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
+  when:
+    - wn19_dc_000300 | bool
+    - prelim_is_domain_controller | bool
+  tags:
+    - WN19-DC-000300
+    - CAT1
+    - CCI-000185
+    - SRG-OS-000066-GPOS-00034
+    - SV-205647r958448_rule
+    - V-205647
+    - NIST800-53R4_IA-5
+  block:
+    - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | Message out"
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA)."
+
+    - name: "HIGH | WN19-DC-000300 | AUDIT | Windows Server 2019 PKI certificates associated with user accounts must be issued by a DoD PKI or an approved External Certificate Authority (ECA). | import reusable task."
+      vars:
+        warn_control_id: 'HIGH | WN19-DC-000300'
+      ansible.builtin.import_tasks: warning_facts.yml

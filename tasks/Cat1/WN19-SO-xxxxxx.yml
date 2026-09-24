@@ -1,0 +1,119 @@
+---
+
+- name: "HIGH | WN19-SO-000020 | PATCH | Windows Server 2019 must prevent local accounts with blank passwords from being used from the network."
+  when: wn19_so_000020 | bool
+  tags:
+    - WN19-SO-000020
+    - CAT1
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205908r991589_rule
+    - V-205908
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+    value: LimitBlankPasswordUse
+    data: 1
+    datatype: dword
+
+# odd one
+# https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lsad/2a769a08-e023-459f-aebe-4fb3f595c0b7
+- name: "HIGH | WN19-SO-000210 | PATCH | Windows Server 2019 must not allow anonymous SID/Name translation."
+  when:
+    - wn19_so_000210 | bool
+    - not discovered_account_policy_is_domain_scoped | bool
+  tags:
+    - WN19-SO-000210
+    - CAT1
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205913r991589_rule
+    - V-205913
+    - NIST800-53R4_CM-6
+  community.windows.win_security_policy:
+    section: System Access
+    key: LSAAnonymousNameLookup
+    value: 0
+
+- name: "HIGH | WN19-SO-000220 | PATCH | Windows Server 2019 must not allow anonymous enumeration of Security Account Manager (SAM) accounts."
+  when:
+    - wn19_so_000220 | bool
+    - not prelim_is_domain_controller | bool
+  tags:
+    - WN19-SO-000220
+    - CAT1
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205914r991589_rule
+    - V-205914
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+    value: RestrictAnonymousSAM
+    data: 1
+    datatype: dword
+
+- name: "HIGH | WN19-SO-000230 | PATCH | Windows Server 2019 must not allow anonymous enumeration of shares."
+  when: wn19_so_000230 | bool
+  tags:
+    - WN19-SO-000230
+    - CAT1
+    - CCI-001090
+    - SRG-OS-000138-GPOS-00069
+    - SV-205724r1137695_rule
+    - V-205724
+    - NIST800-53R4_SC-4
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+    value: RestrictAnonymous
+    data: 1
+    datatype: dword
+
+- name: "HIGH | WN19-SO-000250 | PATCH | Windows Server 2019 must restrict anonymous access to Named Pipes and Shares."
+  when: wn19_so_000250 | bool
+  tags:
+    - WN19-SO-000250
+    - CAT1
+    - CCI-001090
+    - SRG-OS-000138-GPOS-00069
+    - SV-205725r1137695_rule
+    - V-205725
+    - NIST800-53R4_SC-4
+  ansible.windows.win_regedit:
+    path: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
+    value: RestrictNullSessAccess
+    data: 1
+    datatype: dword
+
+- name: "HIGH | WN19-SO-000300 | PATCH | Windows Server 2019 must be configured to prevent the storage of the LAN Manager hash of passwords."
+  when: wn19_so_000300 | bool
+  tags:
+    - WN19-SO-000300
+    - CAT1
+    - CCI-000196
+    - CCI-004062
+    - SRG-OS-000073-GPOS-00041
+    - SV-205654r1051063_rule
+    - V-205654
+    - NIST800-53R4_IA-5
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+    value: NoLMHash
+    data: 1
+    datatype: dword
+
+- name: "HIGH | WN19-SO-000310 | PATCH | Windows Server 2019 LAN Manager authentication level must be configured to send NTLMv2 response only and to refuse LM and NTLM."
+  when: wn19_so_000310 | bool
+  tags:
+    - WN19-SO-000310
+    - CAT1
+    - CCI-000366
+    - SRG-OS-000480-GPOS-00227
+    - SV-205919r991589_rule
+    - V-205919
+    - NIST800-53R4_CM-6
+  ansible.windows.win_regedit:
+    path: HKLM:\System\CurrentControlSet\Control\Lsa
+    value: LmCompatibilityLevel
+    data: 5
+    datatype: dword

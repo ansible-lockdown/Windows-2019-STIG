@@ -1,0 +1,23 @@
+---
+
+- name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
+  when:
+    - wn19_dc_000160 | bool
+    - prelim_is_domain_controller | bool
+  tags:
+    - WN19-DC-000160
+    - CAT3
+    - CCI-001133
+    - SRG-OS-000163-GPOS-00072
+    - SV-205726r970703_rule
+    - V-205726
+    - NIST800-53R4_CM-6
+  block:
+    - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity. | Warning Message."
+      ansible.builtin.debug:
+        msg: "Warning!! This is a manual task. Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity."
+
+    - name: "LOW | WN19-DC-000160 | AUDIT | Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity. | Warn Count."
+      vars:
+        warn_control_id: 'LOW | WN19-DC-000160'
+      ansible.builtin.import_tasks: warning_facts.yml

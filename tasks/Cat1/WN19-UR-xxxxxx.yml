@@ -1,0 +1,50 @@
+---
+
+- name: "HIGH | WN19-UR-000020 | PATCH | Windows Server 2019 Act as part of the operating system user right must not be assigned to any groups or accounts."
+  when: wn19_ur_000020 | bool
+  tags:
+    - WN19-UR-000020
+    - CAT1
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205750r958726_rule
+    - V-205750
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeTcbPrivilege
+    users: "{{ win19stig_setcbprivilege }}"
+    action: set
+
+- name: "HIGH | WN19-UR-000060 | PATCH | Windows Server 2019 Create a token object user right must not be assigned to any groups or accounts."
+  when: wn19_ur_000060 | bool
+  tags:
+    - WN19-UR-000060
+    - CAT1
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205753r958726_rule
+    - V-205753
+    - NIST800-53R4_AC-6
+  community.windows.win_security_policy:
+    section: Privilege Rights
+    key: SeCreateTokenPrivilege
+    value: "{{ win19stig_secreatetokenprivilege }}"
+
+# fails openscap - the v1r10 xml checks for the "Administrators" string but secedit uses the SIDs thus
+# "SeDebugPrivilege = *S-1-5-32-544"  is Administrators (openscap fails)
+# emailed_disa.letterkenny.re.mbx.stig-customer-support-mailbox@mail.mil
+# SCC tool works
+- name: "HIGH | WN19-UR-000100 | PATCH | Windows Server 2019 Debug programs: user right must only be assigned to the Administrators group."
+  when: wn19_ur_000100 | bool
+  tags:
+    - WN19-UR-000100
+    - CAT1
+    - CCI-002235
+    - SRG-OS-000324-GPOS-00125
+    - SV-205757r958726_rule
+    - V-205757
+    - NIST800-53R4_AC-6
+  ansible.windows.win_user_right:
+    name: SeDebugPrivilege
+    users: "{{ win19stig_sedebugprivilege }}"
+    action: set

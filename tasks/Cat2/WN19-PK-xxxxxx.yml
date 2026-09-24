@@ -1,0 +1,146 @@
+---
+
+- name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store."
+  when: wn19_pk_000010 | bool
+  tags:
+    - WN19-PK-000010
+    - CAT2
+    - CCI-000185
+    - CCI-002470
+    - SRG-OS-000066-GPOS-00034
+    - SV-205648r958448_rule
+    - V-205648
+    - NIST800-53R4_IA-5
+    - NIST800-53R4_SC-23
+  block:
+    - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | Check For DOD Root CA 3."
+      ansible.windows.win_shell: Get-ChildItem -Path Cert:Localmachine\root | Where {$_.Subject -Like "*DoD Root CA 3*" -and $_.Thumbprint -Like "D73CA91102A2204A36459ED32213B467D7CE97FB"} | FL Subject, Issuer, Thumbprint, NotAfter
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_pk_000010_root_3_check
+
+    - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | Check For DOD Root CA 4."
+      ansible.windows.win_shell: Get-ChildItem -Path Cert:Localmachine\root | Where {$_.Subject -Like "*DoD Root CA 4*" -and $_.Thumbprint -Like "B8269F25DBD937ECAFD4C35A9838571723F2D026"} | FL Subject, Issuer, Thumbprint, NotAfter
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_pk_000010_root_4_check
+
+    - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | Check For DOD Root CA 5."
+      ansible.windows.win_shell: Get-ChildItem -Path Cert:Localmachine\root | Where {$_.Subject -Like "*DoD Root CA 5*" -and $_.Thumbprint -Like "4ECB5CC3095670454DA1CBD410FC921F46B8564B"} | FL Subject, Issuer, Thumbprint, NotAfter
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_pk_000010_root_5_check
+
+    - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | Check For DOD Root CA 5."
+      ansible.windows.win_shell: Get-ChildItem -Path Cert:Localmachine\root | Where {$_.Subject -Like "*DoD Root CA 6*" -and $_.Thumbprint -Like "D37ECF61C0B4ED88681EF3630C4E2FC787B37AEF"} | FL Subject, Issuer, Thumbprint, NotAfter
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_pk_000010_root_6_check
+
+    - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | Warning!! No DOD Root CA 3 Certificate Installed."
+      when: discovered_pk_000010_root_3_check.stdout == ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! The DOD Root CA 3 is not installed on the system or"
+          - "contains an incorrect Thumbprint for the Root CA Certificate."
+          - "Please refer to STIG documentation for proper cert to be installed."
+
+    - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | Warning!! No DOD Root CA 4 Certificate Installed."
+      when: discovered_pk_000010_root_4_check.stdout == ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! The DOD Root CA 4 is not installed on the system or"
+          - "contains an incorrect Thumbprint for the Root CA Certificate."
+          - "Please refer to STIG documentation for proper cert to be installed."
+
+    - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | Warning!! No DOD Root CA 5 Certificate Installed."
+      when: discovered_pk_000010_root_5_check.stdout == ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! The DOD Root CA 5 is not installed on the system or"
+          - "contains an incorrect Thumbprint for the Root CA Certificate."
+          - "Please refer to STIG documentation for proper cert to be installed."
+
+    - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | Warning!! No DOD Root CA 5 Certificate Installed."
+      when: discovered_pk_000010_root_6_check.stdout == ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! The DOD Root CA 6 is not installed on the system or"
+          - "contains an incorrect Thumbprint for the Root CA Certificate."
+          - "Please refer to STIG documentation for proper cert to be installed."
+
+    - name: "MEDIUM | WN19-PK-000010 | AUDIT | Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store. | Warn Count."
+      when: discovered_pk_000010_root_3_check.stdout == "" or discovered_pk_000010_root_4_check.stdout == "" or discovered_pk_000010_root_5_check.stdout == "" or discovered_pk_000010_root_6_check.stdout == ""
+      vars:
+        warn_control_id: 'MEDIUM | WN19-PK-000010'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-PK-000020 | AUDIT | Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems."
+  when: wn19_pk_000020 | bool
+  tags:
+    - WN19-PK-000020
+    - CAT2
+    - CCI-000185
+    - CCI-002470
+    - SRG-OS-000066-GPOS-00034
+    - SV-205649r958448_rule
+    - V-205649
+    - NIST800-53R4_IA-5
+    - NIST800-53R4_SC-23
+  block:
+    - name: "MEDIUM | WN19-PK-000020 | AUDIT | Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems. | DoD Interoperability Root CA 2 49 Thumb Check."
+      ansible.windows.win_shell: Get-ChildItem -Path Cert:Localmachine\disallowed | Where {$_.Issuer -Like "*DoD Interoperability*" -and $_.Subject -Like "*DoD*" -and $_.Thumbprint -Like "49CBE933151872E17C8EAE7F0ABA97FB610F6477"} | FL Subject, Issuer, Thumbprint, NotAfter
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_pk_000020_interop_check_for_49
+
+    - name: "MEDIUM | WN19-PK-000020 | AUDIT | Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems. | Warning!! No DoD Interoperability Root CA 2 Certificate Installed."
+      when: discovered_pk_000020_interop_check_for_49.stdout == ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! The DoD Root CA 3 - DoD Interoperability Root CA 2 certificate is not installed on the system or"
+          - "does not contain Thumbprint 49CBE933151872E17C8EAE7F0ABA97FB610F6477 for the Certificate."
+
+    - name: "MEDIUM | WN19-PK-000020 | AUDIT | Windows Server 2019 must have the DoD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems. | Warn Count."
+      when: discovered_pk_000020_interop_check_for_49.stdout == ""
+      vars:
+        warn_control_id: 'MEDIUM | WN19-PK-000020'
+      ansible.builtin.import_tasks: warning_facts.yml
+
+- name: "MEDIUM | WN19-PK-000030 | AUDIT | Windows Server 2019 must have the US DoD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems."
+  when: wn19_pk_000030 | bool
+  tags:
+    - WN19-PK-000030
+    - CAT2
+    - CCI-000185
+    - CCI-002470
+    - SRG-OS-000066-GPOS-00034
+    - SV-205650r1107646_rule
+    - V-205650
+    - NIST800-53R4_IA-5
+    - NIST800-53R4_SC-23
+  block:
+    - name: "MEDIUM | WN19-PK-000030 | AUDIT | Windows Server 2019 must have the US DoD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems. | DoD CCEB Interop Check."
+      ansible.windows.win_shell: Get-ChildItem -Path Cert:Localmachine\disallowed | Where {$_.Issuer -Like "*US DoD CCEB Interoperability Root CA 2*" -and $_.Subject -Like "*DoD Root CA 3*" -and $_.Thumbprint -Like "9B74964506C7ED9138070D08D5F8B969866560C8"} | FL Subject, Issuer, Thumbprint, NotAfter
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      register: discovered_pk_000030_cceb_interop_check
+
+    - name: "MEDIUM | WN19-PK-000030 | AUDIT | Windows Server 2019 must have the US DoD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems. | Warning!! No DoD Root CA 3 - US DoD CCEB Interoperability Certificate Installed."
+      when: discovered_pk_000030_cceb_interop_check.stdout == ""
+      ansible.builtin.debug:
+        msg:
+          - "Warning!! The DoD Root CA 3 - US DoD CCEB Interoperability Root CA 2 certificate is not installed on the system or"
+          - "does not contain Thumbprint 9B74964506C7ED9138070D08D5F8B969866560C8 for the Certificate."
+
+    - name: "MEDIUM | WN19-PK-000030 | AUDIT | Windows Server 2019 must have the US DoD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems. | Warn Count."
+      when: discovered_pk_000030_cceb_interop_check.stdout == ""
+      vars:
+        warn_control_id: 'MEDIUM | WN19-PK-000030'
+      ansible.builtin.import_tasks: warning_facts.yml
